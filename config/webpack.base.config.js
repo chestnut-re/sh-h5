@@ -150,7 +150,7 @@ module.exports = function (webpackEnv) {
       }),
       new HtmlWebpackPlugin({
         template: path.join(__dirname, '../public', 'index.html'),
-        favicon: 'public/favicon.ico',
+        // favicon: 'public/favicon.ico',
       }),
       new MiniCssExtractPlugin({
         filename: 'static/css/[name].[contenthash:8].css',
