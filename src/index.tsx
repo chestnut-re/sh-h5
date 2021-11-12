@@ -21,7 +21,7 @@ const App = () => (
         <Route path="/mine" exact component={MinePage}></Route>
         <Route path="/home" exact component={HomePage}></Route>
         <Route path="/demo" exact component={DemoPage}></Route>
-        {/* <Route path="/" exact component={HomePage}></Route> */}
+        <Route path="/" exact component={HomePage}></Route>
       </BrowserRouter>
     </Suspense>
   </Provider>
