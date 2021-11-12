@@ -21,7 +21,7 @@ const DemoPage = observer(() => {
   }
 
   return (
-    <div className="Home">
+    <div className="Demo">
       <div className="title">DemoPage</div>
       <Test />
       <button onClick={testGetRequest}>Test get requestTest</button>

@@ -6,10 +6,10 @@ import 'normalize.css'
 import './assets/css/base.css'
 import '@/assets/css/base-tmp.less'
 import { Provider } from './store/context'
-import DemoPage from './pages/demo'
 
 const HomePage = loadable(() => import(/* webpackChunkName: 'HomePage'*/ './pages/home'))
 const MinePage = loadable(() => import(/* webpackChunkName: 'MinePage'*/ './pages/mine'))
+const DemoPage = loadable(() => import(/* webpackChunkName: 'DemoPage'*/ './pages/demo'))
 
 const env = process.env.NODE_ENV
 console.log(env)
@@ -21,7 +21,7 @@ const App = () => (
         <Route path="/mine" exact component={MinePage}></Route>
         <Route path="/home" exact component={HomePage}></Route>
         <Route path="/demo" exact component={DemoPage}></Route>
-        <Route path="/" exact component={HomePage}></Route>
+        {/* <Route path="/" exact component={HomePage}></Route> */}
       </BrowserRouter>
     </Suspense>
   </Provider>
