@@ -9,7 +9,7 @@ import { Provider } from './store/context'
 import DemoPage from './pages/demo'
 
 const HomePage = loadable(() => import(/* webpackChunkName: 'HomePage'*/ './pages/home'))
-const MinePage = loadable(() => import(/* webpackChunkName: 'MinePage'*/ './pages/mine/mine'))
+const MinePage = loadable(() => import(/* webpackChunkName: 'MinePage'*/ './pages/mine'))
 
 const env = process.env.NODE_ENV
 console.log(env)
