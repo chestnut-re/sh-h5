@@ -123,15 +123,6 @@ module.exports = function (webpackEnv) {
                 },
                 {
                   loader: 'postcss-loader',
-                  options: {
-                    postcssOptions: {
-                      plugins: [
-                        new postcssPxToViewport({
-                          viewportWidth: 750,
-                        }),
-                      ],
-                    },
-                  },
                 },
                 {
                   loader: 'less-loader',
