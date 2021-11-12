@@ -30,6 +30,7 @@ const HomePage = observer(() => {
       <button onClick={changeUserName}>Change User Name</button>
       <p>user name: {JSON.stringify(store.userStore.user)}</p>
       <Link to="/mine">To MinePage</Link>
+      <Link to="/demo">To DemoPage</Link>
     </div>
   )
 })
