@@ -11,8 +11,12 @@ const HomePage = loadable(() => import(/* webpackChunkName: 'HomePage'*/ './page
 const MinePage = loadable(() => import(/* webpackChunkName: 'MinePage'*/ './pages/mine'))
 const DemoPage = loadable(() => import(/* webpackChunkName: 'DemoPage'*/ './pages/demo'))
 
-// protocol
+/**参考行程 */
+const TravelRoutePage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/travelRoute'))
+
+/**隐私协议 */
 const PrivacyPage = loadable(() => import(/* webpackChunkName: 'PrivacyPage'*/ './pages/protocol/Privacy'))
+/**服务协议 */
 const ServicePage = loadable(() => import(/* webpackChunkName: 'ServicePage'*/ './pages/protocol/Service'))
 
 const env = process.env.NODE_ENV
@@ -26,6 +30,8 @@ const App = () => (
         <Route path="/home" exact component={HomePage}></Route>
         <Route path="/demo" exact component={DemoPage}></Route>
         <Route path="/" exact component={HomePage}></Route>
+
+        <Route path="/travel/route" exact component={TravelRoutePage}></Route>
 
         <Route path="/protocol/privacy" exact component={PrivacyPage}></Route>
         <Route path="/protocol/service" exact component={ServicePage}></Route>
