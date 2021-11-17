@@ -1,9 +1,60 @@
-h1 {
-  color: red;
-  /* background: url('../img/nft.png'); */
+/* 基础公共样式 */
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
-h2{
-  background: url('https://pic4.58cdn.com.cn/nowater/fangfe/n_v2f3c1640a5ac84b67bc9c394342fb3728.png')
+input,
+img,
+textarea {
+  vertical-align: middle;
+  border: 0;
 }
 
+body,
+p,
+ul,
+ol,
+li,
+dl,
+dt,
+dd,
+form,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+input {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  outline-style: none;
+  -webkit-text-size-adjust: 100% !important;
+}
+i {
+  font-style: normal;
+}
+u {
+  text-decoration: none;
+}
+b {
+  font-weight: 400;
+}
+input {
+  border-radius: 0;
+  outline: none;
+  width: 100%;
+}
+a {
+  text-decoration: none;
+  color: #8c8c8c;
+}
+a:hover,
+a:visited,
+a:active {
+  text-decoration: none;
+}
