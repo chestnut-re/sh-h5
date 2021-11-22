@@ -14,6 +14,9 @@ const DemoPage = loadable(() => import(/* webpackChunkName: 'DemoPage'*/ './page
 /**参考行程 */
 const TravelRoutePage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/travelRoute'))
 
+/**测试页面 */
+const TestPage = loadable(() => import(/* webpackChunkName: 'testPage'*/ './pages/testPage'))
+
 /**隐私协议 */
 const PrivacyPage = loadable(() => import(/* webpackChunkName: 'PrivacyPage'*/ './pages/protocol/Privacy'))
 /**服务协议 */
@@ -35,6 +38,8 @@ const App = () => (
 
         <Route path="/protocol/privacy" exact component={PrivacyPage}></Route>
         <Route path="/protocol/service" exact component={ServicePage}></Route>
+
+        <Route path="/test/page" exact component={TestPage}></Route>
       </BrowserRouter>
     </Suspense>
   </Provider>

@@ -18,6 +18,7 @@ const webpackConfigDev = {
   devServer: {
     contentBase: path.join(__dirname, '../build'),
     compress: true,
+    host: '0.0.0.0',
     port: 4000,
     hot: true,
     historyApiFallback: true, // router history 模式下需要
