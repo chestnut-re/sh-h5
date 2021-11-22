@@ -5,7 +5,7 @@ import Cookies from 'js-cookie'
  * @param name key
  * @returns value
  */
-export const getCookie = (name: string) => {
+export const getCookie = (name: string): string | undefined => {
   return Cookies.get(name)
 }
 
