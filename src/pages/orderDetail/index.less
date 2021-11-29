@@ -1,0 +1,26 @@
+.Order-container{
+    position: relative;
+    background-color: #4DCFC5;
+    .order-main{
+        padding: 20px;
+        width: auto;
+        min-height: 610px;
+        background: #f3f4f4;
+        border-radius: 25px 25px 0 0 ;
+    }
+    .order-action{
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 999;
+        padding: 0 20px;
+        padding-bottom: constant(safe-area-inset-bottom);
+        padding-bottom: env(safe-area-inset-bottom);
+        background-color: #fff;
+        box-shadow: 0px -2px 7px 0px rgba(0,0,0,0.05); 
+        .order-action-item{
+            height: 106px;
+        }
+    }
+}

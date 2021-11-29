@@ -21,19 +21,13 @@ const HomePage = observer(() => {
   }
 
   return (
-    <div className="Home">
-      <h1 className="title">HomePage</h1>
-      <Test />
-      <button onClick={testGetRequest}>Test get requestTest</button>
-      <div className="block">ss</div>
-      <p>{getResult}</p>
-      <button onClick={changeUserName}>Change User Name</button>
-      <p>user name: {JSON.stringify(store.userStore.user)}</p>
-      <Link to="/mine">To MinePage</Link>
-      <Link to="/demo">To DemoPage</Link>
-      <Link to="/order/detail">To OrderDetail</Link>
-      
-      <Link to="/abulkshop">打开 团小店</Link>
+    <div className="Order-container">
+        <div className="order-main">
+
+        </div>
+        <div className="order-action">
+            <div className="order-action-item"></div>
+        </div>
     </div>
   )
 })

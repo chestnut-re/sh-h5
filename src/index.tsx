@@ -25,6 +25,11 @@ const PrivacyPage = loadable(() => import(/* webpackChunkName: 'PrivacyPage'*/ '
 /**服务协议 */
 const ServicePage = loadable(() => import(/* webpackChunkName: 'ServicePage'*/ './pages/protocol/Service'))
 
+/**订单详情 */
+const OrderDetailPage = loadable(() => import(/* webpackChunkName: 'OrderDetailPage'*/ './pages/orderDetail'))
+/**团小店 */
+const AbulkShopPage = loadable(() => import(/* webpackChunkName: 'AbulkShopPage'*/ './pages/abulkShop'))
+
 const env = process.env.NODE_ENV
 console.log(env)
 
@@ -45,6 +50,9 @@ const App = () => (
 
         <Route path="/test/page" exact component={TestPage}></Route>
         <Route path="/test/chart" exact component={TestChartPage}></Route>
+
+        <Route path="/order/detail" exact component={OrderDetailPage}></Route>
+        <Route path="/abulkshop" exact component={AbulkShopPage}></Route>
       </BrowserRouter>
     </Suspense>
   </Provider>
