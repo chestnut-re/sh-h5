@@ -1,161 +1,192 @@
-.Abulkshop-container{
+.Abulkshop-container {
+  position: relative;
+  background-color: #4dcfc5;
+  .abulk-personal {
     position: relative;
-    background-color: #4DCFC5;
-    .abulk-personal{
+    display: flex;
+    padding: 50px 24px 22px;
+    .abulk-avatar {
+      width: 88px;
+      height: 88px;
+      overflow: hidden;
+      border-radius: 50%;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+    .abulk-content {
+      flex: 1;
+      padding-left: 27px;
+      .abulk-name {
+        font-size: 32px;
+        font-family: PingFangSC, PingFangSC-Medium;
+        font-weight: 500;
+        text-align: left;
+        color: #ffffff;
+        line-height: 44px;
+      }
+      .abulk-title {
+        font-size: 28px;
+        font-family: PingFangSC, PingFangSC-Regular;
+        font-weight: 400;
+        text-align: left;
+        color: #a9fffa;
+        line-height: 40px;
+      }
+      .abulk-action {
         position: relative;
-        display: flex;
-        padding: 50px 24px 22px;
-        .abulk-avatar{
-            width: 88px;
-            height: 88px;
-            overflow: hidden;
-            border-radius: 50%;
-            img{
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
+        margin-top: 12px;
+        font-size: 0;
+        .abulk-abtn {
+          display: inline-block;
+          border: 2px solid #cefff9;
+          border-radius: 26px;
+          font-size: 24px;
+          font-family: PingFangSC, PingFangSC-Regular;
+          font-weight: 400;
+          text-align: center;
+          color: #cefff9;
+          line-height: 34px;
+          padding: 1px 34px;
+          margin-right: 20px;
         }
-        .abulk-content{
-            flex: 1;
-            padding-left: 27px;
-            .abulk-name{
-                font-size: 32px;
-                font-family: PingFangSC, PingFangSC-Medium;
-                font-weight: 500;
-                text-align: left;
-                color: #ffffff;
-                line-height: 44px;
+      }
+    }
+  }
+  .abulk-introduce {
+    position: relative;
+    margin: 0 20px;
+    padding: 16px 30px 30px;
+    background: linear-gradient(180deg, #a9fffa, rgba(189, 255, 251, 0.2) 52%, rgba(212, 255, 253, 0) 87%);
+    border-radius: 20px;
+    .introduce-content {
+      font-size: 22px;
+      font-family: PingFangSC, PingFangSC-Regular;
+      font-weight: 400;
+      text-align: left;
+      color: #0f9086;
+      line-height: 32px;
+    }
+    .packup-btn {
+      position: absolute;
+      right: 30px;
+      bottom: 30px;
+      font-size: 22px;
+      font-family: PingFangSC, PingFangSC-Regular;
+      font-weight: 400;
+      text-align: left;
+      color: #a9fffa;
+      line-height: 32px;
+      .icon{
+        display: inline-block;
+        width: 24px;
+        height:32px;
+        margin-left: 6px;
+        text-indent: -9999em;
+        white-space: nowrap;
+        opacity: .5;
+        &::before {
+            content: 'icon';
+          }
+    }
+    .icon-info {
+        background: url("../../assets/img/up_icon@3x.png") no-repeat	center;
+        background-size: 100%;
+      }
+    }
+  }
+  .abulk-main {
+    padding: 12px 17px;
+    width: auto;
+    min-height: 610px;
+    background: #f3f4f4;
+    border-radius: 20px 20px 0 0;
+
+    .abulk-main-ul {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      .abulk-main-li {
+        flex: 1;
+        min-width: 50%;
+        max-width: 50%;
+
+        .card-main {
+          position: relative;
+          margin: 12px 11px;
+          background: #ffffff;
+          border-radius: 20px;
+          overflow: hidden;
+          box-shadow: 0px 12px 12px 0px rgba(0, 0, 0, 0.05);
+          .card-image {
+            width: 100%;
+            height: 420px;
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
             }
-            .abulk-title{
-                font-size: 28px;
+          }
+          .card-content {
+            position: relative;
+            padding: 8px 17px 24px;
+            .card-name {
+              width: 100%;
+              font-size: 24px;
+              font-family: PingFangSC, PingFangSC-Regular;
+              font-weight: 400;
+              text-align: left;
+              color: #333333;
+              line-height: 34px;
+              word-break: break-all;
+              text-overflow: ellipsis;
+              display: -webkit-box;
+              -webkit-box-orient: vertical;
+              -webkit-line-clamp: 2;
+              overflow: hidden;
+            }
+            .card-price {
+              font-size: 22px;
+              font-family: PingFangSC, PingFangSC-Semibold;
+              font-weight: 600;
+              text-align: left;
+              color: #333333;
+              line-height: 32px;
+              padding: 10px 0 20px;
+            }
+            .card-info {
+              display: flex;
+              justify-content: space-between;
+              .info-s {
+                position: relative;
+                font-size: 16px;
                 font-family: PingFangSC, PingFangSC-Regular;
                 font-weight: 400;
                 text-align: left;
-                color: #a9fffa;
-                line-height: 40px;
-            }
-            .abulk-action{
-                position: relative;
-                margin-top: 12px;
-                font-size: 0;
-                .abulk-abtn{
+                color: #ababab;
+                line-height: 22px;
+                .icon{
                     display: inline-block;
-                    border: 2px solid #cefff9;
-                    border-radius: 26px;
-                    font-size: 24px;
-                    font-family: PingFangSC, PingFangSC-Regular;
-                    font-weight: 400;
-                    text-align: center;
-                    color: #CEFFF9;
-                    line-height: 34px;
-                    padding: 1px 34px;
-                    margin-right: 20px;
+                    width: 17px;
+                    height:22px;
+                    margin-right: 6px;
+                    text-indent: -9999em;
+                    white-space: nowrap;
+                    &::before {
+                        content: 'icon';
+                      }
                 }
+                .icon-info {
+                    background: url("../../assets/img/unPraise@3x.png") no-repeat	center;
+                    background-size: 100%;
+                  }
+              }
             }
+          }
         }
+      }
     }
-    .abulk-introduce{
-        position: relative;
-        margin: 0 20px;
-        padding: 16px 30px 30px;
-        background: linear-gradient(180deg,#a9fffa, rgba(189,255,251,0.20) 52%, rgba(212,255,253,0.00) 87%);
-        border-radius: 20px;
-        .introduce-content{
-            font-size: 22px;
-            font-family: PingFangSC, PingFangSC-Regular;
-            font-weight: 400;
-            text-align: left;
-            color: #0f9086;
-            line-height: 32px;
-        }
-        .packup-btn{
-            position: absolute;
-            right: 30px;
-            bottom: 30px;
-            font-size: 22px;
-            font-family: PingFangSC, PingFangSC-Regular;
-            font-weight: 400;
-            text-align: left;
-            color: #a9fffa;
-            line-height: 32px;
-        }
-    }
-    .abulk-main{
-        padding: 12px 17px;
-        width: auto;
-        min-height: 610px;
-        background: #f3f4f4;
-        border-radius: 20px 20px 0 0 ;
-
-        .abulk-main-ul{
-            width: 100%;
-            display: flex;
-            flex-wrap: wrap;
-            .abulk-main-li{
-                flex: 1;
-                min-width: 50%;
-                max-width: 50%;
-                
-                .card-main{
-                    position: relative;
-                    margin: 12px 11px;
-                    background: #ffffff;
-                    border-radius: 20px;
-                    overflow: hidden;
-                    box-shadow: 0px 12px 12px 0px rgba(0,0,0,0.05); 
-                    .card-image{
-                        width: 100%;
-                        height: 420px;
-                        img{
-                            width: 100%;
-                            height: 100%;
-                            object-fit: cover;
-                        }
-                    }
-                    .card-content{
-                        position: relative;
-                        padding: 8px 17px 24px;
-                        .card-name{
-                            width: 100%;
-                            font-size: 24px;
-                            font-family: PingFangSC, PingFangSC-Regular;
-                            font-weight: 400;
-                            text-align: left;
-                            color: #333333;
-                            line-height: 34px;
-                            word-break: break-all;
-                            text-overflow: ellipsis;
-                            display: -webkit-box;
-                            -webkit-box-orient: vertical;
-                            -webkit-line-clamp: 2; 
-                            overflow: hidden;
-                        }
-                        .card-price{
-                            font-size: 22px;
-                            font-family: PingFangSC, PingFangSC-Semibold;
-                            font-weight: 600;
-                            text-align: left;
-                            color: #333333;
-                            line-height: 32px;
-                            padding: 10px 0 20px;
-                        }
-                        .card-info{
-                            display: flex;
-                            justify-content: space-between;
-                            .info-s{
-                                font-size: 16px;
-                                font-family: PingFangSC, PingFangSC-Regular;
-                                font-weight: 400;
-                                text-align: left;
-                                color: #ababab;
-                                line-height: 22px;
-                            }
-                        }
-                    }
-                    
-                }
-            }
-        }
-    }
+  }
 }
