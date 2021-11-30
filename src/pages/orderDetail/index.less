@@ -12,17 +12,17 @@
     .order-main{
         padding: 24px;
         width: auto;
-        min-height: 610px;
+        min-height: 92vh;
         background: #f3f4f4;
         border-radius: 25px 25px 0 0 ;
-        .order-call_card{
+        .contact_card{
             display: flex;
             padding: 22px 32px;
             border-radius: 20px;
             background: linear-gradient(180deg,#D5FCF9, rgba(229,255,253,1) 52%, rgba(255,255,255,1) 87%);
             align-items: center;
             .card-l{
-                height: 88px;
+                width: 88px;
                 height: 88px;
                 border-radius: 50%;
                 overflow: hidden;
@@ -53,16 +53,17 @@
                 }
             }
             .card-r{
-                width: 80px;
-                height: 80px;
+                border-radius: 50%;
+                background: #fff;
                 img{
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
+                    padding: 15px;
+                    width: 80px;
+                    height: 80px;
+                    object-fit: contain;
                 }
             }
         }
-        .order-info_card{
+        .preview_card{
             position: relative;
             padding: 30px;
             margin-top: 20px;
@@ -112,6 +113,167 @@
                     }
                 }
             }
+            .info-integral{
+                position: relative;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 22px 0;
+                line-height: 34px;
+                .integral-title{
+                    width: 120px;
+                    font-size: 24px;
+                    font-family: PingFangSC, PingFangSC-Regular;
+                    font-weight: 400;
+                    text-align: left;
+                    color: #333333;
+                    line-height: 34px;
+                    .integra-icon{
+                        margin-right: 10px;
+                        
+                    }
+                }
+                .integral-instruction{
+                    font-size: 28px;
+                    font-family: PingFangSC, PingFangSC-Regular;
+                    font-weight: 400;
+                    text-align: right;
+                    color: #999999;
+                    line-height: 40px;
+                    flex: 1;
+                    span{
+                        color: #fd7d81;
+                        margin-left: 10px;
+                    }
+                }
+            }
+            .info-discounts{
+                position: relative;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 26px 0 2px;
+                .discounts-title{
+                    font-size: 24px;
+                    font-family: PingFangSC, PingFangSC-Regular;
+                    font-weight: 400;
+                    text-align: right;
+                    color: #999999;
+                    .discounts-icon{
+                        padding-left: 10px;
+                    }
+                }
+                .discounts-instruction{
+                    font-size: 28px;
+                    font-family: PingFangSC, PingFangSC-Regular;
+                    font-weight: 400;
+                    text-align: right;
+                    color: #666666;
+                    line-height: 40px;
+                    display: inline-flex;
+                    align-items:flex-end;
+
+                    .instruction-l{
+                        margin-right: 10px;
+                        span{
+                            color: #fd7d81;
+                            font-weight: 700;
+                            margin-left: 5px;
+                            font-size: 26px;
+                        }
+                    }
+                    .instruction-r{
+                        span{
+                            font-size: 36px;
+                            font-weight: 700;
+                            color: #333;
+                            margin-left: 5px;
+                        }
+                    }
+                }
+            }
+        }
+        .payment_card{
+            background-color: #fff;
+            display: flex;
+            justify-content: space-between;
+            padding: 28px 30px;
+            font-size: 32px;
+            font-family: PingFangSC, PingFangSC-Regular;
+            font-weight: 400;
+            text-align: left;
+            color: #333333;
+            line-height: 44px;
+            margin-top: 20px;
+            border-radius: 20px;
+        }
+
+        .indent_card{
+            position: relative;
+            padding: 21px 30px;
+            margin-top: 20px;
+            border-radius: 20px;
+            background-color: #fff;
+            .indent-ul{
+                position: relative;
+                .indent-li{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 9px 0;
+                    .indent-li_l{
+                        font-size: 28px;
+                        font-family: PingFangSC, PingFangSC-Regular;
+                        font-weight: 400;
+                        text-align: left;
+                        color: #666666;
+                        line-height: 40px;
+                        width: 180px;
+                    }
+                    .indent-li_r{
+                        flex: 1;
+                        font-size: 28px;
+                        font-family: PingFangSC, PingFangSC-Regular;
+                        font-weight: 400;
+                        text-align: left;
+                        color: #333333;
+                        line-height: 40px;
+                        text-align: right;
+                    }
+                    .indent-li_copy{
+                        font-size: 28px;
+                        font-family: PingFangSC, PingFangSC-Regular;
+                        font-weight: 400;
+                        text-align: right;
+                        color: #4dcfc5;
+                        line-height: 40px;
+                        padding-left: 10px;
+                    }
+                }
+            }
+        }
+
+        .backthat_card{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 28px 30px;
+            background-color: #fff;
+            margin-top: 20px;
+            border-radius: 20px;
+            .backthat-name{
+                font-size: 32px;
+                font-family: PingFangSC, PingFangSC-Regular;
+                font-weight: 400;
+                text-align: left;
+                color: #333333;
+                line-height: 44px;
+                flex: 1;
+            }
+            .backthat-select{
+                text-align: right;
+                width: 120px;
+            }
         }
     }
     .order-action{
@@ -125,8 +287,50 @@
         padding-bottom: env(safe-area-inset-bottom);
         background-color: #fff;
         box-shadow: 0px -2px 7px 0px rgba(0,0,0,0.05); 
-        .order-action-item{
-            height: 106px;
+        .action-main{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 106px;
+            .action-l{
+                position: relative;
+                padding-left: 32px;
+                text-align: right;
+                .action-total{
+                    font-size: 40px;
+                    font-weight: 700;
+                    text-align: right;
+                    color: #fd7d81;
+                    line-height: 40px;
+                    span{
+                        font-size: 28px;
+                        font-weight: 500;
+                        text-align: right;
+                        line-height: 40px;
+                    }
+                }
+                .action-dis{
+                    font-size: 22px;
+                    font-family: PingFang SC, PingFang SC-Regular;
+                    font-weight: 400;
+                    text-align: left;
+                    color: #999999;
+                    padding-top: 5px;
+                }
+            }
+            .action-r{
+                position: relative;
+                .btn-pay{
+                    font-size: 32px;
+                    font-family: PingFang SC, PingFang SC-Medium;
+                    font-weight: 500;
+                    text-align: left;
+                    color: #ffffff;
+                    background: #4dcfc5;
+                    padding: 21px 134px;
+                    border-radius: 80px;
+                }
+            }
         }
     }
 }
