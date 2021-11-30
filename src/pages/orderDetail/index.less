@@ -1,12 +1,118 @@
 .Order-container{
     position: relative;
     background-color: #4DCFC5;
+    .order-count{
+        margin: 0 auto;
+        padding: 8px 0;
+        text-align: center;
+        .rv-count-down{
+            color: #fff;
+        }
+    }
     .order-main{
-        padding: 20px;
+        padding: 24px;
         width: auto;
         min-height: 610px;
         background: #f3f4f4;
         border-radius: 25px 25px 0 0 ;
+        .order-call_card{
+            display: flex;
+            padding: 22px 32px;
+            border-radius: 20px;
+            background: linear-gradient(180deg,#D5FCF9, rgba(229,255,253,1) 52%, rgba(255,255,255,1) 87%);
+            align-items: center;
+            .card-l{
+                height: 88px;
+                height: 88px;
+                border-radius: 50%;
+                overflow: hidden;
+                img{
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+            .card-c{
+                flex: 1;
+                padding: 0 27px;
+                .card-ct{
+                    font-size: 32px;
+                    font-family: PingFangSC, PingFangSC-Medium;
+                    font-weight: 500;
+                    text-align: left;
+                    color: #4dcfc5;
+                    line-height: 44px;
+                }
+                .card-cb{
+                    font-size: 28px;
+                    font-family: PingFangSC, PingFangSC-Regular;
+                    font-weight: 400;
+                    text-align: left;
+                    color: #666666;
+                    line-height: 40px;
+                }
+            }
+            .card-r{
+                width: 80px;
+                height: 80px;
+                img{
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+        }
+        .order-info_card{
+            position: relative;
+            padding: 30px;
+            margin-top: 20px;
+            background: #fff;
+            border-radius: 20px;
+            .info-content{
+                display: flex;
+                .info-l{
+                    width: 124px;
+                    height: 128px;
+                    overflow: hidden;
+                    border-radius: 10px;
+                    img{
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+                }
+                .info-r{
+                    padding-left: 21px;
+                    text-align: left;
+                    flex: 1;
+                    .info-rT_name{
+                        font-size: 28px;
+                        font-family: PingFangSC, PingFangSC-Medium;
+                        font-weight: 500;
+                        text-align: left;
+                        color: #333333;
+                        line-height: 40px;
+                    }
+                    .info-rS{
+                        font-size: 24px;
+                        font-family: PingFangSC, PingFangSC-Regular;
+                        font-weight: 400;
+                        text-align: left;
+                        color: #999999;
+                        line-height: 34px;
+                    }
+                    .info-rC_name{
+                        padding: 6px 0 2px;
+                    }
+                    .info-rB_name{
+                        position: relative;
+                        span{
+                            margin-right: 25px;
+                        }
+                    }
+                }
+            }
+        }
     }
     .order-action{
         position: fixed;
