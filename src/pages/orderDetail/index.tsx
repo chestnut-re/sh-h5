@@ -3,12 +3,14 @@ import { useStore } from '@/store/context'
 import { observer } from 'mobx-react-lite'
 import React, { useState } from 'react'
 import './index.less'
-import { CountDown,Icon } from 'react-vant';
+import { CountDown,Icon,Popover } from 'react-vant';
 import integralIcon from '@/assets/img/integral_icon.png'
 import wecharIcon from '@/assets/img/wechar_icon@3x.png'
 
 const OrderDetailPage = observer(() => {
- 
+  const popover=()=>{
+
+  }
   return (
     <div className="Order-container">
         <div className="order-count">
@@ -20,7 +22,7 @@ const OrderDetailPage = observer(() => {
         <div className="order-main">
             <div className="contact_card">
                 <div className="card-l">
-                    <img src="https://img01.yzcdn.cn/vant/logo.png" />
+                    <img src="https://img01.yzcdn.cn/vant/cat.jpeg" />
                 </div>
                 <div className="card-c">
                     <div className="card-ct">
@@ -64,7 +66,13 @@ const OrderDetailPage = observer(() => {
               </div>
 
               <div className="info-discounts">
-                  <div className="discounts-title hairline--icon" >优惠<Icon className="discounts-icon" name="question-o" /></div>
+                  <div className="discounts-title hairline--icon" >优惠
+                  <Popover ref={popover} placement="top-start" reference={<Icon className="discounts-icon" name="question-o" />}>
+                    <div className="popover-content">
+                      这里是优惠说明这里是优惠说明这里是优惠说明这里是优惠说明
+                    </div>
+                  </Popover>
+                  </div>
                   <div className="discounts-instruction">
                     <div className="instruction-l">
                     已优惠<span>¥200</span>
