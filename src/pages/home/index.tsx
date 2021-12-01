@@ -31,9 +31,11 @@ const HomePage = observer(() => {
       <p>user name: {JSON.stringify(store.userStore.user)}</p>
       <Link to="/mine">To MinePage</Link>
       <Link to="/demo">To DemoPage</Link>
-      <Link to="/order/detail">To OrderDetail</Link>
+      <Link to="/orderdetail/1">打开订单详情</Link>
       
       <Link to="/abulkshop">打开 团小店</Link>
+      <Link to="/puorder">提交订单</Link>
+      
     </div>
   )
 })
