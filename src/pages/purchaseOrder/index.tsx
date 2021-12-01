@@ -10,6 +10,7 @@ import PayTypeCard from '@/components/orderDetail/payTypeCard'
 import BackCard from '@/components/orderDetail/backthatCard'
 import FooterCard from '@/components/orderDetail/footerCard'
 import ProtocolCard from '@/components/orderDetail/protocolCard'
+import CalendarCard from '@/components/orderDetail/calendarCard'
 
 
 import { Checkbox } from 'react-vant'
@@ -26,6 +27,7 @@ const PuOrderPage = observer((props) => {
         <ContactWcharCard />
         <div className="preview_card">
           <GoodsCard />
+          <CalendarCard />
         </div>
         <div className="stepper_card">
           <StepperCard />

@@ -1,7 +1,7 @@
 import { common } from '@/service'
 import { observer } from 'mobx-react-lite'
 import React, { useState } from 'react'
-import { Icon, Stepper, Popover } from 'react-vant'
+import { ConfigProvider,Icon, Stepper, Popover } from 'react-vant'
 import integralIcon from '@/assets/img/integral_icon.png'
 import questionIcon from '@/assets/img/question_icon@3x.png'
 import './index.less'
@@ -9,50 +9,73 @@ import './index.less'
  * 订单步进器选择卡片包含
  * 成人儿童数 积分 库存 优惠选择等
  */
+ const themeVars = {
+  '--rv-stepper-button-icon-color': '#121212',
+};
 
 const StepperCard = observer((props) => {
-  const [stepValue, setstepValue] = useState(2)
-  const popover = () => {}
-  const setValue = (val) => {
-    console.log('val :>> ', val)
-    setstepValue(val)
+  //成人数量
+  const [grownNumVal, setGrownVal] = useState(2)
+  //儿童数量
+  const [childrenNumVal, setChildrenVal] = useState(1)
+  //积分使用量
+  const [integralNumVal, setIntegralVal] = useState(1000)
+  const popover = () => {
+    return "123"
   }
+  const setGrownNumValue = (val) => {
+    console.log('val :>> ', val)
+    setGrownVal(val)
+    
+  }
+  const setChildrenValue = (val) => {
+    console.log('val :>> ', val)
+    setChildrenVal(val)
+    
+  }
+  const setIntegralNumValue = (val) => {
+    console.log('val :>> ', val)
+    setIntegralVal(val)
+  }
+
   return (
     <div className="stepper-content">
       <div className="step-box">
         <ul className="step-boxul">
           <li className="step-boxli">
             <div className="step-name">
-              成人<span className="name-subtitle">X2</span>
+              成人<span className="name-subtitle">X{grownNumVal}</span>
             </div>
             <div className="step-content">
+            <ConfigProvider themeVars={themeVars}>
               <Stepper
-                value={stepValue}
-                disableInput
+                value={grownNumVal}
                 min="0"
                 max="8"
                 integer={true}
                 inputWidth="9.6vw"
                 buttonSize="5.6vw"
-                onChange={(val) => setValue(val)}
+                onChange={(val) => setGrownNumValue(val)}
               />
+               </ConfigProvider>
             </div>
           </li>
           <li className="step-boxli">
             <div className="step-name">
-              儿童<span className="name-subtitle">X2</span>
+              儿童<span className="name-subtitle">X{childrenNumVal}</span>
             </div>
             <div className="step-content">
+            <ConfigProvider themeVars={themeVars}>
               <Stepper
-                value={stepValue}
-                disableInput
+                value={childrenNumVal}
                 min="0"
                 max="8"
                 integer={true}
                 inputWidth="9.6vw"
                 buttonSize="5.6vw"
-                onChange={(val) => setValue(val)}
+                onChange={(val) => setChildrenValue(val)}
               />
+              </ConfigProvider>
             </div>
           </li>
           <li className="step-boxli">
@@ -62,16 +85,18 @@ const StepperCard = observer((props) => {
               <span className="name-subtitle">共346000</span>
             </div>
             <div className="step-content">
+            <ConfigProvider themeVars={themeVars}>
               <Stepper
-                value={stepValue}
+                value={integralNumVal}
                 min="0"
-                max="99999"
+                max="346000"
                 step="1000"
                 integer={true}
                 inputWidth="9.6vw"
                 buttonSize="5.6vw"
-                onChange={(val) => setValue(val)}
+                onChange={(val) => setIntegralNumValue(val)}
               />
+              </ConfigProvider>
             </div>
           </li>
         </ul>
