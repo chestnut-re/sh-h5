@@ -1,5 +1,7 @@
 山海 旅游 H5
 
+图片：iOS 3x, png 图
+
 ## 项目目录
 
 1. assets: 公共静态资源, css/img
