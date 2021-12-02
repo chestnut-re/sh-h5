@@ -26,11 +26,11 @@ const PrivacyPage = loadable(() => import(/* webpackChunkName: 'PrivacyPage'*/ '
 const ServicePage = loadable(() => import(/* webpackChunkName: 'ServicePage'*/ './pages/protocol/Service'))
 
 /**订单详情 */
-const OrderDetailPage = loadable(() => import(/* webpackChunkName: 'OrderDetailPage'*/ './pages/orderDetail'))
+const OrderIndexPage = loadable(() => import(/* webpackChunkName: 'OrderDetailPage'*/ './pages/orderDetail'))
 /**团小店 */
 const AbulkShopPage = loadable(() => import(/* webpackChunkName: 'AbulkShopPage'*/ './pages/abulkShop'))
 /**提交订单 */
-const PurchaseOrderPage = loadable(() => import(/* webpackChunkName: 'AbulkShopPage'*/ './pages/purchaseOrder'))
+const PurchaseOrderPage = loadable(() => import(/* webpackChunkName: 'PurchaseOrderPage'*/ './pages/purchaseOrder'))
 
 const env = process.env.NODE_ENV
 console.log(env)
@@ -53,7 +53,7 @@ const App = () => (
         <Route path="/test/page" exact component={TestPage}></Route>
         <Route path="/test/chart" exact component={TestChartPage}></Route>
 
-        <Route path="/orderdetail/:type" exact component={OrderDetailPage}></Route>
+        <Route path="/orderdetail" exact component={OrderIndexPage}></Route>
         <Route path="/abulkshop" exact component={AbulkShopPage}></Route>
 
         <Route path="/puorder" exact component={PurchaseOrderPage}></Route>
