@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { useStore } from '@/store/context'
 import './index.less'
 import { useDebouncedEffect } from '@/hooks/useDebouncedEffect'
 
@@ -10,7 +9,6 @@ const TravelRoutePage: React.FC = () => {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [selectedIndex2, setSelectedIndex2] = useState(0)
   const [selectPage, setSelectPage] = useState(0)
-  const store = useStore()
   useEffect(() => {
     window.addEventListener('scroll', onScroll)
     return () => {
