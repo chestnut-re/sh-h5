@@ -1,16 +1,23 @@
-import { common } from '@/service'
-import { useStore } from '@/store/context'
 import { observer } from 'mobx-react-lite'
 import React, { useState } from 'react'
+
+import { CountDown } from 'react-vant';
+import ContactWcharCard from '@/components/orderDetail/contactCard'
+import GoodsCard from '@/components/orderDetail/goodsCard'
+import PreferCard from '@/components/orderDetail/preferCard'
+import PayTypeCard from '@/components/orderDetail/payTypeCard'
+import IndentCard from '@/components/orderDetail/indentCard'
+import BackCard from '@/components/orderDetail/backthatCard'
+import FooterCard from '@/components/orderDetail/footerCard'
 import './index.less'
-import { CountDown,Icon,Popover } from 'react-vant';
-import integralIcon from '@/assets/img/integral_icon.png'
-import wecharIcon from '@/assets/img/wechar_icon@3x.png'
 
-const OrderDetailPage = observer(() => {
-  const popover=()=>{
+/**
+ * 订单详情入口页
+ */
+const OrderDetailPage = observer((props) => {
 
-  }
+  console.log('object :>> ', props);
+
   return (
     <div className="Order-container">
         <div className="order-count">
@@ -20,110 +27,16 @@ const OrderDetailPage = observer(() => {
         />
         </div>
         <div className="order-main">
-            <div className="contact_card">
-                <div className="card-l">
-                    <img src="https://img01.yzcdn.cn/vant/cat.jpeg" />
-                </div>
-                <div className="card-c">
-                    <div className="card-ct">
-                    五星团长 赵大白
-                    </div>
-                    <div className="card-cb">
-                    如有疑问 可联系我
-                    </div>
-                </div>
-                <div className="card-r">
-                    <img src={wecharIcon} />
-                </div>
-            </div>
-
+            <ContactWcharCard/>
           <div className="preview_card">
-              <div className="info-content">
-                  <div className="info-l">
-                    <img src="https://ns-strategy.cdn.bcebos.com/ns-strategy/upload/fc_big_pic/part-00264-2075.jpg" />
-                  </div>
-                  <div className="info-r">
-                      <div className="info-rT_name rv-multi-ellipsis--l2">
-                        三亚5日自由行(5钻)·直减300『高星4晚 连住』
-                      </div>
-                      <div className="info-rC_name info-rS">
-                        10/22 周五出发 10/26 周二返程
-                      </div>
-                      <div className="info-rB_name info-rS">
-                        <span>成人X2</span>
-                        <span>儿童X2</span>
-                      </div>
-                  </div>
-              </div>
-              <div className="info-integral rv-hairline--bottom">
-                  <div className="integral-title hairline--icon">
-                    <Icon size="4vw" className="integra-icon"  name={integralIcon} />
-                    <span>积分</span>
-                    </div>
-                  <div className="integral-instruction">
-                  使用¥340<span>-¥340</span>
-                  </div>
-              </div>
-
-              <div className="info-discounts">
-                  <div className="discounts-title hairline--icon" >优惠
-                  <Popover ref={popover} placement="top-start" reference={<Icon className="discounts-icon" name="question-o" />}>
-                    <div className="popover-content">
-                      这里是优惠说明这里是优惠说明这里是优惠说明这里是优惠说明
-                    </div>
-                  </Popover>
-                  </div>
-                  <div className="discounts-instruction">
-                    <div className="instruction-l">
-                    已优惠<span>¥200</span>
-                    </div>
-                    <div className="instruction-r">
-                    共计¥<span>5798</span>
-                    </div>
-                  </div>
-              </div>
+              <GoodsCard/>
+              <PreferCard/>
           </div>
-
-
-          <div className="payment_card">
-                <div className="payment-name">支付方式</div>
-                <div className="payment-select">微信<Icon color="#999999" name="arrow" /></div>
-          </div>
-
-          <div className="indent_card">
-              <ul className="indent-ul">
-                <li className="indent-li">
-                    <div className="indent-li_l">
-                      订单编号
-                    </div>
-                    <div className="indent-li_r">1234 1234 1234 1234</div>
-                    <div className="indent-li_copy">复制</div>
-                </li>
-                <li className="indent-li">
-                  <div className="indent-li_l">下单时间</div>
-                  <div className="indent-li_r">2021/10/19 18:43:20</div>
-                </li>
-              </ul>
-          </div>
-
-          <div className="backthat_card">
-                <div className="backthat-name">退改说明</div>
-                <div className="backthat-select">
-                  <Icon color="#999999" name="arrow" />
-                </div>
-          </div>
+          <PayTypeCard/>
+          <IndentCard/>
+          <BackCard/>
         </div>
-        <div className="order-action">
-            <div className="action-main">
-                <div className="action-l">
-                  <div className="action-total"><span>¥</span> 8596</div>
-                  <div className="action-dis">已优惠2198</div>
-                </div>
-                <div className="action-r">
-                  <div className="btn-pay">立即付款</div>
-                </div>
-            </div>
-        </div>
+        <FooterCard/>
     </div>
   )
 })
