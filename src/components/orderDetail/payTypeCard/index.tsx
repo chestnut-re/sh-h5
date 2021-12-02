@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import React, { useState } from 'react'
-import { Icon,Popover } from 'react-vant';
+import { Icon } from 'react-vant';
 import './index.less'
 /**
  * 支付方式卡片

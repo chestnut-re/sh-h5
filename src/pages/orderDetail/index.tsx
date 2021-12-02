@@ -1,42 +1,30 @@
 import { observer } from 'mobx-react-lite'
 import React, { useState } from 'react'
 
-import { CountDown } from 'react-vant';
-import ContactWcharCard from '@/components/orderDetail/contactCard'
-import GoodsCard from '@/components/orderDetail/goodsCard'
-import PreferCard from '@/components/orderDetail/preferCard'
-import PayTypeCard from '@/components/orderDetail/payTypeCard'
-import IndentCard from '@/components/orderDetail/indentCard'
-import BackCard from '@/components/orderDetail/backthatCard'
-import FooterCard from '@/components/orderDetail/footerCard'
+import OrderDone from './orderDone'
+import OrderFailure from './orderFailure'
+import OrderConfirma from './waitConfirma'
+import OrderPayment from './waitPayment'
+
 import './index.less'
 
 /**
  * 订单详情入口页
+ * type 1 已完成（OrderDone）
+ * type 2 已失效（OrderFailure）
+ * type 3 待确认（OrderConfirma）
+ * type 4 待支付（OrderPayment）
  */
-const OrderDetailPage = observer((props) => {
+const OrderDetailPage = observer<any,any>((props) => {
 
   console.log('object :>> ', props);
-
+  const {match:{params}} = props;
   return (
-    <div className="Order-container">
-        <div className="order-count">
-        <CountDown 
-          time={30 * 60 * 60 * 2000} 
-          format="剩 DD 天 HH:mm:ss" 
-        />
-        </div>
-        <div className="order-main">
-            <ContactWcharCard/>
-          <div className="preview_card">
-              <GoodsCard/>
-              <PreferCard/>
-          </div>
-          <PayTypeCard/>
-          <IndentCard/>
-          <BackCard/>
-        </div>
-        <FooterCard/>
+    <div className="container">
+        {params.type === "1" && (<OrderDone/>)}
+        {params.type === "2" && (<OrderFailure/>)}
+        {params.type === "3" && (<OrderConfirma/>)}
+        {params.type === "4" && (<OrderPayment/>)}
     </div>
   )
 })

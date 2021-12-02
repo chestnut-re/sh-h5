@@ -13,15 +13,13 @@ import ProtocolCard from '@/components/orderDetail/protocolCard'
 import CalendarCard from '@/components/orderDetail/calendarCard'
 
 
-import { Checkbox } from 'react-vant'
 import './index.less'
 /**
  * 提交订单页面
  */
 
 const PuOrderPage = observer((props) => {
-  console.log('Checkbox :>> ', Checkbox);
-  return (
+   return (
     <div className="Puorder-container">
       <div className="container-fluid">
         <ContactWcharCard />
