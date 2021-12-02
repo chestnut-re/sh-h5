@@ -9,7 +9,7 @@ import './index.less'
  */
 
 const PreferCard = observer((props) => {
-  const popover = () => {}
+  
   return (
     <div className="Prefer-content">
       <div className="info-integral rv-hairline--bottom">
@@ -24,14 +24,7 @@ const PreferCard = observer((props) => {
 
       <div className="info-discounts">
         <div className="discounts-title hairline--icon">
-          优惠
-          <Popover
-            ref={popover}
-            placement="top-start"
-            reference={<Icon className="discounts-icon" name="question-o" />}
-          >
-            <div className="popover-content">这里是优惠说明这里是优惠说明这里是优惠说明这里是优惠说明</div>
-          </Popover>
+          优惠<Icon className="discounts-icon" name="question-o" />
         </div>
         <div className="discounts-instruction">
           <div className="instruction-l">
