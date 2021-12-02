@@ -1,6 +1,3 @@
-import { common } from '@/service'
-import { useStore } from '@/store/context'
-import { observer } from 'mobx-react-lite'
 import React, { useState } from 'react'
 import './index.less'
 import unPraise from '@/assets/img/unPraise@3x.png'
@@ -8,19 +5,8 @@ import unPraise from '@/assets/img/unPraise@3x.png'
 /**
  * 团小店首页
  */
-const AbulkshopPage = observer(() => {
+const AbulkshopPage = () => {
   const [getResult, setGetResult] = useState('')
-  const store = useStore()
-
-  const testGetRequest = async () => {
-    const res = await common.getUser()
-    setGetResult(JSON.stringify(res))
-  }
-
-  const changeUserName = () => {
-    console.log(store)
-    store.userStore.setUserName('asds')
-  }
 
   return (
     <div className="Abulkshop-container">
@@ -74,6 +60,6 @@ const AbulkshopPage = observer(() => {
       </div>
     </div>
   )
-})
+}
 
 export default AbulkshopPage
