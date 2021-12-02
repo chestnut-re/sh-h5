@@ -11,10 +11,13 @@
         "regenerator": true
       }
     ],
-    ["import", {
-      "libraryName": "react-vant",
-      "libraryDirectory": "es",
-      "style": true
-    }]
+    [
+      "import",
+      {
+        "libraryName": "react-vant",
+        "libraryDirectory": "es",
+        "style": true
+      }
+    ]
   ]
 }
