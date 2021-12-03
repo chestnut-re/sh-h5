@@ -5,11 +5,8 @@ import { BrowserRouter, Route } from 'react-router-dom'
 import 'normalize.css'
 import './assets/css/base.css'
 import '@/assets/css/base-tmp.less'
-import { Provider } from './store/context'
 
-const HomePage = loadable(() => import(/* webpackChunkName: 'HomePage'*/ './pages/home'))
-const MinePage = loadable(() => import(/* webpackChunkName: 'MinePage'*/ './pages/mine'))
-const DemoPage = loadable(() => import(/* webpackChunkName: 'DemoPage'*/ './pages/demo'))
+const HomePage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/home'))
 
 /**参考行程 */
 const TravelRoutePage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/travelRoute'))
@@ -18,7 +15,6 @@ const TravelRoutePage = loadable(() => import(/* webpackChunkName: 'TravelRouteP
 const TestPage = loadable(() => import(/* webpackChunkName: 'testPage'*/ './pages/testPage'))
 /**测试图标 echart */
 const TestChartPage = loadable(() => import(/* webpackChunkName: 'testPage'*/ './pages/testChart'))
-
 
 /**隐私协议 */
 const PrivacyPage = loadable(() => import(/* webpackChunkName: 'PrivacyPage'*/ './pages/protocol/Privacy'))
@@ -38,22 +34,17 @@ const env = process.env.NODE_ENV
 console.log(env)
 
 const App = () => (
-  <Provider>
-    <Suspense fallback={<div>Loading...</div>}>
-      <BrowserRouter>
-        <Route path="/mine" exact component={MinePage}></Route>
-        <Route path="/home" exact component={HomePage}></Route>
-        <Route path="/demo" exact component={DemoPage}></Route>
-        <Route path="/" exact component={HomePage}></Route>
+  <Suspense fallback={<div>Loading...</div>}>
+    <BrowserRouter>
+      <Route path="/" exact component={HomePage}></Route>
 
-        <Route path="/travel/route" exact component={TravelRoutePage}></Route>
+      <Route path="/travel/route" exact component={TravelRoutePage}></Route>
 
+      <Route path="/protocol/privacy" exact component={PrivacyPage}></Route>
+      <Route path="/protocol/service" exact component={ServicePage}></Route>
 
-        <Route path="/protocol/privacy" exact component={PrivacyPage}></Route>
-        <Route path="/protocol/service" exact component={ServicePage}></Route>
-
-        <Route path="/test/page" exact component={TestPage}></Route>
-        <Route path="/test/chart" exact component={TestChartPage}></Route>
+      <Route path="/test/page" exact component={TestPage}></Route>
+      <Route path="/test/chart" exact component={TestChartPage}></Route>
 
         <Route path="/orderdetail" exact component={OrderIndexPage}></Route>
         <Route path="/abulkshop" exact component={AbulkShopPage}></Route>
@@ -62,7 +53,6 @@ const App = () => (
         <Route path="/applysale" exact component={ApplySalePage}></Route>
       </BrowserRouter>
     </Suspense>
-  </Provider>
 )
 
 ReactDOM.render(<App />, document.getElementById('root'))
