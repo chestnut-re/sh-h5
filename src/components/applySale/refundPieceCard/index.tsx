@@ -1,6 +1,5 @@
 import React, { useState,FC } from 'react'
-
-import { ConfigProvider,Icon, Stepper, Popover } from 'react-vant'
+import { ConfigProvider,Stepper } from 'react-vant'
 
 import './index.less'
 

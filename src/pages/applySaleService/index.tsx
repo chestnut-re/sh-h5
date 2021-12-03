@@ -1,17 +1,18 @@
 import React, { useState,FC } from 'react'
 
 import qs from 'querystring'
-import ApplyRefund from './applyRefund'
-import RefundSuccess from './refundSuccess'
-import RefundFailure from './refundFailure'
 
+import ApplyRefund from './applyRefund'
+import RefundProcess from './refundProcess'
+import IndexRefund from './indexRefund'
 import './index.less'
 
 /**
  * 售后入口页
- * type 1 申请退款（ApplyRefund）
- * type 2 退款成功（refundSuccess）
- * type 3 退款失败（refundFailure）
+ * type 0 申请退款
+ * type 1 申请退款信息填写
+ * type 2 退款成功 退款进行中 退款失败
+ * 
  */
 const RefundIndexPage: FC = (props:any) => {
 
@@ -20,9 +21,9 @@ const RefundIndexPage: FC = (props:any) => {
   const {type} = qs.parse(search.slice(1))
   return (
     <div className="container">
+        {type === "0" && (<IndexRefund/>)}
         {type === "1" && (<ApplyRefund/>)}
-        {/* {type === "2" && (<RefundSuccess/>)}
-        {type === "3" && (<RefundFailure/>)} */}
+        {type === "2" && (<RefundProcess/>)}
     </div>
   )
 }
