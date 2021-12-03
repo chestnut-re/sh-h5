@@ -1,6 +1,5 @@
-import { common } from '@/service'
-import { observer } from 'mobx-react-lite'
-import React, { useState } from 'react'
+import React, { useState,FC } from 'react'
+
 import { Icon } from 'react-vant'
 import arrowIcon from '@/assets/img/arrow_icon@3x.png'
 import './index.less'
@@ -9,7 +8,7 @@ import './index.less'
  * 包含姓名 订单编号 退款状态
  */
 
-const TripPeopleCard = observer((props) => {
+const TripPeopleCard:FC = (props) => {
   
   return (
     <div className="tripeop-content">
@@ -32,6 +31,6 @@ const TripPeopleCard = observer((props) => {
         </div>
     </div>
   )
-})
+}
 
 export default TripPeopleCard

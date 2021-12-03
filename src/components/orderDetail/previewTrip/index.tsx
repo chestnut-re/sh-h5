@@ -1,6 +1,5 @@
-import { common } from '@/service'
-import { observer } from 'mobx-react-lite'
-import React, { useState } from 'react'
+import React, { useState,FC } from 'react'
+
 import { Icon } from 'react-vant'
 import arrowIcon from '@/assets/img/arrow_icon@3x.png'
 import './index.less'
@@ -9,7 +8,7 @@ import './index.less'
  * 包含姓名 数量
  */
 
-const PreviewtripCard = observer((props) => {
+const PreviewtripCard:FC = (props) => {
   
   return (
     <div className="previewtrip-content">
@@ -25,6 +24,6 @@ const PreviewtripCard = observer((props) => {
         </div>
     </div>
   )
-})
+}
 
 export default PreviewtripCard

@@ -1,5 +1,4 @@
-import { observer } from 'mobx-react-lite'
-import React, { useState } from 'react'
+import React, { useState,FC } from 'react'
 
 import ContactWcharCard from '@/components/orderDetail/contactCard'
 import GoodsCard from '@/components/orderDetail/goodsCard'
@@ -13,7 +12,7 @@ import './index.less'
 /**
  * 订单已完成入口页
  */
-const OrderDonePage = observer((props) => {
+const OrderDonePage:FC = (props) => {
 
   console.log('object :>> ', props);
 
@@ -32,6 +31,6 @@ const OrderDonePage = observer((props) => {
         <FooterCard/>
     </div>
   )
-})
+}
 
 export default OrderDonePage

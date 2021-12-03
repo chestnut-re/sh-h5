@@ -1,5 +1,5 @@
-import { observer } from 'mobx-react-lite'
-import React, { useState } from 'react'
+import React, { useState,FC } from 'react'
+
 import { Icon, ActionSheet, Cell, Radio } from 'react-vant'
 import './index.less'
 /**
@@ -16,7 +16,7 @@ const actions = [
   { name: '选项三', id: '008' },
 ]
 
-const RefundReasonCard = observer((props) => {
+const RefundReasonCard:FC = (props) => {
   const [visible, setHandelVisible] = useState(false)
   const [actionvalue, setHandelActionvalue] = useState({name:"",id:""})
   const setVisible = (b) => {
@@ -48,6 +48,6 @@ const RefundReasonCard = observer((props) => {
       </ActionSheet>
     </div>
   )
-})
+}
 
 export default RefundReasonCard

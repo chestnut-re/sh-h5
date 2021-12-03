@@ -1,7 +1,5 @@
-import { common } from '@/service'
-import { useStore } from '@/store/context'
-import { observer } from 'mobx-react-lite'
-import React, { useState } from 'react'
+
+import React, { useState,FC } from 'react'
 import ContactWcharCard from '@/components/orderDetail/contactCard'
 import GoodsCard from '@/components/orderDetail/goodsCard'
 import StepperCard from '@/components/orderDetail/stepperCard'
@@ -18,7 +16,7 @@ import './index.less'
  * 提交订单页面
  */
 
-const PuOrderPage = observer((props) => {
+const PuOrderPage:FC = (props) => {
    return (
     <div className="Puorder-container">
       <div className="container-fluid">
@@ -39,6 +37,6 @@ const PuOrderPage = observer((props) => {
       <FooterCard/>
     </div>
   )
-})
+}
 
 export default PuOrderPage

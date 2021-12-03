@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState,FC } from 'react'
+
 import './index.less'
 import unPraise from '@/assets/img/unPraise@3x.png'
 
 /**
  * 团小店首页
  */
-const AbulkshopPage = () => {
+const AbulkshopPage:FC = () => {
   const [getResult, setGetResult] = useState('')
 
   return (

@@ -1,6 +1,5 @@
-import { common } from '@/service'
-import { observer } from 'mobx-react-lite'
-import React, { useState } from 'react'
+import React, { useState,FC } from 'react'
+
 import { ConfigProvider,Icon, Stepper, Popover } from 'react-vant'
 import integralIcon from '@/assets/img/integral_icon.png'
 import questionIcon from '@/assets/img/question_icon@3x.png'
@@ -13,7 +12,7 @@ import './index.less'
   '--rv-stepper-button-icon-color': '#121212',
 };
 
-const StepperCard = observer((props) => {
+const StepperCard:FC = (props) => {
   //成人数量
   const [grownNumVal, setGrownVal] = useState(2)
   //儿童数量
@@ -133,6 +132,6 @@ const StepperCard = observer((props) => {
       </div>
     </div>
   )
-})
+}
 
 export default StepperCard

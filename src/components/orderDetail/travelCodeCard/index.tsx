@@ -1,6 +1,5 @@
-import { common } from '@/service'
-import { observer } from 'mobx-react-lite'
-import React, { useState } from 'react'
+import React, { useState,FC } from 'react'
+
 import { Icon, Popover } from 'react-vant'
 import integralIcon from '@/assets/img/integral_icon.png'
 import './index.less'
@@ -8,7 +7,7 @@ import './index.less'
  * 出行二维码卡片
  */
 
-const TravelCard = observer((props) => {
+const TravelCard:FC = (props) => {
   
   return (
     <div className="trave-content">
@@ -26,6 +25,6 @@ const TravelCard = observer((props) => {
         </div>
     </div>
   )
-})
+}
 
 export default TravelCard

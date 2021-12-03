@@ -1,12 +1,12 @@
-import { observer } from 'mobx-react-lite'
-import React, { useState } from 'react'
+import React, { useState,FC } from 'react'
+
 import { Icon } from 'react-vant';
 import './index.less'
 /**
  * 退改说明卡片
  */
 
-const BackThatCard = observer((props) => {
+const BackThatCard:FC = (props) => {
   return (
     <div className="backthat_card">
       <div className="backthat-name">退改说明</div>
@@ -15,6 +15,6 @@ const BackThatCard = observer((props) => {
       </div>
     </div>
   )
-})
+}
 
 export default BackThatCard

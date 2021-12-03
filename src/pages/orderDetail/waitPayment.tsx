@@ -1,5 +1,4 @@
-import { observer } from 'mobx-react-lite'
-import React, { useState } from 'react'
+import React, { useState,FC } from 'react'
 
 import { CountDown } from 'react-vant';
 import ContactWcharCard from '@/components/orderDetail/contactCard'
@@ -14,7 +13,7 @@ import './index.less'
 /**
  * 订单待付款入口页
  */
-const OrderPaymentPage = observer((props) => {
+const OrderPaymentPage:FC = (props) => {
 
   console.log('object :>> ', props);
 
@@ -40,6 +39,6 @@ const OrderPaymentPage = observer((props) => {
         <FooterCard/>
     </div>
   )
-})
+}
 
 export default OrderPaymentPage

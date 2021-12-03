@@ -1,6 +1,5 @@
-import { observer } from 'mobx-react-lite'
-import type { FC } from 'react';
-import React, { useState } from 'react'
+import React, { useState,FC } from 'react'
+
 import qs from 'querystring'
 
 import ContactWcharCard from '@/components/orderDetail/contactCard'

@@ -1,11 +1,11 @@
-import { observer } from 'mobx-react-lite'
-import React, { useState } from 'react'
+import React, { useState,FC } from 'react'
+
 import './index.less'
 /**
  * 订单详情卡片 包含订单号下单时间
  */
 
-const IndentCard = observer((props) => {
+const IndentCard:FC = (props) => {
   return (
     <div className="indent_card">
       <ul className="indent-ul">
@@ -21,6 +21,6 @@ const IndentCard = observer((props) => {
       </ul>
     </div>
   )
-})
+}
 
 export default IndentCard

@@ -1,13 +1,12 @@
-import { common } from '@/service'
-import { observer } from 'mobx-react-lite'
-import React, { useState } from 'react'
+import React, { useState,FC } from 'react'
+
 import wecharIcon from '@/assets/img/wechar_icon@3x.png'
 import './index.less'
 /**
  * 打开微信联系团长卡片
  */
 
-const ContactCard = observer((props) => {
+const ContactCard:FC = (props) => {
 
   return (
     <div className="contact_card">
@@ -27,6 +26,6 @@ const ContactCard = observer((props) => {
                 </div>
             </div>
   )
-})
+}
 
 export default ContactCard

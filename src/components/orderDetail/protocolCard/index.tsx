@@ -1,7 +1,5 @@
-import { common } from '@/service'
-import { useStore } from '@/store/context'
-import { observer } from 'mobx-react-lite'
-import React, { useState } from 'react'
+import React, { useState,FC } from 'react'
+
 import inactiveIcon from '@/assets/img/inactive_Icon@3x.png'
 import activeIcon from '@/assets/img/active_Icon@3x.png'
 
@@ -11,7 +9,7 @@ import './index.less'
  * 协议确认页面
  */
 
-const ProtocolCard = observer((props) => {
+const ProtocolCard:FC = (props) => {
   console.log('Checkbox :>> ', Checkbox)
   return (
     <div className="protocol_card">
@@ -26,6 +24,6 @@ const ProtocolCard = observer((props) => {
       </div>
     </div>
   )
-})
+}
 
 export default ProtocolCard

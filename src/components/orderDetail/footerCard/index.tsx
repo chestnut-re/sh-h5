@@ -1,6 +1,5 @@
-import { common } from '@/service'
-import { observer } from 'mobx-react-lite'
-import React, { useState } from 'react'
+import React, { useState,FC } from 'react'
+
 import { Icon, Popover } from 'react-vant'
 import integralIcon from '@/assets/img/integral_icon.png'
 import './index.less'
@@ -8,7 +7,7 @@ import './index.less'
  * 底部支付，以及其他信息展示卡片
  */
 
-const FooterCard = observer((props) => {
+const FooterCard:FC = (props) => {
   const popover = () => {}
   return (
     <div className="order-action">
@@ -25,6 +24,6 @@ const FooterCard = observer((props) => {
       </div>
     </div>
   )
-})
+}
 
 export default FooterCard

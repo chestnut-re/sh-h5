@@ -1,12 +1,12 @@
-import { observer } from 'mobx-react-lite'
-import React, { useState } from 'react'
+import React, { useState,FC } from 'react'
+
 import { Icon } from 'react-vant';
 import './index.less'
 /**
  * 支付方式卡片
  */
 
-const PayTypeCard = observer((props) => {
+const PayTypeCard:FC = (props) => {
 
   return (
     <div className="Payment-content">
@@ -16,6 +16,6 @@ const PayTypeCard = observer((props) => {
           </div>      
     </div>
   )
-})
+}
 
 export default PayTypeCard

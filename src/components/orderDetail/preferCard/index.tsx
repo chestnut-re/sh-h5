@@ -1,6 +1,5 @@
-import { common } from '@/service'
-import { observer } from 'mobx-react-lite'
-import React, { useState } from 'react'
+import React, { useState,FC } from 'react'
+
 import { Icon, Popover } from 'react-vant'
 import integralIcon from '@/assets/img/integral_icon.png'
 import './index.less'
@@ -8,7 +7,7 @@ import './index.less'
  * 积分、优惠卡片
  */
 
-const PreferCard = observer((props) => {
+const PreferCard:FC = (props) => {
   
   return (
     <div className="Prefer-content">
@@ -37,6 +36,6 @@ const PreferCard = observer((props) => {
       </div>
     </div>
   )
-})
+}
 
 export default PreferCard

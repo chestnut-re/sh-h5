@@ -1,5 +1,5 @@
-import { observer } from 'mobx-react-lite'
-import React, { useState } from 'react'
+import React, { useState,FC } from 'react'
+
 import { Cell, Calendar } from 'react-vant'
 import './index.less'
 /**
@@ -19,7 +19,7 @@ const formatter = (day) => {
   return day
 }
 
-const CalendarCard = observer((props) => {
+const CalendarCard:FC = (props) => {
   const [visible, setVisible] = useState(false)
   const [text, setText] = useState('')
   const formatDate = (date) => `${date.getMonth() + 1}/${date.getDate()}`
@@ -45,6 +45,6 @@ const CalendarCard = observer((props) => {
       />
     </>
   )
-})
+}
 
 export default CalendarCard

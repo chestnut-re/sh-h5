@@ -1,5 +1,4 @@
-import { observer } from 'mobx-react-lite'
-import React, { useState } from 'react'
+import React, { useState,FC } from 'react'
 
 import GoodsCard from '@/components/orderDetail/goodsCard'
 import IndentCard from '@/components/orderDetail/indentCard'
@@ -9,7 +8,7 @@ import './index.less'
 /**
  * 订单已失效入口页
  */
-const OrderFailurePage = observer((props) => {
+const OrderFailurePage:FC = (props) => {
 
   console.log('object :>> ', props);
 
@@ -26,6 +25,6 @@ const OrderFailurePage = observer((props) => {
         <FooterCard/>
     </div>
   )
-})
+}
 
 export default OrderFailurePage
