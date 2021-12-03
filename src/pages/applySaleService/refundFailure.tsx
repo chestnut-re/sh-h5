@@ -1,6 +1,4 @@
 import React, { useState,FC } from 'react'
-
-import React, { useState } from 'react'
 import qs from 'querystring'
 
 import './index.less'

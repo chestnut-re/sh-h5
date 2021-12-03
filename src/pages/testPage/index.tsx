@@ -1,12 +1,11 @@
 import { clearAllCookie, printCookie } from '@/utils/cookie'
-import { observer } from 'mobx-react-lite'
 import React from 'react'
 import './index.less'
 import { Button, Cell } from 'react-vant'
 import { SHBridge } from '@/jsbridge'
 import { isApp } from '@/jsbridge/env'
 
-const TestPage = observer(() => {
+const TestPage = () => {
   return (
     <div className="Mine">
       <div className="mineTitle">MineTitle</div>
@@ -55,7 +54,7 @@ const TestPage = observer(() => {
             SHBridge.jump('https://baidu.com')
           }}
         />
-         <Cell
+        <Cell
           title="closePage 关闭页面"
           onClick={() => {
             SHBridge.closePage()
@@ -64,6 +63,6 @@ const TestPage = observer(() => {
       </Cell.Group>
     </div>
   )
-})
+}
 
 export default TestPage

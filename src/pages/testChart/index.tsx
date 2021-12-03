@@ -1,10 +1,8 @@
-import { clearAllCookie, printCookie } from '@/utils/cookie'
-import { observer } from 'mobx-react-lite'
 import React from 'react'
 import ReactECharts from 'echarts-for-react'
 import './index.less'
 
-const TestChartPage = observer(() => {
+const TestChartPage = () => {
   const getOption = () => {
     return {
       title: {
@@ -48,6 +46,6 @@ const TestChartPage = observer(() => {
       <ReactECharts option={getOption()} />
     </div>
   )
-})
+}
 
 export default TestChartPage
