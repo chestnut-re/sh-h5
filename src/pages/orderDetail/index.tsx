@@ -1,4 +1,5 @@
 import { observer } from 'mobx-react-lite'
+import type { FC } from 'react';
 import React, { useState } from 'react'
 import qs from 'querystring'
 import OrderDone from './orderDone'
@@ -15,7 +16,7 @@ import './index.less'
  * type 3 待确认（OrderConfirma）
  * type 4 待支付（OrderPayment）
  */
-const OrderIndexPage = observer<any,any>((props) => {
+const OrderIndexPage: FC = (props:any) => {
 
   console.log('object :>> ', props);
   const {location:{search}} = props;
@@ -28,6 +29,6 @@ const OrderIndexPage = observer<any,any>((props) => {
         {type === "4" && (<OrderPayment/>)}
     </div>
   )
-})
+}
 
 export default OrderIndexPage

@@ -31,6 +31,8 @@ const OrderIndexPage = loadable(() => import(/* webpackChunkName: 'OrderDetailPa
 const AbulkShopPage = loadable(() => import(/* webpackChunkName: 'AbulkShopPage'*/ './pages/abulkShop'))
 /**提交订单 */
 const PurchaseOrderPage = loadable(() => import(/* webpackChunkName: 'PurchaseOrderPage'*/ './pages/purchaseOrder'))
+/**售后服务 */
+const ApplySalePage = loadable(() => import(/* webpackChunkName: 'PurchaseOrderPage'*/ './pages/applySaleService'))
 
 const env = process.env.NODE_ENV
 console.log(env)
@@ -57,6 +59,7 @@ const App = () => (
         <Route path="/abulkshop" exact component={AbulkShopPage}></Route>
 
         <Route path="/puorder" exact component={PurchaseOrderPage}></Route>
+        <Route path="/applysale" exact component={ApplySalePage}></Route>
       </BrowserRouter>
     </Suspense>
   </Provider>
