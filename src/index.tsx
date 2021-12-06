@@ -10,6 +10,10 @@ const HomePage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ 
 
 /**参考行程 */
 const TravelRoutePage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/travelRoute'))
+/**我的行程 */
+const MyTravelPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/myTravel'))
+/**行程详情 */
+const travelDetailsPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/travelDetails'))
 
 /**App交互测试页面 */
 const TestPage = loadable(() => import(/* webpackChunkName: 'testPage'*/ './pages/testPage'))
@@ -39,6 +43,8 @@ const App = () => (
       <Route path="/" exact component={HomePage}></Route>
 
       <Route path="/travel/route" exact component={TravelRoutePage}></Route>
+      <Route path="/myTravel" exact component={MyTravelPage}></Route>
+      <Route path="/myTravel/details" exact component={travelDetailsPage}></Route>
 
       <Route path="/protocol/privacy" exact component={PrivacyPage}></Route>
       <Route path="/protocol/service" exact component={ServicePage}></Route>
@@ -46,13 +52,13 @@ const App = () => (
       <Route path="/test/page" exact component={TestPage}></Route>
       <Route path="/test/chart" exact component={TestChartPage}></Route>
 
-        <Route path="/orderdetail" exact component={OrderIndexPage}></Route>
-        <Route path="/abulkshop" exact component={AbulkShopPage}></Route>
+      <Route path="/orderdetail" exact component={OrderIndexPage}></Route>
+      <Route path="/abulkshop" exact component={AbulkShopPage}></Route>
 
-        <Route path="/puorder" exact component={PurchaseOrderPage}></Route>
-        <Route path="/applysale" exact component={ApplySalePage}></Route>
-      </BrowserRouter>
-    </Suspense>
+      <Route path="/puorder" exact component={PurchaseOrderPage}></Route>
+      <Route path="/applysale" exact component={ApplySalePage}></Route>
+    </BrowserRouter>
+  </Suspense>
 )
 
 ReactDOM.render(<App />, document.getElementById('root'))
