@@ -31,7 +31,7 @@ export class SHBridge {
 
   /**
    * 跳转
-   * @param url https:// | http// | sh://
+   * @param url https:// | http// | 其他
    * @newWebView 是否开启新页面，在 App 中有效
    * @replace 是否替换当前页面
    */

@@ -1,0 +1,80 @@
+html {
+  // scroll-padding-top: 94px;
+}
+.MyTravelPage__root {
+  display: flex;
+  min-height: 100vh;
+  // overflow-y: auto;
+  flex-direction: column;
+  background: #f3f4f4;
+  padding: 24px 24px;
+  .travel {
+    border-radius: 14px;
+    .no-travel {
+      padding: 58px 198px 62px;
+      // height: 204px;
+      background: #fff;
+      border-radius: 14px;
+      text-align: center;
+      div:first-child {
+        font-size: 36px;
+        font-weight: 500;
+        color: #4dcfc5;
+        line-height: 50px;
+      }
+      div:last-child {
+        font-size: 22px;
+        font-weight: 400;
+        color: #999;
+        line-height: 32px;
+      }
+    }
+  }
+  .history {
+    font-size: 28px;
+    font-weight: 400;
+    color: #666;
+    line-height: 40px;
+    padding: 22px 0 14px;
+  }
+  .list {
+    .item {
+      background: #fff;
+      border-radius: 20px;
+      padding: 22px 24px 30px 30px;
+      margin-bottom: 20px;
+      .month {
+        font-size: 28px;
+        font-weight: 500;
+        color: #333;
+        line-height: 40px;
+        margin-bottom: 20px;
+      }
+      .order-name {
+        display: flex;
+        align-items: center;
+      }
+      .pic {
+        width: 124px;
+        height: 128px;
+        border-radius: 20px;
+        margin-right: 18px;
+      }
+      div {
+        &:first-child {
+          font-size: 28px;
+          font-weight: 500;
+          color: #333;
+          line-height: 40px;
+          padding-bottom: 24px;
+        }
+        &:last-child {
+          font-size: 24px;
+          font-weight: 400;
+          color: #999;
+          line-height: 34px;
+        }
+      }
+    }
+  }
+}

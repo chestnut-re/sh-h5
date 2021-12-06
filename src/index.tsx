@@ -10,6 +10,14 @@ const HomePage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ 
 
 /**参考行程 */
 const TravelRoutePage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/travelRoute'))
+/**我的行程 */
+const MyTravelPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/myTravel'))
+/**行程详情 */
+const travelDetailsPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/travelDetails'))
+/**账户资金 */
+const userCapitalPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/userCapital'))
+/**运营资金 */
+const operateCapitalPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/operateCapital'))
 
 /**App交互测试页面 */
 const TestPage = loadable(() => import(/* webpackChunkName: 'testPage'*/ './pages/testPage'))
@@ -51,6 +59,10 @@ const App = () => (
       <Route path="/" exact component={HomePage}></Route>
 
       <Route path="/travel/route" exact component={TravelRoutePage}></Route>
+      <Route path="/myTravel" exact component={MyTravelPage}></Route>
+      <Route path="/myTravel/details" exact component={travelDetailsPage}></Route>
+      <Route path="/userCapital" exact component={userCapitalPage}></Route>
+      <Route path="/operateCapital" exact component={operateCapitalPage}></Route>
 
       <Route path="/protocol/privacy" exact component={PrivacyPage}></Route>
       <Route path="/protocol/service" exact component={ServicePage}></Route>
