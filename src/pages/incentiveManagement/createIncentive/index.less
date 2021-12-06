@@ -1,0 +1,77 @@
+body {
+  background-color: #f9f9f9;
+}
+.create {
+  font-family: PingFangSC;
+  font-size: 28px;
+  color: #333333;
+  .create-con {
+    margin-top: 20px;
+    background-color: #ffffff;
+    .create-name,
+    .create-time,
+    .create-sale,
+    .create-amount {
+      padding: 16px 20px 16px 40px;
+      span {
+        display: inline-block;
+        margin-right: 44px;
+        height: 88px;
+        line-height: 88px;
+      }
+      input {
+        padding-left: 20px;
+        border: 1px solid #f1f1f1;
+        border-radius: 10px;
+        width: 534px;
+        height: 88px;
+      }
+      input::-webkit-input-placeholder {
+        color: #b6b6b6;
+      }
+      input::-moz-placeholder {
+        /* Mozilla Firefox 19+ */
+        color: #b6b6b6;
+      }
+      input:-moz-placeholder {
+        /* Mozilla Firefox 4 to 18 */
+        color: #b6b6b6;
+      }
+      input:-ms-input-placeholder {
+        /* Internet Explorer 10-11 */
+        color: #b6b6b6;
+      }
+    }
+    .create-time {
+      position: relative;
+      select {
+        padding-left: 20px;
+        border: 1px solid #f1f1f1;
+        border-radius: 10px;
+        width: 534px;
+        height: 88px;
+      }
+      .jiantou {
+        position: absolute;
+        right: 2px;
+        top: 54px;
+        width: 0;
+        height: 0;
+        border-left: 14px solid transparent;
+        border-right: 14px solid transparent;
+        border-top: 14px solid #333333;
+      }
+    }
+    .create-sale,
+    .create-amount {
+      position: relative;
+      .yuan {
+        position: absolute;
+        right: 2px;
+      }
+      .sale {
+        margin-right: 16px;
+      }
+    }
+  }
+}
