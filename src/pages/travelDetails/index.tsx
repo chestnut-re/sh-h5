@@ -4,7 +4,7 @@ import { useDebouncedEffect } from '@/hooks/useDebouncedEffect'
 import pic from '@/assets/img/shg.png'
 
 /**
- * 参考行程
+ * 行程详情
  */
 const travelDetailsPage: React.FC = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
