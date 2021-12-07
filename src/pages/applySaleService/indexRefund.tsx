@@ -17,7 +17,7 @@ import './index.less'
  * 申请退款入口
  * type 1 申请退款
  */
-const RefundFailure: FC = (props:any) => {
+const IndexRefund: FC = (props:any) => {
 
   console.log('object :>> ', props);
   // const {location:{search}} = props;
@@ -29,23 +29,16 @@ const RefundFailure: FC = (props:any) => {
               <GoodsCard/>
               <PreferCard/>
           </div>
-          <RefundReasonCard/>
-          <RefundPieceCard />
-          <CancelTripCard />
-          <RefundAmountCard />
-          <RefundInstrucCard />
-          <div className="refund-btn">
-            <div className="refund-btnitem">
-                申请退款
-            </div>
-        </div>
+          <ApplyRefundCard/>
+          <BackCard/>
+          
         </div>
         
     </div>
   )
 }
 
-export default RefundFailure
+export default IndexRefund
 
 
 

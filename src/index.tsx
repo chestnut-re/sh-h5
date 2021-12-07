@@ -41,6 +41,18 @@ const AbulkShopPage = loadable(() => import(/* webpackChunkName: 'AbulkShopPage'
 const PurchaseOrderPage = loadable(() => import(/* webpackChunkName: 'PurchaseOrderPage'*/ './pages/purchaseOrder'))
 /**售后服务 */
 const ApplySalePage = loadable(() => import(/* webpackChunkName: 'PurchaseOrderPage'*/ './pages/applySaleService'))
+/**激励管理-列表 */
+const IncentivePage = loadable(() => import(/* webpackChunkName: 'IncentivePage' */ './pages/incentiveManagement/list'))
+/**激励管理-创建 */
+const CreateIncentivePage = loadable(
+  () => import(/* webpackChunkName: 'CreateIncentivePage' */ './pages/incentiveManagement/createIncentive')
+)
+/**激励管理-名单 */
+const RosterPage = loadable(() => import(/* webpackChunkName: 'RosterPage' */ './pages/incentiveManagement/roster'))
+/**激励管理-添加人员 */
+const CreatePersonnel = loadable(
+  () => import(/* webpackChunkName: 'RosterPage' */ './pages/incentiveManagement/roster/createRoster')
+)
 
 const env = process.env.NODE_ENV
 console.log(env)
@@ -69,6 +81,10 @@ const App = () => (
 
       <Route path="/puorder" exact component={PurchaseOrderPage}></Route>
       <Route path="/applysale" exact component={ApplySalePage}></Route>
+      <Route path="/incentive/list" exact component={IncentivePage}></Route>
+      <Route path="/incentive/create" exact component={CreateIncentivePage}></Route>
+      <Route path="/incentive/roster" exact component={RosterPage}></Route>
+      <Route path="/incentive/roster/create" exact component={CreatePersonnel}></Route>
     </BrowserRouter>
   </Suspense>
 )
