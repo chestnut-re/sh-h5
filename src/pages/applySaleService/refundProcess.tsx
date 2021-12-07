@@ -5,6 +5,7 @@ import GoodsCard from '@/components/orderDetail/goodsCard'
 import RefuIndentCard from '@/components/applySale/refuIndentCard'
 import BackCard from '@/components/orderDetail/backthatCard'
 import RefundProcessCard from '@/components/applySale/refundProcess'
+import RefundFooterCard from '@/components/applySale/refundFooterCard'
 import './index.less'
 /**
  * 退款失败入口
@@ -22,7 +23,9 @@ const RefundFailure: FC = (props:any) => {
       <BackCard/>
      
     </div>
-    
+    <RefundFooterCard/>
+
+
 </div>
   )
 }

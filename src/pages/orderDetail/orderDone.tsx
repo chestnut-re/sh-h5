@@ -1,21 +1,39 @@
 import React, { useState,FC } from 'react'
-
+import {withRouter} from "react-router-dom";
 import ContactWcharCard from '@/components/orderDetail/contactCard'
 import GoodsCard from '@/components/orderDetail/goodsCard'
 import PreferCard from '@/components/orderDetail/preferCard'
 import IndentCard from '@/components/orderDetail/indentCard'
 import BackCard from '@/components/orderDetail/backthatCard'
-import FooterCard from '@/components/orderDetail/footerCard'
+
+import CompleteFooter from '@/components/submitBars/completeFooter'
 import PreviewTripCard from '@/components/orderDetail/previewTrip'
 import './index.less'
 
 /**
  * 订单已完成入口页
  */
-const OrderDonePage:FC = (props) => {
+const OrderDonePage:FC = (props:any) => {
 
   console.log('object :>> ', props);
-
+  const BarsConfig = {
+    barLeftTitle:"再次购买",
+    barRightTitle:"分享给TA",
+    onSelect:(type,item)=>{
+          switch (type) {
+            case "barLeftTitle":
+              //再次购买处理
+                props.history.push("/puorder")
+              break;
+              case "barRightTitle":
+               //处理分享逻辑
+                  console.log('点击了分享按钮 :>> ');
+                break;
+            default:
+              break;
+          }
+    }
+  }
   return (
     <div className="Order-container">
         <div className="order-main">
@@ -28,9 +46,9 @@ const OrderDonePage:FC = (props) => {
           <IndentCard/>
           <BackCard/>
         </div>
-        <FooterCard/>
+        <CompleteFooter {...BarsConfig}/>
     </div>
   )
 }
 
-export default OrderDonePage
+export default withRouter(OrderDonePage)
