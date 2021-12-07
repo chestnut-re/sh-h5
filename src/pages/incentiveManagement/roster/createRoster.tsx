@@ -1,20 +1,22 @@
 import React, { useState } from 'react'
-import { Button, List, Cell, SwipeCell, Dialog, Checkbox } from 'react-vant'
+import { Button, Cell, Dialog, Checkbox, Divider } from 'react-vant'
+import Duo from '@/assets/img/active_Icon@3x.png'
 import './createRoster.less'
 /**
  * 添加人员
  */
 
-const CreatePersonnel = () => {
-  const [value, setValue] = useState([])
-  const toggle = (name) => {
-    console.log(name)
-    // const newValue = cellCheck.includes(name) ? cellCheck.filter((el) => el !== name) : [...cellCheck, name]
-    // setValue(newValue)
-  }
+const CreatePersonnel: React.FC = () => {
+  // const [value, setValue] = useState([])
+  // const checked = ['a', 'b']
+  // const toggle = (name) => {
+  //   console.log(name)
+  //   const newValue = cellCheck.includes(name) ? cellCheck.filter((el) => el !== name) : [...cellCheck, name]
+  //   setValue(newValue)
+  // }
   const showDialog = () => {
     Dialog.confirm({
-      message: '您确认将 4人 加入“激励方案3名 称”吗？',
+      message: '您确认将4人加入“激励方案3名称”吗？',
       width: '272px',
       confirmButtonText: '确认加入',
       confirmButtonColor: '#333333',
@@ -35,26 +37,27 @@ const CreatePersonnel = () => {
         <input type="text" placeholder="请输入员工姓名" />
       </div>
       <div className="create-list">
-        <Checkbox.Group value={value}>
-          <Cell.Group>
-            <Cell
-              titleClass="title"
-              size="large"
-              clickable
-              title="张某某"
-              onClick={() => toggle('a')}
-              icon={<Checkbox name="a" />}
-            />
-            <Cell
-              size="large"
-              titleClass="title"
-              clickable
-              title="张某某"
-              onClick={() => toggle('b')}
-              // icon={<Checkbox iconRender={()=>{}} name="b" />}
-              icon={<Checkbox checked name="b" />}
-            />
-          </Cell.Group>
+        <Checkbox.Group defaultChecked="checked" checkedColor="#00D2C6">
+          <Checkbox className="check-item" name="a">
+            张某某
+          </Checkbox>
+          <Divider />
+          <Checkbox className="check-item" name="b">
+            张某某
+          </Checkbox>
+          <Divider />
+          <Checkbox className="check-item" name="c">
+            张某某
+          </Checkbox>
+          <Divider />
+          <Checkbox className="check-item" name="d">
+            张某某
+          </Checkbox>
+          <Divider />
+          <Checkbox className="check-item" name="e">
+            张某某
+          </Checkbox>
+          <Divider />
         </Checkbox.Group>
       </div>
       <div className="create-bottom">
