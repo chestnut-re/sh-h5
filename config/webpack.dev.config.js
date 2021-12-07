@@ -23,7 +23,7 @@ const webpackConfigDev = {
     hot: true,
     historyApiFallback: true, // router history 模式下需要
     proxy: {
-      '/user': 'http://api.fangmingdong.com/',
+      '/api': 'http://api.fangmingdong.com/',
     },
   },
 }

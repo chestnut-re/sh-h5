@@ -8,6 +8,9 @@ import '@/assets/css/base-tmp.less'
 
 const HomePage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/home'))
 
+/**AppPage, App入口页 */
+const AppPage = loadable(() => import(/* webpackChunkName: 'AppPage'*/ './pages/app'))
+
 /**参考行程 */
 const TravelRoutePage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/travelRoute'))
 /**我的行程 */
@@ -22,6 +25,10 @@ const OperateCapitalPage = loadable(() => import(/* webpackChunkName: 'TravelRou
 const SuccessMovePage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/successMove'))
 /**资金明细 */
 const FundDetailsPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/fundDetails'))
+/**运营资金明细 */
+const OperateDetailsPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/operateDetails'))
+/**提现记录 */
+const MoneyRecordPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/moneyRecord'))
 
 /**App交互测试页面 */
 const TestPage = loadable(() => import(/* webpackChunkName: 'testPage'*/ './pages/testPage'))
@@ -71,13 +78,17 @@ const App = () => (
     <BrowserRouter>
       <Route path="/" exact component={HomePage}></Route>
 
+      <Route path="/app" exact component={AppPage}></Route>
+
       <Route path="/travel/route" exact component={TravelRoutePage}></Route>
       <Route path="/myTravel" exact component={MyTravelPage}></Route>
       <Route path="/myTravel/details" exact component={TravelDetailsPage}></Route>
-      <Route path="/user-capital" exact component={UserCapitalPage}></Route>
+      <Route path="/mine-capital" exact component={UserCapitalPage}></Route>
       <Route path="/operate-capital" exact component={OperateCapitalPage}></Route>
       <Route path="/success-move" exact component={SuccessMovePage}></Route>
       <Route path="/fund-details" exact component={FundDetailsPage}></Route>
+      <Route path="/operate-details" exact component={OperateDetailsPage}></Route>
+      <Route path="/money-record" exact component={MoneyRecordPage}></Route>
 
       <Route path="/protocol/privacy" exact component={PrivacyPage}></Route>
       <Route path="/protocol/service" exact component={ServicePage}></Route>
