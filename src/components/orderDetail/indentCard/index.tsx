@@ -15,7 +15,15 @@ const IndentCard:FC = (props) => {
           <div className="indent-li_copy">复制</div>
         </li>
         <li className="indent-li">
+          <div className="indent-li_l">支付方式</div>
+          <div className="indent-li_r">微信</div>
+        </li>
+        <li className="indent-li">
           <div className="indent-li_l">下单时间</div>
+          <div className="indent-li_r">2021/10/19 18:43:20</div>
+        </li>
+        <li className="indent-li">
+          <div className="indent-li_l">支付时间</div>
           <div className="indent-li_r">2021/10/19 18:43:20</div>
         </li>
       </ul>
