@@ -8,6 +8,9 @@ import '@/assets/css/base-tmp.less'
 
 const HomePage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/home'))
 
+/**AppPage, App入口页 */
+const AppPage = loadable(() => import(/* webpackChunkName: 'AppPage'*/ './pages/app'))
+
 /**参考行程 */
 const TravelRoutePage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/travelRoute'))
 /**我的行程 */
@@ -65,6 +68,8 @@ const App = () => (
   <Suspense fallback={<div>Loading...</div>}>
     <BrowserRouter>
       <Route path="/" exact component={HomePage}></Route>
+
+      <Route path="/app" exact component={AppPage}></Route>
 
       <Route path="/travel/route" exact component={TravelRoutePage}></Route>
       <Route path="/myTravel" exact component={MyTravelPage}></Route>

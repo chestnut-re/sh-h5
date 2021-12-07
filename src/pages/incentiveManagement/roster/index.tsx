@@ -1,6 +1,6 @@
 import React, { useState, FC } from 'react'
 import { Button, List, Cell, SwipeCell, Dialog } from 'react-vant'
-import CreatePersonnel from './createRoster'
+import Add from '@/assets/img/add@3x.png'
 import './index.less'
 
 /**
@@ -85,7 +85,12 @@ const RosterPage = (props: any) => {
         </List>
       </div>
       <div className="roster-create">
-        <div onClick={createRoster}>添加人员</div>
+        <div onClick={createRoster}>
+          <div className="add">
+            <img src={Add} alt="" className="create-add" />
+            <div>添加人员</div>
+          </div>
+        </div>
       </div>
     </div>
   )
