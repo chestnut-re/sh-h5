@@ -13,11 +13,15 @@ const TravelRoutePage = loadable(() => import(/* webpackChunkName: 'TravelRouteP
 /**我的行程 */
 const MyTravelPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/myTravel'))
 /**行程详情 */
-const travelDetailsPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/travelDetails'))
+const TravelDetailsPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/travelDetails'))
 /**账户资金 */
-const userCapitalPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/userCapital'))
+const UserCapitalPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/userCapital'))
 /**运营资金 */
-const operateCapitalPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/operateCapital'))
+const OperateCapitalPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/operateCapital'))
+/**转入，转出，提现成功 */
+const SuccessMovePage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/successMove'))
+/**资金明细 */
+const FundDetailsPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/fundDetails'))
 
 /**App交互测试页面 */
 const TestPage = loadable(() => import(/* webpackChunkName: 'testPage'*/ './pages/testPage'))
@@ -30,7 +34,7 @@ const PrivacyPage = loadable(() => import(/* webpackChunkName: 'PrivacyPage'*/ '
 const ServicePage = loadable(() => import(/* webpackChunkName: 'ServicePage'*/ './pages/protocol/Service'))
 
 /**订单详情 */
-const OrderIndexPage = loadable(() => import(/* webpackChunkName: 'OrderDetailPage'*/ './pages/orderDetail'))
+const OrderDetailPage = loadable(() => import(/* webpackChunkName: 'OrderDetailPage'*/ './pages/orderDetail'))
 /**团小店 */
 const AbulkShopPage = loadable(() => import(/* webpackChunkName: 'AbulkShopPage'*/ './pages/abulkShop'))
 /**提交订单 */
@@ -60,9 +64,11 @@ const App = () => (
 
       <Route path="/travel/route" exact component={TravelRoutePage}></Route>
       <Route path="/myTravel" exact component={MyTravelPage}></Route>
-      <Route path="/myTravel/details" exact component={travelDetailsPage}></Route>
-      <Route path="/userCapital" exact component={userCapitalPage}></Route>
-      <Route path="/operateCapital" exact component={operateCapitalPage}></Route>
+      <Route path="/myTravel/details" exact component={TravelDetailsPage}></Route>
+      <Route path="/user-capital" exact component={UserCapitalPage}></Route>
+      <Route path="/operate-capital" exact component={OperateCapitalPage}></Route>
+      <Route path="/success-move" exact component={SuccessMovePage}></Route>
+      <Route path="/fund-details" exact component={FundDetailsPage}></Route>
 
       <Route path="/protocol/privacy" exact component={PrivacyPage}></Route>
       <Route path="/protocol/service" exact component={ServicePage}></Route>
@@ -70,7 +76,7 @@ const App = () => (
       <Route path="/test/page" exact component={TestPage}></Route>
       <Route path="/test/chart" exact component={TestChartPage}></Route>
 
-      <Route path="/orderdetail" exact component={OrderIndexPage}></Route>
+      <Route path="/order-detail" exact component={OrderDetailPage}></Route>
       <Route path="/abulkshop" exact component={AbulkShopPage}></Route>
 
       <Route path="/puorder" exact component={PurchaseOrderPage}></Route>

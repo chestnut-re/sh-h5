@@ -1,80 +1,81 @@
 html {
   // scroll-padding-top: 94px;
 }
-.MyTravelPage__root {
-  display: flex;
-  min-height: 100vh;
-  // overflow-y: auto;
-  flex-direction: column;
+.OperateCapitalPage__root {
+  padding: 33px;
   background: #f3f4f4;
-  padding: 24px 24px;
-  .travel {
+  min-height: 100vh;
+  position: relative;
+  .top {
+    padding: 26px 140px 36px;
+    background: #fff;
     border-radius: 14px;
-    .no-travel {
-      padding: 58px 198px 62px;
-      // height: 204px;
-      background: #fff;
-      border-radius: 14px;
-      text-align: center;
-      div:first-child {
-        font-size: 36px;
-        font-weight: 500;
-        color: #4dcfc5;
-        line-height: 50px;
+    text-align: center;
+    .pic {
+      width: 24px;
+      height: 24px;
+    }
+    .one,
+    .two,
+    .three {
+      color: #32d0c6;
+    }
+    .one {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 28px;
+      font-weight: 400;
+      line-height: 40px;
+      padding-bottom: 46px;
+      div {
+        padding-right: 16px;
       }
-      div:last-child {
-        font-size: 22px;
+    }
+    .two {
+      padding-bottom: 44px;
+      .num {
+        display: inline-block;
+        font-size: 48px;
         font-weight: 400;
-        color: #999;
-        line-height: 32px;
+        line-height: 66px;
+      }
+    }
+    .three {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      font-weight: 400;
+      line-height: 34px;
+      div {
+        padding-right: 10px;
       }
     }
   }
-  .history {
-    font-size: 28px;
+
+  .btn {
+    padding-top: 70px;
+    display: flex;
+    justify-content: center;
+    font-size: 32px;
     font-weight: 400;
-    color: #666;
-    line-height: 40px;
-    padding: 22px 0 14px;
-  }
-  .list {
-    .item {
-      background: #fff;
-      border-radius: 20px;
-      padding: 22px 24px 30px 30px;
-      margin-bottom: 20px;
-      .month {
-        font-size: 28px;
-        font-weight: 500;
-        color: #333;
-        line-height: 40px;
-        margin-bottom: 20px;
-      }
-      .order-name {
-        display: flex;
-        align-items: center;
-      }
-      .pic {
-        width: 124px;
-        height: 128px;
-        border-radius: 20px;
-        margin-right: 18px;
-      }
-      div {
-        &:first-child {
-          font-size: 28px;
-          font-weight: 500;
-          color: #333;
-          line-height: 40px;
-          padding-bottom: 24px;
-        }
-        &:last-child {
-          font-size: 24px;
-          font-weight: 400;
-          color: #999;
-          line-height: 34px;
-        }
-      }
+    line-height: 44px;
+    button {
+      color: #fff;
+      background: #32d0c6;
+      padding: 18px 78px;
+      border: 0;
+      border-radius: 50px;
+      font-size: 32px;
+      font-weight: 400;
+      line-height: 44px;
+    }
+    .out {
+      background: #f2fffe;
+      color: #32d0c6;
+      border: 2px solid #32d0c6;
+      margin-right: 82px;
     }
   }
 }

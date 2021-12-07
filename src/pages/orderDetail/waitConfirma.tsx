@@ -5,7 +5,7 @@ import GoodsCard from '@/components/orderDetail/goodsCard'
 import PreferCard from '@/components/orderDetail/preferCard'
 import IndentCard from '@/components/orderDetail/indentCard'
 import BackCard from '@/components/orderDetail/backthatCard'
-import FooterCard from '@/components/orderDetail/footerCard'
+import CompleteFooter from '@/components/submitBars/completeFooter'
 import TravelCodeCard from '@/components/orderDetail/travelCodeCard'
 import TripPeopleCard from '@/components/orderDetail/tripPeopleCard'
 import './index.less'
@@ -16,7 +16,15 @@ import './index.less'
 const OrderConfirmaPage:FC = (props) => {
 
   console.log('object :>> ', props);
-
+  const BarsConfig = {
+    showLeftLinkBtn:true,
+    LeftLinkActions:[{ text: '申请售后' }],
+    barLeftTitle:"再次购买",
+    barRightTitle:"分享给TA",
+    onSelect:(type,item)=>{
+        console.log('event :>> ', type,item);
+    }
+  }
   return (
     <div className="Order-container">
         <div className="order-main">
@@ -35,7 +43,7 @@ const OrderConfirmaPage:FC = (props) => {
           }
           
         </div>
-        <FooterCard/>
+        <CompleteFooter {...BarsConfig}/>
     </div>
   )
 }
