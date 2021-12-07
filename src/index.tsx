@@ -53,7 +53,16 @@ const RosterPage = loadable(() => import(/* webpackChunkName: 'RosterPage' */ '.
 const CreatePersonnel = loadable(
   () => import(/* webpackChunkName: 'RosterPage' */ './pages/incentiveManagement/roster/createRoster')
 )
-
+/**kpi管理-列表 */
+const KpiListPage = loadable(() => import(/* webpackChunkName: 'KpiListPage' */ './pages/kpiManagement/kpiList'))
+/**激励管理-名单 */
+const KpiDetailPage = loadable(() => import(/* webpackChunkName: 'KpiDetailPage' */ './pages/kpiManagement/kpiDetail'))
+/**kpi管理-添加人员 */
+const KpiPersonnelPage = loadable(
+  () => import(/* webpackChunkName: 'KpiPersonnelPage' */ './pages/kpiManagement/kpiDetail/createRoster')
+)
+/**kpi管理-创建 */
+const KpiCreatePage = loadable(() => import(/* webpackChunkName: 'KpiCreatePage' */ './pages/kpiManagement/createKpi'))
 const env = process.env.NODE_ENV
 console.log(env)
 
@@ -85,6 +94,10 @@ const App = () => (
       <Route path="/incentive/create" exact component={CreateIncentivePage}></Route>
       <Route path="/incentive/roster" exact component={RosterPage}></Route>
       <Route path="/incentive/roster/create" exact component={CreatePersonnel}></Route>
+      <Route path="/kpi-list" exact component={KpiListPage}></Route>
+      <Route path="/kpi-detail" exact component={KpiDetailPage}></Route>
+      <Route path="/kpi-create" exact component={KpiCreatePage}></Route>
+      <Route path="/kpi-detail/add" exact component={KpiPersonnelPage}></Route>
     </BrowserRouter>
   </Suspense>
 )
