@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import './index.less'
 import { useDebouncedEffect } from '@/hooks/useDebouncedEffect'
-import pic from '@/assets/img/shg.png'
-import tip from '@/assets/img/capital/tip.png'
-import jump from '@/assets/img/capital/jump.png'
-import tips from '@/assets/img/capital/tips.png'
-import { SHBridge } from '@/jsbridge'
+import pic from '@/assets/img/successMove/success.png'
 /**
- * 账户资金
+ * 支付成功
  */
-const UserCapitalPage: React.FC = () => {
+const SuccessMovePage: React.FC = () => {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [selectedIndex2, setSelectedIndex2] = useState(0)
   const [selectPage, setSelectPage] = useState(0)
@@ -63,30 +59,17 @@ const UserCapitalPage: React.FC = () => {
     window.location.href = '/myTravel/details'
   }
   return (
-    <div className="UserCapitalPage__root">
-      <div className="top">
-        <div className="one">
-          <div>可用金额</div> <img className="pic" src={tip} alt="" />
-        </div>
-        <div className="two">
-          <span>¥</span>
-          <span className="num">&nbsp;23999.01</span>
-        </div>
-        <div className="three">
-          <div>冻结资金 ¥10000</div>
-          <img className="pic" src={tips} alt="" />
-        </div>
+    <div className="SuccessMovePage__root">
+      <div className="btn-div">
+        <button className="btn">完成</button>
       </div>
-      <div className="btn">
-        <button className="btn">提现</button>
-      </div>
-      <button>提现成功</button>
-      <div className="footer">
-        <div>提现记录</div>
-        <img className="pic" src={jump} alt="" />
+      <div className="all">
+        <img className="img" src={pic} alt="" />
+        <div className="num">¥100.90</div>
+        <div className="text">提现成功</div>
       </div>
     </div>
   )
 }
 
-export default UserCapitalPage
+export default SuccessMovePage
