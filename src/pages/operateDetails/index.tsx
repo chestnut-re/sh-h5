@@ -23,37 +23,63 @@ const FundDetailsPage: React.FC = () => {
       month: '2021年11月',
       time: '2021-11-13 11:00',
       money: '+1000',
-      text: '冻结金额释放',
+      text: '转入运营资金',
     },
     {
       month: '2021年11月',
       time: '2021-11-12 11:00',
-      money: '+1000',
-      text: '激励奖金',
+      money: '-1000',
+      text: '转出运营资金',
     },
     {
       month: '2021年11月',
       time: '2021-11-12 11:00',
-      money: '+1000',
-      text: '提现',
+      money: '-1000',
+      text: '剩余激励资金释放 方案1名称',
     },
     {
       month: '2021年10月',
       time: '2021-10-13 11:00',
       money: '+1000',
-      text: '冻结金额释放',
+      text: '转入运营资金',
     },
     {
       month: '2021年10月',
       time: '2021-10-12 11:00',
-      money: '+1000',
-      text: '激励奖金',
+      money: '-1000',
+      text: '转出运营资金',
     },
     {
       month: '2021年10月',
       time: '2021-10-12 11:00',
+      money: '-1000',
+      text: '剩余激励资金释放 方案1名称',
+    },
+  ]
+  const detailList2 = [
+    {
+      month: '2021年11月',
+      time: '2021-11-13 11:00',
       money: '+1000',
-      text: '提现',
+      text: '使用激励资金 方案1名称',
+    },
+    {
+      month: '2021年11月',
+      time: '2021-11-12 11:00',
+      money: '-1000',
+      text: '激励奖金释放 方案2名称',
+    },
+    {
+      month: '2021年10月',
+      time: '2021-10-13 11:00',
+      money: '+1000',
+      text: '使用激励资金 方案1名称',
+    },
+    {
+      month: '2021年10月',
+      time: '2021-10-12 11:00',
+      money: '-1000',
+      text: '激励奖金释放 方案2名称',
     },
   ]
   const toDetails = () => {
@@ -64,10 +90,10 @@ const FundDetailsPage: React.FC = () => {
     <div className="FundDetailsPage__root">
       <div className="tab">
         <div className={`${tabActiveIndex === 0 ? 'active' : ''}`} onClick={() => setTabActiveIndex(0)}>
-          可用资金
+          总资金
         </div>
         <div className={`${tabActiveIndex === 1 ? 'active' : ''}`} onClick={() => setTabActiveIndex(1)}>
-          冻结资金
+          使用中
         </div>
       </div>
       <div className="tab-list">
@@ -88,7 +114,7 @@ const FundDetailsPage: React.FC = () => {
           })}
         </div>
         <div className={'tab-view' + `${tabActiveIndex === 1 ? 'active' : ''}`}>
-          {detailList.map((item, index) => {
+          {detailList2.map((item, index) => {
             return (
               <div className="item" key={index}>
                 <div className="month">
