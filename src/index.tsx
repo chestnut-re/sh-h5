@@ -70,6 +70,15 @@ const KpiPersonnelPage = loadable(
 )
 /**kpi管理-创建 */
 const KpiCreatePage = loadable(() => import(/* webpackChunkName: 'KpiCreatePage' */ './pages/kpiManagement/createKpi'))
+
+/**订单管理 */
+const ManageOrderPage = loadable(() => import(/* webpackChunkName: 'ManageOrderPage'*/ './pages/manageOrder'))
+/**订单管理详情 */
+const ManageDetailPage = loadable(() => import(/* webpackChunkName: 'ManageOrderPage'*/ './pages/manageOrder/manageDetail'))
+
+/**激励目标 */
+const GoalsMotivationPage = loadable(() => import(/* webpackChunkName: 'ManageOrderPage'*/ './pages/goalsMotivation'))
+
 const env = process.env.NODE_ENV
 console.log(env)
 
@@ -109,8 +118,17 @@ const App = () => (
       <Route path="/kpi-detail" exact component={KpiDetailPage}></Route>
       <Route path="/kpi-create" exact component={KpiCreatePage}></Route>
       <Route path="/kpi-detail/add" exact component={KpiPersonnelPage}></Route>
+
+      <Route path="/puorder" exact component={PurchaseOrderPage}></Route>
+        <Route path="/applysale" exact component={ApplySalePage}></Route>
+
+        <Route path="/manageorder" exact component={ManageOrderPage}></Route>
+        <Route path="/managedetail" exact component={ManageDetailPage}></Route>
+
+        <Route path="/goalsmotivation" exact component={GoalsMotivationPage}></Route>
     </BrowserRouter>
   </Suspense>
+        
 )
 
 ReactDOM.render(<App />, document.getElementById('root'))

@@ -29,9 +29,6 @@ const PreferCard:FC = (props) => {
           <div className="instruction-l">
             已优惠<span>¥200</span>
           </div>
-          <div className="instruction-r">
-            共计¥<span>5798</span>
-          </div>
         </div>
       </div>
     </div>
