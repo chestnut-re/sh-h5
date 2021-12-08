@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Divider, Calendar, Popover } from 'react-vant'
 import AddTarget from '@/assets/img/add_target@3x.png'
+import DeleteTarget from '@/assets/img/delete_target@3x.png'
 import './index.less'
 
 /**
@@ -8,18 +9,20 @@ import './index.less'
  */
 const KpiCreatePage: React.FC = () => {
   const [visible, setVisible] = useState(false)
+  const [basics, setBasics] = useState(true)
+  const [second, setSecond] = useState(true)
+  const [third, setThird] = useState(false)
   const [text, setText] = useState('')
 
   const formatDate = (date) => {
     return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
   }
-  const onConfirm = (rangetime) => {
-    const time = `${formatDate(rangetime[0])} - ${formatDate(rangetime[1])}`
+  const onConfirm = (rangeTime) => {
+    const time = `${formatDate(rangeTime[0])} - ${formatDate(rangeTime[1])}`
     setText(time)
     setVisible(false)
     console.log(text)
   }
-  const actions = [{ text: '可用金额30000', color: '#ffffff', className: 'action' }]
   return (
     <div className="create">
       <div className="create-con">
@@ -40,27 +43,80 @@ const KpiCreatePage: React.FC = () => {
           <span className="jiantou" onClick={() => setVisible(true)}></span>
         </div>
         <Divider style={{ margin: 0 }} />
-        <div style={{ overflow: 'hidden' }}>
+        <div style={{ overflow: 'hidden', marginBottom: '8px' }}>
           <span className="create-sale">
             <span className="sale">基础目标</span>
             <input placeholder="请输入" type="text" />
             <span className="yuan">元</span>
           </span>
-          <Popover
-            theme="dark"
-            actions={actions}
-            placement="top"
-            reference={
+          <span className="create-amount">
+            <span>绩效佣金</span>
+            <input placeholder="请输入" type="text" />
+            <span className="yuan">%</span>
+          </span>
+          {basics ? <img className="add-target" src={AddTarget} alt="" onClick={() => setBasics(false)} /> : null}
+        </div>
+        <Divider style={{ margin: 0 }} />
+        {!basics ? (
+          <div>
+            <div style={{ overflow: 'hidden', marginBottom: '8px' }}>
+              <span className="create-sale">
+                <span className="sale">二阶目标</span>
+                <input placeholder="请输入" type="text" />
+                <span className="yuan">元</span>
+              </span>
               <span className="create-amount">
                 <span>绩效佣金</span>
                 <input placeholder="请输入" type="text" />
                 <span className="yuan">%</span>
               </span>
-            }
-          />
-          <img className="add-target" src={AddTarget} alt="" />
-        </div>
-        <Divider style={{ margin: 0 }} />
+              {second ? (
+                <div>
+                  <img className="delete-target" src={DeleteTarget} alt="" onClick={() => setBasics(true)} />
+                  <img
+                    className="add-target1"
+                    src={AddTarget}
+                    alt=""
+                    onClick={() => {
+                      setThird(true)
+                      setSecond(false)
+                    }}
+                  />
+                </div>
+              ) : null}
+            </div>
+            <Divider style={{ margin: 0 }} />
+          </div>
+        ) : null}
+        {third ? (
+          <div>
+            <div style={{ overflow: 'hidden' }}>
+              <span className="create-sale">
+                <span className="sale">三阶目标</span>
+                <input placeholder="请输入" type="text" />
+                <span className="yuan">元</span>
+              </span>
+              <span className="create-amount">
+                <span>绩效佣金</span>
+                <input placeholder="请输入" type="text" />
+                <span className="yuan">%</span>
+              </span>
+              <div>
+                <img
+                  className="delete-target"
+                  src={DeleteTarget}
+                  alt=""
+                  onClick={() => {
+                    setThird(false)
+                    setSecond(true)
+                  }}
+                />
+                <img className="add-target1" src={AddTarget} alt="" />
+              </div>
+            </div>
+            <Divider style={{ margin: 0 }} />
+          </div>
+        ) : null}
       </div>
     </div>
   )

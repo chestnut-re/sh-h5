@@ -110,6 +110,9 @@ const KpiListPage: React.FC = () => {
               <Tag color="#ffffff" className="active-btn2">
                 已结束
               </Tag>
+              <Tag color="#EBFAF9" className="active-btn3">
+                重新启用
+              </Tag>
             </div>
             <div className="active-name">方案2名称占位符</div>
             <div className="active-con">
@@ -125,6 +128,9 @@ const KpiListPage: React.FC = () => {
               <span>2021-01-01</span>
               <Tag color="#ffffff" className="active-btn2">
                 已结束
+              </Tag>
+              <Tag color="#EBFAF9" className="active-btn3">
+                重新启用
               </Tag>
             </div>
             <div className="active-name">方案2名称占位符</div>
