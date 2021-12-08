@@ -4,17 +4,17 @@ import Add from '@/assets/img/add@3x.png'
 import './index.less'
 
 /**
- * 激励管理-名单页面
+ * kpi管理-名单页面
  */
 
-const RosterPage: React.FC = (props: any) => {
+const KpiDetailPage: React.FC = (props: any) => {
   const createRoster = () => {
-    props.history.push({ pathname: '/incentive/roster/create' })
+    props.history.push({ pathname: '/kpi-detail/add' })
   }
   const showDialog = () => {
     Dialog.confirm({
-      title: '确认删除激励方案吗？',
-      message: '激励名单里的员工，将自动取消关联该方案',
+      title: '确认删除KPI方案吗？',
+      message: 'KPI名单里的员工，将自动取消关联该方案',
       width: '272px',
       confirmButtonText: '确认删除',
       confirmButtonColor: '#333333',
@@ -40,8 +40,18 @@ const RosterPage: React.FC = (props: any) => {
             未开始
           </Tag>
         </div>
-        <div className="header-target">目标 ¥100,000</div>
-        <div className="header-amount">激励金额 ¥3,000</div>
+        <div className="header-amount">
+          <span>基础目标 ¥100,000</span>
+          <span>佣金效率 15%</span>
+        </div>
+        <div className="header-amount">
+          <span>二阶目标 ¥100,000</span>
+          <span>佣金效率 15%</span>
+        </div>
+        <div className="header-amount">
+          <span>三阶目标 ¥100,000</span>
+          <span>佣金效率 15%</span>
+        </div>
       </div>
       <div className="roster-list">
         <List>
@@ -50,7 +60,7 @@ const RosterPage: React.FC = (props: any) => {
                 return <Cell key={item} title={item} />
               })
             : null} */}
-          <Cell>激励方案名单</Cell>
+          <Cell>KPI方案名单</Cell>
           <SwipeCell
             rightAction={
               <>
@@ -109,4 +119,4 @@ const RosterPage: React.FC = (props: any) => {
     </div>
   )
 }
-export default RosterPage
+export default KpiDetailPage

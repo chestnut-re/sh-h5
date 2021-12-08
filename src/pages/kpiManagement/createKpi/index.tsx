@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { Divider, Calendar, Popover } from 'react-vant'
+import AddTarget from '@/assets/img/add_target@3x.png'
 import './index.less'
 
 /**
- * 激励管理-创建
+ * kpi管理-创建
  */
-const CreateIncentivePage = () => {
+const KpiCreatePage: React.FC = () => {
   const [visible, setVisible] = useState(false)
   const [text, setText] = useState('')
 
@@ -29,33 +30,39 @@ const CreateIncentivePage = () => {
         <Divider style={{ margin: 0 }} />
         <div className="create-time">
           <span>时&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;间</span>
-          <input type="text" value={text} onClick={() => setVisible(true)} />
+          <input
+            type="text"
+            value={text}
+            onClick={() => setVisible(true)}
+            placeholder="开始时间&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;结束时间"
+          />
           <Calendar color="#32D0C6" type="range" visible={visible} onConfirm={onConfirm} />
           <span className="jiantou" onClick={() => setVisible(true)}></span>
         </div>
         <Divider style={{ margin: 0 }} />
-        <div className="create-sale">
-          <span className="sale">销售额目标</span>
-          <input placeholder="请输入" type="text" />
-          <span className="yuan">元</span>
+        <div style={{ overflow: 'hidden' }}>
+          <span className="create-sale">
+            <span className="sale">基础目标</span>
+            <input placeholder="请输入" type="text" />
+            <span className="yuan">元</span>
+          </span>
+          <Popover
+            theme="dark"
+            actions={actions}
+            placement="top"
+            reference={
+              <span className="create-amount">
+                <span>绩效佣金</span>
+                <input placeholder="请输入" type="text" />
+                <span className="yuan">%</span>
+              </span>
+            }
+          />
+          <img className="add-target" src={AddTarget} alt="" />
         </div>
-        <Divider style={{ margin: 0 }} />
-        <Popover
-          theme="dark"
-          actions={actions}
-          placement="top"
-          reference={
-            <div className="create-amount">
-              <span>激励金额</span>
-              <input placeholder="请输入" type="text" />
-              <span className="yuan">元</span>
-            </div>
-          }
-        />
-
         <Divider style={{ margin: 0 }} />
       </div>
     </div>
   )
 }
-export default CreateIncentivePage
+export default KpiCreatePage
