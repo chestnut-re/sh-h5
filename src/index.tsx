@@ -76,7 +76,7 @@ const App = () => (
       <Route path="/myTravel/details" exact component={TravelDetailsPage}></Route>
       <Route path="/mine-capital" exact component={UserCapitalPage}></Route>
       <Route path="/operate-capital" exact component={OperateCapitalPage}></Route>
-      <Route path="/success-move" exact component={SuccessMovePage}></Route>
+      <Route path="/success-move/:type" exact component={SuccessMovePage}></Route>
       <Route path="/fund-details" exact component={FundDetailsPage}></Route>
       <Route path="/operate-details" exact component={OperateDetailsPage}></Route>
       <Route path="/money-record" exact component={MoneyRecordPage}></Route>
