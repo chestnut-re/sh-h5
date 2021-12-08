@@ -102,11 +102,11 @@ const StepperCard:FC = (props) => {
       </div>
 
       <div className="info-integral rv-hairline--bottom">
-        <div className="integral-title">
+        {/* <div className="integral-title">
           <span>库存：11</span>
-        </div>
+        </div> */}
         <div className="integral-instruction">
-          当前订单最多可<span>-¥34</span>
+        此订单最多可用34.6代币抵<span>¥34</span>
         </div>
       </div>
 
@@ -123,10 +123,7 @@ const StepperCard:FC = (props) => {
         </div>
         <div className="discounts-instruction">
           <div className="instruction-l">
-            已优惠<span>¥200</span>
-          </div>
-          <div className="instruction-r">
-            共计¥<span>5798</span>
+            已优惠<b>¥</b><span>460</span>
           </div>
         </div>
       </div>

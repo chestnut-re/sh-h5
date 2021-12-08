@@ -30,6 +30,14 @@ const PurchaseOrderPage = loadable(() => import(/* webpackChunkName: 'PurchaseOr
 /**售后服务 */
 const ApplySalePage = loadable(() => import(/* webpackChunkName: 'PurchaseOrderPage'*/ './pages/applySaleService'))
 
+/**订单管理 */
+const ManageOrderPage = loadable(() => import(/* webpackChunkName: 'ManageOrderPage'*/ './pages/manageOrder'))
+/**订单管理详情 */
+const ManageDetailPage = loadable(() => import(/* webpackChunkName: 'ManageOrderPage'*/ './pages/manageOrder/manageDetail'))
+
+/**激励目标 */
+const GoalsMotivationPage = loadable(() => import(/* webpackChunkName: 'ManageOrderPage'*/ './pages/goalsMotivation'))
+
 const env = process.env.NODE_ENV
 console.log(env)
 
@@ -51,6 +59,11 @@ const App = () => (
 
         <Route path="/puorder" exact component={PurchaseOrderPage}></Route>
         <Route path="/applysale" exact component={ApplySalePage}></Route>
+
+        <Route path="/manageorder" exact component={ManageOrderPage}></Route>
+        <Route path="/managedetail" exact component={ManageDetailPage}></Route>
+
+        <Route path="/goalsmotivation" exact component={GoalsMotivationPage}></Route>
       </BrowserRouter>
     </Suspense>
 )

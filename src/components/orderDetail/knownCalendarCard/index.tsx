@@ -13,7 +13,7 @@ const KnownCalendarCard:FC = (props) => {
     <>
     <div className="KCalendar-container">
       <div className="kcalendar-section"> 
-        {[1,2,3,4,5,5,6,7].map((item)=>{
+        {[1,2,3,4,5,6,7].map((item)=>{
             return (<div className={`section-item ${item==3&&"acitve"}`} key={item}>
                     <p>10/23</p>
                     <p>周四</p>
