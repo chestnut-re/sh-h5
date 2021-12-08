@@ -5,7 +5,7 @@ import triangle from '@/assets/img/successMove/triangle.png'
 /**
  * 资金明细
  */
-const FundDetailsPage: React.FC = () => {
+const OperateDetailsPage: React.FC = () => {
   const [tabActiveIndex, setTabActiveIndex] = useState(0)
   // useEffect(() => {
   //   return () => {}
@@ -87,7 +87,7 @@ const FundDetailsPage: React.FC = () => {
     window.location.href = '/myTravel/details'
   }
   return (
-    <div className="FundDetailsPage__root">
+    <div className="OperateDetailsPage__root">
       <div className="tab">
         <div className={`${tabActiveIndex === 0 ? 'active' : ''}`} onClick={() => setTabActiveIndex(0)}>
           总资金
@@ -134,4 +134,4 @@ const FundDetailsPage: React.FC = () => {
   )
 }
 
-export default FundDetailsPage
+export default OperateDetailsPage

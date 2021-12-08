@@ -1,62 +1,53 @@
 import React, { useEffect, useState } from 'react'
+import { Dialog, Toast, ActionSheet, NumberKeyboard } from 'react-vant'
 import './index.less'
 import { useDebouncedEffect } from '@/hooks/useDebouncedEffect'
+import close from '@/assets/img/successMove/close.png'
+import { url } from 'inspector'
 
 /**
  * 运营资金
  */
 const OperateCapitalPage: React.FC = () => {
-  const [selectedIndex, setSelectedIndex] = useState(0)
-  const [selectedIndex2, setSelectedIndex2] = useState(0)
-  const [selectPage, setSelectPage] = useState(0)
-  useEffect(() => {
-    window.addEventListener('scroll', onScroll)
-    return () => {
-      window.removeEventListener('scroll', onScroll)
-    }
-  }, [])
+  const [selectText, setSelectText] = useState('')
+  const [show, setShow] = useState(false)
+  const [visible, setVisible] = useState(false)
+  const [value, setValue] = useState('')
+  // useEffect(() => {
+  //   window.addEventListener('scroll', onScroll)
+  //   return () => {
+  //     window.removeEventListener('scroll', onScroll)
+  //   }
+  // }, [])
 
-  useDebouncedEffect(
-    () => {
-      console.log('selectedIndex', selectedIndex)
-
-      setSelectedIndex2(selectedIndex)
-    },
-    [selectedIndex],
-    200
-  )
-
-  let isDragging = false
-  const pageY = 0
-  const onScroll = (e) => {
-    isDragging = true
-    if (isDragging) {
-      const contentNode = document.getElementById('list')
-      let selectPage = 0
-      // console.log(e.target.scrollingElement.scrollTop)
-      // console.log(contentNode.childNodes[0].clientHeight)
-      if (contentNode && e.target.scrollingElement.scrollTop > contentNode.offsetTop) {
-        // const stickyNode = document.getElementsByClassName('card_sticky')[0]
-        let offsetY = contentNode.offsetTop + contentNode.childNodes[selectPage]['clientHeight']
-        // console.log(offsetY)
-        // - stickyNode.clientHeight + contentNode.childNodes[selectIndex].clientHeight;
-        while (e.target.scrollingElement.scrollTop > offsetY) {
-          selectPage += 1
-          offsetY += contentNode.childNodes[selectPage]['clientHeight']
-          // console.log(selectPage, selectedIndex, offsetY, contentNode.childNodes[selectPage].clientHeight)
-        }
-      }
-      if (e.target.scrollingElement.scrollTop < contentNode?.childNodes[0]['clientHeight']) {
-        setSelectedIndex(0)
-      }
-      if (selectPage !== selectedIndex) {
-        setSelectedIndex(selectPage)
-      }
-    }
+  // useDebouncedEffect(
+  //   () => {
+  //     setSelectedIndex2(selectedIndex)
+  //   },
+  //   [selectedIndex],
+  //   200
+  // )
+  const selectName = (text) => {
+    setVisible(true)
+    setSelectText(text)
   }
-  const toDetails = () => {
-    // ('/myTravel/details')
-    window.location.href = '/myTravel/details'
+  const wthdrawal = (type) => {
+    return new Promise((res) => {
+      setTimeout(() => {
+        setShow(false)
+        res(true)
+        Toast.success({ message: '确认' + selectText + '成功' })
+        window.location.href = '/success-move/' + type
+      }, 3000)
+    })
+  }
+  const openDialog = () => {
+    setVisible(false)
+    setShow(true)
+  }
+  const giveUp = () => {
+    setShow(false)
+    setVisible(true)
   }
   return (
     <div className="OperateCapitalPage__root">
@@ -73,9 +64,50 @@ const OperateCapitalPage: React.FC = () => {
         </div>
       </div>
       <div className="btn">
-        <button className="out">转出</button>
-        <button className="in">转入</button>
+        <button className="out" onClick={() => selectName('转出')}>
+          转出
+        </button>
+        <button className="in" onClick={() => selectName('转入')}>
+          转入
+        </button>
       </div>
+      <Dialog visible={show} showConfirmButton={false}>
+        <div className="dialog">
+          <div className="text">
+            <img className="img" src={close} alt="" onClick={giveUp} />
+            <div>{selectText}金额</div>
+            <div></div>
+          </div>
+          <div className="money">¥100.90</div>
+          <div className="in-out">{selectText == '转出' ? '转出到 账户资金' : '转入到 运营资金'}</div>
+          <div>
+            <button className="btn" onClick={() => wthdrawal(selectText)}>
+              确认
+            </button>
+          </div>
+        </div>
+      </Dialog>
+      <ActionSheet visible={visible} onClickOverlay={() => setVisible(false)}>
+        <div className="number-dialog">
+          <div className="box">
+            <div>{selectText}运营资金金额（元）</div>
+            <div className="input-num">
+              <div>¥</div>
+              <input value={value} type="" />
+            </div>
+            <div>可{selectText}&nbsp;¥23999元</div>
+          </div>
+          <NumberKeyboard
+            theme="custom"
+            extraKey="."
+            closeButtonText={selectText}
+            visible={true}
+            value={value}
+            onChange={setValue}
+            onClose={openDialog}
+          />
+        </div>
+      </ActionSheet>
     </div>
   )
 }
