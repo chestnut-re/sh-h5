@@ -70,6 +70,13 @@ const KpiPersonnelPage = loadable(
 )
 /**kpi管理-创建 */
 const KpiCreatePage = loadable(() => import(/* webpackChunkName: 'KpiCreatePage' */ './pages/kpiManagement/createKpi'))
+
+/**商铺二维码页面 */
+const ShopsQrPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/shops/shopsQr'))
+
+/**商品二维码页面 */
+const GoodsQrPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/shops/goodsQr'))
+
 const env = process.env.NODE_ENV
 console.log(env)
 
@@ -109,6 +116,8 @@ const App = () => (
       <Route path="/kpi-detail" exact component={KpiDetailPage}></Route>
       <Route path="/kpi-create" exact component={KpiCreatePage}></Route>
       <Route path="/kpi-detail/add" exact component={KpiPersonnelPage}></Route>
+      <Route path="/shops/shop-qr" exact component={ShopsQrPage}></Route>
+      <Route path="/shops/good-qr" exact component={GoodsQrPage}></Route>
     </BrowserRouter>
   </Suspense>
 )
