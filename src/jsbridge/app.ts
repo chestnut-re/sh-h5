@@ -1,3 +1,5 @@
+import { JumpParams } from './types'
+
 /**
  * 和 Flutter 交互
  */
@@ -25,6 +27,25 @@ export class AppBridge {
       method: 'setTitle',
       data: {
         title: title,
+      },
+    }
+    SHApp.postMessage(JSON.stringify(msg))
+  }
+
+  /**
+   * 跳转
+   * @param url https:// | http// | 其他
+   * @newWebView 是否开启新页面，在 App 中有效
+   * @replace 是否替换当前页面
+   */
+  static jump({ url, title, newWebView = false, replace = false }: JumpParams): void {
+    const msg = {
+      method: 'jump',
+      data: {
+        url: url,
+        title: title,
+        newWebView: newWebView,
+        replace: replace,
       },
     }
     SHApp.postMessage(JSON.stringify(msg))

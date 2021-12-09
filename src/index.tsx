@@ -11,6 +11,9 @@ const HomePage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ 
 /**AppPage, App入口页 */
 const AppPage = loadable(() => import(/* webpackChunkName: 'AppPage'*/ './pages/app'))
 
+/**商品详情页 */
+const GoodsDetailPage = loadable(() => import(/* webpackChunkName: 'GoodsDetailPage'*/ './pages/goodsDetail'))
+
 /**参考行程 */
 const TravelRoutePage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/travelRoute'))
 /**我的行程 */
@@ -89,6 +92,8 @@ const App = () => (
 
       <Route path="/app" exact component={AppPage}></Route>
 
+      <Route path="/goods-detail" exact component={GoodsDetailPage}></Route>
+
       <Route path="/travel/route" exact component={TravelRoutePage}></Route>
       <Route path="/myTravel" exact component={MyTravelPage}></Route>
       <Route path="/myTravel/details" exact component={TravelDetailsPage}></Route>
@@ -108,8 +113,6 @@ const App = () => (
       <Route path="/order-detail" exact component={OrderDetailPage}></Route>
       <Route path="/abulkshop" exact component={AbulkShopPage}></Route>
 
-      <Route path="/puorder" exact component={PurchaseOrderPage}></Route>
-      <Route path="/applysale" exact component={ApplySalePage}></Route>
       <Route path="/incentive/list" exact component={IncentivePage}></Route>
       <Route path="/incentive/create" exact component={CreateIncentivePage}></Route>
       <Route path="/incentive/roster" exact component={RosterPage}></Route>

@@ -55,9 +55,15 @@ const TestPage = () => {
       </Cell.Group>
       <Cell.Group title="跳转">
         <Cell
-          title="jump https://baidu.com"
+          title="跳转页面 https://baidu.com"
           onClick={() => {
-            SHBridge.jump('https://baidu.com')
+            SHBridge.jump({ url: 'https://baidu.com' })
+          }}
+        />
+        <Cell
+          title="跳转页面/打开新页面 https://baidu.com "
+          onClick={() => {
+            SHBridge.jump({ url: 'https://baidu.com', newWebView: true })
           }}
         />
         <Cell
