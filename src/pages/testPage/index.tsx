@@ -1,7 +1,7 @@
 import { clearAllCookie, printCookie } from '@/utils/cookie'
 import React, { useEffect } from 'react'
 import './index.less'
-import { Button, Cell } from 'react-vant'
+import { Button, Cell, Toast } from 'react-vant'
 import { SHBridge } from '@/jsbridge'
 import { isApp } from '@/jsbridge/env'
 import { getUser } from '@/service/common'
@@ -70,6 +70,14 @@ const TestPage = () => {
           title="closePage 关闭页面"
           onClick={() => {
             SHBridge.closePage()
+          }}
+        />
+        <Cell
+          title="设置标题action"
+          onClick={() => {
+            SHBridge.setTitleAction(['第一个', '第二个'], (index) => {
+              Toast(index.toString())
+            })
           }}
         />
       </Cell.Group>

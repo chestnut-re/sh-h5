@@ -40,6 +40,16 @@ export class SHBridge {
   }
 
   /**
+   * 设置标题
+   * @param title 标题
+   */
+  static setTitleAction(title: Array<string>, backFn: (index: number) => void): void {
+    if (isApp()) {
+      AppBridge.setTitleAction(title, backFn)
+    }
+  }
+
+  /**
    * 跳转
    * @param url https:// | http// | 其他
    * @newWebView 是否开启新页面，在 App 中有效

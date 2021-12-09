@@ -1,4 +1,3 @@
-
 /**
  * jump 参数
  */
@@ -11,4 +10,8 @@ export interface JumpParams {
   newWebView?: boolean
   /**是否替换当前页面 */
   replace?: boolean
+}
+
+export enum UiType {
+  default,
 }

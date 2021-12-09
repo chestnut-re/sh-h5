@@ -1,4 +1,5 @@
-import { JumpParams } from './types'
+import { JumpParams, UiType } from './types'
+import _callMethod from './bridge'
 
 /**
  * 和 Flutter 交互
@@ -29,6 +30,23 @@ export class AppBridge {
         title: title,
       },
     }
+    SHApp.postMessage(JSON.stringify(msg))
+  }
+
+  /**
+   * 设置标题Action
+   * @param title 标题
+   */
+  static setTitleAction(title: Array<string>, backFn: (index: number) => void, uiType = UiType.default): void {
+    const msg = {
+      method: 'setTitleAction',
+      data: {
+        title: title,
+        uiType: uiType,
+        backFn: _callMethod(backFn),
+      },
+    }
+    debugger
     SHApp.postMessage(JSON.stringify(msg))
   }
 
