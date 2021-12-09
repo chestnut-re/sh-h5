@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import './index.less'
 import { useDebouncedEffect } from '@/hooks/useDebouncedEffect'
 import token from '@/assets/img/token/22token.png'
+import { SHBridge } from '@/jsbridge'
+import { generateUrl } from '@/utils'
 /**
  * w我的代币
  */
@@ -25,7 +27,7 @@ const MyTokenPage: React.FC = (props) => {
   //   200
   // )
   const toWithDraw = () => {
-    window.location.href = '/with-draw'
+    SHBridge.jump({ url: generateUrl('/with-draw'), newWebView: true, title: '申请提现' })
   }
   return (
     <div className="MyTokenPage__root">

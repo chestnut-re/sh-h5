@@ -6,6 +6,8 @@ import tip from '@/assets/img/capital/tip.png'
 import jump from '@/assets/img/capital/jump.png'
 import tips from '@/assets/img/capital/tips.png'
 import close from '@/assets/img/successMove/close.png'
+import { SHBridge } from '@/jsbridge'
+import { generateUrl } from '@/utils'
 /**
  * 账户资金
  */
@@ -36,7 +38,7 @@ const UserCapitalPage: React.FC = () => {
         setShow(false)
         res(true)
         Toast.success({ message: '确认提现成功' })
-        window.location.href = '/success-move/' + type
+        SHBridge.jump({ url: generateUrl(`/success-move?type=${type}`), newWebView: true, title: '提现成功' })
       }, 3000)
     })
   }
@@ -49,7 +51,7 @@ const UserCapitalPage: React.FC = () => {
     setVisible(true)
   }
   const toMoneyRecord = () => {
-    window.location.href = '/money-record'
+    SHBridge.jump({ url: generateUrl('/money-record'), newWebView: true, title: '提现记录' })
   }
   return (
     <div className="UserCapitalPage__root">
@@ -84,7 +86,7 @@ const UserCapitalPage: React.FC = () => {
           </div>
           <div className="money">¥100.90</div>
           <div>
-            <button className="btn" onClick={() => wthdrawal(selectText)}>
+            <button className="btn" onClick={() => wthdrawal(3)}>
               确认提现
             </button>
           </div>

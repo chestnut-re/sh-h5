@@ -4,6 +4,8 @@ import './index.less'
 import { useDebouncedEffect } from '@/hooks/useDebouncedEffect'
 import ask from '@/assets/img/token/ask.png'
 import { number } from 'echarts'
+import { SHBridge } from '@/jsbridge'
+import { generateUrl } from '@/utils'
 /**
  * 我的代币提现
  */
@@ -30,15 +32,14 @@ const WithDrawPage: React.FC = (props) => {
   // )
 
   const toDetailed = () => {
-    window.location.href = '/detailed'
+    SHBridge.jump({ url: generateUrl('/detailed'), newWebView: true, title: '收支明细' })
+    // window.location.href = '/detailed'
   }
   const toExamine = () => {
-    window.location.href = '/examine'
+    SHBridge.jump({ url: generateUrl('/detailed'), replace: true, title: '申请提现' })
   }
   const onFocus = () => {
-    // console.log(sh.style)
     setVisible(true)
-    // sh.style.display('none')
   }
   return (
     <div className="WithDrawPage__root">
