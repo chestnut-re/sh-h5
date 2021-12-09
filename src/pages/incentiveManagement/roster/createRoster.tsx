@@ -32,7 +32,7 @@ const CreatePersonnel: React.FC = () => {
       })
   }
   return (
-    <div className="create">
+    <div className="create__root">
       <div className="create-search">
         <input type="text" placeholder="请输入员工姓名" />
       </div>

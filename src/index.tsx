@@ -20,6 +20,15 @@ const TravelRoutePage = loadable(() => import(/* webpackChunkName: 'TravelRouteP
 const MyTravelPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/myTravel'))
 /**行程详情 */
 const TravelDetailsPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/travelDetails'))
+/**我的代币 */
+const MyTokenPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/myToken'))
+/**我的代币 提现 */
+const WithDrawPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/withDraw'))
+/**我的代币 审核中 */
+const ExaminePage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/examine'))
+/**我的代币 收支明细 */
+const DetaildedPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/detailed'))
+
 /**账户资金 */
 const UserCapitalPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/userCapital'))
 /**运营资金 */
@@ -73,6 +82,12 @@ const KpiPersonnelPage = loadable(
 )
 /**kpi管理-创建 */
 const KpiCreatePage = loadable(() => import(/* webpackChunkName: 'KpiCreatePage' */ './pages/kpiManagement/createKpi'))
+/**销售业绩 */
+const SalesPerformancePage = loadable(
+  () => import(/* webpackChunkName: 'SalesPerformancePage' */ './pages/salesPerformance')
+)
+/**kpi目标 */
+const KpiTargetPage = loadable(() => import(/*webpackChunkName: 'KpiTargetPage' */ './pages/kpiTarget'))
 
 /**商铺二维码页面 */
 const ShopsQrPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/shops/shopsQr'))
@@ -87,7 +102,15 @@ const ManageDetailPage = loadable(
 )
 
 /**激励目标 */
-const GoalsMotivationPage = loadable(() => import(/* webpackChunkName: 'ManageOrderPage'*/ './pages/goalsMotivation'))
+const GoalsMotivationPage = loadable(
+  () => import(/* webpackChunkName: 'GoalsMotivationPage'*/ './pages/goalsMotivation')
+)
+/**市场分析 */
+const MarketAnalysisPage = loadable(() => import(/* webpackChunkName: 'MarketAnalysisPage'*/ './pages/marketAnalysis'))
+/**商品分析 */
+const ProductAnalysisPage = loadable(
+  () => import(/* webpackChunkName: 'ProductAnalysisPage'*/ './pages/productAnalysis')
+)
 
 const env = process.env.NODE_ENV
 console.log(env)
@@ -102,11 +125,15 @@ const App = () => (
       <Route path="/goods-detail" exact component={GoodsDetailPage}></Route>
 
       <Route path="/travel/route" exact component={TravelRoutePage}></Route>
-      <Route path="/myTravel" exact component={MyTravelPage}></Route>
-      <Route path="/myTravel/details" exact component={TravelDetailsPage}></Route>
+      <Route path="/my-travel" exact component={MyTravelPage}></Route>
+      <Route path="/my-travel/details" exact component={TravelDetailsPage}></Route>
+      <Route path="/my-token" exact component={MyTokenPage}></Route>
+      <Route path="/with-draw" exact component={WithDrawPage}></Route>
+      <Route path="/examine" exact component={ExaminePage}></Route>
+      <Route path="/detailed" exact component={DetaildedPage}></Route>
       <Route path="/mine-capital" exact component={UserCapitalPage}></Route>
       <Route path="/operate-capital" exact component={OperateCapitalPage}></Route>
-      <Route path="/success-move/:type" exact component={SuccessMovePage}></Route>
+      <Route path="/success-move" exact component={SuccessMovePage}></Route>
       <Route path="/fund-details" exact component={FundDetailsPage}></Route>
       <Route path="/operate-details" exact component={OperateDetailsPage}></Route>
       <Route path="/money-record" exact component={MoneyRecordPage}></Route>
@@ -128,6 +155,8 @@ const App = () => (
       <Route path="/kpi-detail" exact component={KpiDetailPage}></Route>
       <Route path="/kpi-create" exact component={KpiCreatePage}></Route>
       <Route path="/kpi-detail/add" exact component={KpiPersonnelPage}></Route>
+      <Route path="/performance" exact component={SalesPerformancePage}></Route>
+      <Route path="/kpi-target" exact component={KpiTargetPage}></Route>
       <Route path="/shops/shop-qr" exact component={ShopsQrPage}></Route>
       <Route path="/shops/good-qr" exact component={GoodsQrPage}></Route>
 
@@ -138,6 +167,8 @@ const App = () => (
       <Route path="/managedetail" exact component={ManageDetailPage}></Route>
 
       <Route path="/goalsmotivation" exact component={GoalsMotivationPage}></Route>
+      <Route path="/marketanalysis" exact component={MarketAnalysisPage}></Route>
+      <Route path="/productanalysis" exact component={ProductAnalysisPage}></Route>
     </BrowserRouter>
   </Suspense>
 )

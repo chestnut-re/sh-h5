@@ -20,7 +20,7 @@ const CreateIncentivePage = () => {
   }
   const actions = [{ text: '可用金额30000', color: '#ffffff', className: 'action' }]
   return (
-    <div className="create">
+    <div className="create__root">
       <div className="create-con">
         <div className="create-name">
           <span>方案名称</span>

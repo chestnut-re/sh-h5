@@ -6,5 +6,5 @@
  * 是否是 App 环境
  */
 export const isApp = (): boolean => {
-  return !!SHApp
+  return !!window['SHApp']
 }

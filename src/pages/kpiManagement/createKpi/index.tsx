@@ -24,7 +24,7 @@ const KpiCreatePage: React.FC = () => {
     console.log(text)
   }
   return (
-    <div className="create">
+    <div className="create__root">
       <div className="create-con">
         <div className="create-name">
           <span>方案名称</span>

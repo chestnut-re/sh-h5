@@ -4,6 +4,8 @@ import './index.less'
 import { useDebouncedEffect } from '@/hooks/useDebouncedEffect'
 import close from '@/assets/img/successMove/close.png'
 import { url } from 'inspector'
+import { SHBridge } from '@/jsbridge'
+import { generateUrl } from '@/utils'
 
 /**
  * 运营资金
@@ -29,7 +31,7 @@ const OperateCapitalPage: React.FC = () => {
   // )
   const selectName = (text) => {
     setVisible(true)
-    setSelectText(text)
+    text == 'in' ? setSelectText('转入') : setSelectText('转出')
   }
   const wthdrawal = (type) => {
     return new Promise((res) => {
@@ -37,7 +39,8 @@ const OperateCapitalPage: React.FC = () => {
         setShow(false)
         res(true)
         Toast.success({ message: '确认' + selectText + '成功' })
-        window.location.href = '/success-move/' + type
+        // window.location.href = `/success-move?type=${type}`
+        SHBridge.jump({ url: generateUrl(`/success-move?type=${type}`), newWebView: true, title: `${selectText}成功` })
       }, 3000)
     })
   }
@@ -64,10 +67,10 @@ const OperateCapitalPage: React.FC = () => {
         </div>
       </div>
       <div className="btn">
-        <button className="out" onClick={() => selectName('转出')}>
+        <button className="out" onClick={() => selectName('out')}>
           转出
         </button>
-        <button className="in" onClick={() => selectName('转入')}>
+        <button className="in" onClick={() => selectName('in')}>
           转入
         </button>
       </div>

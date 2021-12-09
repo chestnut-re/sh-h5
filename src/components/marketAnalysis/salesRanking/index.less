@@ -1,0 +1,155 @@
+.salesrank-container {
+  position: relative;
+  background-color: #fff;
+  .salesrank-ul {
+    .salesrank-li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      scroll-snap-align: start; 
+      .salesrank-hot {
+        width: 62px;
+        font-size: 24px;
+        font-family: PingFangSC, PingFangSC-Regular;
+        font-weight: 400;
+        text-align: left;
+        color: #333333;
+        span {
+          transform: scale(0.84);
+          margin-left: 5px;
+        }
+        .salesrank-hoticon {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 38px;
+          height: 40px;
+          line-height: 40px;
+          text-align: center;
+          font-size: 24px;
+          background: chartreuse;
+          span {
+            transform: scale(0.83);
+            font-weight: 600;
+            color: #ffffff;
+            margin: 0;
+          }
+        }
+        .hoticon1 {
+          background: url('../../../assets/img/market/hot1_icon@3x.png') no-repeat center;
+          background-size: 100%;
+        }
+        .hoticon2 {
+          background: url('../../../assets/img/market/hot2_icon@3x.png') no-repeat center;
+          background-size: 100%;
+        }
+        .hoticon3 {
+          background: url('../../../assets/img/market/hot3_icon@3x.png') no-repeat center;
+          background-size: 100%;
+        }
+      }
+      .salesrank-right {
+        flex: 1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 22px 0;
+        .salesrank-avatar {
+          width: 64px;
+          height: 64px;
+          overflow: hidden;
+        }
+        .salesrank-name {
+          flex: 1;
+          font-size: 28px;
+          font-family: PingFangSC, PingFangSC-Regular;
+          font-weight: 400;
+          text-align: left;
+          color: #333333;
+          line-height: 40px;
+          padding-left: 20px;
+        }
+        .salesrank-quota {
+          width: 150px;
+          font-size: 24px;
+          font-family: PingFangSC, PingFangSC-Medium;
+          font-weight: 500;
+          text-align: right;
+          color: #333333;
+          line-height: 34px;
+        }
+      }
+      .salesrank-more {
+        padding: 10px 0 30px;
+        font-size: 28px;
+        font-family: PingFangSC, PingFangSC-Regular;
+        font-weight: 400;
+        text-align: left;
+        color: #999999;
+        flex: 1;
+        text-align: center;
+      }
+    }
+    .salesrank-active {
+      .salesrank-hot {
+        color: #00d2c6 !important;
+      }
+      .salesrank-right {
+        .salesrank-name,
+        .salesrank-quota {
+          color: #00d2c6 !important;
+        }
+      }
+    }
+  }
+  .salesrank-spec {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #fff;
+    box-shadow: 0px 0px 16px 0px #d6d6d6; 
+    .salesrank-spec-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #00d2c6;
+      padding: 24px 45px;
+      .spec-hot {
+        width: 62px;
+        font-size: 24px;
+        font-family: PingFangSC, PingFangSC-Regular;
+        font-weight: 400;
+        text-align: left;
+        color: #00d2c6;
+        span{
+            transform: scale(0.84);
+            margin-left: 5px;
+        }
+      }
+      .spec-avatar {
+        width: 64px;
+        height: 64px;
+        overflow: hidden;
+      }
+      .spec-name {
+        flex: 1;
+        padding-left: 20px;
+        font-size: 28px;
+        font-family: PingFangSC, PingFangSC-Regular;
+        font-weight: 400;
+        text-align: left;
+        color: #00d2c6;
+        line-height: 40px;
+      }
+      .spec-quota{
+        font-size: 24px;
+        font-family: PingFangSC, PingFangSC-Medium;
+        font-weight: 500;
+        text-align: right;
+        color: #00d2c6;
+        line-height: 34px;
+      }
+    }
+  }
+}
