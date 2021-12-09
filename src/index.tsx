@@ -17,6 +17,15 @@ const TravelRoutePage = loadable(() => import(/* webpackChunkName: 'TravelRouteP
 const MyTravelPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/myTravel'))
 /**行程详情 */
 const TravelDetailsPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/travelDetails'))
+/**我的代币 */
+const MyTokenPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/myToken'))
+/**我的代币 提现 */
+const WithDrawPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/withDraw'))
+/**我的代币 审核中 */
+const ExaminePage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/examine'))
+/**我的代币 收支明细 */
+const DetaildedPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/detailed'))
+
 /**账户资金 */
 const UserCapitalPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/userCapital'))
 /**运营资金 */
@@ -83,6 +92,10 @@ const App = () => (
       <Route path="/travel/route" exact component={TravelRoutePage}></Route>
       <Route path="/myTravel" exact component={MyTravelPage}></Route>
       <Route path="/myTravel/details" exact component={TravelDetailsPage}></Route>
+      <Route path="/my-token" exact component={MyTokenPage}></Route>
+      <Route path="/with-draw" exact component={WithDrawPage}></Route>
+      <Route path="/examine" exact component={ExaminePage}></Route>
+      <Route path="/detailed" exact component={DetaildedPage}></Route>
       <Route path="/mine-capital" exact component={UserCapitalPage}></Route>
       <Route path="/operate-capital" exact component={OperateCapitalPage}></Route>
       <Route path="/success-move/:type" exact component={SuccessMovePage}></Route>
