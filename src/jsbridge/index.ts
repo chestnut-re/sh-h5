@@ -5,8 +5,18 @@ import { AppBridge } from './app'
 
 import { Toast } from 'react-vant'
 import { isApp } from './env'
+import { getUrlParams } from './utils'
+import { JumpParams } from './types'
 
 export class SHBridge {
+  /**
+   * 获取 token
+   */
+  static getToken(): void {
+    const params = getUrlParams(window.location.href)
+    return params['t']
+  }
+
   /**
    * 显示 Toast 提示
    * @param msg 内容
@@ -35,7 +45,13 @@ export class SHBridge {
    * @newWebView 是否开启新页面，在 App 中有效
    * @replace 是否替换当前页面
    */
-  static jump(url: string, newWebView = false, replace = false): void {
+  static jump({ url, title, newWebView = false, replace = false }: JumpParams): void {
+    if (newWebView) {
+      if (isApp()) {
+        AppBridge.jump({ url, title, newWebView, replace })
+        return
+      }
+    }
     if (url.startsWith('https') || url.startsWith('http')) {
       if (replace) {
         window.location.replace(url)

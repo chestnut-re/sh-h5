@@ -13,10 +13,3 @@ export function getUrlParams(url: string): any {
 
   return parameters
 }
-
-/**
- * 拼接url
- */
-export const generateUrl = (path: string): string => {
-  return `${window.location.origin}${path}`
-}
