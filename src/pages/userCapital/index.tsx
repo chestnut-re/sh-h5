@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react'
+import { Dialog, Toast, ActionSheet, NumberKeyboard } from 'react-vant'
 import './index.less'
 import { useDebouncedEffect } from '@/hooks/useDebouncedEffect'
 import tip from '@/assets/img/capital/tip.png'
 import jump from '@/assets/img/capital/jump.png'
 import tips from '@/assets/img/capital/tips.png'
+import close from '@/assets/img/successMove/close.png'
 /**
  * 账户资金
  */
 const UserCapitalPage: React.FC = () => {
-  const [selectedIndex, setSelectedIndex] = useState(0)
-  const [selectedIndex2, setSelectedIndex2] = useState(0)
-  const [selectPage, setSelectPage] = useState(0)
+  const [selectText, setSelectText] = useState('提现')
+  const [show, setShow] = useState(false)
+  const [visible, setVisible] = useState(false)
+  const [value, setValue] = useState('')
   // useEffect(() => {
   //   window.addEventListener('scroll', onScroll)
   //   return () => {
@@ -27,9 +30,25 @@ const UserCapitalPage: React.FC = () => {
   //   [selectedIndex],
   //   200
   // )
-
+  const wthdrawal = (type) => {
+    return new Promise((res) => {
+      setTimeout(() => {
+        setShow(false)
+        res(true)
+        Toast.success({ message: '确认提现成功' })
+        window.location.href = '/success-move/' + type
+      }, 3000)
+    })
+  }
+  const openDialog = () => {
+    setVisible(false)
+    setShow(true)
+  }
+  const giveUp = () => {
+    setShow(false)
+    setVisible(true)
+  }
   const toMoneyRecord = () => {
-    // ('/myTravel/details')
     window.location.href = '/money-record'
   }
   return (
@@ -48,13 +67,50 @@ const UserCapitalPage: React.FC = () => {
         </div>
       </div>
       <div className="btn">
-        <button className="btn">提现</button>
+        <button className="btn" onClick={() => setVisible(true)}>
+          提现
+        </button>
       </div>
-      <button>提现成功</button>
       <div className="footer">
         <div onClick={toMoneyRecord}>提现记录</div>
         <img className="pic" src={jump} alt="" />
       </div>
+      <Dialog visible={show} showConfirmButton={false}>
+        <div className="dialog">
+          <div className="text">
+            <img className="img" src={close} alt="" onClick={giveUp} />
+            <div>提现金额</div>
+            <div></div>
+          </div>
+          <div className="money">¥100.90</div>
+          <div>
+            <button className="btn" onClick={() => wthdrawal(selectText)}>
+              确认提现
+            </button>
+          </div>
+        </div>
+      </Dialog>
+      <ActionSheet visible={visible} onClickOverlay={() => setVisible(false)}>
+        <div className="number-dialog">
+          <div className="box">
+            <div>提现金额</div>
+            <div className="input-num">
+              <div>¥</div>
+              <input value={value} type="" />
+            </div>
+            <div>可提现金额xxxx元</div>
+          </div>
+          <NumberKeyboard
+            theme="custom"
+            extraKey="."
+            closeButtonText="提现"
+            visible={true}
+            value={value}
+            onChange={setValue}
+            onClose={openDialog}
+          />
+        </div>
+      </ActionSheet>
     </div>
   )
 }

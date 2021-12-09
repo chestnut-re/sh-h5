@@ -4,7 +4,7 @@
  */
 
 import axios from 'axios'
-import createHeader from './custom-header'
+import { createHeader } from './custom-header'
 // const JSONbigString = require('json-bigint')({ storeAsString: true })
 
 // 创建axios实例

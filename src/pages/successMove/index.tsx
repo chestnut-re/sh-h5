@@ -5,68 +5,47 @@ import pic from '@/assets/img/successMove/success.png'
 /**
  * 支付成功
  */
-const SuccessMovePage: React.FC = () => {
+const SuccessMovePage: React.FC = (props) => {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [selectedIndex2, setSelectedIndex2] = useState(0)
   const [selectPage, setSelectPage] = useState(0)
-  useEffect(() => {
-    window.addEventListener('scroll', onScroll)
-    return () => {
-      window.removeEventListener('scroll', onScroll)
-    }
-  }, [])
+  // useEffect(() => {
+  //   console.log(props.match.params.type)
+  //   window.addEventListener('scroll', onScroll)
+  //   return () => {
+  //     window.removeEventListener('scroll', onScroll)
+  //   }
+  // }, [])
 
-  useDebouncedEffect(
-    () => {
-      console.log('selectedIndex', selectedIndex)
-
-      setSelectedIndex2(selectedIndex)
-    },
-    [selectedIndex],
-    200
-  )
-
-  let isDragging = false
-  const pageY = 0
-  const onScroll = (e) => {
-    isDragging = true
-    if (isDragging) {
-      const contentNode = document.getElementById('list')
-      let selectPage = 0
-      // console.log(e.target.scrollingElement.scrollTop)
-      // console.log(contentNode.childNodes[0].clientHeight)
-      if (contentNode && e.target.scrollingElement.scrollTop > contentNode.offsetTop) {
-        // const stickyNode = document.getElementsByClassName('card_sticky')[0]
-        let offsetY = contentNode.offsetTop + contentNode.childNodes[selectPage]['clientHeight']
-        // console.log(offsetY)
-        // - stickyNode.clientHeight + contentNode.childNodes[selectIndex].clientHeight;
-        while (e.target.scrollingElement.scrollTop > offsetY) {
-          selectPage += 1
-          offsetY += contentNode.childNodes[selectPage]['clientHeight']
-          // console.log(selectPage, selectedIndex, offsetY, contentNode.childNodes[selectPage].clientHeight)
-        }
-      }
-      if (e.target.scrollingElement.scrollTop < contentNode?.childNodes[0]['clientHeight']) {
-        setSelectedIndex(0)
-      }
-      if (selectPage !== selectedIndex) {
-        setSelectedIndex(selectPage)
-      }
-    }
-  }
-  const toDetails = () => {
-    // ('/myTravel/details')
-    window.location.href = '/myTravel/details'
-  }
+  // useDebouncedEffect(
+  //   () => {
+  //    setSelectedIndex2(selectedIndex)
+  //   },
+  //   [selectedIndex],
+  //   200
+  // )
   return (
     <div className="SuccessMovePage__root">
       <div className="btn-div">
-        <button className="btn">完成</button>
+        <button
+          className="btn"
+          onClick={() => {
+            history.back()
+          }}
+        >
+          完成
+        </button>
       </div>
       <div className="all">
         <img className="img" src={pic} alt="" />
         <div className="num">¥100.90</div>
-        <div className="text">提现成功</div>
+        <div className="text">
+          {props.match.params.type == '转入'
+            ? '成功转入¥100.90到运营账户'
+            : props.match.params.type == '转出'
+            ? '成功转出¥100.90到资金账户'
+            : '提现成功'}
+        </div>
       </div>
     </div>
   )
