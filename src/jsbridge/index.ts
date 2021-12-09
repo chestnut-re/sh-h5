@@ -5,8 +5,17 @@ import { AppBridge } from './app'
 
 import { Toast } from 'react-vant'
 import { isApp } from './env'
+import { getUrlParams } from './utils'
 
 export class SHBridge {
+  /**
+   * 获取 token
+   */
+  static getToken(): void {
+    const params = getUrlParams(window.location.href)
+    return params['t']
+  }
+
   /**
    * 显示 Toast 提示
    * @param msg 内容
