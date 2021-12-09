@@ -1,11 +1,17 @@
 import { clearAllCookie, printCookie } from '@/utils/cookie'
-import React from 'react'
+import React, { useEffect } from 'react'
 import './index.less'
 import { Button, Cell } from 'react-vant'
 import { SHBridge } from '@/jsbridge'
 import { isApp } from '@/jsbridge/env'
+import { getUser } from '@/service/common'
 
 const TestPage = () => {
+  useEffect(() => {
+    getUser().then((res) => {
+      console.log(res)
+    })
+  }, [])
   return (
     <div className="Mine">
       <div className="mineTitle">MineTitle</div>
@@ -28,7 +34,7 @@ const TestPage = () => {
 
       <div>ua: {navigator.userAgent}</div>
 
-      <div>isApp: {isApp()}</div>
+      {/* <div>isApp: {isApp()}</div> */}
 
       <Cell.Group title="导航栏相关">
         <Cell
@@ -49,9 +55,15 @@ const TestPage = () => {
       </Cell.Group>
       <Cell.Group title="跳转">
         <Cell
-          title="jump https://baidu.com"
+          title="跳转页面 https://baidu.com"
           onClick={() => {
-            SHBridge.jump('https://baidu.com')
+            SHBridge.jump({ url: 'https://baidu.com' })
+          }}
+        />
+        <Cell
+          title="跳转页面/打开新页面 https://baidu.com "
+          onClick={() => {
+            SHBridge.jump({ url: 'https://baidu.com', newWebView: true })
           }}
         />
         <Cell

@@ -56,10 +56,6 @@ const FundDetailsPage: React.FC = () => {
       text: '提现',
     },
   ]
-  const toDetails = () => {
-    // ('/myTravel/details')
-    window.location.href = '/myTravel/details'
-  }
   return (
     <div className="FundDetailsPage__root">
       <div className="tab">

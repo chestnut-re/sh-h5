@@ -82,10 +82,6 @@ const OperateDetailsPage: React.FC = () => {
       text: '激励奖金释放 方案2名称',
     },
   ]
-  const toDetails = () => {
-    // ('/myTravel/details')
-    window.location.href = '/myTravel/details'
-  }
   return (
     <div className="OperateDetailsPage__root">
       <div className="tab">

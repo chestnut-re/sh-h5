@@ -8,7 +8,7 @@ import './index.less'
 
 const KpiListPage: React.FC = () => {
   return (
-    <div className="incentive">
+    <div className="kpi__root">
       <Tabs
         active="a"
         color="#32D0C6"

@@ -52,9 +52,6 @@ const MoneyRecordPage: React.FC = () => {
       money: '提现 1000',
     },
   ]
-  const toDetails = () => {
-    window.location.href = '/myTravel/details'
-  }
   return (
     <div className="MoneyRecordPage__root">
       <div className="list">

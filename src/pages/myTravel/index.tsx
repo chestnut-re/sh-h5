@@ -3,6 +3,7 @@ import './index.less'
 import { useDebouncedEffect } from '@/hooks/useDebouncedEffect'
 import pic from '@/assets/img/shg.png'
 import { SHBridge } from '@/jsbridge'
+import { generateUrl } from '@/utils'
 /**
  * 我的行程
  */
@@ -71,8 +72,7 @@ const MyTravelPage: React.FC = () => {
     }
   }
   const toDetails = () => {
-    // ('/myTravel/details')
-    window.location.href = '/myTravel/details'
+    SHBridge.jump({ url: generateUrl('/my-travel/details'), newWebView: true, title: '行程详情' })
   }
   return (
     <div className="MyTravelPage__root">

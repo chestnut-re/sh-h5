@@ -1,10 +1,8 @@
-// import { CookieUtils } from "@/utils"
+import { SHBridge } from '@/jsbridge'
 
 // 自定义请求头
-export default () => {
+export const createHeader = () => {
   return {
-    mclient: "web",
-    Lang: "zh-CN",
-    // Authorization: CookieUtils.getToken(),
+    Authorization: SHBridge.getToken(),
   }
 }
