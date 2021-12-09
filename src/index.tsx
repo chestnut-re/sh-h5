@@ -83,6 +83,11 @@ const KpiPersonnelPage = loadable(
 /**kpi管理-创建 */
 const KpiCreatePage = loadable(() => import(/* webpackChunkName: 'KpiCreatePage' */ './pages/kpiManagement/createKpi'))
 
+/**商铺二维码页面 */
+const ShopsQrPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/shops/shopsQr'))
+
+/**商品二维码页面 */
+const GoodsQrPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/shops/goodsQr'))
 /**订单管理 */
 const ManageOrderPage = loadable(() => import(/* webpackChunkName: 'ManageOrderPage'*/ './pages/manageOrder'))
 /**订单管理详情 */
@@ -91,7 +96,15 @@ const ManageDetailPage = loadable(
 )
 
 /**激励目标 */
-const GoalsMotivationPage = loadable(() => import(/* webpackChunkName: 'ManageOrderPage'*/ './pages/goalsMotivation'))
+const GoalsMotivationPage = loadable(
+  () => import(/* webpackChunkName: 'GoalsMotivationPage'*/ './pages/goalsMotivation')
+)
+/**市场分析 */
+const MarketAnalysisPage = loadable(() => import(/* webpackChunkName: 'MarketAnalysisPage'*/ './pages/marketAnalysis'))
+/**商品分析 */
+const ProductAnalysisPage = loadable(
+  () => import(/* webpackChunkName: 'ProductAnalysisPage'*/ './pages/productAnalysis')
+)
 
 const env = process.env.NODE_ENV
 console.log(env)
@@ -136,6 +149,8 @@ const App = () => (
       <Route path="/kpi-detail" exact component={KpiDetailPage}></Route>
       <Route path="/kpi-create" exact component={KpiCreatePage}></Route>
       <Route path="/kpi-detail/add" exact component={KpiPersonnelPage}></Route>
+      <Route path="/shops/shop-qr" exact component={ShopsQrPage}></Route>
+      <Route path="/shops/good-qr" exact component={GoodsQrPage}></Route>
 
       <Route path="/puorder" exact component={PurchaseOrderPage}></Route>
       <Route path="/applysale" exact component={ApplySalePage}></Route>
@@ -144,6 +159,8 @@ const App = () => (
       <Route path="/managedetail" exact component={ManageDetailPage}></Route>
 
       <Route path="/goalsmotivation" exact component={GoalsMotivationPage}></Route>
+      <Route path="/marketanalysis" exact component={MarketAnalysisPage}></Route>
+      <Route path="/productanalysis" exact component={ProductAnalysisPage}></Route>
     </BrowserRouter>
   </Suspense>
 )
