@@ -77,7 +77,11 @@ const ManageOrderPage = loadable(() => import(/* webpackChunkName: 'ManageOrderP
 const ManageDetailPage = loadable(() => import(/* webpackChunkName: 'ManageOrderPage'*/ './pages/manageOrder/manageDetail'))
 
 /**激励目标 */
-const GoalsMotivationPage = loadable(() => import(/* webpackChunkName: 'ManageOrderPage'*/ './pages/goalsMotivation'))
+const GoalsMotivationPage = loadable(() => import(/* webpackChunkName: 'GoalsMotivationPage'*/ './pages/goalsMotivation'))
+/**市场分析 */
+const MarketAnalysisPage = loadable(() => import(/* webpackChunkName: 'MarketAnalysisPage'*/ './pages/marketAnalysis'))
+/**商品分析 */
+const ProductAnalysisPage = loadable(() => import(/* webpackChunkName: 'ProductAnalysisPage'*/ './pages/productAnalysis'))
 
 const env = process.env.NODE_ENV
 console.log(env)
@@ -120,12 +124,14 @@ const App = () => (
       <Route path="/kpi-detail/add" exact component={KpiPersonnelPage}></Route>
 
       <Route path="/puorder" exact component={PurchaseOrderPage}></Route>
-        <Route path="/applysale" exact component={ApplySalePage}></Route>
+      <Route path="/applysale" exact component={ApplySalePage}></Route>
 
-        <Route path="/manageorder" exact component={ManageOrderPage}></Route>
-        <Route path="/managedetail" exact component={ManageDetailPage}></Route>
+      <Route path="/manageorder" exact component={ManageOrderPage}></Route>
+      <Route path="/managedetail" exact component={ManageDetailPage}></Route>
 
-        <Route path="/goalsmotivation" exact component={GoalsMotivationPage}></Route>
+      <Route path="/goalsmotivation" exact component={GoalsMotivationPage}></Route>
+      <Route path="/marketanalysis" exact component={MarketAnalysisPage}></Route>
+      <Route path="/productanalysis" exact component={ProductAnalysisPage}></Route>
     </BrowserRouter>
   </Suspense>
         
