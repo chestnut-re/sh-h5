@@ -57,7 +57,7 @@ const webpackProdConfig = {
   output: {
     filename: 'static/js/[name].[contenthash:8].js',
     path: path.resolve(__dirname, '../build'),
-    publicPath: cdnDomain,
+    publicPath: '/', //cdnDomain,
   },
   plugins: [
     new CleanWebpackPlugin(),
