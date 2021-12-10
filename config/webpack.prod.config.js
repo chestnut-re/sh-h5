@@ -8,6 +8,8 @@ const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const { merge } = require('webpack-merge')
 const webpackConfigBase = require('./webpack.base.config')
 
+const cdnDomain = 'https://shop-cdn.mountainseas.cn/'
+
 const webpackProdConfig = {
   mode: 'production',
   entry: {
@@ -55,7 +57,7 @@ const webpackProdConfig = {
   output: {
     filename: 'static/js/[name].[contenthash:8].js',
     path: path.resolve(__dirname, '../build'),
-    publicPath: '/',
+    publicPath: cdnDomain,
   },
   plugins: [
     new CleanWebpackPlugin(),
