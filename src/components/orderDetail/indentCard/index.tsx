@@ -1,6 +1,6 @@
-import React, { useState, FC } from 'react'
+import React, { useState,useEffect, FC } from 'react'
 
-import copy from 'copy-to-clipboard'; 
+import Clipboard from 'clipboard';
 import {Toast} from 'react-vant';
 
 import './index.less'
@@ -10,33 +10,40 @@ import './index.less'
 
 const IndentCard: FC = (props) => {
 
-  const copyText=(text)=>{
-    const iscopy  = copy(text);
-    iscopy&&Toast("复制成功")
-  }
+  useEffect(()=>{
+    const copy = new Clipboard('.copy-btn');
+    copy.on('success', e => {
+        console.log(e);
+        Toast("复制成功")
+    });
+    copy.on('error', function (e) {
+        console.error('Action:', e.action);
+    });
+    return ()=>{
+      console.log('销毁');
+      copy.destroy();
+    }
+  },[])
 
   return (
-    <div className="indent_card">
+    <div className="indent-card">
       <ul className="indent-ul">
         <li className="indent-li">
-          <div className="indent-li_l">订单编号</div>
-          <div className="indent-li_r">1234 1234 1234 8888</div>
-          <div className="indent-li_copy" onClick={()=>{
-            copyText("订单编号:1234 1234 1234 8888")
-          }}>复制</div>
-          
+          <div className="indent-li-left">订单编号</div>
+          <div className="indent-li-right">1234 1234 1234 8888</div>
+          <div className="copy-btn indent-licopy" data-clipboard-text='1234 1234 11114 8888'>复制</div>
         </li>
         <li className="indent-li">
-          <div className="indent-li_l">支付方式</div>
-          <div className="indent-li_r">微信</div>
+          <div className="indent-li-left">支付方式</div>
+          <div className="indent-li-right">微信</div>
         </li>
         <li className="indent-li">
-          <div className="indent-li_l">下单时间</div>
-          <div className="indent-li_r">2021/10/19 18:43:20</div>
+          <div className="indent-li-left">下单时间</div>
+          <div className="indent-li-right">2021/10/19 18:43:20</div>
         </li>
         <li className="indent-li">
-          <div className="indent-li_l">支付时间</div>
-          <div className="indent-li_r">2021/10/19 18:43:20</div>
+          <div className="indent-li-left">支付时间</div>
+          <div className="indent-li-right">2021/10/19 18:43:20</div>
         </li>
       </ul>
     </div>

@@ -22,7 +22,7 @@ const TeamMotivationCard: FC = (props) => {
         <ul className="ranking-ul">
           {[1, 2, 3, 4].map((item, index) => {
             return (
-              <li className="ranking-li">
+              <li className="ranking-li" key={index}>
                 <div className="ranking-num">0{index + 1}</div>
                 <div className="ranking-avator">
                   <Image round width="8.6vw" height="8.6vw" src={`http://picsum.photos/128?t=`} />

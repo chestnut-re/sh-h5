@@ -29,7 +29,7 @@ const GoalsMotivation: FC = (props) => {
             <Tabs.TabPane title="我的激励目标" name="a">
               <div className="goalsmot-content">
                   {[1,2,3].map((item)=>{
-                    return (<div className="goalsmot-item">
+                    return (<div className="goalsmot-item" key={item}>
                     <MineMotivation/>
                   </div>)
                   })}
@@ -38,7 +38,7 @@ const GoalsMotivation: FC = (props) => {
             <Tabs.TabPane title="团队激励目标" name="b">
             <div className="goalsmot-content">
                   {[1,2,3].map((item)=>{
-                    return (<div className="goalsmot-item">
+                    return (<div className="goalsmot-item" key={item}>
                     <TeamMotivation/>
                   </div>)
                   })}
