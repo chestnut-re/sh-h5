@@ -166,9 +166,9 @@ const App = () => (
       <Route path="/manageorder" exact component={ManageOrderPage}></Route>
       <Route path="/managedetail" exact component={ManageDetailPage}></Route>
 
-      <Route path="/goalsmotivation" exact component={GoalsMotivationPage}></Route>
-      <Route path="/marketanalysis" exact component={MarketAnalysisPage}></Route>
-      <Route path="/productanalysis" exact component={ProductAnalysisPage}></Route>
+      <Route path="/gomotivation" exact component={GoalsMotivationPage}></Route>
+      <Route path="/marketsis" exact component={MarketAnalysisPage}></Route>
+      <Route path="/productsis" exact component={ProductAnalysisPage}></Route>
     </BrowserRouter>
   </Suspense>
 )
