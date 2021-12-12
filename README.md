@@ -14,3 +14,10 @@
 8. utils: 工具包
 
 ## pages
+
+
+
+
+```
+npx husky add .husky/pre-commit "npm test"
+```
