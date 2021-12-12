@@ -1,1 +1,1 @@
-{"applinks":{"apps":[],"details":[{"appID":"A4T25LKY79.com.sh.travel","paths":["/app"]}]}}
+{"applinks":{"apps":[],"details":[{"appID":"A4T25LKY79.com.sh.travel","paths":["/app/*"]},{"appID":"A4T25LKY79.com.sh.travelbiz","paths":["/appbiz/*"]}]}}
