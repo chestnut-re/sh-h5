@@ -21,7 +21,6 @@ const KpiCreatePage: React.FC = () => {
     const time = `${formatDate(rangeTime[0])} - ${formatDate(rangeTime[1])}`
     setText(time)
     setVisible(false)
-    console.log(text)
   }
   return (
     <div className="create__root">
@@ -36,6 +35,7 @@ const KpiCreatePage: React.FC = () => {
           <input
             type="text"
             value={text}
+            readOnly
             onClick={() => setVisible(true)}
             placeholder="开始时间&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;结束时间"
           />
