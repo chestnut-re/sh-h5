@@ -55,9 +55,9 @@ const ServicePage = loadable(() => import(/* webpackChunkName: 'ServicePage'*/ '
 /**订单详情 */
 const OrderDetailPage = loadable(() => import(/* webpackChunkName: 'OrderDetailPage'*/ './pages/orderDetail'))
 /**团小店 */
-const AbulkShopPage = loadable(() => import(/* webpackChunkName: 'AbulkShopPage'*/ './pages/abulkShop'))
+const GroupShopPage = loadable(() => import(/* webpackChunkName: 'GroupShopPage'*/ './pages/groupShop'))
 /**提交订单 */
-const PurchaseOrderPage = loadable(() => import(/* webpackChunkName: 'PurchaseOrderPage'*/ './pages/purchaseOrder'))
+const SubmitOrderPage = loadable(() => import(/* webpackChunkName: 'PurchaseOrderPage'*/ './pages/submitOrder'))
 /**售后服务 */
 const ApplySalePage = loadable(() => import(/* webpackChunkName: 'PurchaseOrderPage'*/ './pages/applySaleService'))
 /**激励管理-列表 */
@@ -97,14 +97,10 @@ const GoodsQrPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'
 /**订单管理 */
 const ManageOrderPage = loadable(() => import(/* webpackChunkName: 'ManageOrderPage'*/ './pages/manageOrder'))
 /**订单管理详情 */
-const ManageDetailPage = loadable(
-  () => import(/* webpackChunkName: 'ManageOrderPage'*/ './pages/manageOrder/manageDetail')
-)
+const ManageDetailPage = loadable(() => import(/* webpackChunkName: 'ManageOrderPage'*/ './pages/manageOrder/manageDetail'))
 
 /**激励目标 */
-const GoalsMotivationPage = loadable(
-  () => import(/* webpackChunkName: 'GoalsMotivationPage'*/ './pages/goalsMotivation')
-)
+const IncentiveTarget = loadable(() => import(/* webpackChunkName: 'IncentiveTarget'*/ './pages/incentiveTarget'))
 /**市场分析 */
 const MarketAnalysisPage = loadable(() => import(/* webpackChunkName: 'MarketAnalysisPage'*/ './pages/marketAnalysis'))
 /**商品分析 */
@@ -145,7 +141,7 @@ const App = () => (
       <Route path="/test/chart" exact component={TestChartPage}></Route>
 
       <Route path="/order-detail" exact component={OrderDetailPage}></Route>
-      <Route path="/abulkshop" exact component={AbulkShopPage}></Route>
+      <Route path="/group-shop" exact component={GroupShopPage}></Route>
 
       <Route path="/incentive/list" exact component={IncentivePage}></Route>
       <Route path="/incentive/create" exact component={CreateIncentivePage}></Route>
@@ -160,15 +156,15 @@ const App = () => (
       <Route path="/shops/shop-qr" exact component={ShopsQrPage}></Route>
       <Route path="/shops/good-qr" exact component={GoodsQrPage}></Route>
 
-      <Route path="/puorder" exact component={PurchaseOrderPage}></Route>
-      <Route path="/applysale" exact component={ApplySalePage}></Route>
+      <Route path="/submit-order" exact component={SubmitOrderPage}></Route>
+      <Route path="/apply-sales" exact component={ApplySalePage}></Route>
 
-      <Route path="/manageorder" exact component={ManageOrderPage}></Route>
-      <Route path="/managedetail" exact component={ManageDetailPage}></Route>
+      <Route path="/order-management" exact component={ManageOrderPage}></Route>
+      <Route path="/management-details" exact component={ManageDetailPage}></Route>
 
-      <Route path="/gomotivation" exact component={GoalsMotivationPage}></Route>
-      <Route path="/marketsis" exact component={MarketAnalysisPage}></Route>
-      <Route path="/productsis" exact component={ProductAnalysisPage}></Route>
+      <Route path="/incentive-target" exact component={IncentiveTarget}></Route>
+      <Route path="/market-analysis" exact component={MarketAnalysisPage}></Route>
+      <Route path="/product-analysis" exact component={ProductAnalysisPage}></Route>
     </BrowserRouter>
   </Suspense>
 )
