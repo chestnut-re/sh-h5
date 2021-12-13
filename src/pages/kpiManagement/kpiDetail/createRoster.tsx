@@ -31,38 +31,38 @@ const KpiPersonnelPage: React.FC = () => {
       </div>
       <div className="create-list">
         {/* <IndexBar>
-          <IndexBar.Anchor index="A" />
-          <div> */}
-        <Checkbox.Group defaultChecked="checked" checkedColor="#00D2C6">
-          <Checkbox className="check-item" name="a">
-            <img src={Add} style={{ width: '39px', marginRight: '22px' }} alt="" />
-            张某某
-          </Checkbox>
-          <Divider />
-          {/* <IndexBar.Anchor index="B" /> */}
-          <Checkbox className="check-item" name="b">
-            <img src={Add} style={{ width: '39px', marginRight: '22px' }} alt="" />
-            张某某
-          </Checkbox>
-          <Divider />
-          <Checkbox className="check-item" name="c">
-            <img src={Add} style={{ width: '39px', marginRight: '22px' }} alt="" />
-            张某某
-          </Checkbox>
-          <Divider />
-          <Checkbox className="check-item" name="d">
-            <img src={Add} style={{ width: '39px', marginRight: '22px' }} alt="" />
-            张某某
-          </Checkbox>
-          <Divider />
-          <Checkbox className="check-item" name="e">
-            <img src={Add} style={{ width: '39px', marginRight: '22px' }} alt="" />
-            张某某
-          </Checkbox>
-          <Divider />
-        </Checkbox.Group>
-        {/* </div>
-        </IndexBar> */}
+          <IndexBar.Anchor index="A" /> */}
+        <div>
+          <Checkbox.Group defaultChecked="checked" checkedColor="#00D2C6">
+            <Checkbox className="check-item" name="a">
+              <img src={Add} style={{ width: '39px', marginRight: '22px' }} alt="" />
+              张某某
+            </Checkbox>
+            <Divider />
+            {/* <IndexBar.Anchor index="B" /> */}
+            <Checkbox className="check-item" name="b">
+              <img src={Add} style={{ width: '39px', marginRight: '22px' }} alt="" />
+              张某某
+            </Checkbox>
+            <Divider />
+            <Checkbox className="check-item" name="c">
+              <img src={Add} style={{ width: '39px', marginRight: '22px' }} alt="" />
+              张某某
+            </Checkbox>
+            <Divider />
+            <Checkbox className="check-item" name="d">
+              <img src={Add} style={{ width: '39px', marginRight: '22px' }} alt="" />
+              张某某
+            </Checkbox>
+            <Divider />
+            <Checkbox className="check-item" name="e">
+              <img src={Add} style={{ width: '39px', marginRight: '22px' }} alt="" />
+              张某某
+            </Checkbox>
+            <Divider />
+          </Checkbox.Group>
+        </div>
+        {/* </IndexBar> */}
       </div>
       <div className="create-bottom">
         <Button className="bottom-btn" onClick={showDialog}>
