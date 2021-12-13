@@ -59,6 +59,8 @@ const OrderDetailPage = loadable(() => import(/* webpackChunkName: 'OrderDetailP
 const GroupShopPage = loadable(() => import(/* webpackChunkName: 'GroupShopPage'*/ './pages/groupShop'))
 /**提交订单 */
 const SubmitOrderPage = loadable(() => import(/* webpackChunkName: 'PurchaseOrderPage'*/ './pages/submitOrder'))
+/**订单 优惠说明*/
+const PrivilegePage = loadable(() => import(/* webpackChunkName: 'PurchaseOrderPage'*/ './pages/submitOrder/privilege'))
 /**售后服务 */
 const ApplySalePage = loadable(() => import(/* webpackChunkName: 'PurchaseOrderPage'*/ './pages/applySaleService'))
 /**激励管理-列表 */
@@ -160,6 +162,8 @@ const App = () => (
       <Route path="/shops/good-qr" exact component={GoodsQrPage}></Route>
 
       <Route path="/submit-order" exact component={SubmitOrderPage}></Route>
+      <Route path="/privilege" exact component={PrivilegePage}></Route>
+
       <Route path="/apply-sales" exact component={ApplySalePage}></Route>
 
       <Route path="/order-management" exact component={ManageOrderPage}></Route>
