@@ -14,7 +14,7 @@ const GoodsDetailPage: React.FC = () => {
 
   /**下单 */
   const _makeOrder = () => {
-    SHBridge.jump({ url: generateUrl('/puorder'), newWebView: true, title: '下单' })
+    SHBridge.jump({ url: generateUrl('/submit-order'), newWebView: true, title: '下单' })
   }
 
   return (
