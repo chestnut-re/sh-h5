@@ -98,7 +98,7 @@ const GoodsQrPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'
 /**工作台-订单管理 */
 const ManageOrderPage = loadable(() => import(/* webpackChunkName: 'ManageOrderPage'*/ './pages/manageOrder'))
 /**工作台-订单搜索 */
-const OrderSearchPage = loadable(() => import(/* webpackChunkName: 'ManageOrderPage'*/ './pages/orderSearch'))
+const OrderSearchPage = loadable(() => import(/* webpackChunkName: 'ManageOrderPage'*/ './pages/manageOrder/orderSearch'))
 
 /**工作台-订单管理详情 */
 const ManageDetailPage = loadable(() => import(/* webpackChunkName: 'ManageOrderPage'*/ './pages/manageOrder/manageDetail'))

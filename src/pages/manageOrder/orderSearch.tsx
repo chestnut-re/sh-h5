@@ -1,8 +1,8 @@
-import React, { useState, FC } from 'react'
+import React, { useState,useEffect, FC } from 'react'
 import ManageItem from '@/components/manageOrder/orderIMantem'
 
 import { Empty } from 'react-vant'
-import './index.less'
+import './search.less'
 
 /**
  * 工作台订单搜索入口页
@@ -153,13 +153,17 @@ const ListData = [
   },
 ]
 const OrderSearchPage: FC = (props:any) => {
+    const [listData, setListData] = useState<any[]>([])
+    useEffect(() => {
+        setListData([...ListData])
+      }, [])
   const manageOrderDetail = (item) => {
     props.history.push(`/management-details?id=${item._id}`)
   }
   return (
     <div className="orderSearch-container">
       <div className="search-content">
-        {ListData.length?ListData.map((item) => {
+        {listData.length?listData.map((item) => {
           return (
             <div
               className="search-item"
