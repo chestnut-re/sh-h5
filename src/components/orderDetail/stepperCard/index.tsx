@@ -1,6 +1,6 @@
 import React, { useState,FC } from 'react'
 
-import { ConfigProvider,Icon, Stepper, Popover } from 'react-vant'
+import { ConfigProvider,Toast,Icon, Stepper, Popover } from 'react-vant'
 import integralIcon from '@/assets/img/integral_icon.png'
 import questionIcon from '@/assets/img/question_icon@3x.png'
 import './index.less'
@@ -13,6 +13,10 @@ import './index.less'
 };
 
 const StepperCard:FC = (props) => {
+
+  const INVENTORY = 11;
+  
+
   //成人数量
   const [grownNumVal, setGrownVal] = useState(2)
   //儿童数量
@@ -25,6 +29,15 @@ const StepperCard:FC = (props) => {
   const setGrownNumValue = (val) => {
     console.log('val :>> ', val)
     setGrownVal(val)
+    
+  }
+  const setGrownNumBlur = (e) => {
+    console.log('val :>> ', e)
+    if (e.target.value>INVENTORY) {
+      e.target.value = INVENTORY;
+      setGrownVal(INVENTORY)
+      Toast(`最多只能买${INVENTORY}件`)
+    }
     
   }
   const setChildrenValue = (val) => {
@@ -50,11 +63,12 @@ const StepperCard:FC = (props) => {
               <Stepper
                 value={grownNumVal}
                 min="0"
-                max="8"
+                max={INVENTORY}
                 integer={true}
                 inputWidth="9.6vw"
                 buttonSize="5.6vw"
                 onChange={(val) => setGrownNumValue(val)}
+                onBlur={(val) => setGrownNumBlur(val)}
               />
                </ConfigProvider>
             </div>
