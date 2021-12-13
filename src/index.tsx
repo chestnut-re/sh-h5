@@ -10,6 +10,7 @@ const HomePage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ 
 
 /**AppPage, App入口页 */
 const AppPage = loadable(() => import(/* webpackChunkName: 'AppPage'*/ './pages/app'))
+const AppBizPage = loadable(() => import(/* webpackChunkName: 'AppBizPage'*/ './pages/appbiz'))
 
 /**商品详情页 */
 const GoodsDetailPage = loadable(() => import(/* webpackChunkName: 'GoodsDetailPage'*/ './pages/goodsDetail'))
@@ -121,6 +122,7 @@ const App = () => (
       <Route path="/" exact component={HomePage}></Route>
 
       <Route path="/app" exact component={AppPage}></Route>
+      <Route path="/appbiz" exact component={AppBizPage}></Route>
 
       <Route path="/goods-detail" exact component={GoodsDetailPage}></Route>
 
