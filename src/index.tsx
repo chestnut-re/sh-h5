@@ -95,9 +95,12 @@ const ShopsQrPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'
 
 /**商品二维码页面 */
 const GoodsQrPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/shops/goodsQr'))
-/**订单管理 */
+/**工作台-订单管理 */
 const ManageOrderPage = loadable(() => import(/* webpackChunkName: 'ManageOrderPage'*/ './pages/manageOrder'))
-/**订单管理详情 */
+/**工作台-订单搜索 */
+const OrderSearchPage = loadable(() => import(/* webpackChunkName: 'ManageOrderPage'*/ './pages/orderSearch'))
+
+/**工作台-订单管理详情 */
 const ManageDetailPage = loadable(() => import(/* webpackChunkName: 'ManageOrderPage'*/ './pages/manageOrder/manageDetail'))
 
 /**激励目标 */
@@ -105,9 +108,7 @@ const IncentiveTarget = loadable(() => import(/* webpackChunkName: 'IncentiveTar
 /**市场分析 */
 const MarketAnalysisPage = loadable(() => import(/* webpackChunkName: 'MarketAnalysisPage'*/ './pages/marketAnalysis'))
 /**商品分析 */
-const ProductAnalysisPage = loadable(
-  () => import(/* webpackChunkName: 'ProductAnalysisPage'*/ './pages/productAnalysis')
-)
+const ProductAnalysisPage = loadable(() => import(/* webpackChunkName: 'ProductAnalysisPage'*/ './pages/productAnalysis'))
 
 const env = process.env.NODE_ENV
 console.log(env)
@@ -167,6 +168,8 @@ const App = () => (
       <Route path="/incentive-target" exact component={IncentiveTarget}></Route>
       <Route path="/market-analysis" exact component={MarketAnalysisPage}></Route>
       <Route path="/product-analysis" exact component={ProductAnalysisPage}></Route>
+      <Route path="/product-analysis" exact component={ProductAnalysisPage}></Route>
+      <Route path="/order-search" exact component={OrderSearchPage}></Route>
     </BrowserRouter>
   </Suspense>
 )
