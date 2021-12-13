@@ -1,24 +1,12 @@
-import React, { useState, useEffect, FC } from 'react'
-import { ConfigProvider, Tabs,Empty } from 'react-vant'
-import qs from 'querystring'
+import React, { useState,useEffect, FC } from 'react'
 import ManageItem from '@/components/manageOrder/orderIMantem'
 
-import './index.less'
+import { Empty } from 'react-vant'
+import './search.less'
+
 /**
- * 订单管理入口页面
- * 全部 待付款 待确认 已完成 退款_售后
+ * 工作台订单搜索入口页
  */
-const themeVars = {
-  '--rv-tabs-bottom-bar-color': '#3BD1C4',
-  '--rv-tab-font-size': '14px',
-}
-const TabsListObj = [
-  { tabName: '全部', type: 0, id: 0, isTag: false },
-  { tabName: '待付款', type: 1, id: 1, isTag: true },
-  { tabName: '待确认', type: 3, id: 2, isTag: false },
-  { tabName: '已完成', type: 4, id: 3, isTag: false },
-  { tabName: '退款/售后', type: 5, id: 4, isTag: false },
-]
 
 const ListData = [
   {
@@ -164,80 +152,21 @@ const ListData = [
     price: 1908,
   },
 ]
-
-
-const ManageOrderPage: FC = (props: any) => {
-  const {location: { search }} = props
-  const { type }:any = qs.parse(search.slice(1))
-
-  const [listData, setListData] = useState<any[]>([])
-  const [activeVal, setActive] = useState<any>(type ? type * 1 : 0)
-
-
-  useEffect(() => {
-    console.log('object :>>1111 ', activeVal)
-    let newListdata: any = []
-    if (activeVal == 0) {
-      newListdata = [...ListData]
-    } else if (activeVal == 5 || activeVal == 6) {
-      newListdata = ListData.filter((item) => {
-        return item.type == 6 || item.type == 5
-      })
-    } else {
-      newListdata = ListData.filter((item) => {
-        return item.type == activeVal
-      })
-    }
-
-    setListData([...newListdata])
-    props.history.replace(`/order-management?type=${activeVal}`)
-  }, [activeVal])
-
-  const tabHandelClick = (info) => {
-    const { name } = info
-    setActive(name)
-  }
-
+const OrderSearchPage: FC = (props:any) => {
+    const [listData, setListData] = useState<any[]>([])
+    useEffect(() => {
+        setListData([...ListData])
+      }, [])
   const manageOrderDetail = (item) => {
     props.history.push(`/management-details?id=${item._id}`)
   }
   return (
-    <div className="Maorder-container">
-      <div className="maorder-nav">
-        <ConfigProvider themeVars={themeVars}>
-          <Tabs
-            active={activeVal}
-            lineWidth="5.3vw"
-            titleInactiveColor="#333"
-            ellipsis={false}
-            titleActiveColor="#333333"
-            lineHeight="0.8vw"
-            onClickTab={(info) => tabHandelClick(info)}
-          >
-            {TabsListObj.map((item) => (
-              <Tabs.TabPane
-                key={item.id}
-                name={item.type}
-                renderTitle={() => {
-                  return !item.isTag ? (
-                    item.tabName
-                  ) : (
-                    <>
-                      {item.tabName}
-                      <span className="maorder-tag">{`(2)`}</span>
-                    </>
-                  )
-                }}
-              />
-            ))}
-          </Tabs>
-        </ConfigProvider>
-      </div>
-      <div className="maorder-content">
+    <div className="orderSearch-container">
+      <div className="search-content">
         {listData.length?listData.map((item) => {
           return (
             <div
-              className="morderitem"
+              className="search-item"
               key={item._id}
               onClick={() => {
                 manageOrderDetail(item)
@@ -252,4 +181,4 @@ const ManageOrderPage: FC = (props: any) => {
   )
 }
 
-export default ManageOrderPage
+export default OrderSearchPage
