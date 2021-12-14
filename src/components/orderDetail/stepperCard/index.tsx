@@ -1,8 +1,7 @@
 import React, { useState,FC } from 'react'
 
-import { ConfigProvider,Toast,Icon, Stepper, Popover } from 'react-vant'
+import { ConfigProvider,Toast,Icon, Stepper } from 'react-vant'
 import integralIcon from '@/assets/img/integral_icon.png'
-import questionIcon from '@/assets/img/question_icon@3x.png'
 import './index.less'
 /**
  * 订单步进器选择卡片包含
@@ -23,9 +22,7 @@ const StepperCard:FC = (props) => {
   const [childrenNumVal, setChildrenVal] = useState(1)
   //积分使用量
   const [integralNumVal, setIntegralVal] = useState(1000)
-  const popover = () => {
-    return "123"
-  }
+ 
   const setGrownNumValue = (val) => {
     console.log('val :>> ', val)
     setGrownVal(val)
@@ -48,6 +45,10 @@ const StepperCard:FC = (props) => {
   const setIntegralNumValue = (val) => {
     console.log('val :>> ', val)
     setIntegralVal(val)
+  }
+  const getExamine = ()=>{
+      props.history.push("/privilege")
+    console.log('props :>> ', props);
   }
 
   return (
@@ -125,15 +126,8 @@ const StepperCard:FC = (props) => {
       </div>
 
       <div className="info-discounts">
-        <div className="discounts-title hairline--icon">
+        <div className="discounts-title hairline--icon" onClick={()=>{getExamine()}}>
           优惠
-          <Popover
-            ref={popover}
-            placement="top-start"
-            reference={<Icon className="discounts-icon" name={questionIcon} />}
-          >
-            <div className="popover-content">这里是优惠说明这里是优惠说明这里是优惠说明这里是优惠说明</div>
-          </Popover>
         </div>
         <div className="discounts-instruction">
           <div className="instruction-l">

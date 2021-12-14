@@ -1,4 +1,5 @@
 import React, { useState, FC } from 'react'
+import {withRouter} from "react-router-dom";
 import ContactWcharCard from '@/components/orderDetail/contactCard'
 import GoodsCard from '@/components/orderDetail/goodsCard'
 import StepperCard from '@/components/orderDetail/stepperCard'
@@ -15,7 +16,7 @@ import './index.less'
  * 提交订单页面
  */
 
-const PuOrderPage: FC = (props) => {
+const SubmitOrderPage: FC = (props) => {
   return (
     <div className="puorder-container">
       <div className="puorder-main">
@@ -27,7 +28,7 @@ const PuOrderPage: FC = (props) => {
             <KnownCalendarCard/>
           </div>
           <div className="puorder-stepper">
-            <StepperCard />
+            <StepperCard {...props}/>
           </div>
           <PayTypeCard />
           <BackCard />
@@ -40,4 +41,4 @@ const PuOrderPage: FC = (props) => {
   )
 }
 
-export default PuOrderPage
+export default withRouter(SubmitOrderPage)
