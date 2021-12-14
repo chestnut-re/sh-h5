@@ -8,3 +8,5 @@ declare module '*.tiff'
 
 // declare
 declare let SHApp: any
+declare let BlobBuilder: any
+

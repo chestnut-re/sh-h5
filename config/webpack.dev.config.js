@@ -23,7 +23,8 @@ const webpackConfigDev = {
     hot: true,
     historyApiFallback: true, // router history 模式下需要
     proxy: {
-      '/api': 'http://api.fangmingdong.com/',
+      '/api/third': 'http://192.168.10.61:9000',
+      '/api': 'http://192.168.10.61:39010',
     },
   },
 }
