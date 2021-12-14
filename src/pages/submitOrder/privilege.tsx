@@ -19,25 +19,25 @@ const PrivilegePage: FC = (props) => {
                   <li className="privilege-li">
                     <div className="li-left">当日出入住酒店接送机两次当日出入住酒店接送机两次当</div>
                     <div className="li-right">
-                      <span>¥1298</span>
-                      <span>0</span>
-                      <span>X2</span>
+                      <span className="rightli-l">¥1298</span>
+                      <span className="rightli-c">0</span>
+                      <span className="rightli-r">X2</span>
                     </div>
                   </li>
                   <li className="privilege-li">
                     <div className="li-left">亚特兰蒂斯酒店 早餐 X4</div>
                     <div className="li-right">
-                      <span>¥1298</span>
-                      <span>0</span>
-                      <span>X2</span>
+                      <span className="rightli-l">¥1298</span>
+                      <span className="rightli-c">0</span>
+                      <span className="rightli-r">X2</span>
                     </div>
                   </li>
                   <li className="privilege-li">
                     <div className="li-left">分界洲岛 潜水</div>
                     <div className="li-right">
-                      <span>¥1298</span>
-                      <span>0</span>
-                      <span>X2</span>
+                      <span className="rightli-l">¥1298</span>
+                      <span className="rightli-c">0</span>
+                      <span className="rightli-r">X2</span>
                     </div>
                   </li>
                 </ul>
