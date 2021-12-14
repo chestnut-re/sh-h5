@@ -1,5 +1,5 @@
 import React, { useState, FC } from 'react'
-import FooterCard from '@/components/orderDetail/footerCard'
+import SubmitIntegralFooterCard from '@/components/submitBars/submitIntegralFooter'
 
 import './privilege.less'
 /**
@@ -11,7 +11,7 @@ const PrivilegePage: FC = (props) => {
     <div className="privilege-container">
       <div className="privilege-main">
         <div className="privilege-fluid">
-          {[1, 2, 3].map((item) => {
+          {[1, 2, 3, 4, 5, 6].map((item) => {
             return (
               <div className="privilege-item" key={item}>
                 <div className="privilege-title">线路赠送</div>
@@ -44,9 +44,12 @@ const PrivilegePage: FC = (props) => {
               </div>
             )
           })}
+          <div className="privilege-nomore">没有了</div>
         </div>
       </div>
-      <FooterCard />
+      <div className="privilege-box">
+        <SubmitIntegralFooterCard />
+      </div>
     </div>
   )
 }
