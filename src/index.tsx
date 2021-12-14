@@ -59,6 +59,8 @@ const OrderDetailPage = loadable(() => import(/* webpackChunkName: 'OrderDetailP
 const GroupShopPage = loadable(() => import(/* webpackChunkName: 'GroupShopPage'*/ './pages/groupShop'))
 /**提交订单 */
 const SubmitOrderPage = loadable(() => import(/* webpackChunkName: 'PurchaseOrderPage'*/ './pages/submitOrder'))
+/**订单 优惠说明*/
+const PrivilegePage = loadable(() => import(/* webpackChunkName: 'PurchaseOrderPage'*/ './pages/submitOrder/privilege'))
 /**售后服务 */
 const ApplySalePage = loadable(() => import(/* webpackChunkName: 'PurchaseOrderPage'*/ './pages/applySaleService'))
 /**激励管理-列表 */
@@ -98,17 +100,23 @@ const GoodsQrPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'
 /**工作台-订单管理 */
 const ManageOrderPage = loadable(() => import(/* webpackChunkName: 'ManageOrderPage'*/ './pages/manageOrder'))
 /**工作台-订单搜索 */
-const OrderSearchPage = loadable(() => import(/* webpackChunkName: 'ManageOrderPage'*/ './pages/manageOrder/orderSearch'))
+const OrderSearchPage = loadable(
+  () => import(/* webpackChunkName: 'ManageOrderPage'*/ './pages/manageOrder/orderSearch')
+)
 
 /**工作台-订单管理详情 */
-const ManageDetailPage = loadable(() => import(/* webpackChunkName: 'ManageOrderPage'*/ './pages/manageOrder/manageDetail'))
+const ManageDetailPage = loadable(
+  () => import(/* webpackChunkName: 'ManageOrderPage'*/ './pages/manageOrder/manageDetail')
+)
 
 /**激励目标 */
 const IncentiveTarget = loadable(() => import(/* webpackChunkName: 'IncentiveTarget'*/ './pages/incentiveTarget'))
 /**市场分析 */
 const MarketAnalysisPage = loadable(() => import(/* webpackChunkName: 'MarketAnalysisPage'*/ './pages/marketAnalysis'))
 /**商品分析 */
-const ProductAnalysisPage = loadable(() => import(/* webpackChunkName: 'ProductAnalysisPage'*/ './pages/productAnalysis'))
+const ProductAnalysisPage = loadable(
+  () => import(/* webpackChunkName: 'ProductAnalysisPage'*/ './pages/productAnalysis')
+)
 
 const env = process.env.NODE_ENV
 console.log(env)
@@ -160,6 +168,8 @@ const App = () => (
       <Route path="/shops/good-qr" exact component={GoodsQrPage}></Route>
 
       <Route path="/submit-order" exact component={SubmitOrderPage}></Route>
+      <Route path="/privilege" exact component={PrivilegePage}></Route>
+
       <Route path="/apply-sales" exact component={ApplySalePage}></Route>
 
       <Route path="/order-management" exact component={ManageOrderPage}></Route>
@@ -167,7 +177,6 @@ const App = () => (
 
       <Route path="/incentive-target" exact component={IncentiveTarget}></Route>
       <Route path="/market-analysis" exact component={MarketAnalysisPage}></Route>
-      <Route path="/product-analysis" exact component={ProductAnalysisPage}></Route>
       <Route path="/product-analysis" exact component={ProductAnalysisPage}></Route>
       <Route path="/order-search" exact component={OrderSearchPage}></Route>
     </BrowserRouter>
