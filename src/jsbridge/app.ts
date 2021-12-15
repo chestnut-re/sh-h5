@@ -34,6 +34,34 @@ export class AppBridge {
   }
 
   /**
+   * 设置标题颜色
+   * @param color 颜色
+   */
+  static setTitleColor(color: string): void {
+    const msg = {
+      method: 'setTitleColor',
+      data: {
+        color,
+      },
+    }
+    SHApp.postMessage(JSON.stringify(msg))
+  }
+
+  /**
+   * 设置导航栏颜色
+   * @param color 颜色
+   */
+  static setNavBgColor(color: string): void {
+    const msg = {
+      method: 'setNavBgColor',
+      data: {
+        color,
+      },
+    }
+    SHApp.postMessage(JSON.stringify(msg))
+  }
+
+  /**
    * 设置标题Action
    * @param title 标题
    */

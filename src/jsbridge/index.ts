@@ -40,6 +40,26 @@ export class SHBridge {
   }
 
   /**
+   * 设置标题颜色
+   * @param color 颜色
+   */
+  static setTitleColor(color: string): void {
+    if (isApp()) {
+      AppBridge.setTitleColor(color)
+    }
+  }
+
+  /**
+   * 设置导航栏颜色
+   * @param color 颜色
+   */
+  static setNavBgColor(color: string): void {
+    if (isApp()) {
+      AppBridge.setNavBgColor(color)
+    }
+  }
+
+  /**
    * 设置标题
    * @param title 标题
    */
