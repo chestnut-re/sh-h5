@@ -1,5 +1,5 @@
 import React, { useState, FC } from 'react'
-
+import GoodsPreview from '../../components/goodsPreview'
 import './index.less'
 
 /**
@@ -30,19 +30,7 @@ const PaymentSuccessPage: FC = () => {
             {[1, 2].map((item) => {
               return (
                 <li className="you-like-li" key={item}>
-                  <div className="you-like-goods">
-                    <div className="goods-h">
-                      <img className="goods-img" src="http://picsum.photos/335/415" />
-                    </div>
-                    <div className="pays-goods-content">
-                      <div className="goods-name">三亚5日跟团游「星4晚 连住」</div>
-                      <div className="goods-price">¥2988</div>
-                      <div className="goods-foot">
-                        <div className="foot-left">3456已付款</div>
-                        <div className="foot-right">2356</div>
-                      </div>
-                    </div>
-                  </div>
+                  <GoodsPreview />
                 </li>
               )
             })}
