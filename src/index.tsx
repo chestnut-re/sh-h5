@@ -5,6 +5,7 @@ import { BrowserRouter, Route } from 'react-router-dom'
 import 'normalize.css'
 import './assets/css/base.css'
 import '@/assets/css/base-tmp.less'
+import 'react-vant/lib/styles/base.less'
 
 const HomePage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/home'))
 
@@ -117,6 +118,8 @@ const MarketAnalysisPage = loadable(() => import(/* webpackChunkName: 'MarketAna
 const ProductAnalysisPage = loadable(
   () => import(/* webpackChunkName: 'ProductAnalysisPage'*/ './pages/productAnalysis')
 )
+/**支付成功 */
+const PaymentSuccessPage = loadable(() => import(/* webpackChunkName: 'PaymentSuccessPage'*/ './pages/paymentSuccess'))
 
 const env = process.env.NODE_ENV
 console.log(env)
@@ -179,6 +182,7 @@ const App = () => (
       <Route path="/market-analysis" exact component={MarketAnalysisPage}></Route>
       <Route path="/product-analysis" exact component={ProductAnalysisPage}></Route>
       <Route path="/order-search" exact component={OrderSearchPage}></Route>
+      <Route path="/pay-success" exact component={PaymentSuccessPage}></Route>
     </BrowserRouter>
   </Suspense>
 )
