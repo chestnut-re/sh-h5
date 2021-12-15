@@ -5,12 +5,15 @@ import { Button, Cell, Toast } from 'react-vant'
 import { SHBridge } from '@/jsbridge'
 import { isApp } from '@/jsbridge/env'
 import { FileService } from '@/service/FileService'
+import { generateUrl } from '@/utils'
 
 /**
  * H5 设置页
  */
 const TestPage = () => {
-  useEffect(() => {}, [])
+  useEffect(() => {
+    console.log('load data')
+  }, [])
 
   /**图片上传 */
   const _handleImgInputChange = (event) => {
@@ -68,15 +71,15 @@ const TestPage = () => {
       </Cell.Group>
       <Cell.Group title="跳转">
         <Cell
-          title="跳转页面 https://baidu.com"
+          title="跳转页面 /money-record"
           onClick={() => {
-            SHBridge.jump({ url: 'https://baidu.com' })
+            SHBridge.jump({ url: generateUrl('/money-record') })
           }}
         />
         <Cell
-          title="跳转页面/打开新页面 https://baidu.com "
+          title="跳转页面/打开新页面 /money-record "
           onClick={() => {
-            SHBridge.jump({ url: 'https://baidu.com', newWebView: true })
+            SHBridge.jump({ url: generateUrl('/money-record'), newWebView: true })
           }}
         />
         <Cell
