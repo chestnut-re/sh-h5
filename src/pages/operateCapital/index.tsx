@@ -96,7 +96,8 @@ const OperateCapitalPage: React.FC = () => {
             <div>{selectText}运营资金金额（元）</div>
             <div className="input-num">
               <div>¥</div>
-              <input value={value} type="" />
+              {/* <input value={value} type="" /> */}
+              <div className="input">{value}</div>
             </div>
             <div>可{selectText}&nbsp;¥23999元</div>
           </div>

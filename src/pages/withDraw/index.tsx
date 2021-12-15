@@ -36,7 +36,7 @@ const WithDrawPage: React.FC = (props) => {
     // window.location.href = '/detailed'
   }
   const toExamine = () => {
-    SHBridge.jump({ url: generateUrl('/detailed'), replace: true, title: '申请提现' })
+    SHBridge.jump({ url: generateUrl('/examine'), replace: true, title: '申请提现' })
   }
   const onFocus = () => {
     setVisible(true)
@@ -47,7 +47,10 @@ const WithDrawPage: React.FC = (props) => {
         <div className="title">提现金额</div>
         <div className="input-num">
           <div>¥</div>
-          <input value={myK} type="" placeholder="请输入提现金额" onFocus={onFocus} onBlur={() => setVisible(false)} />
+          {/* <input value={myK} type="" placeholder="请输入提现金额" onFocus={onFocus} onBlur={() => setVisible(false)} /> */}
+          <div className="input" onClick={onFocus} onBlur={() => setVisible(false)}>
+            {myK}
+          </div>
         </div>
         <div className="text">
           {Number(myK) < dollar ? (
@@ -82,6 +85,7 @@ const WithDrawPage: React.FC = (props) => {
         extraKey="."
         closeButtonText="提现"
         visible={visible}
+        hideOnClickOutside
         value={myK}
         onChange={setMyK}
         onClose={() => setVisible(false)}
