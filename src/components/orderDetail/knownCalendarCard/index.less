@@ -1,41 +1,66 @@
 .KCalendar-container {
   position: relative;
-  .kcalendar-section {
+  .kcalendar-box {
     display: flex;
-    overflow-x: auto;
-    padding: 24px 0;
-    scroll-snap-type: x mandatory;
-    &::-webkit-scrollbar {
+    justify-content: space-between;
+    align-items: center;
+    .kcalendar-section {
+      flex: 1;
+      display: flex;
+      overflow-x: auto;
+      padding: 24px 0;
+      scroll-snap-type: x mandatory;
+      &::-webkit-scrollbar {
         display: none;
       }
-    .section-item {
-      scroll-snap-align: start;
-      height: 130px;
-      flex-shrink: 0;
-      font-size: 24px;
-      font-family: PingFang SC, PingFang SC-Regular;
-      font-weight: 400;
-      text-align: center;
-      color: #666666;
-      line-height: 30px;
-      background: #f5f8f8;
-      border-radius: 12px;
-      padding: 24px;
-      margin-left: 12px;
-      .price {
-        font-weight: 700;
-        color: #333333;
-        margin-top: 6px;
+      .section-item {
+        scroll-snap-align: start;
+        height: 130px;
+        flex-shrink: 0;
+        font-size: 24px;
+        font-family: PingFang SC, PingFang SC-Regular;
+        font-weight: 400;
+        text-align: center;
+        color: #666666;
+        line-height: 30px;
+        background: #f5f8f8;
+        border-radius: 12px;
+        padding: 24px;
+        margin-left: 12px;
+        .price {
+          font-weight: 700;
+          color: #333333;
+          margin-top: 6px;
+        }
       }
-    }
-    .acitve{
+      .acitve {
         background: #4dcfc5;
         color: #fff;
         .price {
-            color: #fff;
-          }
+          color: #fff;
+        }
+      }
+    }
+    .kcalendar-more {
+      width: 108px;
+      overflow: hidden;
+      .more-btn {
+        margin: 0 0 0 auto;
+        border: 2px solid #eeeeee;
+        border-radius: 12px;
+        width: 88px;
+        height: 130px;
+        padding: 32px 10px;
+        font-size: 24px;
+        font-family: PingFang SC, PingFang SC-Regular;
+        font-weight: 400;
+        text-align: center;
+        color: #666666;
+        line-height: 32px;
+      }
     }
   }
+
   .kcalendar-box {
     display: flex;
     justify-content: space-between;
@@ -53,7 +78,7 @@
       }
     }
     .kcalendar-item-r {
-        max-width: 150px;
+      max-width: 150px;
       .kcitem-tag {
         position: relative;
         display: inline-flex;
