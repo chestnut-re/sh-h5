@@ -1,6 +1,6 @@
 /*
  * @Description: 添加人员
- * @LastEditTime: 2021-12-16 14:30:22
+ * @LastEditTime: 2021-12-16 17:57:40
  */
 
 import React from 'react'
@@ -55,7 +55,7 @@ const SendPeople: React.FC = () => {
   ]
   const showDialog = () => {
     Dialog.confirm({
-      message: '您确认将4人加入“”吗？',
+      message: '您确认将""加入""吗？',
       width: '272px',
       confirmButtonText: '确认加入',
       confirmButtonColor: '#333333',
