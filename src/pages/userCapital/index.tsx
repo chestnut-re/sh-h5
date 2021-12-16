@@ -98,7 +98,8 @@ const UserCapitalPage: React.FC = () => {
             <div>提现金额</div>
             <div className="input-num">
               <div>¥</div>
-              <input value={value} type="" />
+              {/* <input value={value} type="" /> */}
+              <div className="input">{value}</div>
             </div>
             <div>可提现金额xxxx元</div>
           </div>

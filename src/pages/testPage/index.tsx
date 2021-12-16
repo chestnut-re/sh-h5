@@ -53,11 +53,24 @@ const TestPage = () => {
           }}
         />
         <Cell
+          title="设置TitleColor"
+          onClick={() => {
+            console.log('title')
+            SHBridge.setTitleColor('#ff0000')
+          }}
+        />
+        <Cell
           title="设置标题action"
           onClick={() => {
             SHBridge.setTitleAction(['第一个', '第二个'], (index) => {
               Toast(index.toString())
             })
+          }}
+        />
+        <Cell
+          title="设置导航栏背景色"
+          onClick={() => {
+            SHBridge.setNavBgColor('#ff0000')
           }}
         />
       </Cell.Group>
