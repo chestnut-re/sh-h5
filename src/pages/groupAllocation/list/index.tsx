@@ -1,14 +1,18 @@
 /*
  * @Description:团期分配-列表
- * @LastEditTime: 2021-12-15 17:37:13
+ * @LastEditTime: 2021-12-16 17:52:39
  */
 import React, { useState } from 'react'
 import { Tabs } from 'react-vant'
 import ForEstablishingGroup from '@/components/group/forEstablishingGroup'
 import CommittedGroup from '@/components/group/committedGroup'
 import SendTheGroup from '@/components/group/sendTheGroup'
+
+
 import './index.less'
 const groupDistribution: React.FC = () => {
+ 
+
   return (
     <div className="group__root">
       <Tabs
@@ -36,4 +40,4 @@ const groupDistribution: React.FC = () => {
   )
 }
 
-export default groupDistribution
+export default (groupDistribution)

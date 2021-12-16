@@ -1,13 +1,17 @@
-import React, { useState } from 'react'
-import { Tabs, Button, Tag } from 'react-vant'
+import React from 'react'
+import { Tabs } from 'react-vant'
 
+import { withRouter } from 'react-router-dom'
 import './index.less'
 
 /**
  * 团期分配-列表
  */
 
-const groupDistribution: React.FC = () => {
+const GroupDistribution: React.FC = (props: any) => {
+  const goDetail = () => {
+    props.history.push('/group/list')
+  }
   return (
     <div className="group__root">
       <Tabs
@@ -19,7 +23,7 @@ const groupDistribution: React.FC = () => {
         titleInactiveColor="#000000"
       >
         <Tabs.TabPane title="约定出行" name="a">
-          <div className="group">
+          <div className="group" onClick={() => goDetail()}>
             <div className="group-time">北京环球影城一日游（7大主…题+全聚德券）</div>
             <div className="group-name">
               <div className="group-list">
@@ -45,7 +49,7 @@ const groupDistribution: React.FC = () => {
               <div className="icon-right"></div>
             </div>
           </div>
-          <div className="group">
+          <div className="group" onClick={() => goDetail()}>
             <div className="group-time">北京环球影城一日游（7大主…题+全聚德券）</div>
             <div className="group-name">
               <div className="group-list">
@@ -73,7 +77,7 @@ const groupDistribution: React.FC = () => {
           </div>
         </Tabs.TabPane>
         <Tabs.TabPane title="固定出行" name="b">
-          <div className="group">
+          <div className="group" onClick={() => goDetail()}>
             <div className="group-time">北京环球影城一日游（7大主…题+全聚德券）</div>
             <div className="group-name">
               <div className="group-list">
@@ -99,7 +103,7 @@ const groupDistribution: React.FC = () => {
               <div className="icon-right"></div>
             </div>
           </div>
-          <div className="group">
+          <div className="group" onClick={() => goDetail()}>
             <div className="group-time">北京环球影城一日游（7大主…题+全聚德券）</div>
             <div className="group-name">
               <div className="group-list">
@@ -131,4 +135,4 @@ const groupDistribution: React.FC = () => {
   )
 }
 
-export default groupDistribution
+export default withRouter(GroupDistribution)
