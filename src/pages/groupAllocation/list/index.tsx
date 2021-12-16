@@ -1,6 +1,6 @@
 /*
- * @Description:团期分配-列表
- * @LastEditTime: 2021-12-16 17:52:39
+ * @Description:团期分配-列表  约定出行 /group/list?type=appoint  固定出行 /group/list?type=fixed
+ * @LastEditTime: 2021-12-16 18:31:56
  */
 import React, { useState } from 'react'
 import { Tabs } from 'react-vant'

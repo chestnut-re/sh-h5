@@ -1,22 +1,22 @@
 /*
- * @Description: 待建团
- * @LastEditTime: 2021-12-15 18:04:58
+ * @Description: 发团中 & 已结束
+ * @LastEditTime: 2021-12-16 18:30:48
  */
 import React, { useState, useEffect, FC } from 'react'
 import './index.less'
 
 const SendTheGroup: FC = (props: any) => {
   return (
-    <div className="Establishing-item">
-      <div className="Establishing-th">
-        <div className="Establishing-div">创建时间</div>
-        <div className="Establishing-div"></div>
-        <div className="Establishing-div">发团人</div>
+    <div className="establishing__root">
+      <div className="establishing-th">
+        <div className="establishing-div">创建时间</div>
+        <div className="establishing-div"></div>
+        <div className="establishing-div">发团人</div>
       </div>
-      <div className="Establishing-tb">
-        <div className="Establishing-div">创建时间</div>
-        <div className="Establishing-div"></div>
-        <div className="Establishing-div">发团人</div>
+      <div className="establishing-tb">
+        <div className="establishing-div">创建时间</div>
+        <div className="establishing-div"></div>
+        <div className="establishing-div">发团人</div>
       </div>
     </div>
   )

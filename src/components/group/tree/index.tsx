@@ -1,7 +1,15 @@
+/*
+ * @Description: 指定发团人-发团人列表
+ * @LastEditTime: 2021-12-16 18:32:28
+ */
+
 import React, { useState } from 'react'
-import Down from '@/assets/img/down_icon@3x.png'
-import Up from '@/assets/img/up_icon@3x.png'
+import Down from '@/assets/img/down_checkout@3x.png'
+import Up from '@/assets/img/up_checkout@3x.png'
+import activeIcon from '@/assets/img/active_checkout@3x.png'
+import inactiveIcon from '@/assets/img/inactive_checkout@3x.png'
 import { Checkbox } from 'react-vant'
+
 interface Props {
   treeData: Array<any>
   // defaultExpandedKeys: Array<any>
@@ -25,6 +33,9 @@ const Tree: React.FC<Props> = ({ treeData }) => {
               <Checkbox
                 defaultChecked={false}
                 checkedColor="#00D2C6"
+                iconRender={({ checked: isActive }) => (
+                  <img className="check-img" alt="" src={isActive ? activeIcon : inactiveIcon} />
+                )}
                 className="groupSend-checkbox"
                 onChange={(e) => changeBox(e)}
                 name={index}
@@ -50,7 +61,6 @@ const Tree: React.FC<Props> = ({ treeData }) => {
               </div>
             </div>
           )}
-
           {item.children && item.children.length && item.isOpenChild ? <>{loopTree(item.children)}</> : null}
         </div>
       )

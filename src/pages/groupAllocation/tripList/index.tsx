@@ -9,11 +9,11 @@ import './index.less'
  */
 
 const GroupDistribution: React.FC = (props: any) => {
-  const goDetail = () => {
-    props.history.push('/group/list')
+  const goDetail = (type) => {
+    props.history.push(`/group/list?type=${type}`)
   }
   return (
-    <div className="group__root">
+    <div className="tripList__root">
       <Tabs
         active="a"
         color="#32D0C6"
@@ -23,7 +23,7 @@ const GroupDistribution: React.FC = (props: any) => {
         titleInactiveColor="#000000"
       >
         <Tabs.TabPane title="约定出行" name="a">
-          <div className="group" onClick={() => goDetail()}>
+          <div className="group" onClick={() => goDetail('appoint')}>
             <div className="group-time">北京环球影城一日游（7大主…题+全聚德券）</div>
             <div className="group-name">
               <div className="group-list">
@@ -49,7 +49,7 @@ const GroupDistribution: React.FC = (props: any) => {
               <div className="icon-right"></div>
             </div>
           </div>
-          <div className="group" onClick={() => goDetail()}>
+          <div className="group" onClick={() => goDetail('appoint')}>
             <div className="group-time">北京环球影城一日游（7大主…题+全聚德券）</div>
             <div className="group-name">
               <div className="group-list">
@@ -77,7 +77,7 @@ const GroupDistribution: React.FC = (props: any) => {
           </div>
         </Tabs.TabPane>
         <Tabs.TabPane title="固定出行" name="b">
-          <div className="group" onClick={() => goDetail()}>
+          <div className="group" onClick={() => goDetail('fixed')}>
             <div className="group-time">北京环球影城一日游（7大主…题+全聚德券）</div>
             <div className="group-name">
               <div className="group-list">
@@ -103,7 +103,7 @@ const GroupDistribution: React.FC = (props: any) => {
               <div className="icon-right"></div>
             </div>
           </div>
-          <div className="group" onClick={() => goDetail()}>
+          <div className="group" onClick={() => goDetail('fixed')}>
             <div className="group-time">北京环球影城一日游（7大主…题+全聚德券）</div>
             <div className="group-name">
               <div className="group-list">
