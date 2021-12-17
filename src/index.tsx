@@ -120,6 +120,8 @@ const ProductAnalysisPage = loadable(
 )
 /**支付成功 */
 const PaymentSuccessPage = loadable(() => import(/* webpackChunkName: 'PaymentSuccessPage'*/ './pages/paymentSuccess'))
+/**消息-员工数据板 */
+const EmployeeDataPage = loadable(() => import(/* webpackChunkName: 'EmployeeDataPage'*/ './pages/employeeData'))
 
 const env = process.env.NODE_ENV
 console.log(env)
@@ -183,6 +185,7 @@ const App = () => (
       <Route path="/product-analysis" exact component={ProductAnalysisPage}></Route>
       <Route path="/order-search" exact component={OrderSearchPage}></Route>
       <Route path="/pay-success" exact component={PaymentSuccessPage}></Route>
+      <Route path="/employee-data" exact component={EmployeeDataPage}></Route>
     </BrowserRouter>
   </Suspense>
 )

@@ -1,14 +1,14 @@
-import React, { useState, useCallback } from 'react'
-import { Tag, Tabs } from 'react-vant'
+import React, { useState, useRef, useEffect } from 'react'
+import { Tabs } from 'react-vant'
 import ReactECharts from 'echarts-for-react'
 import ButtonGroup from '@/components/employeeData/buttonGroup'
 import 'echarts/i18n/langFR'
 import './index.less'
-/**
- * 销售业绩
- */
 
-const SalesPerformancePage: React.FC = () => {
+/**
+ * 消息-员工数据板
+ */
+const EmployeeDataPage: React.FC = () => {
   const [num, setNum] = useState(1)
   const [checkedValue, setCheckedValue] = useState(0)
   const groupBtnData = [
@@ -67,7 +67,7 @@ const SalesPerformancePage: React.FC = () => {
   }
 
   return (
-    <div className="performance__root">
+    <div className="employee__root">
       <Tabs
         active="a"
         color="#32D0C6"
@@ -101,8 +101,57 @@ const SalesPerformancePage: React.FC = () => {
         <Tabs.TabPane title="收益" name="c">
           3
         </Tabs.TabPane>
+        <Tabs.TabPane title="KPI目标" name="d">
+          <div className="kpi-target">
+            <div className="my-target-time">
+              <span>2021-11-1</span>
+              <span>至</span>
+              <span>2021-12-30</span>
+            </div>
+            <div className="my-target-name">方案名称1占位符</div>
+            <div className="my-target-target">
+              <div>
+                <span>基础目标</span>
+                <span>¥1000,000</span>
+                <span>绩效佣金</span>
+                <span>¥15%</span>
+              </div>
+              <div>
+                <span>二阶目标</span>
+                <span>¥2000,000</span>
+                <span>绩效佣金</span>
+                <span>¥20%</span>
+              </div>
+              <div>
+                <span>三阶目标</span>
+                <span>¥3000,000</span>
+                <span>绩效佣金</span>
+                <span>¥50%</span>
+              </div>
+            </div>
+            <div className="my-target-bottom">
+              <div className="bottom-img">
+                <span>销售额</span>
+              </div>
+              <div className="bottom-con">
+                <div></div>
+                <div className="bottom-progress">
+                  <div className="progress-data" style={{ width: 0.6 * 285 }}>
+                    <span>2,000,000</span>
+                    <span></span>
+                  </div>
+                </div>
+                <div>
+                  <span>1,000,000</span>
+                  <span>2,000,000</span>
+                  <span>3,000,000</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Tabs.TabPane>
       </Tabs>
     </div>
   )
 }
-export default SalesPerformancePage
+export default EmployeeDataPage
