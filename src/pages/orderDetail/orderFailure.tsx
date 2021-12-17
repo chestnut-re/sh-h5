@@ -14,11 +14,8 @@ const OrderFailurePage: FC = (props) => {
   const { search } = useLocation()
   console.log('useParams :>> 路由信息', useLocation())
 
-  useEffect(() => {}, [])
-
   const tabBarsList = {
     barLeftTitle: '再次购买',
-    barRightTitle: '分享给TA',
     onSelect: (type, item) => {
       switch (type) {
         case 'barLeftTitle':

@@ -39,7 +39,7 @@ const ProductRanking: FC = () => {
       <ul className="productran-ul">
         {hotData.map((item, index) => {
           return (
-            <li className="productran-li">
+            <li className="productran-li" key={index}>
               <div className="productran-left">
                 <span className={clsx({ hot1: index === 0, hot2: index === 1, hot3: index === 2 })}>
                   {String(index + 1).padStart(2, '0')}
