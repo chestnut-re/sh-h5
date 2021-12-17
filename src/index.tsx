@@ -123,6 +123,13 @@ const PaymentSuccessPage = loadable(() => import(/* webpackChunkName: 'PaymentSu
 /**消息-员工数据板 */
 const EmployeeDataPage = loadable(() => import(/* webpackChunkName: 'EmployeeDataPage'*/ './pages/employeeData'))
 
+/**固定出行发团分配-列表 */
+const GroupTripPage = loadable(() => import(/* webpackChunkName: 'MassPage' */ './pages/groupAllocation/tripList'))
+/**发团分配 团列表-列表 */
+const GroupPage = loadable(() => import(/* webpackChunkName: 'MassPage' */ './pages/groupAllocation/list'))
+/** 指定发团人 */
+
+const SendPeople = loadable(() => import(/* webpackChunkName: 'MassPage' */ './pages/groupAllocation/sendPeople'))
 const env = process.env.NODE_ENV
 console.log(env)
 
@@ -186,6 +193,9 @@ const App = () => (
       <Route path="/order-search" exact component={OrderSearchPage}></Route>
       <Route path="/pay-success" exact component={PaymentSuccessPage}></Route>
       <Route path="/employee-data" exact component={EmployeeDataPage}></Route>
+      <Route path="/group/trip-list" exact component={GroupTripPage}></Route>
+      <Route path="/group/list" exact component={GroupPage}></Route>
+      <Route path="/group/send-people" exact component={SendPeople}></Route>
     </BrowserRouter>
   </Suspense>
 )

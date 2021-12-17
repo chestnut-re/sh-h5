@@ -1,7 +1,7 @@
 import React, { useState, FC } from 'react'
 import clsx from 'clsx'
 import { ConfigProvider, Image, Icon } from 'react-vant'
-import downIcon from '@/assets/img/market/down_icon@3x.png';
+import downIcon from '@/assets/img/market/down_icon@3x.png'
 import './index.less'
 
 /**
@@ -34,10 +34,10 @@ const SalesRanking: FC = () => {
                     <span>0{index + 1}</span>
                   </div>
                 ) : (
-                  <span>{index<9?`0${index+1}`:index+1}</span>
+                  <span>{String(index + 1).padStart(2, '0')}</span>
                 )}
               </div>
-              <div className={clsx('salesrank-right ', index < hotData.length-1 && 'rv-hairline--bottom')}>
+              <div className={clsx('salesrank-right ', index < hotData.length - 1 && 'rv-hairline--bottom')}>
                 <div className="salesrank-avatar">
                   <Image
                     round
@@ -54,26 +54,22 @@ const SalesRanking: FC = () => {
           )
         })}
         <li className="salesrank-li">
-            <div className="salesrank-more">查看更多 <Icon size="3vw" name={downIcon}/></div>
+          <div className="salesrank-more">
+            查看更多 <Icon size="3vw" name={downIcon} />
+          </div>
         </li>
       </ul>
       <div className="salesrank-spec">
-            <div className="salesrank-spec-box">
-                <div className="spec-hot">
-                    <span>04</span>
-                </div>
-                <div className="spec-avatar">
-                <Image
-                    round
-                    width="100%"
-                    height="100%"
-                    fit="cover"
-                    src={`http://picsum.photos/128?t=${Math.random()}`}
-                  />
-                </div>
-                <div className="spec-name">小小快门工</div>
-                <div className="spec-quota">¥8000</div>
-            </div>
+        <div className="salesrank-spec-box">
+          <div className="spec-hot">
+            <span>04</span>
+          </div>
+          <div className="spec-avatar">
+            <Image round width="100%" height="100%" fit="cover" src={`http://picsum.photos/128?t=${Math.random()}`} />
+          </div>
+          <div className="spec-name">小小快门工</div>
+          <div className="spec-quota">¥8000</div>
+        </div>
       </div>
     </div>
   )
