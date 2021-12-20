@@ -30,6 +30,7 @@ specifiers:
   css-loader: ^5.2.0
   css-minimizer-webpack-plugin: ^2.0.0
   cssnano-preset-advanced: ^5.0.0
+  dayjs: ^1.10.7
   dotenv: ^8.2.0
   echarts: ^5.2.2
   echarts-for-react: ^3.0.2
@@ -74,6 +75,7 @@ dependencies:
   axios: 0.21.4
   clipboard: 2.0.8
   clsx: 1.1.1
+  dayjs: 1.10.7
   echarts: 5.2.2
   echarts-for-react: 3.0.2_echarts@5.2.2+react@17.0.2
   js-cookie: 3.0.1
@@ -3248,6 +3250,10 @@ packages:
 
   /csstype/3.0.10:
     resolution: {integrity: sha512-2u44ZG2OcNUO9HDp/Jl8C07x6pU/eTR3ncV91SiK3dhG9TWvRVsCoJw14Ckx5DgWkzGA3waZWO3d7pgqpUI/XA==}
+
+  /dayjs/1.10.7:
+    resolution: {integrity: sha512-P6twpd70BcPK34K26uJ1KT3wlhpuOAPoMwJzpsIWUxHZ7wpmbdZL/hQqBDfz7hGurYSa5PhzdhDHtt319hL3ig==}
+    dev: false
 
   /debug/2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
