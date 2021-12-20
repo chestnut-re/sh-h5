@@ -15,3 +15,8 @@ export interface JumpParams {
 export enum UiType {
   default,
 }
+
+export enum ActionType {
+  text = 'text',
+  img = 'img',
+}

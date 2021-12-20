@@ -1,4 +1,4 @@
-import { JumpParams, UiType } from './types'
+import { ActionType, JumpParams, UiType } from './types'
 import _callMethod from './bridge'
 
 /**
@@ -65,7 +65,11 @@ export class AppBridge {
    * 设置标题Action
    * @param title 标题
    */
-  static setTitleAction(title: Array<string>, backFn: (index: number) => void, uiType = UiType.default): void {
+  static setTitleAction(
+    title: Array<Record<string, string>>,
+    backFn: (index: number) => void,
+    uiType = UiType.default
+  ): void {
     const msg = {
       method: 'setTitleAction',
       data: {
@@ -74,7 +78,6 @@ export class AppBridge {
         backFn: _callMethod(backFn),
       },
     }
-    debugger
     SHApp.postMessage(JSON.stringify(msg))
   }
 

@@ -6,7 +6,7 @@ import { AppBridge } from './app'
 import { Toast } from 'react-vant'
 import { isApp } from './env'
 import { getUrlParams } from './utils'
-import { JumpParams } from './types'
+import { ActionType, JumpParams, UiType } from './types'
 
 export class SHBridge {
   /**
@@ -63,7 +63,7 @@ export class SHBridge {
    * 设置标题
    * @param title 标题
    */
-  static setTitleAction(title: Array<string>, backFn: (index: number) => void): void {
+  static setTitleAction(title: Array<Record<string, string>>, backFn: (index: number) => void): void {
     if (isApp()) {
       AppBridge.setTitleAction(title, backFn)
     }

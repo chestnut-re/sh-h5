@@ -62,9 +62,18 @@ const TestPage = () => {
         <Cell
           title="设置标题action"
           onClick={() => {
-            SHBridge.setTitleAction(['第一个', '第二个'], (index) => {
-              Toast(index.toString())
-            })
+            SHBridge.setTitleAction(
+              [
+                { text: '第一个', type: 'text' },
+                {
+                  text: 'https://image.baidu.com/search/detail?ct=503316480&z=undefined&tn=baiduimagedetail&ipn=d&word=icon&step_word=&ie=utf-8&in=&cl=2&lm=-1&st=undefined&hd=undefined&latest=undefined&copyright=undefined&cs=3181153752,3984838184&os=3143546603,3954237760&simid=3468328744,312494263&pn=30&rn=1&di=134860&ln=1877&fr=&fmq=1639991279425_R&fm=&ic=undefined&s=undefined&se=&sme=&tab=0&width=undefined&height=undefined&face=undefined&is=0,0&istype=0&ist=&jit=&bdtype=0&spn=0&pi=0&gsm=0&objurl=https%3A%2F%2Fgimg2.baidu.com%2Fimage_search%2Fsrc%3Dhttp%253A%252F%252Fimg.zcool.cn%252Fcommunity%252F0179995befdd37a8012092526f378c.jpg%25402o.jpg%26refer%3Dhttp%253A%252F%252Fimg.zcool.cn%26app%3D2002%26size%3Df9999%2C10000%26q%3Da80%26n%3D0%26g%3D0n%26fmt%3Djpeg%3Fsec%3D1642583279%26t%3D3dc61069427fd93bb6ea37d3b0626aec&rpstart=0&rpnum=0&adpicid=0&nojc=undefined&dyTabStr=MCwzLDYsMSw0LDIsNSw4LDcsOQ%3D%3D',
+                  type: 'img',
+                },
+              ],
+              (index) => {
+                Toast(index.toString())
+              }
+            )
           }}
         />
         <Cell
