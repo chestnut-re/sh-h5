@@ -64,9 +64,10 @@ const TestPage = () => {
           onClick={() => {
             SHBridge.setTitleAction(
               [
-                { text: '第一个', type: 'text' },
+                { value: '第一个', type: 'text' },
                 {
-                  text: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0179995befdd37a8012092526f378c.jpg%402o.jpg',
+                  value:
+                    'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0179995befdd37a8012092526f378c.jpg%402o.jpg',
                   type: 'img',
                 },
               ],
