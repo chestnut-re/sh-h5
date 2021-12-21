@@ -130,6 +130,8 @@ const GroupPage = loadable(() => import(/* webpackChunkName: 'MassPage' */ './pa
 /** 指定发团人 */
 
 const SendPeople = loadable(() => import(/* webpackChunkName: 'MassPage' */ './pages/groupAllocation/sendPeople'))
+//新增、编辑出行人信息
+const PersonalDetails = loadable(() => import(/* webpackChunkName: 'MassPage' */ './pages/personalDetails'))
 const env = process.env.NODE_ENV
 console.log(env)
 
@@ -196,6 +198,7 @@ const App = () => (
       <Route path="/group/trip-list" exact component={GroupTripPage}></Route>
       <Route path="/group/list" exact component={GroupPage}></Route>
       <Route path="/group/send-people" exact component={SendPeople}></Route>
+      <Route path="/personal-details" exact component={PersonalDetails}></Route>
     </BrowserRouter>
   </Suspense>
 )
