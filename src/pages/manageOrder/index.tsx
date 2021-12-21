@@ -1,7 +1,8 @@
 import React, { useState, useEffect, FC } from 'react'
-import { ConfigProvider, Tabs,Empty } from 'react-vant'
-import qs from 'querystring'
+import { ConfigProvider, Tabs, Empty, List, Toast, Loading } from 'react-vant'
 import ManageItem from '@/components/manageOrder/orderIMantem'
+import { useHistory, useLocation } from 'react-router-dom'
+import { ManageOrder } from '@/service/ManageOrder'
 
 import './index.less'
 /**
@@ -10,187 +11,215 @@ import './index.less'
  */
 const themeVars = {
   '--rv-tabs-bottom-bar-color': '#3BD1C4',
-  '--rv-tab-font-size': '14px',
+  '--rv-tab-font-size': '3.7vw',
 }
+interface ListItem {
+  travelerType: number
+  travelerName: string
+  travelerPhoneNumber: string
+  travelerCertificateNo: string
+  emerName: string
+  emerPhoneNumber: string
+}
+
 const TabsListObj = [
-  { tabName: '全部', type: 0, id: 0, isTag: false },
+  { tabName: '全部', type: '', id: 0, isTag: false },
   { tabName: '待付款', type: 1, id: 1, isTag: true },
   { tabName: '待确认', type: 3, id: 2, isTag: false },
   { tabName: '已完成', type: 4, id: 3, isTag: false },
-  { tabName: '退款/售后', type: 5, id: 4, isTag: false },
+  { tabName: '退款/售后', type: '5,6,7', id: 4, isTag: false },
 ]
 
 const ListData = [
   {
-    _id: '61ada88d4e147741543c7efd',
-    title: '',
-    summary: '之前就对杜伽Fusion念念不忘\n复古的外观\n手感确实不错\n这次就可以将鼠标、手绘板、键盘三个都...',
-    username: '大头君有点困',
-    avatar_path: 'http://inews.gtimg.com/newsapp_bt/0/14270603665/641',
-    type: 1,
-    order: 1,
-    price: 1998,
+    id: '61ada88d4e147741543c7efd',
+    orderNo: '1235 8793 1234 9090',
+    orderTime: '2021-12-21 12:30:45',
+    goodsName: '之前就对杜伽Fusion念念不忘\n复古的外观\n手感确实不错\n这次就可以将鼠标、手绘板、键盘三个都...',
+    adultNum: 0,
+    childNum: 2,
+    payAmount: 1798,
+    orderUserId: '41543c7e',
+    orderUserName: '大头君有点困',
+    state: 1,
   },
   {
-    _id: '61ada4ce4e147739d542a96b',
-    title: '',
-    summary: '合肥包公园  冬游变春游（二）\n两个多小时的拍摄，整理出了两组十二张照片，等下个季节下次再去里面...',
-    username: '既白',
-    cover: null,
-    type: 2,
-    order: 1,
-    price: 1908,
+    id: '71ada88d4e147741543c7efd',
+    orderNo: '1235 8793 1234 9090',
+    orderTime: '2021-12-21 12:30:45',
+    goodsName: '合肥包公园  冬游变春游（二）\n两个多小时的拍摄，整理出了两组十二张照片，等下个季节下次再去里面...',
+    adultNum: 2,
+    childNum: 2,
+    payAmount: 1998,
+    orderUserId: '41590c7e',
+    orderUserName: '既白',
+    state: 2,
   },
   {
-    _id: '61ada8464e14774472198507',
-    title: '',
-    summary: '富士与古风\n上个周末，带着朋友拍了一组古风，第二次尝试古风的拍摄，害我很多需要改进的地方，这次拍...',
-    cover: null,
-    type: 2,
-    username: '毛彬彬',
-    order: 1,
-    price: 1908,
+    id: '61ada8464e14774472198507',
+    orderNo: '1235 8793 1234 9090',
+    orderTime: '2021-12-21 12:30:45',
+    goodsName: '富士与古风\n上个周末，带着朋友拍了一组古风，第二次尝试古风的拍摄，害我很多需要改进的地方，这次拍...',
+    adultNum: 2,
+    childNum: 2,
+    payAmount: 1998,
+    orderUserId: '41590c7e',
+    orderUserName: '毛彬彬',
+    state: 2,
   },
   {
-    _id: '61ada5684e1477454e3498d3',
-    title: '',
-    summary: '趁着换了iPhone 13 Pro Max的机会，试了试不少壳，从8块包邮到300块的都有，快速...',
-    cover: null,
-    type: 4,
-    order: 1,
-    username: '罗莱尔特',
-    price: 1908,
+    id: '61ada5684e1477454e3498d3',
+    orderNo: '1235 8793 1234 9090',
+    orderTime: '2021-12-21 12:30:45',
+    goodsName: '趁着换了iPhone 13 Pro Max的机会，试了试不少壳，从8块包邮到300块的都有，快速...',
+    adultNum: 2,
+    childNum: 2,
+    payAmount: 1998,
+    orderUserId: '41590c7e',
+    orderUserName: '罗莱尔特',
+    state: 3,
   },
   {
-    _id: '61ada7754e147767542fb6fd',
-    title: '',
-    summary: '21天习惯养成游戏最终章：第21天\n     《任天堂2ds透黑开箱&amp;掌机对比》\n       ...',
-    cover: null,
-    type: 4,
-    order: 1,
-    username: '塞尔达传说',
-    price: 1908,
+    id: '61ada7754e147767542fb6fd',
+    orderNo: '1235 8793 1234 9090',
+    orderTime: '2021-12-21 12:30:45',
+    goodsName: '21天习惯养成游戏最终章：第21天\n     《任天堂2ds透黑开箱&amp;掌机对比》',
+    adultNum: 2,
+    childNum: 2,
+    payAmount: 1998,
+    orderUserId: '41590c7e',
+    orderUserName: '塞尔达传说',
+    state: 4,
   },
   {
-    _id: '61ae278d4e14774b727fad52',
-    title: '',
-    summary: '弹琵琶的女生\n当时我远远的就听到一股悦耳动听的旋律从湖中亭传来。我循声而去，拿着相机，慢慢地走进...',
-    cover: null,
-    type: 4,
-    order: 1,
-    username: '小小快门工',
-    price: 1908,
+    id: '61ae278d4e14774b727fad52',
+    orderNo: '1235 8793 1234 9090',
+    orderTime: '2021-12-21 12:30:45',
+    goodsName: '弹琵琶的女生\n当时我远远的就听到一股悦耳动听的旋律从湖中亭传来。我循声而去，',
+    adultNum: 2,
+    childNum: 2,
+    payAmount: 1998,
+    orderUserId: '41590c7e',
+    orderUserName: '小小快门工',
+    state: 5,
   },
   {
-    _id: '61ad750c4e14775e2e501738',
-    title: '【第一人称扫街】10 年前的诺基亚 C7 扫街',
-    summary: '2011 年诺基亚推出的 C7 手机，800 万像素，最大光圈 F2.8。',
-    cover:
-      'http://s1.dgtle.com/dgtle_img/article/2021/12/05/d84542021120518043965_1800_500.jpeg?imageView2/2/w/960/q/100/format/jpg',
-    type: 1,
-    order: 1,
-    username: '小丸犊治',
-    price: 1908,
+    id: '61ad750c4e14775e2e501738',
+    orderNo: '1235 8793 1234 9090',
+    orderTime: '2021-12-21 12:30:45',
+    goodsName: '2011 年诺基亚推出的 C7 手机，800 万像素，最大光圈 F2.8。',
+    adultNum: 2,
+    childNum: 2,
+    payAmount: 1998,
+    orderUserId: '41590c7e',
+    orderUserName: '小丸犊治',
+    state: 6,
   },
   {
-    _id: '61ada4624e147727ac0b1cc0',
-    title: '',
-    summary: '苏州咖啡｜ 以24节气做特调的咖啡店\n Roaster Q咖啡店\n一家藏在狮林巷里面的咖啡店\n店...',
-    cover: null,
-    type: 2,
-    order: 1,
-    username: '九二哥_Yue',
-    price: 1908,
-  },
-  {
-    _id: '61af00eb4e147772f32827fe',
-    title: '',
-    summary: '2021年12月7日，天气晴，温度适中。\n\n今日与各位分享一款魅族的智能感应灯，已经使用了两个半...',
-    cover: null,
-    type: 6,
-    order: 1,
-    username: '石鸽',
-    price: 1908,
-  },
-  {
-    _id: '61ada4f24e14772e864706f5',
-    title: '',
-    summary: '「此刻念旧」黑莓Classic，够经典，也好像只有经典了。\n第一次上手黑莓，感想颇多，作为7年前...',
-    cover: null,
-    type: 4,
-    order: 1,
-    username: 'long50017',
-    price: 1908,
-  },
-  {
-    _id: '61ada3c14e147710197a7482',
-    title: '',
-    summary: '欣赏云朵是永不厌倦的浪漫小事｜摄影日记\n\n☁️要说什么画面是我永远看不厌也不拍不的，那一定是天空...',
-    cover: null,
-    type: 5,
-    order: 1,
-    username: '米奥Meo',
-    price: 1908,
-  },
-  {
-    _id: '61ada4bc4e1477677f76b5ae',
-    title: '',
-    summary: 'Day 15\n扫街南京城 2021.10.19 \nShot by Sony a7m2',
-    cover: null,
-    type: 4,
-    order: 1,
-    username: 'RonnieZ',
-    price: 1908,
-  },
-  {
-    _id: '61ada6d84e147768b9795988',
-    title: '',
-    summary: '《我爱中国风》第七期\n器材：Nikon D750\n镜头：50mm 1.8G',
-    cover: null,
-    type: 6,
-    order: 1,
-    username: '木未二十六',
-    price: 1908,
-  },
-  {
-    _id: '61aef7ff4e14775edb28d1a0',
-    title: '淘宝“2021 十大年度商品”评选：这几款商品居然...',
-    summary: '今日淘宝启动“年度十大商品”征集活动，消费者可登录淘宝 App 搜索“2021 年度十大商品”就...',
-    cover:
-      'http://s1.dgtle.com/dgtle_img/news/2021/12/07/5c11120211207135754160.jpeg?imageView2/2/w/960/q/100/format/jpg',
-    type: 4,
-    order: 1,
-    username: '飞越彩虹',
-    price: 1908,
+    id: '61ad750c475e2ee147501738',
+    orderNo: '1235 8793 1234 9090',
+    orderTime: '2021-12-21 12:30:45',
+    goodsName: '2011 年诺基亚推出的 C7 手机，800 万像素，最大光圈 F2.8。',
+    adultNum: 2,
+    childNum: 2,
+    payAmount: 1998,
+    orderUserId: '490c157e',
+    orderUserName: '小丸失败',
+    state: 7,
   },
 ]
 
-
 const ManageOrderPage: FC = (props: any) => {
-  const {location: { search }} = props
-  const { type }:any = qs.parse(search.slice(1))
-
+  const { search } = useLocation()
+  //请求是否完成
+  const [finished, setFinished] = useState<boolean>(false)
+  //是否在请求状态
+  const [isloading, setIsloading] = useState<boolean>(true)
+  //当前请求页码
+  const [current, setCurrent] = useState(1)
+  //列表数据
   const [listData, setListData] = useState<any[]>([])
-  const [activeVal, setActive] = useState<any>(type ? type * 1 : 0)
+  //高亮tab
+  const [activeVal, setActive] = useState<any>('')
 
+  const getOrderListData = async () => {
+    // return new Promise<any>((resolve, reject) => {
+    //   setTimeout(() => {
+    //     if (current>=3) {
+    //       console.log('object111111111 :>> ',current);
+    //       reject(new Error('error'));
+    //     }else{
+    //       resolve({
+    //         code:"200",
+    //         msg:"系统异常",
+    //         data:{
+    //           total:100,
+    //           current: current,
+    //           records:[...ListData]
+    //         }
+    //       });
+    //       setCurrent((v) => v + 1)
+    //     }
+
+    //   }, 1200);
+    // }).finally(()=>{
+    //   console.log('object :>>请求处理完了 ');
+    //   setIsloading(false)
+    // });
+
+    return new Promise<any>((resolve, reject) => {
+      ManageOrder.list({
+        state: activeVal,
+        size: 10,
+        current: current,
+      })
+        .then((res: any) => {
+          console.log('object接口请求数据 :>> ', res)
+          let { code, data } = res
+          if (code == '200') {
+            setCurrent((v) => v + 1)
+            resolve(res)
+          } else {
+            reject(new Error('error'))
+          }
+        })
+        .catch((err) => {
+          console.log('object :>>请求错误')
+          reject(new Error('error'))
+        })
+        .finally(() => {
+          console.log('object :>>请求处理完成')
+          setIsloading(false)
+        })
+    })
+  }
+
+  useEffect(() => {
+    if (current === 1) {
+      onLoad()
+    }
+  }, [current, activeVal])
+
+  const onLoad = async () => {
+    // 异步更新数据
+    const {
+      code,
+      data: { total, records },
+    }: any = await getOrderListData()
+
+    setListData((v) => [...v, ...records])
+    if (listData.length >= total) {
+      setFinished(true)
+    } else {
+      setFinished(false)
+    }
+  }
 
   useEffect(() => {
     console.log('object :>>1111 ', activeVal)
-    let newListdata: any = []
-    if (activeVal == 0) {
-      newListdata = [...ListData]
-    } else if (activeVal == 5 || activeVal == 6) {
-      newListdata = ListData.filter((item) => {
-        return item.type == 6 || item.type == 5
-      })
-    } else {
-      newListdata = ListData.filter((item) => {
-        return item.type == activeVal
-      })
-    }
-
-    setListData([...newListdata])
-    props.history.replace(`/order-management?type=${activeVal}`)
+    setIsloading(true)
+    setCurrent(1)
+    setListData([])
   }, [activeVal])
 
   const tabHandelClick = (info) => {
@@ -199,7 +228,7 @@ const ManageOrderPage: FC = (props: any) => {
   }
 
   const manageOrderDetail = (item) => {
-    props.history.push(`/management-details?id=${item._id}`)
+    props.history.push(`/management-details${search}&id=${item.id}`)
   }
   return (
     <div className="Maorder-container">
@@ -234,19 +263,29 @@ const ManageOrderPage: FC = (props: any) => {
         </ConfigProvider>
       </div>
       <div className="maorder-content">
-        {listData.length?listData.map((item) => {
-          return (
-            <div
-              className="morderitem"
-              key={item._id}
-              onClick={() => {
-                manageOrderDetail(item)
-              }}
-            >
-              <ManageItem {...item} />
-            </div>
-          )
-        }):<Empty description="暂无数据"/>}
+        {listData.length ? (
+          <List finished={finished} errorText="请求失败，点击重新加载" onLoad={onLoad} immediateCheck={false}>
+            {listData.map((item, index) => {
+              return (
+                <div
+                  className="morderitem"
+                  key={item.id + index}
+                  onClick={() => {
+                    manageOrderDetail(item)
+                  }}
+                >
+                  <ManageItem {...item} />
+                </div>
+              )
+            })}
+          </List>
+        ) : isloading ? (
+          <Loading className="maorder-loading" vertical color="#3AD2C5">
+            加载中...
+          </Loading>
+        ) : (
+          <Empty description="暂无数据" />
+        )}
       </div>
     </div>
   )
