@@ -102,14 +102,16 @@ export class SHBridge {
 
   /**
    * 设置WebView全屏
+   *  1全屏 0非全屏
    */
-  static setFullScreen(): void {
+  static setFullScreen(type: string): void {
     if (isApp()) {
-      AppBridge.setFullScreen()
+      AppBridge.setFullScreen(type)
     }
   }
   /**
    * 获取app信息
+   * 1全屏 0
    */
   static getAppInfo(backFn: (info: Record<string, any>) => void): void {
     if (isApp()) {

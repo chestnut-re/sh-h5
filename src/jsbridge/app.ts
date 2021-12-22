@@ -114,10 +114,12 @@ export class AppBridge {
   /**
    * 开启全屏
    */
-  static setFullScreen(): void {
+  static setFullScreen(type: string): void {
     const msg = {
       method: 'setFullScreen',
-      data: {},
+      data: {
+        type: type,
+      },
     }
     SHApp.postMessage(JSON.stringify(msg))
   }

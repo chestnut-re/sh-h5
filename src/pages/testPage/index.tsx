@@ -75,7 +75,13 @@ const TestPage = () => {
         <Cell
           title="设置全屏"
           onClick={() => {
-            SHBridge.setFullScreen()
+            SHBridge.setFullScreen('1')
+          }}
+        />
+        <Cell
+          title="取消全屏"
+          onClick={() => {
+            SHBridge.setFullScreen('0')
           }}
         />
         <Cell
