@@ -1,5 +1,5 @@
-import React, { useState,FC } from 'react'
-import qs from 'querystring'
+import React, { useState, FC } from 'react'
+import qs from 'query-string'
 import OrderDone from './orderDone'
 import OrderFailure from './orderFailure'
 import OrderConfirma from './waitConfirma'
@@ -14,17 +14,18 @@ import './index.less'
  * type 3 待确认（OrderConfirma）
  * type 4 待支付（OrderPayment）
  */
-const OrderIndexPage: FC = (props:any) => {
-
-  console.log('object :>> ', props);
-  const {location:{search}} = props;
-  const {type} = qs.parse(search.slice(1))
+const OrderIndexPage: FC = (props: any) => {
+  console.log('object :>> ', props)
+  const {
+    location: { search },
+  } = props
+  const { type } = qs.parse(search.slice(1))
   return (
     <div className="container">
-        {type === "1" && (<OrderDone/>)}
-        {type === "2" && (<OrderFailure/>)}
-        {type === "3" && (<OrderConfirma/>)}
-        {type === "4" && (<OrderPayment/>)}
+      {type === '1' && <OrderDone />}
+      {type === '2' && <OrderFailure />}
+      {type === '3' && <OrderConfirma />}
+      {type === '4' && <OrderPayment />}
     </div>
   )
 }
