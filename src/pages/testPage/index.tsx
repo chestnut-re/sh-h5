@@ -145,7 +145,7 @@ const TestPage = () => {
         <Cell
           title="打开订单搜索 /order-search "
           onClick={() => {
-            SHBridge.jump({ url: generateUrl('/order-search'), newWebView: true })
+            SHBridge.jump({ url: generateUrl('/order-search?isFullScreen=1'), newWebView: true })
           }}
         />
       </Cell.Group>
