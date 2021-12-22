@@ -136,6 +136,18 @@ const TestPage = () => {
             SHBridge.closePage()
           }}
         />
+        <Cell
+          title="打开订单管理 /order-management "
+          onClick={() => {
+            SHBridge.jump({ url: generateUrl('/order-management'), newWebView: true })
+          }}
+        />
+        <Cell
+          title="打开订单搜索 /order-search "
+          onClick={() => {
+            SHBridge.jump({ url: generateUrl('/order-search'), newWebView: true })
+          }}
+        />
       </Cell.Group>
       <Cell.Group title="文件上传">
         <Cell title="图片上传-纯H5">
