@@ -19,4 +19,12 @@ export class ManageOrder {
   static detail(params): Promise<AxiosResponse<any>> {
     return axios.get(`/api/b/orders/${params.id}/details`)
   }
+  /**
+   * 搜索订单
+   */
+  static search(params): Promise<AxiosResponse<any>> {
+    return axios.get(`/api/b/orders/searching`, {
+      params,
+    })
+  }
 }
