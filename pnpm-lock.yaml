@@ -18,6 +18,7 @@ specifiers:
   '@types/webpack-dev-server': ^3.11.3
   '@typescript-eslint/eslint-plugin': ^4.21.0
   '@typescript-eslint/parser': ^4.21.0
+  '@vant/area-data': ^1.1.5
   autoprefixer: ^10.2.5
   axios: ^0.21.1
   babel-loader: ^8.2.2
@@ -72,6 +73,7 @@ specifiers:
 dependencies:
   '@babel/polyfill': 7.12.1
   '@loadable/component': 5.15.2_react@17.0.2
+  '@vant/area-data': 1.1.5
   axios: 0.21.4
   clipboard: 2.0.8
   clsx: 1.1.1
@@ -1893,6 +1895,10 @@ packages:
     dependencies:
       '@use-gesture/core': 10.2.4
       react: 17.0.2
+    dev: false
+
+  /@vant/area-data/1.1.5:
+    resolution: {integrity: sha512-dva7UJXpOzR38dgSLW2pPD9e3EXLXokk7Un5LVzI3OtfWfF8FnQVScLjvHU0xB9I7UIQRKRoT6xtM8V1B5K0cg==}
     dev: false
 
   /@vant/icons/1.7.1:
