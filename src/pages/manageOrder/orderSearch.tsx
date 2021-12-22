@@ -89,12 +89,16 @@ const OrderSearchPage: FC = () => {
     })
     // history.push(`/management-details${search}&id=${item.id}`)
   }
+  const closeSearchPage = () => {
+    SHBridge.closePage()
+  }
+
   return (
     <ConfigProvider themeVars={themeVars}>
       <div className="orderSearch-container">
         <div className="orderSearch-navbar rv-hairline--bottom">
           <div className="orderSearch-navbar-content">
-            <div className="orderSearch-navbar-left"></div>
+            <div className="orderSearch-navbar-left" onClick={closeSearchPage}></div>
             <div className="orderSearch-navbar-center rv-hairline--surround van-hairline-round">
               <Field
                 value={keyWords}
