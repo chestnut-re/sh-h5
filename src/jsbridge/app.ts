@@ -121,4 +121,17 @@ export class AppBridge {
     }
     SHApp.postMessage(JSON.stringify(msg))
   }
+
+  /**
+   * 获取app信息
+   */
+  static getAppInfo(backFn: (info: Record<string, any>) => void): void {
+    const msg = {
+      method: 'appInfo',
+      data: {
+        backFn: _callMethod(backFn),
+      },
+    }
+    SHApp.postMessage(JSON.stringify(msg))
+  }
 }

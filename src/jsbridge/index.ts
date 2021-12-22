@@ -108,4 +108,12 @@ export class SHBridge {
       AppBridge.setFullScreen()
     }
   }
+  /**
+   * 获取app信息
+   */
+  static getAppInfo(backFn: (info: Record<string, any>) => void): void {
+    if (isApp()) {
+      AppBridge.getAppInfo(backFn)
+    }
+  }
 }

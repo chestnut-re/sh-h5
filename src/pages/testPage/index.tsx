@@ -1,5 +1,5 @@
 import { clearAllCookie, printCookie } from '@/utils/cookie'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import './index.less'
 import { Button, Cell, Toast } from 'react-vant'
 import { SHBridge } from '@/jsbridge'
@@ -14,7 +14,7 @@ const TestPage = () => {
   useEffect(() => {
     console.log('load data')
   }, [])
-
+  const [appInfo, setAppInfo] = useState({})
   /**图片上传 */
   const _handleImgInputChange = (event) => {
     console.log(event)
@@ -43,7 +43,20 @@ const TestPage = () => {
             document.cookie = 'idOne=233'
           }}
         />
+        <Cell
+          title="获取app信息"
+          onClick={() => {
+            SHBridge.getAppInfo((info) => {
+              console.log(info)
+              Toast(JSON.stringify(info))
+              setAppInfo(info)
+            })
+          }}
+        >
+          {JSON.stringify(appInfo)}
+        </Cell>
       </Cell.Group>
+
       <Cell.Group title="导航栏相关">
         <Cell
           title="设置Title"
