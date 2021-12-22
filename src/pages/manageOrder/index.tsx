@@ -4,6 +4,8 @@ import ManageItem from '@/components/manageOrder/orderIMantem'
 import { useHistory, useLocation } from 'react-router-dom'
 import emptyIcon from '@/assets/img/empty@3x.png'
 import { ManageOrder } from '@/service/ManageOrder'
+import { SHBridge } from '@/jsbridge'
+import { generateUrl } from '@/utils'
 
 import './index.less'
 /**
@@ -14,6 +16,8 @@ const themeVars = {
   '--rv-tabs-bottom-bar-color': '#3BD1C4',
   '--rv-tab-font-size': '3.7vw',
 }
+//分页大小
+const PAGE_SIZE = 10
 
 const TabsListObj = [
   { tabName: '全部', type: '', id: 0, isTag: false },
@@ -24,7 +28,6 @@ const TabsListObj = [
 ]
 
 const ManageOrderPage: FC = () => {
-  const history = useHistory()
   const { search } = useLocation()
   //请求是否完成
   const [finished, setFinished] = useState<boolean>(false)
@@ -35,13 +38,15 @@ const ManageOrderPage: FC = () => {
   //列表数据
   const [listData, setListData] = useState<any[]>([])
   //高亮tab
-  const [activeVal, setActive] = useState<any>('')
+  const [activeState, setActive] = useState<any>('')
+  //当前请求页码
+  const [paymentNum, setPaymentNum] = useState<number>(0)
 
   const getOrderListData = async () => {
     return new Promise<any>((resolve, reject) => {
       ManageOrder.list({
-        state: activeVal,
-        size: 20,
+        state: activeState,
+        size: PAGE_SIZE,
         current: current,
       })
         .then((res: any) => {
@@ -68,7 +73,7 @@ const ManageOrderPage: FC = () => {
     if (current === 1) {
       onLoadManageOrderList()
     }
-  }, [current, activeVal])
+  }, [current, activeState])
 
   const onLoadManageOrderList = async () => {
     const {
@@ -76,18 +81,25 @@ const ManageOrderPage: FC = () => {
     }: any = await getOrderListData()
 
     setListData((v) => [...v, ...records])
+
+    if (activeState === 1 || activeState == '') {
+      let setPayList = listData.filter((item) => {
+        return item.state == 1
+      })
+      setPaymentNum(setPayList.length)
+    }
+
     if (listData.length >= total) {
       setFinished(true)
     }
   }
 
   useEffect(() => {
-    console.log('object :>>1111 ', activeVal)
     setIsloading(true)
     setFinished(false)
     setCurrent(1)
     setListData([])
-  }, [activeVal])
+  }, [activeState])
 
   const tabHandelClick = (info) => {
     const { name } = info
@@ -95,14 +107,19 @@ const ManageOrderPage: FC = () => {
   }
 
   const manageOrderDetail = (item) => {
-    history.push(`/management-details${search}&id=${item.id}`)
+    // history.push(`/management-details${search}&id=${item.id}`)
+    SHBridge.jump({
+      url: generateUrl(`/management-details${search}&id=${item.id}`),
+      newWebView: true,
+      title: '订单管理',
+    })
   }
   return (
     <div className="Maorder-container">
       <div className="maorder-nav">
         <ConfigProvider themeVars={themeVars}>
           <Tabs
-            active={activeVal}
+            active={activeState}
             lineWidth="5.3vw"
             titleInactiveColor="#333"
             ellipsis={false}
@@ -120,7 +137,7 @@ const ManageOrderPage: FC = () => {
                   ) : (
                     <>
                       {item.tabName}
-                      <span className="maorder-tag">{`(2)`}</span>
+                      {paymentNum > 0 ? <span className="maorder-tag">{`(${paymentNum})`}</span> : null}
                     </>
                   )
                 }}
