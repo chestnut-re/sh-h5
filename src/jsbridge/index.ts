@@ -99,4 +99,13 @@ export class SHBridge {
       AppBridge.closePage()
     }
   }
+
+  /**
+   * 设置WebView全屏
+   */
+  static setFullScreen(): void {
+    if (isApp()) {
+      AppBridge.setFullScreen()
+    }
+  }
 }
