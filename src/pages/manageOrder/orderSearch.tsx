@@ -43,11 +43,9 @@ const OrderSearchPage: FC = () => {
           let { code, msg } = res
           if (code == '200') {
             setCurrent((v) => v + 1)
-            setTimeout(() => {
-              resolve(res)
-            }, 3000)
+            resolve(res)
           } else {
-            Toast(msg)
+            Toast('接口错误')
             reject(new Error('error'))
           }
         })
