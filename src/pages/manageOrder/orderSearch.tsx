@@ -149,7 +149,7 @@ const OrderSearchPage: FC = () => {
             setCurrent((v) => v + 1)
             resolve(res)
           } else {
-            Toast(msg)
+            Toast(res)
             reject(new Error('error'))
           }
         })
