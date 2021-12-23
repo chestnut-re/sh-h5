@@ -22,6 +22,8 @@ const themeVars = {
   '--rv-count-down-font-size': '11px',
 }
 
+const COUNT_DOWN = 60 * 30 * 1000
+
 interface ManageItemProps {
   orderItem: {
     state?: number
@@ -40,9 +42,20 @@ const ManageItem: FC<ManageItemProps> = (props) => {
   const { orderItem } = props
 
   const [oitem, setOitem] = useState(orderItem)
+  const [countdowntime, setCountdownTime] = useState<number>(COUNT_DOWN)
+  const countdownTimeFinish = () => {
+    setOitem((v) => {
+      return {
+        ...v,
+        state: 2,
+      }
+    })
+  }
   useEffect(() => {
-    console.log('时间转时间戳() :>> ', dayjs('2021-12-20 14:45:30').unix())
-    console.log('dayjs.unix() :>> ', dayjs().unix())
+    if (oitem.state === 1 && oitem.orderTime) {
+      let restTime = (dayjs().unix() - dayjs(oitem.orderTime).unix()) * 1000
+      setCountdownTime(COUNT_DOWN - restTime)
+    }
   }, [])
 
   return (
@@ -54,7 +67,7 @@ const ManageItem: FC<ManageItemProps> = (props) => {
           </span>
           {oitem.state === 1 && (
             <div className="maorder-countdown">
-              <CountDown time={30 * 60 * 60 * 15000} format="剩DD天HH:mm:ss" />
+              <CountDown time={countdowntime} onFinish={countdownTimeFinish} format="剩 mm:ss" />
             </div>
           )}
         </div>
