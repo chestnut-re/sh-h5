@@ -2,7 +2,7 @@ import React, { useState, useEffect, FC } from 'react'
 import ManageItem from '@/components/manageOrder/orderIMantem'
 import { ManageOrder } from '@/service/ManageOrder'
 import { useLocation } from 'react-router-dom'
-import { Empty, Toast, List, Field, Loading, NavBar, ConfigProvider } from 'react-vant'
+import { Empty, Toast, List, Field, Loading, NavBar, ConfigProvider, Icon } from 'react-vant'
 import emptyIcon from '@/assets/img/empty@3x.png'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
@@ -14,7 +14,7 @@ import './search.less'
 const themeVars = {
   '--rv-cell-vertical-padding': '2px',
   '--rv-cell-font-size': '3.2vw',
-  '--rv-nav-bar-height': '100px',
+  '--rv-nav-bar-icon-color': '#242424',
 }
 //分页大小
 const PAGE_SIZE = 10
@@ -41,7 +41,7 @@ const OrderSearchPage: FC = () => {
         size: PAGE_SIZE,
       })
         .then((res: any) => {
-          let { code, msg } = res
+          const { code, msg } = res
           if (code == '200') {
             setCurrent((v) => v + 1)
             resolve(res)
@@ -99,8 +99,33 @@ const OrderSearchPage: FC = () => {
 
   return (
     <ConfigProvider themeVars={themeVars}>
-      <div className="orderSearch-container fullscreen">
-        <div className="orderSearch-navbar rv-hairline--bottom">
+      <div className="orderSearch-container">
+        <NavBar
+          zIndex={999}
+          fixed={true}
+          safeAreaInsetTop={true}
+          title={
+            <div className="orderSearch-navbar-center rv-hairline--surround van-hairline-round">
+              <Field
+                value={keyWords}
+                autofocus={true}
+                border={false}
+                placeholder="请输入商品名称或订单编号"
+                onChange={setKeyWords}
+              />
+            </div>
+          }
+          leftArrow
+          rightText={
+            <div className="orderSearch-navbar-right" onClick={searchOrderHandeldata}>
+              <div className="onr-btn">搜索</div>
+            </div>
+          }
+          onClickLeft={() => closeSearchPage}
+          onClickRight={() => searchOrderHandeldata}
+        />
+
+        {/* <div className="orderSearch-navbar rv-hairline--bottom">
           <div className="orderSearch-navbar-content">
             <div className="orderSearch-navbar-left" onClick={closeSearchPage}></div>
             <div className="orderSearch-navbar-center rv-hairline--surround van-hairline-round">
@@ -116,7 +141,7 @@ const OrderSearchPage: FC = () => {
               <div className="onr-btn">搜索</div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div className="search-content">
           {listData.length ? (
