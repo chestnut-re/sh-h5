@@ -3,6 +3,9 @@
   background-color: #f3f4f4;
   min-height: 100vh;
   overflow: hidden;
+  .rv-nav-bar--fixed {
+    top: 32px;
+  }
   .rv-nav-bar__content {
     .van-hairline-round {
       &::after {
@@ -40,7 +43,9 @@
   }
   .search-content {
     position: relative;
-    margin-top: 192px;
+    margin-top: 120px;
+    height: calc(100vh - 120px);
+    overflow-y: auto;
     .search-item {
       margin: 20px;
     }
