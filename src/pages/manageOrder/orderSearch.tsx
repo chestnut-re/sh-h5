@@ -144,12 +144,12 @@ const OrderSearchPage: FC = () => {
         size: PAGE_SIZE,
       })
         .then((res: any) => {
-          const { code, msg } = res
+          const { code } = res
           if (code == '200') {
             setCurrent((v) => v + 1)
             resolve(res)
           } else {
-            Toast(res)
+            Toast('服务器异常')
             reject(new Error('error'))
           }
         })
@@ -197,6 +197,7 @@ const OrderSearchPage: FC = () => {
     // history.push(`/management-details${search}&id=${item.id}`)
   }
   const closeSearchPage = () => {
+    console.log('object :>> 关闭')
     SHBridge.closePage()
   }
 
@@ -224,7 +225,7 @@ const OrderSearchPage: FC = () => {
               <div className="onr-btn">搜索</div>
             </div>
           }
-          onClickLeft={() => closeSearchPage}
+          onClickLeft={closeSearchPage}
           onClickRight={() => searchOrderHandeldata}
         />
 
