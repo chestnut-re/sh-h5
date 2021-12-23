@@ -139,7 +139,7 @@ const TestPage = () => {
         <Cell
           title="打开订单管理 /order-management "
           onClick={() => {
-            SHBridge.jump({ url: generateUrl('/order-management'), newWebView: true })
+            SHBridge.jump({ url: generateUrl('/order-management'), newWebView: true, title: '订单管理' })
           }}
         />
         <Cell
