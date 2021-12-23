@@ -59,11 +59,11 @@ a:active {
   text-decoration: none;
 }
 
-.hairline--icon{
+.hairline--icon {
   display: inline-flex;
   align-items: center;
 }
-.popover-content{
+.popover-content {
   padding: 20px;
   font-size: 28px;
   max-width: 400px;
@@ -75,15 +75,30 @@ a:active {
   -ms-hyphens: auto;
   hyphens: auto;
 }
-.CF15E5E{
-  color: #f15e5e !important;  
+.CF15E5E {
+  color: #f15e5e !important;
 }
-.C999999{
-  color: #999999 !important ;  
+.C999999 {
+  color: #999999 !important ;
 }
-.C3AD2C5{
-  color: #3AD2C5 !important;  
+.C3AD2C5 {
+  color: #3ad2c5 !important;
 }
-.CF48B43{
-  color: #F48B43 !important;  
+.CF48B43 {
+  color: #f48b43 !important;
+}
+
+@supports ((height: constant(safe-area-inset-top)) or (height: env(safe-area-inset-top))) and
+  (-webkit-overflow-scrolling: touch) {
+  .fullscreen {
+    /* 适配齐刘海 */
+    padding-top: 20;
+    padding-top: constant(safe-area-inset-top);
+    padding-top: env(safe-area-inset-top);
+
+    /* 适配底部小黑条 */
+    padding-bottom: 0;
+    padding-bottom: costant(safe-area-inset-bottom);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
 }

@@ -45,12 +45,12 @@ const OrderSearchPage: FC = () => {
             setCurrent((v) => v + 1)
             resolve(res)
           } else {
-            Toast('接口错误')
+            Toast(msg)
             reject(new Error('error'))
           }
         })
         .catch((err) => {
-          Toast('系统异常')
+          Toast(err.msg)
           reject(new Error('error'))
         })
         .finally(() => {
@@ -72,12 +72,15 @@ const OrderSearchPage: FC = () => {
   }
 
   const searchOrderHandeldata = () => {
-    if (keyWords) {
+    if (keyWords.trim()) {
       setIssearch(true)
       setListData([])
       setCurrent(1)
       setIsloading(true)
       onLoadManageOrderSearch()
+    } else {
+      Toast('请输入商品名称或订单编号')
+      setIssearch(false)
     }
   }
 
@@ -95,7 +98,7 @@ const OrderSearchPage: FC = () => {
 
   return (
     <ConfigProvider themeVars={themeVars}>
-      <div className="orderSearch-container">
+      <div className="orderSearch-container fullscreen">
         <div className="orderSearch-navbar rv-hairline--bottom">
           <div className="orderSearch-navbar-content">
             <div className="orderSearch-navbar-left" onClick={closeSearchPage}></div>
