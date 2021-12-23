@@ -88,8 +88,7 @@ a:active {
   color: #f48b43 !important;
 }
 
-@supports ((height: constant(safe-area-inset-top)) or (height: env(safe-area-inset-top))) and
-  (-webkit-overflow-scrolling: touch) {
+@supports ((height: constant(safe-area-inset-top)) or (height: env(safe-area-inset-top))) {
   .fullscreen {
     /* 适配齐刘海 */
     padding-top: 20;

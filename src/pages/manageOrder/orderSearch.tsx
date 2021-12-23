@@ -2,7 +2,7 @@ import React, { useState, useEffect, FC } from 'react'
 import ManageItem from '@/components/manageOrder/orderIMantem'
 import { ManageOrder } from '@/service/ManageOrder'
 import { useLocation } from 'react-router-dom'
-import { Empty, Toast, List, Field, Loading, ConfigProvider } from 'react-vant'
+import { Empty, Toast, List, Field, Loading, NavBar, ConfigProvider } from 'react-vant'
 import emptyIcon from '@/assets/img/empty@3x.png'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
@@ -14,6 +14,7 @@ import './search.less'
 const themeVars = {
   '--rv-cell-vertical-padding': '2px',
   '--rv-cell-font-size': '3.2vw',
+  '--rv-nav-bar-height': '100px',
 }
 //分页大小
 const PAGE_SIZE = 10
