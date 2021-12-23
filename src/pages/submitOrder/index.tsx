@@ -1,5 +1,5 @@
 import React, { useState, FC } from 'react'
-import {withRouter} from "react-router-dom";
+import { withRouter } from 'react-router-dom'
 import ContactWcharCard from '@/components/orderDetail/contactCard'
 import GoodsCard from '@/components/orderDetail/goodsCard'
 import StepperCard from '@/components/orderDetail/stepperCard'
@@ -21,14 +21,14 @@ const SubmitOrderPage: FC = (props) => {
     <div className="puorder-container">
       <div className="puorder-main">
         <div className="puorder-fluid">
-          <ContactWcharCard />
+          {/* <ContactWcharCard /> */}
           <div className="puorder-card">
             <GoodsCard />
             {/* <CalendarCard /> */}
-            <KnownCalendarCard/>
+            <KnownCalendarCard />
           </div>
           <div className="puorder-stepper">
-            <StepperCard {...props}/>
+            <StepperCard {...props} />
           </div>
           <PayTypeCard />
           <BackCard />
