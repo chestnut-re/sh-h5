@@ -30,7 +30,8 @@ const OrderSearchPage: FC = () => {
   const [current, setCurrent] = useState(1)
   //列表数据
   const [listData, setListData] = useState<any[]>([])
-
+  //是否是首次搜索
+  const [issearch, setIssearch] = useState<boolean>(false)
   const searchOrderListData = async (keyWords) => {
     return new Promise<any>((resolve, reject) => {
       ManageOrder.search({
@@ -74,6 +75,7 @@ const OrderSearchPage: FC = () => {
 
   const searchOrderHandeldata = () => {
     if (keyWords) {
+      setIssearch(true)
       setListData([])
       setCurrent(1)
       setIsloading(true)
@@ -140,9 +142,11 @@ const OrderSearchPage: FC = () => {
             <Loading className="maorder-loading" vertical color="#3AD2C5">
               加载中...
             </Loading>
-          ) : (
+          ) : null}
+
+          {issearch && listData.length == 0 ? (
             <Empty className="custom-image" image={emptyIcon} description="暂无数据" />
-          )}
+          ) : null}
         </div>
       </div>
     </ConfigProvider>
