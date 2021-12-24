@@ -1,9 +1,11 @@
-import React, { useState, FC } from 'react'
+import React, { useState, FC, useRef } from 'react'
 import { hooks, NoticeBar, Form, Radio, Flex, Toast, Popup, Area, Field, Popover, ConfigProvider } from 'react-vant'
 import { areaList } from '@vant/area-data'
 import activeIcon from '@/assets/img/activeIcon@3x.png'
 import inactiveIcon from '@/assets/img/inactiveIcon@3x.png'
 import OptionalInfo from '@/components/personalDetails/optionalInfo'
+import { Personal } from '@/service/Personal'
+
 import './index.less'
 /**
  * 新增/修改出行人信息
@@ -42,10 +44,12 @@ const PersonalDetailPage: FC = () => {
     emerPhoneNumber: '', //紧急联系人手机号
     travelerCertificate: [], //出行人证件信息
   })
+
   const [state, set] = hooks.useSetState({
     visible: false,
     value: '',
   })
+  const optionalInfoRef = useRef()
   const onPopoverSelect = (item, type) => {
     if (type === 0) {
       setSubmitdata({
@@ -62,6 +66,38 @@ const PersonalDetailPage: FC = () => {
   }
   const changeAreaVal = (info) => {
     console.log('info :>> ', info)
+    const res = info
+      .map((obj) => {
+        return obj.name
+      })
+      .join('')
+    setSubmitdata({
+      addr: res,
+    })
+    set({ visible: false, value: res })
+  }
+
+  const onSubmit = () => {
+    const { infolist } = optionalInfoRef.current
+    const newInfolist = JSON.parse(
+      JSON.stringify(infolist, (key, value) => {
+        if (key == 'type') {
+          return undefined
+        } else if (key == 'certificateType') {
+          return value == '身份证' ? 0 : 1
+        } else {
+          return value
+        }
+      })
+    )
+    submitdata.travelerCertificate = [...newInfolist]
+    Personal.addTravelerInfo(submitdata).then((res) => {
+      if (res['code'] == '200') {
+        Toast({
+          message: '添加成功',
+        })
+      }
+    })
   }
 
   return (
@@ -167,7 +203,7 @@ const PersonalDetailPage: FC = () => {
 
               <li className="pch-ul-li-box rv-hairline--bottom">
                 <div className="hairline-top"></div>
-                <OptionalInfo />
+                <OptionalInfo ref={optionalInfoRef} />
               </li>
 
               <li className="pch-ul-li rv-hairline--bottom">
@@ -199,7 +235,7 @@ const PersonalDetailPage: FC = () => {
           </div>
         </div>
         <div className="personal-protocol">点击保存表示同意 《占位协议名称》</div>
-        <div className="personal-submit">
+        <div onClick={onSubmit} className="personal-submit">
           <div className="personal-submit-btn">保存</div>
         </div>
       </div>
