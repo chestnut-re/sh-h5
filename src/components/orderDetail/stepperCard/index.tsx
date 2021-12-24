@@ -1,4 +1,4 @@
-import React, { useState, FC } from 'react'
+import React, { useState, useEffect, FC } from 'react'
 
 import { ConfigProvider, Toast, Icon, Stepper } from 'react-vant'
 import integralIcon from '@/assets/img/integral_icon.png'
@@ -11,26 +11,31 @@ import './index.less'
 const themeVars = {
   '--rv-stepper-button-icon-color': '#121212',
 }
+interface StepType {
+  handleDiscounts: () => void
+  handleStepper: (val) => void
+}
 
-const StepperCard: FC = (props) => {
+const StepperCard: FC<StepType> = (props) => {
   const INVENTORY = 11
 
   //成人数量
-  const [grownNumVal, setGrownVal] = useState(2)
+  const [adultNum, setAdultNum] = useState(1)
   //儿童数量
-  const [childrenNumVal, setChildrenVal] = useState(1)
+  const [setChildNum, setChildrenVal] = useState(0)
   //积分使用量
-  const [integralNumVal, setIntegralVal] = useState(1000)
+  const [inteNum, setInteNum] = useState(0)
 
   const setGrownNumValue = (val) => {
-    console.log('val :>> ', val)
-    setGrownVal(val)
+    console.log('val :>> ', props)
+    setAdultNum(val)
   }
+  //手动输入失去焦点判断当前值是否大于库存 大于库存设置为最大值
   const setGrownNumBlur = (e) => {
     console.log('val :>> ', e)
     if (e.target.value > INVENTORY) {
       e.target.value = INVENTORY
-      setGrownVal(INVENTORY)
+      setAdultNum(INVENTORY)
       Toast(`最多只能买${INVENTORY}件`)
     }
   }
@@ -40,12 +45,19 @@ const StepperCard: FC = (props) => {
   }
   const setIntegralNumValue = (val) => {
     console.log('val :>> ', val)
-    setIntegralVal(val)
+    setInteNum(val)
   }
   const getExamine = () => {
-    props.history.push('/privilege')
-    console.log('props :>> ', props)
+    props.handleDiscounts()
   }
+
+  useEffect(() => {
+    props.handleStepper({
+      adultNum: adultNum, //成人数量
+      setChildNum: setChildNum, //儿童数量
+      intNum: inteNum, //积分
+    })
+  }, [adultNum, setChildNum, inteNum])
 
   return (
     <div className="stepper-content">
@@ -53,12 +65,12 @@ const StepperCard: FC = (props) => {
         <ul className="step-boxul">
           <li className="step-boxli">
             <div className="step-name">
-              成人<span className="name-subtitle">X{grownNumVal}</span>
+              成人<span className="name-subtitle">X{adultNum}</span>
             </div>
             <div className="step-content">
               <ConfigProvider themeVars={themeVars}>
                 <Stepper
-                  value={grownNumVal}
+                  value={adultNum}
                   min="0"
                   max={INVENTORY}
                   integer={true}
@@ -72,12 +84,12 @@ const StepperCard: FC = (props) => {
           </li>
           <li className="step-boxli">
             <div className="step-name">
-              儿童<span className="name-subtitle">X{childrenNumVal}</span>
+              儿童<span className="name-subtitle">X{setChildNum}</span>
             </div>
             <div className="step-content">
               <ConfigProvider themeVars={themeVars}>
                 <Stepper
-                  value={childrenNumVal}
+                  value={setChildNum}
                   min="0"
                   max="8"
                   integer={true}
@@ -97,7 +109,7 @@ const StepperCard: FC = (props) => {
             <div className="step-content">
               <ConfigProvider themeVars={themeVars}>
                 <Stepper
-                  value={integralNumVal}
+                  value={inteNum}
                   min="0"
                   max="346000"
                   step="1000"
