@@ -17,6 +17,14 @@ import './index.less'
  */
 
 const SubmitOrderPage: FC = (props) => {
+  const [subdata, setSubdata] = useState({
+    adultNum: 0, //成人数量
+    childNum: 0, //儿童数量
+    goodsId: '', //商品id
+    intNum: 0, //积分
+    payType: '', //支付方式
+  })
+
   return (
     <div className="puorder-container">
       <div className="puorder-main">
