@@ -1,3 +1,4 @@
+import qs from 'query-string'
 /**
  * 解析 url 参数，返回对象
  * @param url url
@@ -18,5 +19,7 @@ export function getUrlParams(url: string): any {
  * 拼接url
  */
 export const generateUrl = (path: string): string => {
-  return `${window.location.origin}${path}`
+  const allParams = getUrlParams(window.location.href)
+  const newParams = getUrlParams(path)
+  return `${window.location.origin}${path.split('?')[0]}?${qs.stringify({ ...allParams, ...newParams })}`
 }

@@ -5,7 +5,8 @@
 
 import axios from 'axios'
 import { createHeader } from './custom-header'
-// const JSONbigString = require('json-bigint')({ storeAsString: true })
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const JSONbigString = require('json-bigint')({ storeAsString: true })
 
 // 创建axios实例
 const instance = axios.create({
@@ -19,16 +20,16 @@ const instance = axios.create({
     },
   },
   // 解决相应数据 bingint 精度丢失问题
-  // transformResponse: [
-  //   function (data) {
-  //     /* eslint-disable no-undef */
-  //     try {
-  //       return JSONbigString.parse(data)
-  //     } catch (error) {
-  //       return data
-  //     }
-  //   },
-  // ],
+  transformResponse: [
+    function (data) {
+      /* eslint-disable no-undef */
+      try {
+        return JSONbigString.parse(data)
+      } catch (error) {
+        return data
+      }
+    },
+  ],
 })
 
 // add global params
