@@ -33,7 +33,7 @@ const actions = [
 const PersonalDetailPage: FC = () => {
   const [userTrave, setUserTrave] = useState('与我的关系')
   const [emerTrave, setEmerTrave] = useState('身份关系')
-  const [submitdata, setSubmitdata] = hooks.useSetState({
+  const [submittal, setSubmitdata] = hooks.useSetState({
     userTravelerRelation: '', //登录用户与出行人关系
     travelerName: '', //出行人姓名
     phoneNumber: '', //手机号
@@ -48,6 +48,7 @@ const PersonalDetailPage: FC = () => {
   const [state, set] = hooks.useSetState({
     visible: false,
     value: '',
+    subBtnDisabled: false,
   })
   const optionalInfoRef = useRef()
   const onPopoverSelect = (item, type) => {
@@ -78,6 +79,15 @@ const PersonalDetailPage: FC = () => {
   }
 
   const onSubmit = () => {
+    if (submittal.travelerName == '') {
+      Toast({
+        message: '请输入用户名',
+      })
+      return
+    }
+
+    set({ subBtnDisabled: true })
+
     const { infolist } = optionalInfoRef.current
     const newInfolist = JSON.parse(
       JSON.stringify(infolist, (key, value) => {
@@ -90,8 +100,11 @@ const PersonalDetailPage: FC = () => {
         }
       })
     )
-    submitdata.travelerCertificate = [...newInfolist]
-    Personal.addTravelerInfo(submitdata).then((res) => {
+
+    submittal.travelerCertificate = [...newInfolist]
+
+    Personal.addTravelerInfo(submittal).then((res) => {
+      set({ subBtnDisabled: false })
       if (res['code'] == '200') {
         Toast({
           message: '添加成功',
@@ -117,7 +130,7 @@ const PersonalDetailPage: FC = () => {
                   <Flex align="center">
                     <Flex.Item span={14}>
                       <Field
-                        value={submitdata.travelerName}
+                        value={submittal.travelerName}
                         placeholder="与证件姓名一致"
                         onChange={(val) => {
                           setSubmitdata({
@@ -144,7 +157,7 @@ const PersonalDetailPage: FC = () => {
                 <div className="pul-name">手机号</div>
                 <div className="pul-content">
                   <Field
-                    value={submitdata.phoneNumber}
+                    value={submittal.phoneNumber}
                     placeholder="常用手机号"
                     onChange={(val) => {
                       setSubmitdata({
@@ -235,8 +248,15 @@ const PersonalDetailPage: FC = () => {
           </div>
         </div>
         <div className="personal-protocol">点击保存表示同意 《占位协议名称》</div>
-        <div onClick={onSubmit} className="personal-submit">
-          <div className="personal-submit-btn">保存</div>
+        <div
+          onClick={() => {
+            !state.subBtnDisabled && onSubmit()
+          }}
+          className={'personal-submit'}
+        >
+          <div className={state.subBtnDisabled ? 'personal-submit-btn personal-submit-btnDis' : 'personal-submit-btn'}>
+            保存
+          </div>
         </div>
       </div>
     </ConfigProvider>
