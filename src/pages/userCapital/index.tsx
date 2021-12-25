@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Dialog, Toast, ActionSheet, NumberKeyboard } from 'react-vant'
+import { Dialog, Toast, ActionSheet, NumberKeyboard, NavBar } from 'react-vant'
 import './index.less'
 import { useDebouncedEffect } from '@/hooks/useDebouncedEffect'
 import tip from '@/assets/img/capital/tip.png'
@@ -8,6 +8,8 @@ import tips from '@/assets/img/capital/tips.png'
 import close from '@/assets/img/successMove/close.png'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
+import { AccountInfoApi } from '@/service/AccountInfo'
+import { title } from 'process'
 /**
  * 账户资金
  */
@@ -16,22 +18,21 @@ const UserCapitalPage: React.FC = () => {
   const [show, setShow] = useState(false)
   const [visible, setVisible] = useState(false)
   const [value, setValue] = useState('')
-  // useEffect(() => {
-  //   window.addEventListener('scroll', onScroll)
-  //   return () => {
-  //     window.removeEventListener('scroll', onScroll)
-  //   }
-  // }, [])
+  const [accountInfo, setAccountInfo] = useState({})
 
-  // useDebouncedEffect(
-  //   () => {
-  //     console.log('selectedIndex', selectedIndex)
+  useEffect(() => {
+    SHBridge.setTitleAction([{ value: '账户资金明细', type: 'text' }], () => {
+      // console.log(index);
+      toFundDetails()
+    })
+    AccountInfoApi.accountInfo().then((res: any) => {
+      const { code } = res
+      if (code == '200') {
+        setAccountInfo(res.data)
+      }
+    })
+  }, [])
 
-  //     setSelectedIndex2(selectedIndex)
-  //   },
-  //   [selectedIndex],
-  //   200
-  // )
   const wthdrawal = (type) => {
     return new Promise((res) => {
       setTimeout(() => {
@@ -50,8 +51,16 @@ const UserCapitalPage: React.FC = () => {
     setShow(false)
     setVisible(true)
   }
+
+  const toFundDetails = () => {
+    SHBridge.jump({ url: generateUrl('/fund-details'), newWebView: true, title: '资金明细' })
+  }
   const toMoneyRecord = () => {
-    SHBridge.jump({ url: generateUrl('/money-record'), newWebView: true, title: '提现记录' })
+    SHBridge.jump({ url: generateUrl('/money-record'), newWebView: false, title: '提现记录' })
+  }
+  const closeSearchPage = () => {
+    console.log('object :>> 关闭')
+    SHBridge.closePage()
   }
   return (
     <div className="UserCapitalPage__root">
@@ -61,10 +70,10 @@ const UserCapitalPage: React.FC = () => {
         </div>
         <div className="two">
           <span>¥</span>
-          <span className="num">&nbsp;23999.01</span>
+          <span className="num">&nbsp;{accountInfo['total']}</span>
         </div>
         <div className="three">
-          <div>冻结资金 ¥10000</div>
+          <div>冻结资金 ¥{accountInfo['frozen']}</div>
           <img className="pic" src={tips} alt="" />
         </div>
       </div>

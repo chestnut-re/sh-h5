@@ -6,6 +6,7 @@ import close from '@/assets/img/successMove/close.png'
 import { url } from 'inspector'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
+import { AccountInfoApi } from '@/service/AccountInfo'
 
 /**
  * 运营资金
@@ -15,12 +16,19 @@ const OperateCapitalPage: React.FC = () => {
   const [show, setShow] = useState(false)
   const [visible, setVisible] = useState(false)
   const [value, setValue] = useState('')
-  // useEffect(() => {
-  //   window.addEventListener('scroll', onScroll)
-  //   return () => {
-  //     window.removeEventListener('scroll', onScroll)
-  //   }
-  // }, [])
+  const [accountInfo, setAccountInfo] = useState({})
+  useEffect(() => {
+    SHBridge.setTitleAction([{ value: '账户资金明细', type: 'text' }], () => {
+      // console.log(index);
+      toFundDetails()
+    })
+    AccountInfoApi.accountInfo().then((res: any) => {
+      const { code } = res
+      if (code == '200') {
+        setAccountInfo(res.data)
+      }
+    })
+  }, [])
 
   // useDebouncedEffect(
   //   () => {
@@ -44,6 +52,10 @@ const OperateCapitalPage: React.FC = () => {
       }, 3000)
     })
   }
+
+  const toFundDetails = () => {
+    SHBridge.jump({ url: generateUrl('/operate-details'), newWebView: true, title: '资金明细' })
+  }
   const openDialog = () => {
     setVisible(false)
     setShow(true)
@@ -60,10 +72,10 @@ const OperateCapitalPage: React.FC = () => {
         </div>
         <div className="two">
           <span>¥</span>
-          <span className="num">&nbsp;23999.01</span>
+          <span className="num">&nbsp;{accountInfo['funds']}</span>
         </div>
         <div className="three">
-          <div>使用中&nbsp;&nbsp;激励金额 ¥5000</div>
+          <div>使用中&nbsp;&nbsp;激励金额 ¥{accountInfo['funds']}</div>
         </div>
       </div>
       <div className="btn">
