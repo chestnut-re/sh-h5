@@ -71,7 +71,7 @@ const StepperCard: FC<StepType> = (props) => {
               <ConfigProvider themeVars={themeVars}>
                 <Stepper
                   value={adultNum}
-                  min="0"
+                  min="1"
                   max={INVENTORY}
                   integer={true}
                   inputWidth="9.6vw"
@@ -103,16 +103,16 @@ const StepperCard: FC<StepType> = (props) => {
           <li className="step-boxli">
             <div className="step-name hairline--icon">
               <Icon size="4vw" className="integra-icon" name={integralIcon} />
-              <span>积分</span>
-              <span className="name-subtitle">共346000</span>
+              <span>金币</span>
+              <span className="name-subtitle">共34.6</span>
             </div>
             <div className="step-content">
               <ConfigProvider themeVars={themeVars}>
                 <Stepper
                   value={inteNum}
                   min="0"
-                  max="346000"
-                  step="1000"
+                  max="34"
+                  step="1"
                   integer={true}
                   inputWidth="9.6vw"
                   buttonSize="5.6vw"
@@ -129,7 +129,7 @@ const StepperCard: FC<StepType> = (props) => {
           <span>库存：11</span>
         </div> */}
         <div className="integral-instruction">
-          此订单最多可用34.6代币抵<span>¥34</span>
+          此订单最多可用34.6金币抵<span>¥34</span>
         </div>
       </div>
 

@@ -3,7 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom'
 import qs from 'query-string'
 import ManageDetail from '@/components/manageOrder/manageDetail'
 import PersonalDetails from '@/components/manageOrder/personalDetails'
-import { ManageOrder } from '@/service/ManageOrder'
+import { ManageOrder } from '@/service/ManageOrderApi'
 
 import './index.less'
 /**
