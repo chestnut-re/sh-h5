@@ -6,9 +6,30 @@ import { AxiosResponse } from 'axios'
  */
 export class MyTokenService {
   /**
-   * 查询参考行程
+   * 查询账户总额（可提现金额+冻结金额）
    */
   static getMyWallet(): Promise<AxiosResponse<any>> {
     return axios.get('/api/wallet/c/myWallet')
+  }
+
+  /**
+   * 最大提现金额
+   */
+  static getCashPage(): Promise<AxiosResponse<any>> {
+    return axios.get('/api/wallet/c/cashPageInfo')
+  }
+
+  /**
+   * 申请提现
+   */
+  static askForWithDraw(param): Promise<AxiosResponse<any>> {
+    return axios.post('/wallet/c/cash')
+  }
+
+  /**
+   * 账单列表
+   */
+  static getWalletPage(): Promise<AxiosResponse<any>> {
+    return axios.get('/wallet/c/page')
   }
 }
