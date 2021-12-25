@@ -1,14 +1,15 @@
-import React, { useState,FC } from 'react'
+import React, { useState, FC } from 'react'
 
-import { Icon, Popover } from 'react-vant'
-import integralIcon from '@/assets/img/integral_icon.png'
 import './index.less'
 /**
  * 底部支付，以及其他信息展示卡片
  */
 
-const FooterCard:FC = (props) => {
-  const popover = () => {}
+interface FootPropsType {
+  submitHandleOrder: () => void
+}
+
+const FooterCard: FC<FootPropsType> = (props) => {
   return (
     <div className="order-action">
       <div className="action-main">
@@ -18,7 +19,7 @@ const FooterCard:FC = (props) => {
           </div>
           <div className="action-dis">已优惠2198</div>
         </div>
-        <div className="action-r">
+        <div className="action-r" onClick={props.submitHandleOrder}>
           <div className="btn-pay">立即付款</div>
         </div>
       </div>

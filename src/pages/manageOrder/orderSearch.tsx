@@ -1,8 +1,9 @@
 import React, { useState, useEffect, FC } from 'react'
+import qs from 'query-string'
 import ManageItem from '@/components/manageOrder/orderIMantem'
-import { ManageOrder } from '@/service/ManageOrder'
+import { ManageOrder } from '@/service/ManageOrderApi'
 import { useLocation } from 'react-router-dom'
-import { Empty, Toast, List, Field, Loading, NavBar, ConfigProvider, Icon } from 'react-vant'
+import { Empty, Toast, List, Field, Loading, NavBar, ConfigProvider } from 'react-vant'
 import emptyIcon from '@/assets/img/empty@3x.png'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
@@ -118,6 +119,8 @@ const ListData = [
 ]
 const OrderSearchPage: FC = () => {
   const { search } = useLocation()
+  const { t } = qs.parse(search.slice(1))
+
   //输入内容
   const [keyWords, setKeyWords] = useState<string>('')
   //请求是否完成
@@ -190,7 +193,7 @@ const OrderSearchPage: FC = () => {
 
   const manageOrderDetail = (item) => {
     SHBridge.jump({
-      url: generateUrl(`/management-details${search}&id=${item.id}`),
+      url: generateUrl(`/management-details?t=${t}&id=${item.id}`),
       newWebView: true,
       title: '订单管理',
     })

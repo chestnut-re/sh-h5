@@ -3,7 +3,7 @@ import { ConfigProvider, Tabs, Empty, List, Toast, Loading } from 'react-vant'
 import ManageItem from '@/components/manageOrder/orderIMantem'
 import { useHistory, useLocation } from 'react-router-dom'
 import emptyIcon from '@/assets/img/empty@3x.png'
-import { ManageOrder } from '@/service/ManageOrder'
+import { ManageOrder } from '@/service/ManageOrderApi'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
 

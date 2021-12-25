@@ -28,7 +28,6 @@ interface Myprops {
 const ManageDetailItem: FC<Myprops> = (props) => {
   console.log('propsprops :>> ', props)
   const { order } = props
-  const [mastatus, setMastatus] = useState(MaStatusMap[order.state])
   const [orderdetai, setOrderDetai] = useState(order)
   useEffect(() => {
     setOrderDetai(order)
@@ -60,9 +59,9 @@ const ManageDetailItem: FC<Myprops> = (props) => {
           </li>
         </ul>
       </div>
-      <div className={`detail-status ${mastatus?.bgName}`}>
-        <div className={`status-text ${mastatus?.cName}`}>
-          <h1>{mastatus?.text}</h1>
+      <div className={`detail-status ${MaStatusMap[orderdetai.state]?.bgName}`}>
+        <div className={`status-text ${MaStatusMap[orderdetai.state]?.cName}`}>
+          <h1>{MaStatusMap[orderdetai.state]?.text}</h1>
           {/* {mastatus.type==6&&(<p>退款金额:¥{orderdetai.payAmount}</p>)} */}
         </div>
       </div>
