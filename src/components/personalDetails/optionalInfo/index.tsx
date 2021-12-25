@@ -30,7 +30,7 @@ const actions = [
   { text: '护照', disabled: false },
 ]
 
-const OptionalInfo: FC = (props, ref) => {
+const OptionalInfo = (props, ref) => {
   const [value2, setvalue2] = useState('')
   const [showPicker, setShowPicker] = useState(false)
   const [showPickerId, setShowPickerId] = useState()
@@ -38,9 +38,18 @@ const OptionalInfo: FC = (props, ref) => {
   const [infolist, setInfolist] = useState([] as any[])
   const [newKey, setNewKey] = useState(0)
 
+  const { certificate } = props
   useEffect(() => {
-    setInfolist([infos])
-  }, [])
+    if (certificate && certificate.length > 0) {
+      certificate.map((item, index) => {
+        item.type = index
+        item.certificateType = item.certificateType == 0 ? '身份证' : '护照'
+      })
+      setInfolist([...certificate])
+    } else {
+      setInfolist([infos])
+    }
+  }, [certificate])
 
   const addOptionalInfo = () => {
     setNewKey(newKey + 1)
@@ -58,7 +67,7 @@ const OptionalInfo: FC = (props, ref) => {
   }
 
   useImperativeHandle(ref, () => ({
-    infolist,
+    infolist: infolist,
   }))
 
   const onFieldChange = (value, type) => {
@@ -105,7 +114,6 @@ const OptionalInfo: FC = (props, ref) => {
       }
     })
     setInfolist(newInfolist)
-    console.log('onSelect', value, type)
   }
 
   return (
