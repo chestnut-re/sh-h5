@@ -1,4 +1,4 @@
-import React, { useState, FC, useRef, useEffect } from 'react'
+import React, { useState, FC, useRef, useEffect, useCallback } from 'react'
 import { hooks, NoticeBar, Form, Radio, Flex, Toast, Popup, Area, Field, Popover, ConfigProvider } from 'react-vant'
 import { areaList } from '@vant/area-data'
 import activeIcon from '@/assets/img/activeIcon@3x.png'
@@ -50,6 +50,7 @@ const PersonalDetailPage: FC = () => {
     visible: false,
     value: '',
     subBtnDisabled: false,
+    errorMessage: {},
   })
   const optionalInfoRef = useRef()
   const urlParams = getUrlParams(window.location.href)
@@ -96,16 +97,100 @@ const PersonalDetailPage: FC = () => {
     set({ visible: false, value: res })
   }
 
-  const onSubmit = () => {
-    if (submittal.travelerName == '') {
-      Toast({
-        message: '请输入用户名',
+  /**
+   * 表单验证
+   */
+
+  const rules = () => {
+    const errorMsg = {}
+    const nameReg = /^[\u4E00-\u9FA5]{2,4}$/
+    const phoneReg = /(^1[3|4|5|7|8|9]\d{9}$)|(^09\d{8}$)/
+
+    const nameTxt = nameReg.test(submittal.travelerName)
+    const phoneTxt = phoneReg.test(submittal.phoneNumber)
+    const emerNameTxt = nameReg.test(submittal.emerName)
+    const emerPhoneTxt = phoneReg.test(submittal.emerPhoneNumber)
+
+    if (!nameTxt || !phoneTxt || !emerNameTxt || !emerPhoneTxt) {
+      if (!nameTxt) {
+        errorMsg['nameMsg'] = submittal.travelerName == '' ? '请输入姓名' : '请输入正确的证件姓名'
+      }
+      if (!phoneTxt) {
+        errorMsg['phoneMsg'] = submittal.phoneNumber == '' ? '请输入手机号码' : '请输入正确的手机号'
+      }
+      if (!emerNameTxt) {
+        errorMsg['emerNameMsg'] = submittal.emerName == '' ? '请输入紧急联系人' : '请输入正确联系人姓名'
+      }
+      if (!emerPhoneTxt) {
+        errorMsg['emerPhoneMsg'] = submittal.emerPhoneNumber == '' ? '请输入紧急联系人手机号码' : '请输入正确的手机号'
+      }
+      set({
+        errorMessage: errorMsg,
       })
-      return
+      return false
+    } else {
+      if (submittal.phoneNumber == submittal.emerPhoneNumber) {
+        errorMsg['emerPhoneMsg'] = '紧急联系人手机号码不能是本人手机号'
+        set({
+          errorMessage: errorMsg,
+        })
+        return false
+      }
+      set({
+        errorMessage: {},
+      })
+      return true
     }
+  }
 
-    set({ subBtnDisabled: true })
+  const onSubmit = useCallback(() => {
+    if (rules()) {
+      set({ subBtnDisabled: true })
+      submittal.travelerCertificate = prune()
+      if (urlParams.id) {
+        edit()
+      } else {
+        add()
+      }
+    }
+  }, [submittal, state.errorMessage])
 
+  /**
+   * 新增出行人
+   */
+
+  const add = () => {
+    Personal.add(submittal).then((res) => {
+      set({ subBtnDisabled: false })
+      if (res['code'] == '200') {
+        Toast({
+          message: '添加成功',
+        })
+      }
+    })
+  }
+
+  /**
+   * 编辑出行人
+   */
+
+  const edit = () => {
+    submittal['id'] = urlParams.id
+    Personal.edit(submittal).then((res) => {
+      set({ subBtnDisabled: false })
+      if (res['code'] == '200') {
+        Toast({
+          message: '修改成功',
+        })
+      }
+    })
+  }
+
+  /**
+   * 删除请求多余的字段和
+   */
+
+  const prune = () => {
     const { infolist } = optionalInfoRef.current
     const newInfolist = JSON.parse(
       JSON.stringify(infolist, (key, value) => {
@@ -118,28 +203,7 @@ const PersonalDetailPage: FC = () => {
         }
       })
     )
-    submittal.travelerCertificate = newInfolist
-
-    if (urlParams.id) {
-      submittal['id'] = urlParams.id
-      Personal.edit(submittal).then((res) => {
-        set({ subBtnDisabled: false })
-        if (res['code'] == '200') {
-          Toast({
-            message: '修改成功',
-          })
-        }
-      })
-    } else {
-      Personal.add(submittal).then((res) => {
-        set({ subBtnDisabled: false })
-        if (res['code'] == '200') {
-          Toast({
-            message: '添加成功',
-          })
-        }
-      })
-    }
+    return newInfolist
   }
 
   return (
@@ -161,6 +225,7 @@ const PersonalDetailPage: FC = () => {
                       <Field
                         value={submittal.travelerName}
                         placeholder="与证件姓名一致"
+                        errorMessage={state.errorMessage['nameMsg']}
                         onChange={(val) => {
                           setSubmitdata({
                             travelerName: val,
@@ -188,6 +253,7 @@ const PersonalDetailPage: FC = () => {
                   <Field
                     value={submittal.phoneNumber}
                     placeholder="常用手机号"
+                    errorMessage={state.errorMessage['phoneMsg']}
                     onChange={(val) => {
                       setSubmitdata({
                         phoneNumber: val,
@@ -263,6 +329,7 @@ const PersonalDetailPage: FC = () => {
                       <Field
                         value={submittal.emerName}
                         placeholder="联系人姓名"
+                        errorMessage={state.errorMessage['emerNameMsg']}
                         onChange={(val) => {
                           setSubmitdata({
                             emerName: val,
@@ -288,6 +355,7 @@ const PersonalDetailPage: FC = () => {
                   <Field
                     value={submittal.emerPhoneNumber}
                     placeholder="紧急联系人手机号"
+                    errorMessage={state.errorMessage['emerPhoneMsg']}
                     onChange={(val) => {
                       setSubmitdata({
                         emerPhoneNumber: val,
