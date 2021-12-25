@@ -19,30 +19,30 @@ const GoodsDetailPage = loadable(() => import(/* webpackChunkName: 'GoodsDetailP
 /**参考行程 */
 const TravelRoutePage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/travelRoute'))
 /**我的行程 */
-const MyTravelPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/myTravel'))
+const MyTravelPage = loadable(() => import(/* webpackChunkName: 'MyTravelPage'*/ './pages/myTravel'))
 /**行程详情 */
-const TravelDetailsPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/travelDetails'))
+const TravelDetailsPage = loadable(() => import(/* webpackChunkName: 'TravelDetailsPage'*/ './pages/travelDetails'))
 /**我的代币 */
-const MyTokenPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/myToken'))
+const MyTokenPage = loadable(() => import(/* webpackChunkName: 'MyTokenPage'*/ './pages/myToken'))
 /**我的代币 提现 */
-const WithDrawPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/withDraw'))
+const WithDrawPage = loadable(() => import(/* webpackChunkName: 'MyTokenPage'*/ './pages/withDraw'))
 /**我的代币 审核中 */
-const ExaminePage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/examine'))
+const ExaminePage = loadable(() => import(/* webpackChunkName: 'MyTokenPage'*/ './pages/examine'))
 /**我的代币 收支明细 */
-const DetaildedPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/detailed'))
+const DetaildedPage = loadable(() => import(/* webpackChunkName: 'MyTokenPage'*/ './pages/detailed'))
 
 /**账户资金 */
-const UserCapitalPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/userCapital'))
+const UserCapitalPage = loadable(() => import(/* webpackChunkName: 'UserCapitalPage'*/ './pages/userCapital'))
 /**运营资金 */
-const OperateCapitalPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/operateCapital'))
+const OperateCapitalPage = loadable(() => import(/* webpackChunkName: 'UserCapitalPage'*/ './pages/operateCapital'))
 /**转入，转出，提现成功 */
-const SuccessMovePage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/successMove'))
+const SuccessMovePage = loadable(() => import(/* webpackChunkName: 'UserCapitalPage'*/ './pages/successMove'))
 /**资金明细 */
-const FundDetailsPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/fundDetails'))
+const FundDetailsPage = loadable(() => import(/* webpackChunkName: 'UserCapitalPage'*/ './pages/fundDetails'))
 /**运营资金明细 */
-const OperateDetailsPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/operateDetails'))
+const OperateDetailsPage = loadable(() => import(/* webpackChunkName: 'UserCapitalPage'*/ './pages/operateDetails'))
 /**提现记录 */
-const MoneyRecordPage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/moneyRecord'))
+const MoneyRecordPage = loadable(() => import(/* webpackChunkName: 'UserCapitalPage'*/ './pages/moneyRecord'))
 
 /**App交互测试页面 */
 const TestPage = loadable(() => import(/* webpackChunkName: 'testPage'*/ './pages/testPage'))

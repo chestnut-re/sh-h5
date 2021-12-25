@@ -1,5 +1,5 @@
 import { clearAllCookie, printCookie } from '@/utils/cookie'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import './index.less'
 import { Button, Cell, Toast } from 'react-vant'
 import { SHBridge } from '@/jsbridge'
@@ -14,7 +14,7 @@ const TestPage = () => {
   useEffect(() => {
     console.log('load data')
   }, [])
-
+  const [appInfo, setAppInfo] = useState({})
   /**图片上传 */
   const _handleImgInputChange = (event) => {
     console.log(event)
@@ -43,7 +43,20 @@ const TestPage = () => {
             document.cookie = 'idOne=233'
           }}
         />
+        <Cell
+          title="获取app信息"
+          onClick={() => {
+            SHBridge.getAppInfo((info) => {
+              console.log(info)
+              Toast(JSON.stringify(info))
+              setAppInfo(info)
+            })
+          }}
+        >
+          {JSON.stringify(appInfo)}
+        </Cell>
       </Cell.Group>
+
       <Cell.Group title="导航栏相关">
         <Cell
           title="设置Title"
@@ -57,6 +70,18 @@ const TestPage = () => {
           onClick={() => {
             console.log('title')
             SHBridge.setTitleColor('#ff0000')
+          }}
+        />
+        <Cell
+          title="设置全屏"
+          onClick={() => {
+            SHBridge.setFullScreen('1')
+          }}
+        />
+        <Cell
+          title="取消全屏"
+          onClick={() => {
+            SHBridge.setFullScreen('0')
           }}
         />
         <Cell
@@ -109,6 +134,18 @@ const TestPage = () => {
           title="closePage 关闭页面"
           onClick={() => {
             SHBridge.closePage()
+          }}
+        />
+        <Cell
+          title="打开订单管理 /order-management "
+          onClick={() => {
+            SHBridge.jump({ url: generateUrl('/order-management'), newWebView: true, title: '订单管理' })
+          }}
+        />
+        <Cell
+          title="打开订单搜索 /order-search "
+          onClick={() => {
+            SHBridge.jump({ url: generateUrl('/order-search?isFullScreen=1'), newWebView: true })
           }}
         />
       </Cell.Group>

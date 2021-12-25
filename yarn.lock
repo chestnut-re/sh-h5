@@ -1472,6 +1472,11 @@
   dependencies:
     "@use-gesture/core" "10.1.6"
 
+"@vant/area-data@^1.1.5":
+  "integrity" "sha512-dva7UJXpOzR38dgSLW2pPD9e3EXLXokk7Un5LVzI3OtfWfF8FnQVScLjvHU0xB9I7UIQRKRoT6xtM8V1B5K0cg=="
+  "resolved" "https://registry.npmjs.org/@vant/area-data/-/area-data-1.1.5.tgz"
+  "version" "1.1.5"
+
 "@vant/icons@^1.7.0":
   "integrity" "sha512-66LPEq89w4kl258nALZcRNd14eUJC8VajvTJwvZKOaZawz6CUeVZ6ybhedTUhQhRjeA8SyWD7dFt4ALf33Sabw=="
   "resolved" "https://registry.npmjs.org/@vant/icons/-/icons-1.7.1.tgz"
@@ -3693,6 +3698,11 @@
   "version" "7.0.1"
   dependencies:
     "to-regex-range" "^5.0.1"
+
+"filter-obj@^1.1.0":
+  "integrity" "sha1-mzERErxsYSehbgFsbF1/GeCAXFs="
+  "resolved" "https://registry.npmjs.org/filter-obj/-/filter-obj-1.1.0.tgz"
+  "version" "1.1.0"
 
 "finalhandler@~1.1.2":
   "integrity" "sha512-aAWcW57uxVNrQZqFXjITpW3sIUQmHGG3qSb9mUah9MgMC4NeWhNOlNjXEYq3HjRAvL6arUviZGGJsBg6z0zsWA=="
@@ -6241,6 +6251,16 @@
   "resolved" "https://registry.npmjs.org/qs/-/qs-6.7.0.tgz"
   "version" "6.7.0"
 
+"query-string@^7.0.1":
+  "integrity" "sha512-uIw3iRvHnk9to1blJCG3BTc+Ro56CBowJXKmNNAm3RulvPBzWLRqKSiiDk+IplJhsydwtuNMHi8UGQFcCLVfkA=="
+  "resolved" "https://registry.npmjs.org/query-string/-/query-string-7.0.1.tgz"
+  "version" "7.0.1"
+  dependencies:
+    "decode-uri-component" "^0.2.0"
+    "filter-obj" "^1.1.0"
+    "split-on-first" "^1.0.0"
+    "strict-uri-encode" "^2.0.0"
+
 "querystring@0.2.0":
   "integrity" "sha1-sgmEkgO7Jd+CDadW50cAWHhSFiA="
   "resolved" "https://registry.npmjs.org/querystring/-/querystring-0.2.0.tgz"
@@ -6354,10 +6374,10 @@
     "loose-envify" "^1.4.0"
     "prop-types" "^15.6.2"
 
-"react-vant@^1.4.3":
-  "integrity" "sha512-rknK+IXgZpRPG+7TwiOU43j7j8GW01a0t6dCbM6vz1lVtlYKbMml/ypm8Bwl3vfw54xfmRiw4dkDFdOG6wrhqw=="
-  "resolved" "https://registry.npmjs.org/react-vant/-/react-vant-1.4.3.tgz"
-  "version" "1.4.3"
+"react-vant@^1.4.10":
+  "integrity" "sha512-6eCSeb0y++ArIgIrra+rupWep89SW5WbHAIZSZyfYoy3RC563jJ3ScAD70LKLhBwuunCMsh6VtoyMnDkh/mtVA=="
+  "resolved" "https://registry.npmjs.org/react-vant/-/react-vant-1.4.10.tgz"
+  "version" "1.4.10"
   dependencies:
     "@react-spring/web" "^9.3.0"
     "@use-gesture/react" "^10.1.1"
@@ -7145,6 +7165,11 @@
     "select-hose" "^2.0.0"
     "spdy-transport" "^3.0.0"
 
+"split-on-first@^1.0.0":
+  "integrity" "sha512-43ZssAJaMusuKWL8sKUBQXHWOpq8d6CfN/u1p4gUzfJkM05C8rxTmYrkIPTXapZpORA6LkkzcUulJ8FqA7Uudw=="
+  "resolved" "https://registry.npmjs.org/split-on-first/-/split-on-first-1.1.0.tgz"
+  "version" "1.1.0"
+
 "split-string@^3.0.1", "split-string@^3.0.2":
   "integrity" "sha512-NzNVhJDYpwceVVii8/Hu6DKfD2G+NrQHlS/V/qgv763EYudVwEcMQNxd2lh+0VrUByXN/oJkl5grOhYWvQUYiw=="
   "resolved" "https://registry.npmjs.org/split-string/-/split-string-3.1.0.tgz"
@@ -7179,6 +7204,11 @@
   "integrity" "sha1-Fhx9rBd2Wf2YEfQ3cfqZOBR4Yow="
   "resolved" "https://registry.npmjs.org/statuses/-/statuses-1.5.0.tgz"
   "version" "1.5.0"
+
+"strict-uri-encode@^2.0.0":
+  "integrity" "sha1-ucczDHBChi9rFC3CdLvMWGbONUY="
+  "resolved" "https://registry.npmjs.org/strict-uri-encode/-/strict-uri-encode-2.0.0.tgz"
+  "version" "2.0.0"
 
 "string_decoder@^1.1.1":
   "integrity" "sha512-hkRX8U1WjJFd8LsDJ2yQ/wWWxaopEsABU1XfkM8A+j0+85JAGppt16cr1Whg6KIbb4okU6Mql6BOj+uup/wKeA=="

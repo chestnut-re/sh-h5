@@ -1,13 +1,53 @@
 .orderSearch-container {
-    position: relative;
-    background-color: #f6f6f6;
-    min-height: 100vh;
-    overflow: hidden;
-    .search-content {
+  position: relative;
+  background-color: #f3f4f4;
+  min-height: 100vh;
+  overflow: hidden;
+  .rv-nav-bar--fixed {
+    top: 64px;
+  }
+  .rv-nav-bar__content {
+    .van-hairline-round {
+      &::after {
+        border-radius: 88px;
+      }
+    }
+    .rv-nav-bar__title {
+      max-width: 64%;
+      flex: 1;
+      margin-left: 12%;
+    }
+    .orderSearch-navbar-center {
       position: relative;
-      .search-item{
-          margin: 20px;
+      flex: 1;
+      margin: 1px 0;
+      border-radius: 88px;
+      font-size: 24px;
+    }
+    .orderSearch-navbar-right {
+      width: 128px;
+      text-align: center;
+      .onr-btn {
+        width: 100%;
+        font-size: 24px;
+        font-family: PingFangSC, PingFangSC-Regular;
+        font-weight: 400;
+        text-align: center;
+        color: #ffffff;
+        line-height: 1;
+        background: #32d0c6;
+        border-radius: 48px;
+        padding: 12px 0;
       }
     }
   }
-  
+  .search-content {
+    position: relative;
+    margin-top: 152px;
+    height: calc(100vh - 152px);
+    overflow-y: auto;
+    .search-item {
+      margin: 20px;
+    }
+  }
+}

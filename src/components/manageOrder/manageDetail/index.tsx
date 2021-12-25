@@ -14,18 +14,23 @@ const MaStatusMap = {
   7: { text: '退款失败', bgName: 'BGyitk', cName: 'C999999', type: 7 },
   '': { text: '未知', bgName: 'BGyisx', cName: '', type: '' },
 }
+interface Myprops {
+  order: {
+    state: number
+    orderNo: string
+    orderUserName: string
+    orderTime: string
+    goodsName: string
+    payAmount: number
+  }
+}
 
-const ManageDetailItem: FC = (props) => {
+const ManageDetailItem: FC<Myprops> = (props) => {
   console.log('propsprops :>> ', props)
-  const [mastatus, setMastatus] = useState()
-  const [orderdetai, setOrderDetai] = useState({})
-
+  const { order } = props
+  const [orderdetai, setOrderDetai] = useState(order)
   useEffect(() => {
-    const { order } = props
     setOrderDetai(order)
-    setMastatus({
-      ...MaStatusMap[order.state],
-    })
   }, [props])
 
   return (
@@ -54,9 +59,9 @@ const ManageDetailItem: FC = (props) => {
           </li>
         </ul>
       </div>
-      <div className={`detail-status ${mastatus?.bgName}`}>
-        <div className={`status-text ${mastatus?.cName}`}>
-          <h1>{mastatus?.text}</h1>
+      <div className={`detail-status ${MaStatusMap[orderdetai.state]?.bgName}`}>
+        <div className={`status-text ${MaStatusMap[orderdetai.state]?.cName}`}>
+          <h1>{MaStatusMap[orderdetai.state]?.text}</h1>
           {/* {mastatus.type==6&&(<p>退款金额:¥{orderdetai.payAmount}</p>)} */}
         </div>
       </div>

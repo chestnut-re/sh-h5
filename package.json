@@ -75,6 +75,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
     "@loadable/component": "^5.15.0",
+    "@vant/area-data": "^1.1.5",
     "axios": "^0.21.1",
     "clipboard": "^2.0.8",
     "clsx": "^1.1.1",
@@ -85,10 +86,11 @@
     "json-bigint": "^1.0.0",
     "normalize.css": "^8.0.1",
     "qrcode.react": "^1.0.1",
+    "query-string": "^7.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-router-dom": "^5.2.0",
-    "react-vant": "^1.4.3"
+    "react-vant": "^1.4.10"
   },
   "lint-staged": {
     "src/**/*.{jsx,tsx,ts,js,json,css,less,md}": [
