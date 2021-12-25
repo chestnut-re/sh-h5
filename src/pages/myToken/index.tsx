@@ -1,23 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import './index.less'
 import { useDebouncedEffect } from '@/hooks/useDebouncedEffect'
 import token from '@/assets/img/token/22token.png'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
+import { MyTokenService } from '../../service/MyTokenService'
+import './index.less'
 /**
  * w我的代币
  */
-const MyTokenPage: React.FC = (props) => {
-  const [selectedIndex, setSelectedIndex] = useState(0)
-  const [selectedIndex2, setSelectedIndex2] = useState(0)
+const MyTokenPage: React.FC = () => {
   const [selectPage, setSelectPage] = useState(0)
-  // useEffect(() => {
-  //   console.log(props.match.params.type)
-  //   window.addEventListener('scroll', onScroll)
-  //   return () => {
-  //     window.removeEventListener('scroll', onScroll)
-  //   }
-  // }, [])
+  useEffect(() => {
+    MyTokenService.getMyWallet()
+  }, [])
 
   // useDebouncedEffect(
   //   () => {
