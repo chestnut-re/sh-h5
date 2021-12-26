@@ -6,9 +6,14 @@ import { AppBridge } from './app'
 import { Toast } from 'react-vant'
 import { isApp } from './env'
 import { getUrlParams } from './utils'
-import { ActionType, JumpParams, UiType } from './types'
+import { JumpParams } from './types'
 
 export class SHBridge {
+  /**
+   * 初始化
+   */
+  static init(): void {}
+
   /**
    * 获取 token
    */
@@ -116,6 +121,15 @@ export class SHBridge {
   static getAppInfo(backFn: (info: Record<string, any>) => void): void {
     if (isApp()) {
       AppBridge.getAppInfo(backFn)
+    }
+  }
+
+  /**
+   * 支付宝支付
+   */
+  static alipay(authStr: string, backFn: (index: number) => void): void {
+    if (isApp()) {
+      AppBridge.alipay(authStr, backFn)
     }
   }
 }

@@ -154,6 +154,17 @@ const TestPage = () => {
           <input type="file" name="image" accept="image/*" onChange={_handleImgInputChange} />
         </Cell>
       </Cell.Group>
+
+      <Cell.Group title="支付">
+        <Cell
+          title="支付宝支付 "
+          onClick={() => {
+            SHBridge.alipay('ssdsd', (res) => {
+              console.log(res)
+            })
+          }}
+        />
+      </Cell.Group>
     </div>
   )
 }

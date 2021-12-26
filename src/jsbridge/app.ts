@@ -136,4 +136,18 @@ export class AppBridge {
     }
     SHApp.postMessage(JSON.stringify(msg))
   }
+
+  /**
+   * 设置标题Action
+   */
+  static alipay(authStr: string, backFn: (index: number) => void): void {
+    const msg = {
+      method: 'alipay',
+      data: {
+        authStr: authStr,
+        backFn: _callMethod(backFn),
+      },
+    }
+    SHApp.postMessage(JSON.stringify(msg))
+  }
 }
