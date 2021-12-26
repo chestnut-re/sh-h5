@@ -60,7 +60,7 @@ specifiers:
   react: ^17.0.2
   react-dom: ^17.0.2
   react-router-dom: ^5.2.0
-  react-vant: ^1.4.3
+  react-vant: ^1.4.10
   style-loader: ^2.0.0
   ts-node: ^9.1.1
   typescript: ^4.2.4
@@ -89,7 +89,7 @@ dependencies:
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
   react-router-dom: 5.3.0_react@17.0.2
-  react-vant: 1.4.7_react-dom@17.0.2+react@17.0.2
+  react-vant: 1.4.10_react-dom@17.0.2+react@17.0.2
 
 devDependencies:
   '@babel/core': 7.16.0
@@ -7160,8 +7160,8 @@ packages:
       react-dom: 17.0.2_react@17.0.2
     dev: false
 
-  /react-vant/1.4.7_react-dom@17.0.2+react@17.0.2:
-    resolution: {integrity: sha512-FBoxxM0Zl3THF4uYlm8t6pLbRqKs/vZAcp14C+gqGDM9OxhgCP3OfK3fNdbDluqjxekUnErZEUW9GJnjEyzx/g==}
+  /react-vant/1.4.10_react-dom@17.0.2+react@17.0.2:
+    resolution: {integrity: sha512-6eCSeb0y++ArIgIrra+rupWep89SW5WbHAIZSZyfYoy3RC563jJ3ScAD70LKLhBwuunCMsh6VtoyMnDkh/mtVA==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
