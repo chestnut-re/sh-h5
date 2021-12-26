@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import './index.less'
 import { Button, Cell, Toast } from 'react-vant'
 import { SHBridge } from '@/jsbridge'
-import { isApp } from '@/jsbridge/env'
+import { isApp, isMini } from '@/jsbridge/env'
 import { FileService } from '@/service/FileService'
 import { generateUrl } from '@/utils'
 
@@ -55,6 +55,16 @@ const TestPage = () => {
         >
           {JSON.stringify(appInfo)}
         </Cell>
+      </Cell.Group>
+      <Cell.Group title="导航栏相关">
+        <Cell
+          title="环境判断"
+          onClick={() => {
+            isMini().then((res) => {
+              console.log(res)
+            })
+          }}
+        />
       </Cell.Group>
 
       <Cell.Group title="导航栏相关">
