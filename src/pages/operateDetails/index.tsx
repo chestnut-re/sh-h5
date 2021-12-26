@@ -3,7 +3,7 @@ import './index.less'
 import { useDebouncedEffect } from '@/hooks/useDebouncedEffect'
 import triangle from '@/assets/img/successMove/triangle.png'
 import { AccountInfoApi } from '@/service/AccountInfo'
-import { List, Loading, PullRefresh } from 'react-vant'
+import { List, Loading, NavBar, PullRefresh } from 'react-vant'
 import { ListInstance } from 'react-vant/es/list/PropsType'
 import { Console } from 'console'
 /**
@@ -26,14 +26,13 @@ const FundDetailsPage: React.FC = () => {
   const [finished, setFinished] = useState(false)
   //是否在请求状态
   const [isloading, setIsloading] = useState<boolean>(true)
-  //当前请求页码
-  const [current, setCurrent] = useState(1)
 
   const [finished1, setFinished1] = useState(false)
   //是否在请求状态
   const [isloading1, setIsloading1] = useState<boolean>(true)
   //当前请求页码
-  const [current1, setCurrent1] = useState(1)
+  let current = 1
+  let current1 = 1
 
   const size = 10
   useEffect(() => {
@@ -98,12 +97,12 @@ const FundDetailsPage: React.FC = () => {
     if (tabActiveIndex === 1) {
       if (finished) return
       if (isloading) return
-      setCurrent((v) => v + 1)
+      current++
       getAccountList()
     } else {
       if (finished1) return
       if (isloading1) return
-      setCurrent1((v) => v + 1)
+      current1++
       getAccountNoList()
     }
   }
@@ -111,19 +110,20 @@ const FundDetailsPage: React.FC = () => {
   const onRefresh = async () => {
     if (tabActiveIndex === 1) {
       setFinished(false)
-      setCurrent(1)
+      current++
       console.log(current)
       setDetailListY([])
       getAccountList()
     } else {
       setFinished1(false)
-      setCurrent1(1)
+      current1++
       setDetailListN([])
       getAccountNoList()
     }
   }
   return (
     <div className="OperateDetailsPage__root">
+      <NavBar title="运营资金" safeAreaInsetTop={true} leftArrow border={false} onClickLeft={() => history.back()} />
       <div className="tab">
         <div className={`${tabActiveIndex === 1 ? 'active' : ''}`} onClick={() => setTabActiveIndex(1)}>
           总资金

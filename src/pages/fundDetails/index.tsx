@@ -3,7 +3,7 @@ import './index.less'
 import { useDebouncedEffect } from '@/hooks/useDebouncedEffect'
 import triangle from '@/assets/img/successMove/triangle.png'
 import { AccountInfoApi } from '@/service/AccountInfo'
-import { List, Loading, PullRefresh } from 'react-vant'
+import { List, Loading, NavBar, PullRefresh } from 'react-vant'
 import { ListInstance } from 'react-vant/es/list/PropsType'
 import { Console } from 'console'
 /**
@@ -27,19 +27,18 @@ const FundDetailsPage: React.FC = () => {
   //是否在请求状态
   const [isloading, setIsloading] = useState<boolean>(true)
   //当前请求页码
-  const [current, setCurrent] = useState(1)
+  let current = 1
+  let current1 = 1
 
   const [finished1, setFinished1] = useState(false)
   //是否在请求状态
   const [isloading1, setIsloading1] = useState<boolean>(true)
-  //当前请求页码
-  const [current1, setCurrent1] = useState(1)
 
   const size = 10
   useEffect(() => {
     getAccountList()
     getAccountNoList()
-  }, [billType])
+  }, [])
   const getAccountList = () => {
     setIsloading(true)
     AccountInfoApi.accountList({
@@ -96,30 +95,43 @@ const FundDetailsPage: React.FC = () => {
   const onLoadRefresh = async () => {
     if (tabActiveIndex === 1) {
       if (finished) return
-      setCurrent((v) => v + 1)
+      if (isloading) return
+      current++
       getAccountList()
     } else {
       if (finished1) return
-      setCurrent1((v) => v + 1)
+      if (isloading1) return
+      current1++
       getAccountNoList()
     }
   }
 
   const onRefresh = async () => {
+    console.log(1)
     if (tabActiveIndex === 1) {
+      console.log(2)
       setFinished(false)
-      setCurrent(1)
+      current = 1
       setDetailListY([])
       getAccountList()
     } else {
       setFinished1(false)
-      setCurrent1(1)
+      current1 = 1
       setDetailListN([])
       getAccountNoList()
     }
   }
   return (
     <div className="FundDetailsPage__root">
+      <NavBar
+        title="账户资金"
+        safeAreaInsetTop={true}
+        leftArrow
+        onClickLeft={() => history.back()}
+        // onClickRight={toFundDetails}
+        rightText={'账户资金明细'}
+        border={false}
+      />
       <div className="tab">
         <div className={`${tabActiveIndex === 1 ? 'active' : ''}`} onClick={() => setTabActiveIndex(1)}>
           可用资金
@@ -158,7 +170,7 @@ const FundDetailsPage: React.FC = () => {
           </List>
         </PullRefresh>
       </div>
-      <div className={'tab-list tab-view' + `${tabActiveIndex === 2 ? 'active' : ''}`}>
+      {/* <div className={'tab-list tab-view' + `${tabActiveIndex === 2 ? 'active' : ''}`}>
         <PullRefresh onRefresh={onRefresh}>
           <List finished={finished1} onLoad={onLoadRefresh} immediateCheck={false} loading={isloading1}>
             {detailListN.length ? (
@@ -187,7 +199,7 @@ const FundDetailsPage: React.FC = () => {
             ) : null}
           </List>
         </PullRefresh>
-      </div>
+      </div> */}
     </div>
   )
 }
