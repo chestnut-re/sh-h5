@@ -102,6 +102,7 @@ a:active {
   margin-bottom: env(safe-area-inset-bottom);
 }
 .margin-top {
+  margin-top: 25px;
   margin-top: constant(safe-area-inset-top); /*兼容 IOS<11.2*/
   margin-top: env(safe-area-inset-top);
 }
