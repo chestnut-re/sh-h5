@@ -7,6 +7,7 @@ import { url } from 'inspector'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
 import { AccountInfoApi } from '@/service/AccountInfo'
+import MyNavBar from '@/components/myNavBar'
 
 /**
  * 运营资金
@@ -62,7 +63,7 @@ const OperateCapitalPage: React.FC = () => {
   }
   return (
     <div className="OperateCapitalPage__root">
-      <NavBar
+      <MyNavBar
         title="运营资金"
         safeAreaInsetTop={true}
         leftArrow

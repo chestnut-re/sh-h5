@@ -6,6 +6,7 @@ import { AccountInfoApi } from '@/service/AccountInfo'
 import { List, Loading, NavBar, PullRefresh } from 'react-vant'
 import { ListInstance } from 'react-vant/es/list/PropsType'
 import { Console } from 'console'
+import MyNavBar from '@/components/myNavBar'
 /**
  * 资金明细
  */
@@ -123,7 +124,7 @@ const FundDetailsPage: React.FC = () => {
   }
   return (
     <div className="FundDetailsPage__root">
-      <NavBar
+      <MyNavBar
         title="账户资金"
         safeAreaInsetTop={true}
         leftArrow
@@ -192,7 +193,7 @@ const FundDetailsPage: React.FC = () => {
                   </div>
                 )
               })
-            ) : isloading ? (
+            ) : isloading1 ? (
               <Loading className="maorder-loading" vertical color="#3AD2C5">
                 加载中...
               </Loading>

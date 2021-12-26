@@ -10,6 +10,7 @@ import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
 import { AccountInfoApi } from '@/service/AccountInfo'
 import { title } from 'process'
+import MyNavBar from '@/components/myNavBar'
 /**
  * 账户资金
  */
@@ -64,7 +65,7 @@ const UserCapitalPage: React.FC = () => {
   }
   return (
     <div className="UserCapitalPage__root">
-      <NavBar
+      <MyNavBar
         title="账户资金"
         safeAreaInsetTop={true}
         leftArrow
