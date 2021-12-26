@@ -1,9 +1,12 @@
-import React, { useState, FC } from 'react'
+import React, { useState, FC, useRef, useEffect, useCallback } from 'react'
 import { hooks, NoticeBar, Form, Radio, Flex, Toast, Popup, Area, Field, Popover, ConfigProvider } from 'react-vant'
 import { areaList } from '@vant/area-data'
 import activeIcon from '@/assets/img/activeIcon@3x.png'
 import inactiveIcon from '@/assets/img/inactiveIcon@3x.png'
 import OptionalInfo from '@/components/personalDetails/optionalInfo'
+import { Personal } from '@/service/Personal'
+import { getUrlParams } from '@/utils'
+
 import './index.less'
 /**
  * 新增/修改出行人信息
@@ -31,7 +34,7 @@ const actions = [
 const PersonalDetailPage: FC = () => {
   const [userTrave, setUserTrave] = useState('与我的关系')
   const [emerTrave, setEmerTrave] = useState('身份关系')
-  const [submitdata, setSubmitdata] = hooks.useSetState({
+  const [submittal, setSubmitdata] = hooks.useSetState({
     userTravelerRelation: '', //登录用户与出行人关系
     travelerName: '', //出行人姓名
     phoneNumber: '', //手机号
@@ -42,10 +45,31 @@ const PersonalDetailPage: FC = () => {
     emerPhoneNumber: '', //紧急联系人手机号
     travelerCertificate: [], //出行人证件信息
   })
+
   const [state, set] = hooks.useSetState({
     visible: false,
     value: '',
+    subBtnDisabled: false,
+    errorMessage: {},
   })
+  const optionalInfoRef = useRef()
+  const urlParams = getUrlParams(window.location.href)
+
+  useEffect(() => {
+    if (urlParams.id) {
+      getInfo()
+    }
+  }, [])
+
+  const getInfo = () => {
+    Personal.info(urlParams.id).then((res) => {
+      console.log('res.data', res.data)
+      setSubmitdata(res.data)
+      onPopoverSelect(actions[res.data.userTravelerRelation], 0)
+      onPopoverSelect(actions[res.data.emerTravelerRelation], null)
+    })
+  }
+
   const onPopoverSelect = (item, type) => {
     if (type === 0) {
       setSubmitdata({
@@ -62,6 +86,124 @@ const PersonalDetailPage: FC = () => {
   }
   const changeAreaVal = (info) => {
     console.log('info :>> ', info)
+    const res = info
+      .map((obj) => {
+        return obj.name
+      })
+      .join('')
+    setSubmitdata({
+      addr: res,
+    })
+    set({ visible: false, value: res })
+  }
+
+  /**
+   * 表单验证
+   */
+
+  const rules = () => {
+    const errorMsg = {}
+    const nameReg = /^[\u4E00-\u9FA5]{2,4}$/
+    const phoneReg = /(^1[3|4|5|7|8|9]\d{9}$)|(^09\d{8}$)/
+
+    const nameTxt = nameReg.test(submittal.travelerName)
+    const phoneTxt = phoneReg.test(submittal.phoneNumber)
+    const emerNameTxt = nameReg.test(submittal.emerName)
+    const emerPhoneTxt = phoneReg.test(submittal.emerPhoneNumber)
+
+    if (!nameTxt || !phoneTxt || !emerNameTxt || !emerPhoneTxt) {
+      if (!nameTxt) {
+        errorMsg['nameMsg'] = submittal.travelerName == '' ? '请输入姓名' : '请输入正确的证件姓名'
+      }
+      if (!phoneTxt) {
+        errorMsg['phoneMsg'] = submittal.phoneNumber == '' ? '请输入手机号码' : '请输入正确的手机号'
+      }
+      if (!emerNameTxt) {
+        errorMsg['emerNameMsg'] = submittal.emerName == '' ? '请输入紧急联系人' : '请输入正确联系人姓名'
+      }
+      if (!emerPhoneTxt) {
+        errorMsg['emerPhoneMsg'] = submittal.emerPhoneNumber == '' ? '请输入紧急联系人手机号码' : '请输入正确的手机号'
+      }
+      set({
+        errorMessage: errorMsg,
+      })
+      return false
+    } else {
+      if (submittal.phoneNumber == submittal.emerPhoneNumber) {
+        errorMsg['emerPhoneMsg'] = '紧急联系人手机号码不能是本人手机号'
+        set({
+          errorMessage: errorMsg,
+        })
+        return false
+      }
+      set({
+        errorMessage: {},
+      })
+      return true
+    }
+  }
+
+  const onSubmit = useCallback(() => {
+    if (rules()) {
+      set({ subBtnDisabled: true })
+      submittal.travelerCertificate = prune()
+      if (urlParams.id) {
+        edit()
+      } else {
+        add()
+      }
+    }
+  }, [submittal, state.errorMessage])
+
+  /**
+   * 新增出行人
+   */
+
+  const add = () => {
+    Personal.add(submittal).then((res) => {
+      set({ subBtnDisabled: false })
+      if (res['code'] == '200') {
+        Toast({
+          message: '添加成功',
+        })
+      }
+    })
+  }
+
+  /**
+   * 编辑出行人
+   */
+
+  const edit = () => {
+    submittal['id'] = urlParams.id
+    Personal.edit(submittal).then((res) => {
+      set({ subBtnDisabled: false })
+      if (res['code'] == '200') {
+        Toast({
+          message: '修改成功',
+        })
+      }
+    })
+  }
+
+  /**
+   * 删除请求多余的字段和
+   */
+
+  const prune = () => {
+    const { infolist } = optionalInfoRef.current
+    const newInfolist = JSON.parse(
+      JSON.stringify(infolist, (key, value) => {
+        if (key == 'type') {
+          return undefined
+        } else if (key == 'certificateType') {
+          return value == '身份证' ? 0 : 1
+        } else {
+          return value
+        }
+      })
+    )
+    return newInfolist
   }
 
   return (
@@ -81,8 +223,9 @@ const PersonalDetailPage: FC = () => {
                   <Flex align="center">
                     <Flex.Item span={14}>
                       <Field
-                        value={submitdata.travelerName}
+                        value={submittal.travelerName}
                         placeholder="与证件姓名一致"
+                        errorMessage={state.errorMessage['nameMsg']}
                         onChange={(val) => {
                           setSubmitdata({
                             travelerName: val,
@@ -108,8 +251,9 @@ const PersonalDetailPage: FC = () => {
                 <div className="pul-name">手机号</div>
                 <div className="pul-content">
                   <Field
-                    value={submitdata.phoneNumber}
+                    value={submittal.phoneNumber}
                     placeholder="常用手机号"
+                    errorMessage={state.errorMessage['phoneMsg']}
                     onChange={(val) => {
                       setSubmitdata({
                         phoneNumber: val,
@@ -124,7 +268,7 @@ const PersonalDetailPage: FC = () => {
                   <Field
                     isLink
                     readonly
-                    value={state.value}
+                    value={submittal.addr}
                     label=""
                     placeholder="请选择出行人常住地"
                     onClick={() => set({ visible: true })}
@@ -144,9 +288,16 @@ const PersonalDetailPage: FC = () => {
               <li className="pch-ul-li pch-ul-li-bottom">
                 <div className="pul-name">出行人类型</div>
                 <div className="pul-content">
-                  <Radio.Group direction="horizontal" iconSize="3.8vw">
+                  <Radio.Group
+                    value={submittal.type}
+                    onChange={(val) => {
+                      setSubmitdata({ type: val })
+                    }}
+                    direction="horizontal"
+                    iconSize="3.8vw"
+                  >
                     <Radio
-                      name="r1"
+                      name={0}
                       iconRender={({ checked: isActive }) => (
                         <img alt="" className="img-icon" src={isActive ? activeIcon : inactiveIcon} />
                       )}
@@ -154,7 +305,7 @@ const PersonalDetailPage: FC = () => {
                       成人
                     </Radio>
                     <Radio
-                      name="r2"
+                      name={1}
                       iconRender={({ checked: isActive }) => (
                         <img alt="" className="img-icon" src={isActive ? activeIcon : inactiveIcon} />
                       )}
@@ -167,7 +318,7 @@ const PersonalDetailPage: FC = () => {
 
               <li className="pch-ul-li-box rv-hairline--bottom">
                 <div className="hairline-top"></div>
-                <OptionalInfo />
+                <OptionalInfo certificate={submittal.travelerCertificate} ref={optionalInfoRef} />
               </li>
 
               <li className="pch-ul-li rv-hairline--bottom">
@@ -175,7 +326,16 @@ const PersonalDetailPage: FC = () => {
                 <div className="pul-content">
                   <Flex align="center">
                     <Flex.Item span={14}>
-                      <Field placeholder="联系人姓名" />
+                      <Field
+                        value={submittal.emerName}
+                        placeholder="联系人姓名"
+                        errorMessage={state.errorMessage['emerNameMsg']}
+                        onChange={(val) => {
+                          setSubmitdata({
+                            emerName: val,
+                          })
+                        }}
+                      />
                     </Flex.Item>
                     <Flex.Item span={10} className="pul-content-right">
                       <Popover
@@ -192,15 +352,31 @@ const PersonalDetailPage: FC = () => {
               <li className="pch-ul-li">
                 <div className="pul-name">联系人手机</div>
                 <div className="pul-content">
-                  <Field placeholder="紧急联系人手机号" />
+                  <Field
+                    value={submittal.emerPhoneNumber}
+                    placeholder="紧急联系人手机号"
+                    errorMessage={state.errorMessage['emerPhoneMsg']}
+                    onChange={(val) => {
+                      setSubmitdata({
+                        emerPhoneNumber: val,
+                      })
+                    }}
+                  />
                 </div>
               </li>
             </ul>
           </div>
         </div>
         <div className="personal-protocol">点击保存表示同意 《占位协议名称》</div>
-        <div className="personal-submit">
-          <div className="personal-submit-btn">保存</div>
+        <div
+          onClick={() => {
+            !state.subBtnDisabled && onSubmit()
+          }}
+          className={'personal-submit'}
+        >
+          <div className={state.subBtnDisabled ? 'personal-submit-btn personal-submit-btnDis' : 'personal-submit-btn'}>
+            {urlParams.id ? '修改' : '保存'}
+          </div>
         </div>
       </div>
     </ConfigProvider>

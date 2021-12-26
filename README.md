@@ -21,3 +21,5 @@
 ```
 npx husky add .husky/pre-commit "npm test"
 ```
+
+lint-staged --allow-empty
