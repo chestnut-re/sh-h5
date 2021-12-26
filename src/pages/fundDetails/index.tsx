@@ -170,7 +170,7 @@ const FundDetailsPage: React.FC = () => {
           </List>
         </PullRefresh>
       </div>
-      {/* <div className={'tab-list tab-view' + `${tabActiveIndex === 2 ? 'active' : ''}`}>
+      <div className={'tab-list tab-view' + `${tabActiveIndex === 2 ? 'active' : ''}`}>
         <PullRefresh onRefresh={onRefresh}>
           <List finished={finished1} onLoad={onLoadRefresh} immediateCheck={false} loading={isloading1}>
             {detailListN.length ? (
@@ -199,7 +199,7 @@ const FundDetailsPage: React.FC = () => {
             ) : null}
           </List>
         </PullRefresh>
-      </div> */}
+      </div>
     </div>
   )
 }
