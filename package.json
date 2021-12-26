@@ -90,7 +90,8 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-router-dom": "^5.2.0",
-    "react-vant": "^1.4.10"
+    "react-vant": "^1.4.10",
+    "weixin-js-sdk": "^1.6.0"
   },
   "lint-staged": {
     "src/**/*.{jsx,tsx,ts,js,json,css,less,md}": [

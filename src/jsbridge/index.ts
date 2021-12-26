@@ -10,6 +10,11 @@ import { JumpParams } from './types'
 
 export class SHBridge {
   /**
+   * 初始化
+   */
+  static init(): void {}
+
+  /**
    * 获取 token
    */
   static getToken(): void {
