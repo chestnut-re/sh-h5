@@ -25,6 +25,7 @@ const webpackConfigDev = {
     proxy: {
       // '/api/third': 'http://192.168.10.61:9000',
       '/api': 'https://devapi.mountainseas.cn',
+      // '/api': 'https://testapi.mountainseas.cn',
     },
   },
 }

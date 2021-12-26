@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react'
-import './index.less'
 import { useDebouncedEffect } from '@/hooks/useDebouncedEffect'
 import token from '@/assets/img/token/22token.png'
+import { MyTokenService } from '@/service/MyTokenService'
+import './index.less'
 /**
  * 收支明细
  */
 const DetailedPage: React.FC = (props) => {
-  const [selectedIndex, setSelectedIndex] = useState(0)
+  const [details, setDetails] = useState<any[]>([])
   const [selectedIndex2, setSelectedIndex2] = useState(0)
   const [selectPage, setSelectPage] = useState(0)
-  // useEffect(() => {
-  //   console.log(props.match.params.type)
-  //   window.addEventListener('scroll', onScroll)
-  //   return () => {
-  //     window.removeEventListener('scroll', onScroll)
-  //   }
-  // }, [])
+  useEffect(() => {
+    MyTokenService.getWalletPage().then((res) => {
+      console.log(res)
+      setDetails(res.records)
+    })
+  }, [])
 
   // useDebouncedEffect(
   //   () => {
@@ -95,29 +95,33 @@ const DetailedPage: React.FC = (props) => {
   ]
   return (
     <div className="DetailedPage__root">
-      <div className="list">
-        {detailList.map((item, index) => {
-          return (
-            <div className="item" key={index}>
-              <div className="counter">
-                <div className="text">{item.text}</div>
-                <div className="money" style={item.state === 0 ? { color: '#999' } : {}}>
-                  {item.money}
+      {details.length > 0 ? (
+        <div className="list">
+          {details.map((item, index) => {
+            return (
+              <div className="item" key={index}>
+                <div className="counter">
+                  <div className="text">{item.title}</div>
+                  <div className="money" style={item.state === 0 ? { color: '#999' } : {}}>
+                    {item.amount}
+                  </div>
+                </div>
+                <div className="under">
+                  <div className="time">{item.billDate}</div>
+                  {item.title ? (
+                    <div className="title" style={item.title == '邀请好友' ? {} : { color: '#FD7D81' }}>
+                      {item.typeName}
+                    </div>
+                  ) : null}
                 </div>
               </div>
-              <div className="under">
-                <div className="time">{item.time}</div>
-                {item.title ? (
-                  <div className="title" style={item.title == '邀请好友' ? {} : { color: '#FD7D81' }}>
-                    {item.title}
-                  </div>
-                ) : null}
-              </div>
-            </div>
-          )
-        })}
-        <div className="footer">没有了</div>
-      </div>
+            )
+          })}
+          <div className="footer">没有了</div>
+        </div>
+      ) : (
+        <div className="footer">没有记录</div>
+      )}
     </div>
   )
 }

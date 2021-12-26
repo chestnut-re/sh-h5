@@ -9,9 +9,12 @@ import './index.less'
  * w我的代币
  */
 const MyTokenPage: React.FC = () => {
-  const [selectPage, setSelectPage] = useState(0)
+  const [totalAmount, setTotalAmount] = useState(0)
   useEffect(() => {
-    MyTokenService.getMyWallet()
+    MyTokenService.getMyWallet().then((res) => {
+      console.log(res)
+      setTotalAmount(res.data.totalAmount)
+    })
   }, [])
 
   // useDebouncedEffect(
@@ -28,7 +31,7 @@ const MyTokenPage: React.FC = () => {
     <div className="MyTokenPage__root">
       <div className="header">
         <div>
-          <text>340000</text>
+          <text>{totalAmount}</text>
           <img className="img" src={token} />
         </div>
         <div onClick={toWithDraw}>提现</div>

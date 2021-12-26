@@ -1,27 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import { NumberKeyboard, Popover, Toast } from 'react-vant'
-import './index.less'
 import { useDebouncedEffect } from '@/hooks/useDebouncedEffect'
 import ask from '@/assets/img/token/ask.png'
 import { number } from 'echarts'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
+import { MyTokenService } from '@/service/MyTokenService'
+import './index.less'
 /**
  * 我的代币提现
  */
-const WithDrawPage: React.FC = (props) => {
-  const [selectedIndex, setSelectedIndex] = useState(0)
-  const [selectedIndex2, setSelectedIndex2] = useState(0)
+const WithDrawPage: React.FC = () => {
   const [myK, setMyK] = useState('')
   const [visible, setVisible] = useState(false)
-  const [dollar, setDollar] = useState(2000)
-  // useEffect(() => {
-  //   console.log(props.match.params.type)
-  //   window.addEventListener('scroll', onScroll)
-  //   return () => {
-  //     window.removeEventListener('scroll', onScroll)
-  //   }
-  // }, [])
+  const [dollar, setDollar] = useState()
+  useEffect(() => {
+    MyTokenService.getCashPage().then((res) => {
+      console.log(res)
+      setDollar(res.data.maxCashAmount)
+    })
+  }, [])
 
   // useDebouncedEffect(
   //   () => {
@@ -36,10 +34,21 @@ const WithDrawPage: React.FC = (props) => {
     // window.location.href = '/detailed'
   }
   const toExamine = () => {
+    // askFor()
     SHBridge.jump({ url: generateUrl('/examine'), replace: true, title: '申请提现' })
   }
   const onFocus = () => {
     setVisible(true)
+  }
+  const askFor = () => {
+    if (Number(myK) > 0) {
+      MyTokenService.askForWithDraw({ amount: myK }).then((res) => {
+        console.log(res)
+        // setDollar(res.data.maxCashAmount)
+      })
+    } else {
+      Toast('请输入正确金额')
+    }
   }
   return (
     <div className="WithDrawPage__root">
@@ -53,7 +62,7 @@ const WithDrawPage: React.FC = (props) => {
           </div>
         </div>
         <div className="text">
-          {Number(myK) < dollar ? (
+          {Number(myK) < Number(dollar) ? (
             <div>
               最多可提现{dollar}元
               <Popover
@@ -79,13 +88,11 @@ const WithDrawPage: React.FC = (props) => {
           查看明细
         </div>
       </div>
-
       <NumberKeyboard
         theme="custom"
         extraKey="."
         closeButtonText="提现"
         visible={visible}
-        hideOnClickOutside
         value={myK}
         onChange={setMyK}
         onClose={() => setVisible(false)}
