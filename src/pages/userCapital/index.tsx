@@ -53,7 +53,7 @@ const UserCapitalPage: React.FC = () => {
   }
 
   const toFundDetails = () => {
-    SHBridge.jump({ url: generateUrl('/fund-details'), newWebView: true, title: '资金明细' })
+    SHBridge.jump({ url: generateUrl('/fund-details') })
   }
   const toMoneyRecord = () => {
     SHBridge.jump({ url: generateUrl('/money-record'), newWebView: false, title: '提现记录' })
@@ -64,6 +64,15 @@ const UserCapitalPage: React.FC = () => {
   }
   return (
     <div className="UserCapitalPage__root">
+      <NavBar
+        title="账户资金"
+        safeAreaInsetTop={true}
+        leftArrow
+        onClickLeft={closeSearchPage}
+        onClickRight={toFundDetails}
+        rightText={'账户资金明细'}
+        border={false}
+      />
       <div className="top">
         <div className="one">
           <div>可用金额</div> <img className="pic" src={tip} alt="" />

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Dialog, Toast, ActionSheet, NumberKeyboard } from 'react-vant'
+import { Dialog, Toast, ActionSheet, NumberKeyboard, NavBar } from 'react-vant'
 import './index.less'
 import { useDebouncedEffect } from '@/hooks/useDebouncedEffect'
 import close from '@/assets/img/successMove/close.png'
@@ -19,7 +19,6 @@ const OperateCapitalPage: React.FC = () => {
   const [accountInfo, setAccountInfo] = useState({})
   useEffect(() => {
     SHBridge.setTitleAction([{ value: '账户资金明细', type: 'text' }], () => {
-      // console.log(index);
       toFundDetails()
     })
     AccountInfoApi.accountInfo().then((res: any) => {
@@ -30,13 +29,6 @@ const OperateCapitalPage: React.FC = () => {
     })
   }, [])
 
-  // useDebouncedEffect(
-  //   () => {
-  //     setSelectedIndex2(selectedIndex)
-  //   },
-  //   [selectedIndex],
-  //   200
-  // )
   const selectName = (text) => {
     setVisible(true)
     text == 'in' ? setSelectText('转入') : setSelectText('转出')
@@ -54,7 +46,7 @@ const OperateCapitalPage: React.FC = () => {
   }
 
   const toFundDetails = () => {
-    SHBridge.jump({ url: generateUrl('/operate-details'), newWebView: true, title: '资金明细' })
+    SHBridge.jump({ url: generateUrl('/operate-details') })
   }
   const openDialog = () => {
     setVisible(false)
@@ -64,8 +56,21 @@ const OperateCapitalPage: React.FC = () => {
     setShow(false)
     setVisible(true)
   }
+  const closeSearchPage = () => {
+    console.log('object :>> 关闭')
+    SHBridge.closePage()
+  }
   return (
     <div className="OperateCapitalPage__root">
+      <NavBar
+        title="运营资金"
+        safeAreaInsetTop={true}
+        leftArrow
+        onClickLeft={closeSearchPage}
+        onClickRight={toFundDetails}
+        rightText={'运营资金明细'}
+        border={false}
+      />
       <div className="top">
         <div className="one">
           <div>总资金</div>
