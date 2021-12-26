@@ -1,5 +1,5 @@
 import { type } from 'os'
-import React, { useState, useEffect, FC } from 'react'
+import React, { useState, useEffect, FC, useImperativeHandle, forwardRef } from 'react'
 import {
   hooks,
   Popover,
@@ -21,31 +21,99 @@ import './index.less'
 
 const infos = {
   type: 0,
-  value: '',
+  certificateNo: '',
+  validity: '',
+  certificateType: '身份证',
 }
 const actions = [
   { text: '身份证', disabled: false },
   { text: '护照', disabled: false },
 ]
 
-const OptionalInfo: FC = () => {
+const OptionalInfo = (props, ref) => {
   const [value2, setvalue2] = useState('')
   const [showPicker, setShowPicker] = useState(false)
-  const [infolist, setInfolist] = useState([])
+  const [showPickerId, setShowPickerId] = useState()
 
+  const [infolist, setInfolist] = useState([] as any[])
+  const [newKey, setNewKey] = useState(0)
+
+  const { certificate } = props
   useEffect(() => {
-    setInfolist([infos])
-  }, [])
+    if (certificate && certificate.length > 0) {
+      certificate.map((item, index) => {
+        item.type = index
+        item.certificateType = item.certificateType == 0 ? '身份证' : '护照'
+      })
+      setInfolist([...certificate])
+    } else {
+      setInfolist([infos])
+    }
+  }, [certificate])
 
   const addOptionalInfo = () => {
-    setInfolist([...infolist, infos])
+    setNewKey(newKey + 1)
+    const activeKey = `new${newKey}`
+    infolist.push({ type: activeKey, certificateNo: '', certificateType: '身份证' })
+    setInfolist(infolist)
   }
   const deleteHandelOptional = (i) => {
     const newInfolist = infolist.filter((item, index) => {
       return index != i
     })
+
     console.log('i :>> ', i, newInfolist)
     setInfolist([...newInfolist])
+  }
+
+  useImperativeHandle(ref, () => ({
+    infolist: infolist,
+  }))
+
+  const onFieldChange = (value, type) => {
+    const newInfolist = [...infolist]
+
+    newInfolist.map((item, i) => {
+      if (item['type'] === type) {
+        item['certificateNo'] = value
+      }
+    })
+    setInfolist(newInfolist)
+  }
+
+  const onTimeChange = (val) => {
+    const d = new Date(val)
+    const datetime =
+      d.getFullYear() +
+      '-' +
+      (d.getMonth() + 1) +
+      '-' +
+      d.getDate() +
+      ' ' +
+      d.getHours() +
+      ':' +
+      d.getMinutes() +
+      ':' +
+      d.getSeconds()
+    const newInfolist = [...infolist]
+
+    newInfolist.map((item, i) => {
+      if (item['type'] === showPickerId) {
+        item['validity'] = datetime
+      }
+    })
+    setInfolist(newInfolist)
+  }
+
+  const onSelect = (value, type) => {
+    const newInfolist = [...infolist]
+
+    newInfolist.map((item, i) => {
+      if (item['type'] === type) {
+        item['certificateType'] = value.text
+      }
+    })
+    setInfolist(newInfolist)
   }
 
   return (
@@ -53,13 +121,23 @@ const OptionalInfo: FC = () => {
       <div className="optional-info-text">儿童选填</div>
       {infolist.map((item, index) => {
         return (
-          <div className="optional-info-content">
+          <div key={index} className="optional-info-content">
             <div className="oic-item rv-hairline--bottom">
               <div className="oic-item-label oic-item-card">
-                <Popover actions={actions} placement="bottom-start" reference={<span>身份证</span>} />
+                <Popover
+                  onSelect={(vals) => onSelect(vals, item['type'])}
+                  actions={actions}
+                  placement="bottom-start"
+                  reference={<span>{item['certificateType']}</span>}
+                />
               </div>
               <div className="oic-item-content">
-                <Field className="oic-input" value={value2} placeholder="请填写正确的证件号码" />
+                <Field
+                  className="oic-input"
+                  onChange={(val) => onFieldChange(val, item['type'])}
+                  value={item['certificateNo']}
+                  placeholder="请填写正确的证件号码"
+                />
               </div>
             </div>
             <div className="oic-item rv-hairline--bottom">
@@ -68,9 +146,10 @@ const OptionalInfo: FC = () => {
                 <Field
                   isLink
                   readonly
-                  value={value2}
+                  value={item['validity']}
                   onClick={() => {
                     setShowPicker(true)
+                    setShowPickerId(item['type'])
                   }}
                   placeholder="请选择"
                 />
@@ -107,6 +186,7 @@ const OptionalInfo: FC = () => {
       <Popup visible={showPicker} round position="bottom" onClose={() => setShowPicker(false)}>
         <DatetimePicker
           onConfirm={(value: string) => {
+            onTimeChange(value)
             setShowPicker(false)
           }}
           type="date"
@@ -119,4 +199,7 @@ const OptionalInfo: FC = () => {
   )
 }
 
-export default OptionalInfo
+const WrappedForm = forwardRef(OptionalInfo)
+export default WrappedForm
+
+// export default OptionalInfo
