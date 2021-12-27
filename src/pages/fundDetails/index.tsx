@@ -62,6 +62,9 @@ const FundDetailsPage: React.FC = () => {
           setFinished(true)
         }
       })
+      .catch(() => {
+        setFinished(true)
+      })
       .finally(() => {
         setIsloading(false)
       })
@@ -88,6 +91,9 @@ const FundDetailsPage: React.FC = () => {
         if (res['records'].length < size) {
           setFinished1(true)
         }
+      })
+      .catch(() => {
+        setFinished1(true)
       })
       .finally(() => {
         setIsloading1(false)
