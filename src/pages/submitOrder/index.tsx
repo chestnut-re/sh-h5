@@ -43,6 +43,7 @@ const SubmitOrderPage: FC = (props) => {
   //提交订单
   const submitHandle = () => {
     console.log('object :>> 提交订单', OrderApi)
+    console.log('id', qs.parse(search.slice(1)))
   }
   return (
     <div className="puorder-container">

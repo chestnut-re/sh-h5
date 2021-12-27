@@ -1,16 +1,32 @@
-import React, { useEffect, useState } from 'react'
-import './index.less'
+import React, { useEffect, useState, useRef } from 'react'
 import { useDebouncedEffect } from '@/hooks/useDebouncedEffect'
+import { useLocation } from 'react-router-dom'
+import { getUrlParams } from '@/utils'
+import qs from 'query-string'
+import { TravelDetailService } from '@/service/TravelDetailService'
+
+import './index.less'
 
 /**
  * 参考行程
  */
 const TravelRoutePage: React.FC = () => {
+  const pageRef = useRef<any>({})
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [selectedIndex2, setSelectedIndex2] = useState(0)
-  const [selectPage, setSelectPage] = useState(0)
+  const [days, setDays] = useState<any[]>([])
   useEffect(() => {
+    const params = getUrlParams(window.location.href)
+    pageRef.current.id = params['id']
+    pageRef.current.goodsPriceId = params['goodsPriceId']
+    console.log(params['id'])
     window.addEventListener('scroll', onScroll)
+    //获取参考行程
+    TravelDetailService.get({ goodsId: pageRef.current.id, goodsPriceId: pageRef.current.goodsPriceId }).then((res) => {
+      console.log(res)
+      setDays(res.data)
+    })
+
     return () => {
       window.removeEventListener('scroll', onScroll)
     }
@@ -285,7 +301,7 @@ const TravelRoutePage: React.FC = () => {
     <div className="TravelRoute__root">
       <div className="tabBox">
         <ul className="tab">
-          {tabList.map((item, index) => {
+          {days.map((item, index) => {
             const isSelected = selectedIndex2 === index
             return (
               <li
@@ -295,51 +311,35 @@ const TravelRoutePage: React.FC = () => {
                 }}
                 key={index}
               >
-                {item.tabName}
+                {item.whatDay}
               </li>
             )
           })}
         </ul>
       </div>
       <div className="list" id="list" onScroll={onScroll}>
-        {list.map((item, index) => {
+        {days.map((item, index) => {
           return (
             <div id={`title${index}`} className="itemList" key={index}>
               <div className="itemHeader">
-                <span className="itemDay">{item.day}</span>
-                <span>{item.date}</span>
+                <span className="itemDay">{item.whatDay}</span>
+                <span>{item.date ?? ''}</span>
               </div>
-
-              <div className="itemPoint">
-                <div className="itemTime">{item.time1}</div>
-                <span className="point"></span>
-                {item.point1}
-              </div>
-              <div className="itemPoint">
-                <div className="itemTime">{item.time2}</div>
-                <span className="point"></span>
-                {item.point2}
-              </div>
-              <div className="itemPoint">
-                <div className="itemTime">{item.time3}</div>
-                <span className="point"></span>
-                {item.point3}
-              </div>
-              <div className="itemPoint">
-                <div className="itemTime">{item.time4}</div>
-                <span className="point"></span>
-                {item.point4}
-              </div>
-              <div className="itemPoint">
-                <div className="itemTime">{item.time5}</div>
-                <span className="point"></span>
-                {item.point5}
-              </div>
-              <div className="itemPoint">
+              {item.travelDetails.map((it) => {
+                return (
+                  // eslint-disable-next-line react/jsx-key
+                  <div className="itemPoint">
+                    <div className="itemTime">{it.travelTime}</div>
+                    <span className="point"></span>
+                    {it.travelTitle}
+                  </div>
+                )
+              })}
+              {/* <div className="itemPoint">
                 <div className="itemTime">{item.time6}</div>
                 <span className="lastPoint"></span>
                 {item.point6}
-              </div>
+              </div> */}
             </div>
           )
         })}
