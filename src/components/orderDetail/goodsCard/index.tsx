@@ -5,29 +5,30 @@ import './index.less'
  * 商品预览卡片左图 右描述
  */
 interface GoodsType {
-  promotionalImageUrl?: string
-  goodsName?: string
+  promotionalImageUrl?: string;
+  goodsName?: string;
+  startDate:string;
+  endDate:string;
+  adultNum:string;
+  childNum:string;
+  isSubmitOrder:boolean;
 }
 
 const GoodsCard: FC<GoodsType> = (props) => {
-  const [goodinfo, setGoodinfo] = useState<GoodsType>()
-
-  useEffect(() => {
-    setGoodinfo(props)
-    console.log('props :>> ', props)
-  }, [props])
+  const {promotionalImageUrl,goodsName,startDate,endDate,adultNum,childNum,isSubmitOrder=false} = props;
+ 
   return (
     <div className="goods-content">
       <div className="goods-l">
-        <Image width="100%" height="100%" fit="cover" src={goodinfo?.promotionalImageUrl} />
+        <Image width="100%" height="100%" fit="cover" src={promotionalImageUrl} />
       </div>
       <div className="goods-r">
-        <div className="goods-rT_name rv-multi-ellipsis--l2">{goodinfo?.goodsName}</div>
-        <div className="goods-rC_name goods-rS">10/22 周五出发 10/26 周二返程</div>
-        <div className="goods-rB_name goods-rS">
-          <span>成人X2</span>
-          <span>儿童X2</span>
-        </div>
+        <div className="goods-rT_name rv-multi-ellipsis--l2">{goodsName}</div>
+        {startDate&&endDate?(<div className="goods-rC_name goods-rS">{startDate} 周五出发 {endDate} 周二返程</div>):null}
+        {!isSubmitOrder?<div className="goods-rB_name goods-rS">
+          <span>成人X{adultNum}</span>
+          <span>儿童X{childNum}</span>
+        </div>:null}
       </div>
     </div>
   )

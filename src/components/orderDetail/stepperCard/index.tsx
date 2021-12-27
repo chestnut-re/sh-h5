@@ -11,6 +11,7 @@ import './index.less'
 const themeVars = {
   '--rv-stepper-button-icon-color': '#121212',
 }
+const RMB_CON = 100
 interface StepType {
   handleDiscounts: () => void
   handleStepper: (val) => void
@@ -28,22 +29,21 @@ const StepperCard: FC<StepType> = (props) => {
   const [inteNum, setInteNum] = useState(0)
 
   //接收商品信息
-  const [stepinfo, setStepinfo] = useState<StepType>()
+  const [stepinfo, setStepinfo] = useState<any>()
   //接收出行时间信息库存判断
-  const [stepselectTime, setStepselectTime] = useState<StepType>()
+  const [stepselectTime, setStepselectTime] = useState<any>()
   //接收优惠信息
-  const [priceSet, setPriceSet] = useState<StepType>()
+  const [priceSet, setPriceSet] = useState<any>()
 
-  //接收金币可抵扣比例
-  const [deductionScaleNum, setdeductionScale] = useState<StepType>()
+  //接收金币可抵扣数量
+  const [deductionScaleNum, setdeductionScale] = useState<number>()
 
   useEffect(() => {
-    console.log('props :>> ', props)
     const { submitinfo, selectTime, priceSet } = props
     setStepinfo(submitinfo)
     setStepselectTime(selectTime)
     setPriceSet(priceSet)
-    setdeductionScale(submitinfo.deductionScale)
+    setdeductionScale((selectTime.pointsDeduction)/RMB_CON)
   }, [props])
 
   const setGrownNumValue = (val) => {
@@ -152,11 +152,12 @@ const StepperCard: FC<StepType> = (props) => {
               <div className="step-name hairline--icon">
                 <Icon size="4vw" className="integra-icon" name={integralIcon} />
                 <span>金豆</span>
-                <span className="name-subtitle">共{stepinfo?.tokenAmountNum}</span>
+                <span className="name-subtitle">共{(stepinfo?.tokenAmountNum)/RMB_CON}</span>
               </div>
               <div className="step-content">
                 <ConfigProvider themeVars={themeVars}>
                   <Stepper
+                    disabled={deductionScaleNum<1?true:false}
                     value={inteNum}
                     min="0"
                     max="34"
@@ -176,7 +177,7 @@ const StepperCard: FC<StepType> = (props) => {
       {stepinfo?.isDeduction === 0 ? (
         <div className="info-integral rv-hairline--bottom">
           <div className="integral-instruction">
-            此订单最多可用{stepinfo?.deductionNum}金豆抵<span>¥{stepinfo?.canDeductionNum}</span>
+            此订单最多可用{deductionScaleNum}金豆抵<span>¥{deductionScaleNum}</span>
           </div>
         </div>
       ) : null}
