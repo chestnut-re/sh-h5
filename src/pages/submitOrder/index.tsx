@@ -64,7 +64,7 @@ const GoodsPrice = [
 
 const SubmitOrderPage: FC = () => {
   const { search } = useLocation()
-  const { id,t } = qs.parse(search.slice(1))
+  const { id, t } = qs.parse(search.slice(1))
   //提交数据
   const [submitData, setSubmitData] = useState({
     childCurrentPrice: 0, //儿童现售价单价
@@ -269,7 +269,7 @@ const SubmitOrderPage: FC = () => {
   }
   //处理优惠说明
   const handleDiscountsInfo = () => {
-    const {goodsPriceId} = selectTime;
+    const { goodsPriceId } = selectTime
     SHBridge.jump({
       url: generateUrl(`/privilege?t=${search}&id=${id}&goodsPriceId=${goodsPriceId}`),
       newWebView: true,
@@ -309,6 +309,7 @@ const SubmitOrderPage: FC = () => {
         state: 1,
         travelId: goodsPriceId,
         discountAmount: preferPrice,
+        tokenAmount: intNum * RMB_CON,
       },
     }
 
@@ -317,22 +318,22 @@ const SubmitOrderPage: FC = () => {
     // setSubmitData((v)=>{
     //   return subInfo
     // })
-
+    const payString = "alipay_root_cert_sn=687b59193f3f462dd5336e5abf83c5d8_02941eef3187dddf3d3b83462e1dfcf6&alipay_sdk=alipay-sdk-java-4.8.103.ALL&app_cert_sn=2c03fdc66c059ea1553406b3ed88fea7&app_id=2021003107621742&biz_content=%7B%22out_trade_no%22%3A%221475376646990290944%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%2C%22subject%22%3A%22%E6%AC%A7%E6%B4%B211%E5%9B%BD%E5%8F%8C%E6%97%A5%E6%B8%B8%22%2C%22total_amount%22%3A%22180000%22%7D&charset=UTF-8&format=json&method=alipay.trade.app.pay&notify_url=http%3A%2F%2Fdevapi.mountainseas.cn%2Fnotice%2Fpay%2Fpayment%2F3&sign=R8bBPR%2FrjdDWjaEi2Y5gW0OF5kk2DN7IPom9y6CNvNzU3QcQStuvzZiESbdA21tcAt2Pxbf2Vp%2FkWAZfqO4hq1JM%2FyDZddqFaDVlgp5bkB3BAPKiNzDcW7pIXFdoQV3chmZiIQW1RV5%2FZHtwroQGNx3AvtF%2FlsYYwUtb7AKJXa9pyrS5ndIlrPLXuFGRTelBGQpucWSGVNU3IERJQlkocRZFeNOe1DTebdMsC9ZinNF%2FRbafQoyy2asxVvWzZAEy3WZcyTmYcmczwDSwXB634GXvBWdxtvtgokgCoWta%2B7ZNSQMeeu5hR48csIUW%2B57l4PgODwv4IiYSUyyTFtOqKw%3D%3D&sign_type=RSA2&timestamp=2021-12-27+16%3A02%3A58&version=1.0"
+    SHBridge.alipay(payString, (res) => {
+      console.log('支付成功', res)
+    })
     OrderApi.submit(subInfo)
       .then((res) => {
         console.log('res提交订单 :>> ', res)
-        const {code,data} = res;
+        const { code, data } = res
 
-        if (code == "200"&&data) {
-         
-          if (data.code == "200") {
-              SHBridge.alipay(data.data, (res) => {
-                console.log("支付成功",res)
-              })
+        if (code == '200' && data) {
+          if (data.code == '200') {
+            SHBridge.alipay(data.data, (res) => {
+              console.log('支付成功', res)
+            })
           }
-         
         }
-
       })
       .catch((err) => {
         console.log('object订单接口异常:>> ', err)
