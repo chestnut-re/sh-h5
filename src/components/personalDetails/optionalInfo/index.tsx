@@ -1,17 +1,9 @@
-import { type } from 'os'
 import React, { useState, useEffect, FC, useImperativeHandle, forwardRef } from 'react'
 import {
-  hooks,
   Popover,
-  Form,
-  Radio,
-  Flex,
-  Toast,
   Popup,
   DatetimePicker,
   Field,
-  Calendar,
-  ConfigProvider,
 } from 'react-vant'
 
 import './index.less'
@@ -185,7 +177,7 @@ const OptionalInfo = (props, ref) => {
 
       <Popup visible={showPicker} round position="bottom" onClose={() => setShowPicker(false)}>
         <DatetimePicker
-          onConfirm={(value: string) => {
+          onConfirm={(value) => {
             onTimeChange(value)
             setShowPicker(false)
           }}
