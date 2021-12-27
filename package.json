@@ -84,6 +84,7 @@
     "echarts-for-react": "^3.0.2",
     "js-cookie": "^3.0.1",
     "json-bigint": "^1.0.0",
+    "nanoid": "^3.1.30",
     "normalize.css": "^8.0.1",
     "qrcode.react": "^1.0.1",
     "query-string": "^7.0.1",

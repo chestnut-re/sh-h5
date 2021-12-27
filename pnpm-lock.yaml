@@ -49,6 +49,7 @@ specifiers:
   less-loader: ^8.0.0
   lint-staged: ^12.1.2
   mini-css-extract-plugin: ^1.4.1
+  nanoid: ^3.1.30
   normalize.css: ^8.0.1
   postcss-loader: ^5.2.0
   postcss-px-to-viewport: ^1.1.1
@@ -84,6 +85,7 @@ dependencies:
   echarts-for-react: 3.0.2_echarts@5.2.2+react@17.0.2
   js-cookie: 3.0.1
   json-bigint: 1.0.0
+  nanoid: 3.1.30
   normalize.css: 8.0.1
   qrcode.react: 1.0.1_react@17.0.2
   query-string: 7.0.1
@@ -5707,7 +5709,6 @@ packages:
     resolution: {integrity: sha512-zJpuPDwOv8D2zq2WRoMe1HsfZthVewpel9CAvTfc/2mBD1uUT/agc5f7GHGWXlYkFvi1mVxe4IjvP2HNrop7nQ==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
-    dev: true
 
   /nanomatch/1.2.13:
     resolution: {integrity: sha512-fpoe2T0RbHwBTBUOftAfBPaDEi06ufaUai0mE6Yn1kacc3SnTErfb/h+X94VXzI64rKFHYImXSvdwGGCmwOqCA==}
