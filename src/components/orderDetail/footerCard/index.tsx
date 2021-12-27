@@ -1,4 +1,4 @@
-import React, { useState, FC } from 'react'
+import React, { useState, useEffect, FC } from 'react'
 
 import './index.less'
 /**
@@ -6,18 +6,24 @@ import './index.less'
  */
 
 interface FootPropsType {
+  priceSetData: any
   submitHandleOrder: () => void
 }
 
 const FooterCard: FC<FootPropsType> = (props) => {
+  const { priceSetData } = props
+  const [priceinfo, setPriceinfo] = useState({})
+  useEffect(() => {
+    setPriceinfo(priceSetData)
+  }, [props])
   return (
     <div className="order-action">
       <div className="action-main">
         <div className="action-l">
           <div className="action-total">
-            <span>¥</span> 8596
+            <span>¥</span> {priceinfo['priceNum']}
           </div>
-          <div className="action-dis">已优惠2198</div>
+          <div className="action-dis">已优惠{priceinfo['preferPrice']}</div>
         </div>
         <div className="action-r" onClick={props.submitHandleOrder}>
           <div className="btn-pay">立即付款</div>
