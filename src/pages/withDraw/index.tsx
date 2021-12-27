@@ -50,16 +50,43 @@ const WithDrawPage: React.FC = () => {
       Toast('请输入正确金额')
     }
   }
+  /**
+   * 金额输入限制
+   * @params: val接收number值
+   */
+  const money = (val) => {
+    let num = val.toString() //先转换成字符串类型
+    if (num.indexOf('.') == 0) {
+      //第一位就是 .
+      num = '0' + num
+    }
+    num = num.replace(/[^\d.]/g, '') //清除“数字”和“.”以外的字符
+    num = num.replace(/\.{2,}/g, '.') //只保留第一个. 清除多余的
+    num = num.replace('.', '$#$').replace(/\./g, '').replace('$#$', '.')
+    num = num.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3') //只能输入两个小数
+    if (num.indexOf('.') < 0 && num != '') {
+      num = parseFloat(num)
+    }
+    return num
+  }
+  const mywellat = (e) => {
+    console.log('e', e)
+    const a = money(e)
+    console.log('e2', a)
+    setMyK(e)
+    // console.log(e)
+  }
+
   return (
     <div className="WithDrawPage__root">
       <div className="header">
         <div className="title">提现金额</div>
         <div className="input-num">
           <div>¥</div>
-          {/* <input value={myK} type="" placeholder="请输入提现金额" onFocus={onFocus} onBlur={() => setVisible(false)} /> */}
-          <div className="input" onClick={onFocus} onBlur={() => setVisible(false)}>
+          <input className="input" value={myK} readOnly onFocus={onFocus} onBlur={() => setVisible(false)} />
+          {/* <div className="input" onClick={onFocus} onBlur={() => setVisible(false)}>
             {myK}
-          </div>
+          </div> */}
         </div>
         <div className="text">
           {Number(myK) < Number(dollar) ? (
@@ -90,11 +117,10 @@ const WithDrawPage: React.FC = () => {
       </div>
       <NumberKeyboard
         theme="custom"
-        extraKey="."
         closeButtonText="提现"
         visible={visible}
         value={myK}
-        onChange={setMyK}
+        onChange={mywellat}
         onClose={() => setVisible(false)}
       />
     </div>
