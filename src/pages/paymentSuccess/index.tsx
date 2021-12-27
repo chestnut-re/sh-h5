@@ -37,7 +37,7 @@ const PaymentSuccessPage: FC = () => {
           <div className="pays-right pays-com" onClick={openPersonalDetails}>填写出行人信息</div>
         </div>
       </div>
-      <div className="pays-you-like">
+      {/* <div className="pays-you-like">
         <div className="you-like-header">猜你喜欢</div>
         <div className="you-like-list">
           <ul className="you-like-ul">
@@ -50,7 +50,7 @@ const PaymentSuccessPage: FC = () => {
             })}
           </ul>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }
