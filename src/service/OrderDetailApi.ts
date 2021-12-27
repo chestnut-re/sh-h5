@@ -9,20 +9,25 @@ export class OrderApi {
    * 提交订单
    */
   static submit(data): Promise<AxiosResponse<any>> {
-    return axios.post('/api/b/orders', data)
+    return axios.post('/api/orders/submitOrder', data)
   }
   /**
-   * 查询订单详情
+   * 查询商品详情
    */
   static detail(params): Promise<AxiosResponse<any>> {
-    return axios.get(`/api/b/orders/${params.id}/details`)
+    return axios.get(`/api/operation/goods/c/goodsDetail/${params.id}`)
   }
   /**
-   * 搜索订单
+   * 积分查询
    */
-  static search(params): Promise<AxiosResponse<any>> {
-    return axios.get(`/api/b/orders/searching`, {
-      params,
-    })
+  static getIntegral(): Promise<AxiosResponse<any>> {
+    return axios.get(`/api/wallet/c/availableAmt`)
+  }
+
+  /**
+   * 优惠信息查询
+   */
+  static getDiscount(data): Promise<AxiosResponse<any>> {
+    return axios.post(`/api/operation/goods/discount`, data)
   }
 }

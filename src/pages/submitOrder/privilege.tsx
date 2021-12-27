@@ -1,5 +1,8 @@
-import React, { useState, FC } from 'react'
+import React, { useState, useEffect, FC } from 'react'
+import { useLocation } from 'react-router-dom'
+import qs from 'query-string'
 import SubmitIntegralFooterCard from '@/components/submitBars/submitIntegralFooter'
+import { OrderApi } from '@/service/OrderDetailApi'
 
 import './privilege.less'
 /**
@@ -7,6 +10,22 @@ import './privilege.less'
  */
 
 const PrivilegePage: FC = (props) => {
+  const { search } = useLocation()
+  const { goodsPriceId, id } = qs.parse(search.slice(1))
+
+  const getDiscountApi = (id, goodsPriceId) => {
+    OrderApi.getDiscount({
+      id: id, // 商品ID
+      goodsPriceId: goodsPriceId, //商品价格ID
+    }).then((res) => {
+      console.log('res优惠信息 :>> ', res)
+    })
+  }
+
+  useEffect(() => {
+    getDiscountApi(id, goodsPriceId)
+  }, [])
+
   return (
     <div className="privilege-container">
       <div className="privilege-main">
