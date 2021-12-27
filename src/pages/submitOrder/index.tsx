@@ -11,6 +11,7 @@ import KnownCalendarCard from '@/components/orderDetail/knownCalendarCard'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
 import { OrderApi } from '@/service/OrderDetailApi'
+
 import './index.less'
 
 /**
@@ -63,7 +64,7 @@ const GoodsPrice = [
 
 const SubmitOrderPage: FC = () => {
   const { search } = useLocation()
-  const { id } = qs.parse(search.slice(1))
+  const { id,t } = qs.parse(search.slice(1))
   //提交数据
   const [submitData, setSubmitData] = useState({
     childCurrentPrice: 0, //儿童现售价单价
@@ -268,8 +269,9 @@ const SubmitOrderPage: FC = () => {
   }
   //处理优惠说明
   const handleDiscountsInfo = () => {
+    const {goodsPriceId} = selectTime;
     SHBridge.jump({
-      url: generateUrl(`/privilege${search}`),
+      url: generateUrl(`/privilege?t=${search}&id=${id}&goodsPriceId=${goodsPriceId}`),
       newWebView: true,
       title: '优惠说明',
     })
@@ -319,6 +321,18 @@ const SubmitOrderPage: FC = () => {
     OrderApi.submit(subInfo)
       .then((res) => {
         console.log('res提交订单 :>> ', res)
+        const {code,data} = res;
+
+        if (code == "200"&&data) {
+         
+          if (data.code == "200") {
+              SHBridge.alipay(data.data, (res) => {
+                console.log("支付成功",res)
+              })
+          }
+         
+        }
+
       })
       .catch((err) => {
         console.log('object订单接口异常:>> ', err)
