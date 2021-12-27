@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom'
 import GoodsCard from '@/components/orderDetail/goodsCard'
 import StepperCard from '@/components/orderDetail/stepperCard'
 import qs from 'query-string'
+import { Toast } from 'react-vant'
 import PayTypeCard from '@/components/orderDetail/payTypeCard'
 import BackCard from '@/components/orderDetail/backthatCard'
 import FooterCard from '@/components/orderDetail/footerCard'
@@ -64,7 +65,7 @@ const GoodsPrice = [
 
 const SubmitOrderPage: FC = () => {
   const { search } = useLocation()
-  const { id, t } = qs.parse(search.slice(1))
+  const { id } = qs.parse(search.slice(1))
   //提交数据
   const [submitData, setSubmitData] = useState({
     childCurrentPrice: 0, //儿童现售价单价
@@ -88,7 +89,7 @@ const SubmitOrderPage: FC = () => {
       insuranceAmount: 0, //保险金额
       originPrice: 0, //商品原总价
       payAmount: 0, //支付金额
-      payType: 3, //支付方式:1 微信小程序支付、2 微信APP支付、3 支付宝APP支付
+      payType: 2, //支付方式:1 微信小程序支付、2 微信APP支付、3 支付宝APP支付
       source: '', //下单途径:1 自然获客、2 分享任务链接、3 分享普通链接、4 线下扫码
       state: '1', //订单状态 1-待付款 2-已失效 3-待确认 4-已完成 5-退款中 6-退款成功 7-退款失败
       tokenAmount: '0', //代币/积分使用金额
@@ -97,6 +98,11 @@ const SubmitOrderPage: FC = () => {
       // travelStartDate: '2021-12-30', //出发日期
     },
   })
+  //支付方式
+  const [payType, setpayType] = useState(2)
+
+  //协议是否勾选
+  const [isProtocol, setIsProtocol] = useState(false)
 
   const [submitinfo, setSubmitinfo] = useState({
     id: '', //商品id
@@ -149,23 +155,6 @@ const SubmitOrderPage: FC = () => {
       }
     })
   }, [selectTime, stepperData])
-
-  useEffect(() => {
-    //计算每一天金豆可用数量
-    const { personCurrentPrice } = selectTime
-    const { deductionScale, tokenAmountNum } = submitinfo
-    const deductions = personCurrentPrice * (deductionScale / 100)
-    // if (condition) {
-
-    // }
-    setSubmitinfo((v) => {
-      return {
-        ...v,
-        deductionNum: deductions, //当前可用数量
-        canDeductionNum: parseInt(deductions + ''), //当前可用金豆抵扣数量
-      }
-    })
-  }, [selectTime])
 
   const getGoodsDetail = (id) => {
     return new Promise((resolve, reject) => {
@@ -222,7 +211,7 @@ const SubmitOrderPage: FC = () => {
 
   useEffect(() => {
     getGoodsDetail(id)
-      .then((res) => {
+      .then((res: any) => {
         const { departureCity, goodsName, id, isDeduction } = res
         setSubmitinfo(res)
         setSelectTime(res['goodsPrices'][0])
@@ -276,6 +265,18 @@ const SubmitOrderPage: FC = () => {
       title: '优惠说明',
     })
   }
+  //处理支付方式
+  const handlePayType = (item) => {
+    const { value } = item
+    setpayType(value)
+    console.log('itemz支付方式 :>> ', item)
+  }
+
+  //协议状态处理
+  const handleProtocolStatus = (status) => {
+    console.log('status :>> ', status)
+    setIsProtocol(status)
+  }
 
   //处理日历数据
   const selectedCalendHandel = (item) => {
@@ -289,72 +290,116 @@ const SubmitOrderPage: FC = () => {
     const { priceNum, preferPrice } = priceSet
     const subInfo = {
       ...submitData,
-      childCurrentPrice: childCurrentPrice * RMB_CON,
-      childCurrentTotalPrice: childCurrentPrice * childNum * RMB_CON,
-      childMarkPrice: childMarkPrice * RMB_CON,
-      childMarkTotalPrice: childMarkPrice * childNum * RMB_CON,
-      personCurrentPrice: personCurrentPrice * RMB_CON,
-      personCurrentTotalPrice: personCurrentPrice * RMB_CON * adultNum,
-      personMarkPrice: personMarkPrice * RMB_CON,
-      personMarkTotalPrice: personMarkPrice * RMB_CON * adultNum,
+      childCurrentPrice: childCurrentPrice,
+      childCurrentTotalPrice: childCurrentPrice * childNum,
+      childMarkPrice: childMarkPrice,
+      childMarkTotalPrice: childMarkPrice * childNum,
+      personCurrentPrice: personCurrentPrice,
+      personCurrentTotalPrice: personCurrentPrice * adultNum,
+      personMarkPrice: personMarkPrice,
+      personMarkTotalPrice: personMarkPrice * adultNum,
 
       orderDto: {
         ...submitData.orderDto,
         adultNum: adultNum,
         childNum: childNum,
-        originPrice: personCurrentPrice * RMB_CON * adultNum + childCurrentPrice * childNum * RMB_CON,
-        payAmount: priceNum * RMB_CON,
-        payType: 3,
+        originPrice: personCurrentPrice * adultNum + childCurrentPrice * childNum * RMB_CON,
+        payAmount: priceNum,
+        payType: payType,
         source: 1,
         state: 1,
         travelId: goodsPriceId,
         discountAmount: preferPrice,
-        tokenAmount: intNum * RMB_CON,
+        tokenAmount: intNum,
       },
     }
 
-    console.log('subInfo拼接 :>> ', subInfo)
-    // return
-    // setSubmitData((v)=>{
-    //   return subInfo
+    if (payType != 3) {
+      Toast('目前仅支持支付宝支付')
+      return
+    }
+
+    console.log('subInfo :>> ', subInfo)
+
+    // const payString = "alipay_root_cert_sn=687b59193f3f462dd5336e5abf83c5d8_02941eef3187dddf3d3b83462e1dfcf6&alipay_sdk=alipay-sdk-java-4.8.103.ALL&app_cert_sn=2c03fdc66c059ea1553406b3ed88fea7&app_id=2021003107621742&biz_content=%7B%22out_trade_no%22%3A%221475394781881524224%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%2C%22subject%22%3A%22%E6%AC%A7%E6%B4%B211%E5%9B%BD%E5%8F%8C%E6%97%A5%E6%B8%B8%22%2C%22total_amount%22%3A%221%22%7D&charset=UTF-8&format=json&method=alipay.trade.app.pay&notify_url=http%3A%2F%2Fdevapi.mountainseas.cn%2Fnotice%2Fpay%2Fpayment%2F3&sign=L7I5kIKReKXa4lb8jEyqyaE16VwLZIB6wX1razp98PV4vQhjSvFDWh6KXC4n4lMDQZtt2ewG2w7s0ZbDxVnj9XOQxQBOymk0EMzWUQw1i8jNw6ngh32LTRwzgWpbihwIAiI4iHlukxqA0a%2BnLQWAOMZYgppfezm0pNNS01LA6iCfCuaXVaYNMtNJUio%2FRlCLC4lWHJmS74ObMBJbfHfH1FWfq%2By9y71eoZPFRepJ47C1uw9DZAbwc%2BsA6dIma%2BQzoVkhAtM1yUI%2FilnvPqPzAl39DOXspKymj0pd%2BrA3AmCJ%2FZB9uOPPookNqeK%2F2Nx4UEK2BHFOTuTL9RA%2Fbu%2BuUQ%3D%3D&sign_type=RSA2&timestamp=2021-12-27+17%3A15%3A02&version=1.0"
+    // SHBridge.alipay(payString, (res) => {
+    //   const {alipay_trade_app_pay_response:{
+    //     code
+    //   }} = JSON.parse(res.result);
+    //   console.log('支付成功', code,res)
+    //   if (code == "10000") {
+    //     SHBridge.jump({
+    //       url: generateUrl(`/pay-success?t=${search}&id=${id}&goodsPriceId=${goodsPriceId}`),
+    //       newWebView: false,
+    //       replace:true,
+    //       title: '支付成功',
+    //     })
+    //   }
     // })
-    const payString = "alipay_root_cert_sn=687b59193f3f462dd5336e5abf83c5d8_02941eef3187dddf3d3b83462e1dfcf6&alipay_sdk=alipay-sdk-java-4.8.103.ALL&app_cert_sn=2c03fdc66c059ea1553406b3ed88fea7&app_id=2021003107621742&biz_content=%7B%22out_trade_no%22%3A%221475384602511237120%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%2C%22subject%22%3A%22%E6%AC%A7%E6%B4%B211%E5%9B%BD%E5%8F%8C%E6%97%A5%E6%B8%B8%22%2C%22total_amount%22%3A%221%22%7D&charset=UTF-8&format=json&method=alipay.trade.app.pay&notify_url=http%3A%2F%2Fdevapi.mountainseas.cn%2Fnotice%2Fpay%2Fpayment%2F3&sign=AakwZ4ZiN%2FDzFcz7eiafdhKjd0BD%2FOxcCY1tCJiZbmJMrTrt91ZZ80zTwuPl6Ujz6RM64i%2BVS2R67kRLJIi6SPxPoX7pugckb166X%2FCk9RESPAK65QU6piBVzJwNCkyA0nt1w9VLxVfljU0tCQU4EkOexDRoD5PO0O34f9oDx9klBnY%2FqDulTgUjYa9epjlDauItO16OT5MUKIlwNBtuZN5upRzl20TtMM1RWnRNiqK6tKLdeDWH2FaSmJuwAHgQ0aH%2Brbrm5t0dQngOMEZOTRyGxhsj%2BGrqF7V4%2BLHRfN2%2F7UuaBx%2BW7OVGm4SkPp1yn%2BblPyVLvOCw11%2F9pOzhsg%3D%3D&sign_type=RSA2&timestamp=2021-12-27+16%3A34%3A35&version=1.0"
-    SHBridge.alipay(payString, (res) => {
-     
-      console.log('支付成功', res)
-    })
-    return
-    OrderApi.submit(subInfo)
-      .then((res) => {
-        console.log('res提交订单 :>> ', res)
-        const { code, data } = res
+    if (isProtocol) {
+      const toast1 = Toast.loading({
+        message: '订单生成中...',
+        forbidClick: true,
+        duration: 0,
+      })
 
-        if (code == '200' && data) {
-          if (data.code == '200') {
-            SHBridge.alipay(data.data, (res) => {
-              console.log('支付成功', res)
-            })
+      OrderApi.submit(subInfo)
+        .then((res) => {
+          console.log('res提交订单 :>> ', res)
+          const { code, msg, data } = res
+          if (code == '200' && data) {
+            if (data.code == '200') {
+              SHBridge.alipay(data.data, (res) => {
+                const {
+                  alipay_trade_app_pay_response: { code },
+                } = JSON.parse(res.result)
+                console.log('支付成功', code, res)
+                if (code == '10000') {
+                  toast1 && toast1.clear()
+                  SHBridge.jump({
+                    url: generateUrl(`/pay-success?t=${search}&id=${id}&goodsPriceId=${goodsPriceId}`),
+                    newWebView: false,
+                    replace: true,
+                    title: '支付成功',
+                  })
+                }
+              })
+            }
+          } else {
+            Toast(msg)
           }
-        }
-      })
-      .catch((err) => {
-        console.log('object订单接口异常:>> ', err)
-      })
-
-    console.log('object :>> 提交订单', OrderApi)
-    console.log('id', qs.parse(search.slice(1)))
+        })
+        .catch((err) => {
+          console.log('object订单接口异常:>> ', err)
+        })
+        .finally(() => {
+          toast1.clear()
+        })
+    } else {
+      Toast('请勾选相关协议')
+    }
   }
   return (
     <div className="puorder-container">
       <div className="puorder-main">
         <div className="puorder-fluid">
           <div className="puorder-card">
-            <GoodsCard {...submitinfo} />
-            <KnownCalendarCard
-              calendata={submitinfo['goodsPrices']}
-              selecttime={selectTime}
-              selectedHandelCalend={selectedCalendHandel}
+            <GoodsCard
+              promotionalImageUrl={submitinfo.promotionalImageUrl}
+              startDate={selectTime.startDate}
+              endDate={selectTime.endDate}
+              adultNum="0"
+              childNum="0"
+              isSubmitOrder={true}
+              goodsName={submitinfo.goodsName}
             />
+            {submitinfo.travelMode === 1 ? (
+              <KnownCalendarCard
+                calendata={submitinfo['goodsPrices']}
+                selecttime={selectTime}
+                selectedHandelCalend={selectedCalendHandel}
+              />
+            ) : null}
           </div>
           <div className="puorder-stepper">
             <StepperCard
@@ -365,10 +410,10 @@ const SubmitOrderPage: FC = () => {
               handleDiscounts={handleDiscountsInfo}
             />
           </div>
-          <PayTypeCard />
+          <PayTypeCard changePayType={handlePayType} />
           <BackCard />
 
-          <ProtocolCard />
+          <ProtocolCard changeProtocolStatus={handleProtocolStatus} />
         </div>
       </div>
       <FooterCard priceSetData={priceSet} submitHandleOrder={submitHandle} />

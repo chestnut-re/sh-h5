@@ -1,4 +1,4 @@
-import React, { useState, FC } from 'react'
+import React, { useState,useEffect, FC } from 'react'
 
 import inactiveIcon from '@/assets/img/inactive_Icon@3x.png'
 import activeIcon from '@/assets/img/active_Icon@3x.png'
@@ -8,9 +8,17 @@ import './index.less'
 /**
  * 协议确认页面
  */
+interface ProtocolType{
+  changeProtocolStatus:(val)=>void;
+}
 
-const ProtocolCard: FC = (props) => {
-  console.log('Checkbox :>> ', Checkbox)
+const ProtocolCard: FC<ProtocolType> = (props) => {
+  
+  const [protocolStatus,setProtocolStatus] = useState(false)
+  useEffect(() => {
+    props.changeProtocolStatus(protocolStatus)
+  }, [protocolStatus])
+
   return (
     <div className="protocol_card">
       <div className="protocol-l">
@@ -19,7 +27,7 @@ const ProtocolCard: FC = (props) => {
           iconRender={({ checked: isActive }) => (
             <img alt="" className="img-icon" src={isActive ? activeIcon : inactiveIcon} />
           )}
-          onChange={(val) => console.log(val)}
+          onChange={(val) =>  setProtocolStatus(val)}
         />
       </div>
       <div className="protocol-r">

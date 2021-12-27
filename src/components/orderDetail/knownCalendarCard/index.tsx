@@ -6,7 +6,7 @@ import './index.less'
 /**
  * 已知日期日历选择卡片
  */
-
+ const RMB_CON = 100
 const WeekMap = {
   0: '周日',
   1: '周一',
@@ -49,10 +49,8 @@ const KnownCalendarCard: FC<KnownCalendarType> = (props) => {
   const [stepinfo, setStepinfo] = useState<KnownCalendarType>()
 
   useEffect(() => {
-    console.log('propspropspropsprops :>> ', props)
     setStepinfo(props)
     setSelectedcalen(props.selecttime)
-    console.log('propsKNOW :>> ', props)
   }, [props])
 
   useEffect(() => {
@@ -87,7 +85,7 @@ const KnownCalendarCard: FC<KnownCalendarType> = (props) => {
     if (dayitem.type == 'disabled') {
       day.type = 'disabled'
     } else {
-      day.bottomInfo = dayitem.bottomInfo
+      day.bottomInfo = `¥${dayitem.bottomInfo/RMB_CON}`
     }
     return day
   }
@@ -108,7 +106,7 @@ const KnownCalendarCard: FC<KnownCalendarType> = (props) => {
                 >
                   <p>{dayjs(item.startDate).format('MM-DD')}</p>
                   <p>{WeekMap[dayjs(item.startDate).format('d')]}</p>
-                  <p className="price">¥{item.personMarkPrice}</p>
+                  <p className="price">¥{item.personMarkPrice/ RMB_CON}</p>
                 </div>
               )
             })}
