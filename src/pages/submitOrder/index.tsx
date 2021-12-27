@@ -313,15 +313,23 @@ const SubmitOrderPage: FC = () => {
       },
     }
 
-    console.log('subInfo拼接 :>> ', subInfo)
-    // return
-    // setSubmitData((v)=>{
-    //   return subInfo
-    // })
-    const payString = "alipay_root_cert_sn=687b59193f3f462dd5336e5abf83c5d8_02941eef3187dddf3d3b83462e1dfcf6&alipay_sdk=alipay-sdk-java-4.8.103.ALL&app_cert_sn=2c03fdc66c059ea1553406b3ed88fea7&app_id=2021003107621742&biz_content=%7B%22out_trade_no%22%3A%221475384602511237120%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%2C%22subject%22%3A%22%E6%AC%A7%E6%B4%B211%E5%9B%BD%E5%8F%8C%E6%97%A5%E6%B8%B8%22%2C%22total_amount%22%3A%221%22%7D&charset=UTF-8&format=json&method=alipay.trade.app.pay&notify_url=http%3A%2F%2Fdevapi.mountainseas.cn%2Fnotice%2Fpay%2Fpayment%2F3&sign=AakwZ4ZiN%2FDzFcz7eiafdhKjd0BD%2FOxcCY1tCJiZbmJMrTrt91ZZ80zTwuPl6Ujz6RM64i%2BVS2R67kRLJIi6SPxPoX7pugckb166X%2FCk9RESPAK65QU6piBVzJwNCkyA0nt1w9VLxVfljU0tCQU4EkOexDRoD5PO0O34f9oDx9klBnY%2FqDulTgUjYa9epjlDauItO16OT5MUKIlwNBtuZN5upRzl20TtMM1RWnRNiqK6tKLdeDWH2FaSmJuwAHgQ0aH%2Brbrm5t0dQngOMEZOTRyGxhsj%2BGrqF7V4%2BLHRfN2%2F7UuaBx%2BW7OVGm4SkPp1yn%2BblPyVLvOCw11%2F9pOzhsg%3D%3D&sign_type=RSA2&timestamp=2021-12-27+16%3A34%3A35&version=1.0"
+    
+    const payString = "alipay_root_cert_sn=687b59193f3f462dd5336e5abf83c5d8_02941eef3187dddf3d3b83462e1dfcf6&alipay_sdk=alipay-sdk-java-4.8.103.ALL&app_cert_sn=2c03fdc66c059ea1553406b3ed88fea7&app_id=2021003107621742&biz_content=%7B%22out_trade_no%22%3A%221475394781881524224%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%2C%22subject%22%3A%22%E6%AC%A7%E6%B4%B211%E5%9B%BD%E5%8F%8C%E6%97%A5%E6%B8%B8%22%2C%22total_amount%22%3A%221%22%7D&charset=UTF-8&format=json&method=alipay.trade.app.pay&notify_url=http%3A%2F%2Fdevapi.mountainseas.cn%2Fnotice%2Fpay%2Fpayment%2F3&sign=L7I5kIKReKXa4lb8jEyqyaE16VwLZIB6wX1razp98PV4vQhjSvFDWh6KXC4n4lMDQZtt2ewG2w7s0ZbDxVnj9XOQxQBOymk0EMzWUQw1i8jNw6ngh32LTRwzgWpbihwIAiI4iHlukxqA0a%2BnLQWAOMZYgppfezm0pNNS01LA6iCfCuaXVaYNMtNJUio%2FRlCLC4lWHJmS74ObMBJbfHfH1FWfq%2By9y71eoZPFRepJ47C1uw9DZAbwc%2BsA6dIma%2BQzoVkhAtM1yUI%2FilnvPqPzAl39DOXspKymj0pd%2BrA3AmCJ%2FZB9uOPPookNqeK%2F2Nx4UEK2BHFOTuTL9RA%2Fbu%2BuUQ%3D%3D&sign_type=RSA2&timestamp=2021-12-27+17%3A15%3A02&version=1.0"
     SHBridge.alipay(payString, (res) => {
+      const {alipay_trade_app_pay_response:{
+        code
+      }} = JSON.parse(res.result);
+      console.log('支付成功', code,res)
+      if (code == "10000") {
+        SHBridge.jump({
+          url: generateUrl(`/pay-success?t=${search}&id=${id}&goodsPriceId=${goodsPriceId}`),
+          newWebView: true,
+          replace:true,
+          title: '支付成功',
+        })
+        
+      }
      
-      console.log('支付成功', res)
     })
     return
     OrderApi.submit(subInfo)
