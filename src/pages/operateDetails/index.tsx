@@ -7,6 +7,7 @@ import { List, Loading, NavBar, PullRefresh } from 'react-vant'
 import { ListInstance } from 'react-vant/es/list/PropsType'
 import { Console } from 'console'
 import MyNavBar from '@/components/myNavBar'
+import { SHBridge } from '@/jsbridge'
 /**
  * 资金明细
  */

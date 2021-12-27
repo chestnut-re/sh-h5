@@ -14,7 +14,9 @@ const MyNavBar: FC<NavBarProps> = (props: NavBarProps) => {
 
   useEffect(() => {
     if (props.safeAreaInsetTop) {
-      setSafeArea(supportSafeArea())
+      setTimeout(() => {
+        setSafeArea(supportSafeArea())
+      }, 0)
     }
   }, [])
   const supportSafeArea = (): boolean => {
