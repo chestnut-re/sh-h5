@@ -64,7 +64,7 @@ const GoodsPrice = [
 
 const SubmitOrderPage: FC = () => {
   const { search } = useLocation()
-  const { id, t } = qs.parse(search.slice(1))
+  const { id } = qs.parse(search.slice(1))
   //提交数据
   const [submitData, setSubmitData] = useState({
     childCurrentPrice: 0, //儿童现售价单价
@@ -88,7 +88,7 @@ const SubmitOrderPage: FC = () => {
       insuranceAmount: 0, //保险金额
       originPrice: 0, //商品原总价
       payAmount: 0, //支付金额
-      payType: 3, //支付方式:1 微信小程序支付、2 微信APP支付、3 支付宝APP支付
+      payType: 2, //支付方式:1 微信小程序支付、2 微信APP支付、3 支付宝APP支付
       source: '', //下单途径:1 自然获客、2 分享任务链接、3 分享普通链接、4 线下扫码
       state: '1', //订单状态 1-待付款 2-已失效 3-待确认 4-已完成 5-退款中 6-退款成功 7-退款失败
       tokenAmount: '0', //代币/积分使用金额
@@ -97,6 +97,8 @@ const SubmitOrderPage: FC = () => {
       // travelStartDate: '2021-12-30', //出发日期
     },
   })
+  //支付方式
+  const [payType,setpayType] = useState(2)
 
   const [submitinfo, setSubmitinfo] = useState({
     id: '', //商品id
@@ -276,6 +278,12 @@ const SubmitOrderPage: FC = () => {
       title: '优惠说明',
     })
   }
+  //处理支付方式
+  const handlePayType = (item) =>{
+    const {value} = item;
+    setpayType(value)
+    console.log('itemz支付方式 :>> ', item);
+  }
 
   //处理日历数据
   const selectedCalendHandel = (item) => {
@@ -304,7 +312,7 @@ const SubmitOrderPage: FC = () => {
         childNum: childNum,
         originPrice: personCurrentPrice * RMB_CON * adultNum + childCurrentPrice * childNum * RMB_CON,
         payAmount: priceNum * RMB_CON,
-        payType: 3,
+        payType: payType,
         source: 1,
         state: 1,
         travelId: goodsPriceId,
@@ -313,34 +321,44 @@ const SubmitOrderPage: FC = () => {
       },
     }
 
+    console.log('subInfo :>> ', subInfo);
     
-    const payString = "alipay_root_cert_sn=687b59193f3f462dd5336e5abf83c5d8_02941eef3187dddf3d3b83462e1dfcf6&alipay_sdk=alipay-sdk-java-4.8.103.ALL&app_cert_sn=2c03fdc66c059ea1553406b3ed88fea7&app_id=2021003107621742&biz_content=%7B%22out_trade_no%22%3A%221475394781881524224%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%2C%22subject%22%3A%22%E6%AC%A7%E6%B4%B211%E5%9B%BD%E5%8F%8C%E6%97%A5%E6%B8%B8%22%2C%22total_amount%22%3A%221%22%7D&charset=UTF-8&format=json&method=alipay.trade.app.pay&notify_url=http%3A%2F%2Fdevapi.mountainseas.cn%2Fnotice%2Fpay%2Fpayment%2F3&sign=L7I5kIKReKXa4lb8jEyqyaE16VwLZIB6wX1razp98PV4vQhjSvFDWh6KXC4n4lMDQZtt2ewG2w7s0ZbDxVnj9XOQxQBOymk0EMzWUQw1i8jNw6ngh32LTRwzgWpbihwIAiI4iHlukxqA0a%2BnLQWAOMZYgppfezm0pNNS01LA6iCfCuaXVaYNMtNJUio%2FRlCLC4lWHJmS74ObMBJbfHfH1FWfq%2By9y71eoZPFRepJ47C1uw9DZAbwc%2BsA6dIma%2BQzoVkhAtM1yUI%2FilnvPqPzAl39DOXspKymj0pd%2BrA3AmCJ%2FZB9uOPPookNqeK%2F2Nx4UEK2BHFOTuTL9RA%2Fbu%2BuUQ%3D%3D&sign_type=RSA2&timestamp=2021-12-27+17%3A15%3A02&version=1.0"
-    SHBridge.alipay(payString, (res) => {
-      const {alipay_trade_app_pay_response:{
-        code
-      }} = JSON.parse(res.result);
-      console.log('支付成功', code,res)
-      if (code == "10000") {
-        SHBridge.jump({
-          url: generateUrl(`/pay-success?t=${search}&id=${id}&goodsPriceId=${goodsPriceId}`),
-          newWebView: true,
-          replace:true,
-          title: '支付成功',
-        })
-        
-      }
+    // const payString = "alipay_root_cert_sn=687b59193f3f462dd5336e5abf83c5d8_02941eef3187dddf3d3b83462e1dfcf6&alipay_sdk=alipay-sdk-java-4.8.103.ALL&app_cert_sn=2c03fdc66c059ea1553406b3ed88fea7&app_id=2021003107621742&biz_content=%7B%22out_trade_no%22%3A%221475394781881524224%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%2C%22subject%22%3A%22%E6%AC%A7%E6%B4%B211%E5%9B%BD%E5%8F%8C%E6%97%A5%E6%B8%B8%22%2C%22total_amount%22%3A%221%22%7D&charset=UTF-8&format=json&method=alipay.trade.app.pay&notify_url=http%3A%2F%2Fdevapi.mountainseas.cn%2Fnotice%2Fpay%2Fpayment%2F3&sign=L7I5kIKReKXa4lb8jEyqyaE16VwLZIB6wX1razp98PV4vQhjSvFDWh6KXC4n4lMDQZtt2ewG2w7s0ZbDxVnj9XOQxQBOymk0EMzWUQw1i8jNw6ngh32LTRwzgWpbihwIAiI4iHlukxqA0a%2BnLQWAOMZYgppfezm0pNNS01LA6iCfCuaXVaYNMtNJUio%2FRlCLC4lWHJmS74ObMBJbfHfH1FWfq%2By9y71eoZPFRepJ47C1uw9DZAbwc%2BsA6dIma%2BQzoVkhAtM1yUI%2FilnvPqPzAl39DOXspKymj0pd%2BrA3AmCJ%2FZB9uOPPookNqeK%2F2Nx4UEK2BHFOTuTL9RA%2Fbu%2BuUQ%3D%3D&sign_type=RSA2&timestamp=2021-12-27+17%3A15%3A02&version=1.0"
+    // SHBridge.alipay(payString, (res) => {
+    //   const {alipay_trade_app_pay_response:{
+    //     code
+    //   }} = JSON.parse(res.result);
+    //   console.log('支付成功', code,res)
+    //   if (code == "10000") {
+    //     SHBridge.jump({
+    //       url: generateUrl(`/pay-success?t=${search}&id=${id}&goodsPriceId=${goodsPriceId}`),
+    //       newWebView: false,
+    //       replace:true,
+    //       title: '支付成功',
+    //     })
+    //   }
      
-    })
-    return
+    // })
+
     OrderApi.submit(subInfo)
       .then((res) => {
         console.log('res提交订单 :>> ', res)
-        const { code, data } = res
-
+        const { code, data } = res;
         if (code == '200' && data) {
           if (data.code == '200') {
             SHBridge.alipay(data.data, (res) => {
-              console.log('支付成功', res)
+              const {alipay_trade_app_pay_response:{
+                code
+              }} = JSON.parse(res.result);
+              console.log('支付成功', code,res)
+              if (code == "10000") {
+                SHBridge.jump({
+                  url: generateUrl(`/pay-success?t=${search}&id=${id}&goodsPriceId=${goodsPriceId}`),
+                  newWebView: false,
+                  replace:true,
+                  title: '支付成功',
+                })
+              }
             })
           }
         }
@@ -373,7 +391,7 @@ const SubmitOrderPage: FC = () => {
               handleDiscounts={handleDiscountsInfo}
             />
           </div>
-          <PayTypeCard />
+          <PayTypeCard changePayType={handlePayType} />
           <BackCard />
 
           <ProtocolCard />

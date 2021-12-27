@@ -1,4 +1,4 @@
-import React, { useState, FC } from 'react'
+import React, { useState,useEffect, FC } from 'react'
 import wechatPayicon from '@/assets/img/wechatpay_icon@3x.png'
 import aliPayicon from '@/assets/img/alipay_icon@3x.png'
 import otherPayicon from '@/assets/img/otherpay_icon@3x.png'
@@ -7,21 +7,28 @@ import './index.less'
 /**
  * 支付方式卡片
  */
-
+interface PayType{
+  changePayType:(val)=>void;
+}
+// 1 微信小程序支付、2 微信APP支付、3 支付宝APP支付
 const PayTypeList = [
-  {name:"微信支付",payIcon:wechatPayicon,value:0,alias:'微信'},
-  {name:"支付宝支付",payIcon:aliPayicon,value:1,alias:'支付宝'},
-  {name:"其他支付方式",payIcon:otherPayicon,value:2,alias:'其他'}
+  {name:"微信支付",payIcon:wechatPayicon,value:2,alias:'微信'},
+  {name:"支付宝支付",payIcon:aliPayicon,value:3,alias:'支付宝'},
+  {name:"其他支付方式",payIcon:otherPayicon,value:4,alias:'其他'}
 ]
 const themeVars = {
   '--rv-cell-vertical-padding': '16px',
   "--rv-cell-font-size":"16",
   "--rv-cell-text-color":"#666666",
 };
-const PayTypeCard: FC = (props) => {
+const PayTypeCard: FC<PayType> = (props) => {
   const [visible, setVisible] = useState(false);
   const [radiovSelectObj, setSelectObj] = useState(PayTypeList[0]);
 
+  useEffect(() => {
+    props.changePayType(radiovSelectObj)
+    
+  }, [radiovSelectObj])
 
   return (
     <>
