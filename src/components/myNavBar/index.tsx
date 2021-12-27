@@ -61,6 +61,7 @@ const MyNavBar: FC<NavBarProps> = (props: NavBarProps) => {
         safeAreaInsetTop={props.safeAreaInsetTop}
         leftArrow={props.leftArrow}
         border={props.border}
+        rightText={props.rightText}
         onClickLeft={props.onClickLeft}
         onClickRight={props.onClickRight}
       />
