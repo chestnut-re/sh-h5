@@ -23,13 +23,13 @@ export class MyTokenService {
    * 申请提现
    */
   static askForWithDraw(param): Promise<AxiosResponse<any>> {
-    return axios.post('/wallet/c/cash')
+    return axios.post('/api/wallet/c/cash')
   }
 
   /**
    * 账单列表
    */
   static getWalletPage(): Promise<AxiosResponse<any>> {
-    return axios.get('/wallet/c/page')
+    return axios.get('/api/wallet/c/page')
   }
 }

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import './index.less'
 import { useDebouncedEffect } from '@/hooks/useDebouncedEffect'
 import pic from '@/assets/img/successMove/success.png'
 import { getUrlParams } from '@/utils'
+// import './index.less'
 /**
  * 支付成功
  */
