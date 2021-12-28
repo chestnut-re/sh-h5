@@ -18,6 +18,7 @@ const GroupShopPage: FC = () => {
 
   const [shopInfo, setShopInfo] = useState({
     isDeleted: 0,
+    attentionState:0,
   })
 
   //请求是否完成
