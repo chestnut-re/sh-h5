@@ -6,7 +6,7 @@ import './index.less'
 /**
  * 已知日期日历选择卡片
  */
- const RMB_CON = 100
+const RMB_CON = 100
 const WeekMap = {
   0: '周日',
   1: '周一',
@@ -16,13 +16,13 @@ const WeekMap = {
   5: '周五',
   6: '周六',
 }
-
+//判断当前日历是否可选
 const isCalendarDisabled = (time, timelist: any[] = []) => {
   time = dayjs(time.date).format('YYYY-MM-DD')
   const timestate = timelist.find((item) => {
     return item.startDate == time
   })
-  // return false
+
   if (timestate) {
     return {
       bottomInfo: timestate.personMarkPrice,
@@ -43,49 +43,38 @@ interface KnownCalendarType {
 }
 
 const KnownCalendarCard: FC<KnownCalendarType> = (props) => {
+  const { calendata, selecttime } = props
+  //ref获取日历方法
   const calendarRef = useRef<CalendarInstance>()
+  //显隐日历
   const [visible, setVisible] = useState(false)
-  const [selectedcalen, setSelectedcalen] = useState({})
-  const [stepinfo, setStepinfo] = useState<KnownCalendarType>()
-
+  //监听数据改变更改日历对应时间高亮
   useEffect(() => {
-    setStepinfo(props)
-    setSelectedcalen(props.selecttime)
-  }, [props])
+    calendarRef.current.reset(dayjs(selecttime?.startDate).toDate())
+  }, [selecttime])
 
-  useEffect(() => {
-    calendarRef.current.reset(dayjs(selectedcalen?.startDate).toDate())
-  }, [selectedcalen])
-
+  //日期选择确定
   const onConfirms = (date) => {
-    // calendarRef.current.scrollToDate(date)
-    console.log('date :>> ', date)
     const dateStr = dayjs(date).format('YYYY-MM-DD')
-    console.log('dateStr :>> ', dateStr)
-    const dayitem = stepinfo['calendata']?.find((item) => {
+    const dayitem = calendata?.find((item) => {
       return item.startDate == dateStr
     })
 
-    console.log('dayitem :>> ', dayitem)
-    setSelectedcalen(dayitem)
     setVisible(false)
     props.selectedHandelCalend(dayitem)
   }
-
+  //父组件发送数据
   const onHandelSelected = (item) => {
-    setSelectedcalen(item)
     props.selectedHandelCalend(item)
   }
-  const set = (b) => {
-    setVisible(b)
-  }
+  //格式化日历对应数据
   const formatter = (day) => {
-    const dayitem = isCalendarDisabled(day, stepinfo?.calendata)
+    const dayitem = isCalendarDisabled(day, calendata)
 
     if (dayitem.type == 'disabled') {
       day.type = 'disabled'
     } else {
-      day.bottomInfo = `¥${dayitem.bottomInfo/RMB_CON}`
+      day.bottomInfo = `¥${dayitem.bottomInfo / RMB_CON}`
     }
     return day
   }
@@ -95,10 +84,10 @@ const KnownCalendarCard: FC<KnownCalendarType> = (props) => {
       <div className="KCalendar-container">
         <div className="kcalendar-box">
           <div className="kcalendar-section">
-            {stepinfo?.calendata.map((item) => {
+            {calendata?.map((item) => {
               return (
                 <div
-                  className={`section-item ${item.startDate == selectedcalen?.startDate && 'acitve'}`}
+                  className={`section-item ${item.startDate == selecttime?.startDate && 'acitve'}`}
                   key={item.goodsPriceId}
                   onClick={() => {
                     onHandelSelected(item)
@@ -106,7 +95,7 @@ const KnownCalendarCard: FC<KnownCalendarType> = (props) => {
                 >
                   <p>{dayjs(item.startDate).format('MM-DD')}</p>
                   <p>{WeekMap[dayjs(item.startDate).format('d')]}</p>
-                  <p className="price">¥{item.personMarkPrice/ RMB_CON}</p>
+                  <p className="price">¥{item.personMarkPrice / RMB_CON}</p>
                 </div>
               )
             })}
@@ -119,17 +108,17 @@ const KnownCalendarCard: FC<KnownCalendarType> = (props) => {
         </div>
         <div className="kcalendar-box">
           <div className="kcalendar-item-l">
-            出发<span>{selectedcalen?.startDate} </span>
+            出发<span>{selecttime?.startDate} </span>
           </div>
           <div className="kcalendar-item-r">
-            <span className="kcitem-tag">库存：{selectedcalen?.stock}</span>
+            <span className="kcitem-tag">库存：{selecttime?.stock}</span>
           </div>
         </div>
       </div>
       <Calendar
         ref={calendarRef}
         title="选择出发日期"
-        onClose={() => set(false)}
+        onClose={() => setVisible(false)}
         visible={visible}
         showConfirm={false}
         color="#4dcfc5"
@@ -141,6 +130,3 @@ const KnownCalendarCard: FC<KnownCalendarType> = (props) => {
 }
 
 export default KnownCalendarCard
-function ref<T>() {
-  throw new Error('Function not implemented.')
-}

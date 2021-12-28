@@ -137,7 +137,7 @@ const StepperCard: FC<StepType> = (props) => {
                 <Stepper
                   value={childNum}
                   min="0"
-                  max="8"
+                  max={stepselectTime?.stock}
                   integer={true}
                   inputWidth="9.6vw"
                   buttonSize="5.6vw"
@@ -147,7 +147,7 @@ const StepperCard: FC<StepType> = (props) => {
               </ConfigProvider>
             </div>
           </li>
-          {stepinfo?.isDeduction === 0 ? (
+          {stepinfo?.isDeduction === 0&&deductionScaleNum ? (
             <li className="step-boxli">
               <div className="step-name hairline--icon">
                 <Icon size="4vw" className="integra-icon" name={integralIcon} />
@@ -160,7 +160,7 @@ const StepperCard: FC<StepType> = (props) => {
                     disabled={deductionScaleNum<1?true:false}
                     value={inteNum}
                     min="0"
-                    max="34"
+                    max={deductionScaleNum}
                     step="1"
                     integer={true}
                     inputWidth="9.6vw"
