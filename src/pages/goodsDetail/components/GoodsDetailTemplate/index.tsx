@@ -18,6 +18,7 @@ interface Props {
  * 商品详情页模版
  */
 const GoodsDetailTemplate: React.FC<Props> = ({ data, title, templateKey, makeOrder }) => {
+  console.log('GoodsDetailTemplate', templateKey)
   return (
     <div className='GoodsDetailTemplate__root'>
       {/* 背景图片 */}
