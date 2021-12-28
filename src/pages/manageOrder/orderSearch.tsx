@@ -41,7 +41,7 @@ const OrderSearchPage: FC = () => {
     return new Promise<any>((resolve, reject) => {
 
       ManageOrder.search({
-        keyWords,
+        keyword:keyWords,
         current,
         size: PAGE_SIZE,
       })
