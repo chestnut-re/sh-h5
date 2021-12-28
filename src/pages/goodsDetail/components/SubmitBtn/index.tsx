@@ -13,7 +13,7 @@ interface Props {
  */
 const SubmitBtn: React.FC<Props> = ({ templateKey, makeOrder, img }) => {
   return (
-    <div className={`SubmitBtn__root__${templateKey}`} onClick={() => makeOrder}>
+    <div className={`SubmitBtn__root__${templateKey}`}>
       <img
         className="btn-img"
         // src={img}

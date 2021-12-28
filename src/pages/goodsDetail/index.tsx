@@ -4,6 +4,7 @@ import { GoodsDetailService } from '@/service/GoodsDetailService'
 import { generateUrl, getUrlParams } from '@/utils'
 import React, { useEffect, useRef, useState } from 'react'
 import { Swiper } from 'react-vant'
+// import type { SwiperInstance } from 'react-vant';
 import GoodsDetailTemplate from './components/GoodsDetailTemplate'
 import Panel from './components/Panel'
 
@@ -16,6 +17,9 @@ import './index.less'
  */
 const GoodsDetailPage: React.FC = () => {
   const pageRef = useRef<any>({})
+  const swipeRef = useRef<any>({})
+  const [total, setTotal] = useState<any>()
+  const [current, setCurrent] = useState<any>()
   const [data, setData] = useState<any>({})
 
   useEffect(() => {
@@ -33,7 +37,9 @@ const GoodsDetailPage: React.FC = () => {
   }, [])
 
   /**分享 */
-  const _share = () => {}
+  const _share = () => {
+    // this.$refs.swiper.swipeNext()
+  }
 
   /**下单 */
   const _makeOrder = () => {
@@ -55,9 +61,12 @@ const GoodsDetailPage: React.FC = () => {
   return (
     <div className="GoodsDetailPage__root">
       <Swiper
+        ref={swipeRef}
         vertical
         loop={false}
-        indicator={() => {
+        indicator={(total, current) => {
+          setTotal(total)
+          setCurrent(current)
           return <p></p>
         }}
       >
@@ -93,7 +102,7 @@ const GoodsDetailPage: React.FC = () => {
           />
         </Swiper.Item>
       </Swiper>
-      <Panel />
+      <Panel swipe={swipeRef} total={total} current={current} />
       <div className="nav">
         <MyNavBar
           fixed
