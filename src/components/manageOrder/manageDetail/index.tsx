@@ -28,10 +28,7 @@ interface Myprops {
 const ManageDetailItem: FC<Myprops> = (props) => {
   console.log('propsprops :>> ', props)
   const { order } = props
-  const [orderdetai, setOrderDetai] = useState(order)
-  useEffect(() => {
-    setOrderDetai(order)
-  }, [props])
+ 
 
   return (
     <div className="Maorderdetail-item">
@@ -39,29 +36,29 @@ const ManageDetailItem: FC<Myprops> = (props) => {
         <ul className="detail-listUl">
           <li className="detail-listLi">
             <div className="listLi-left">订单编号</div>
-            <div className="listLi-right">{orderdetai.orderNo}</div>
+            <div className="listLi-right">{order.orderNo}</div>
           </li>
           <li className="detail-listLi">
             <div className="listLi-left">购买用户</div>
-            <div className="listLi-right">{orderdetai.orderUserName}</div>
+            <div className="listLi-right">{order.orderUserName}</div>
           </li>
           <li className="detail-listLi">
             <div className="listLi-left">下单时间</div>
-            <div className="listLi-right">{orderdetai.orderTime}</div>
+            <div className="listLi-right">{order.orderTime}</div>
           </li>
           <li className="detail-listLi">
             <div className="listLi-left">商品</div>
-            <div className="listLi-right rv-ellipsis">{orderdetai.goodsName}</div>
+            <div className="listLi-right rv-ellipsis">{order.goodsName}</div>
           </li>
           <li className="detail-listLi">
             <div className="listLi-left">付款</div>
-            <div className="listLi-right">¥ {orderdetai.payAmount}</div>
+            <div className="listLi-right">¥ {order.payAmount}</div>
           </li>
         </ul>
       </div>
-      <div className={`detail-status ${MaStatusMap[orderdetai.state]?.bgName}`}>
-        <div className={`status-text ${MaStatusMap[orderdetai.state]?.cName}`}>
-          <h1>{MaStatusMap[orderdetai.state]?.text}</h1>
+      <div className={`detail-status ${MaStatusMap[order.state]?.bgName}`}>
+        <div className={`status-text ${MaStatusMap[order.state]?.cName}`}>
+          <h1>{MaStatusMap[order.state]?.text}</h1>
           {/* {mastatus.type==6&&(<p>退款金额:¥{orderdetai.payAmount}</p>)} */}
         </div>
       </div>

@@ -16,6 +16,7 @@ const themeVars = {
   '--rv-cell-vertical-padding': '2px',
   '--rv-cell-font-size': '3.2vw',
   '--rv-nav-bar-icon-color': '#242424',
+  '--rv-nav-bar-background-color':"#fff"
 }
 //分页大小
 const PAGE_SIZE = 10
@@ -210,6 +211,7 @@ const OrderSearchPage: FC = () => {
         <NavBar
           zIndex={999}
           fixed={true}
+          leftArrow={false}
           safeAreaInsetTop={true}
           title={
             <div className="orderSearch-navbar-center rv-hairline--surround van-hairline-round">
@@ -222,7 +224,6 @@ const OrderSearchPage: FC = () => {
               />
             </div>
           }
-          leftArrow
           rightText={
             <div className="orderSearch-navbar-right" onClick={searchOrderHandeldata}>
               <div className="onr-btn">搜索</div>

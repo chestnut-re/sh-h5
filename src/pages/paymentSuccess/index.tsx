@@ -1,5 +1,8 @@
 import React, { useState, FC } from 'react'
 import GoodsPreview from '../../components/goodsPreview'
+import { SHBridge } from '@/jsbridge'
+import { generateUrl } from '@/utils'
+import { useLocation } from 'react-router-dom'
 import './index.less'
 
 /**
@@ -11,6 +14,17 @@ const themeVars = {
 }
 
 const PaymentSuccessPage: FC = () => {
+  const { search } = useLocation()
+   const openPersonalDetails = ()=>{
+    
+    SHBridge.jump({
+      url: generateUrl(`/personal-details${search}`),
+      newWebView: false,
+      replace: true,
+      title: '出行人信息',
+    })
+   }
+
   return (
     <div className="Pays-container">
       <div className="pays-header">
@@ -20,10 +34,10 @@ const PaymentSuccessPage: FC = () => {
         </div>
         <div className="pays-btns">
           <div className="pays-left pays-com">查看订单</div>
-          <div className="pays-right pays-com">填写出行人信息</div>
+          <div className="pays-right pays-com" onClick={openPersonalDetails}>填写出行人信息</div>
         </div>
       </div>
-      <div className="pays-you-like">
+      {/* <div className="pays-you-like">
         <div className="you-like-header">猜你喜欢</div>
         <div className="you-like-list">
           <ul className="you-like-ul">
@@ -36,7 +50,7 @@ const PaymentSuccessPage: FC = () => {
             })}
           </ul>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }
