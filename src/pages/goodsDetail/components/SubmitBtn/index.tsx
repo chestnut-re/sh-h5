@@ -12,8 +12,10 @@ interface Props {
  * 立即下单按钮
  */
 const SubmitBtn: React.FC<Props> = ({ templateKey, makeOrder, img }) => {
+  console.log('SubmitBtn', templateKey)
+  const newClass = `SubmitBtn__root__${templateKey}`
   return (
-    <div className={`SubmitBtn__root__${templateKey}`}>
+    <div className={newClass}>
       <img
         className="btn-img"
         // src={img}
