@@ -1,3 +1,5 @@
+import { MiniAppBridge } from './miniapp'
+import { isMini } from '@/jsbridge/env'
 import { AppBridge } from './app'
 /**
  * h5 和 MiniApp/App 交互js
@@ -131,5 +133,25 @@ export class SHBridge {
     if (isApp()) {
       AppBridge.alipay(authStr, backFn)
     }
+  }
+
+  /**
+   * 微信支付
+   */
+  static wxpay(auth: any, backFn: (index: number) => void): void {
+    if (isApp()) {
+      AppBridge.wxpay(auth, backFn)
+    }
+  }
+
+  /**
+   * 小程序支付
+   */
+  static minipay(data: string, amount: number): void {
+    isMini().then((res) => {
+      if (res) {
+        MiniAppBridge.minipay(data, amount)
+      }
+    })
   }
 }

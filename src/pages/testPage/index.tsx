@@ -60,8 +60,15 @@ const TestPage = () => {
         <Cell
           title="环境判断"
           onClick={() => {
+            if (isApp()) {
+              SHBridge.showToast(`App: true`)
+            }
+
             isMini().then((res) => {
               console.log(res)
+              if (res) {
+                SHBridge.showToast(`微信小程序:${res}`)
+              }
             })
           }}
         />
@@ -172,6 +179,45 @@ const TestPage = () => {
             SHBridge.alipay('ssdsd', (res) => {
               console.log(res)
             })
+          }}
+        />
+        <Cell
+          title="wx支付0"
+          onClick={() => {
+            SHBridge.wxpay(
+              {
+                sign: '6273E317EDD13030BE43A42736EAD036',
+                prepayId: 'wx2814184311027687378e512ff1572f0000',
+                partnerId: '1616096595',
+                appId: 'wx170bc3c8dbf95e06',
+                packageValue: 'Sign=WXPay',
+                timeStamp: '1640672323',
+                nonceStr: '1o85w4TFAaXpplno',
+              },
+              (res) => {
+                // 成功返回
+                const successRes = {
+                  errorCode: 0,
+                  errorMsg: 0,
+                  returnKy: '',
+                }
+                console.log(res)
+              }
+            )
+          }}
+        />
+        <Cell
+          title="小程序支付"
+          onClick={() => {
+            const data = {
+              appId: 'wx99c32486e840e570',
+              timeStamp: '1640671611',
+              nonceStr: 'uQzeFXcIUfWzZvlH',
+              package: 'prepay_id=wx28140651756841b6ed35c097345bc10000',
+              signType: 'MD5',
+              paySign: '955D0ED896A76143F1A13CA3B7F4FDE7',
+            }
+            SHBridge.minipay(JSON.stringify(data), 1)
           }}
         />
       </Cell.Group>

@@ -138,13 +138,27 @@ export class AppBridge {
   }
 
   /**
-   * 设置标题Action
+   * 支付宝支付
    */
   static alipay(authStr: string, backFn: (index: number) => void): void {
     const msg = {
       method: 'alipay',
       data: {
         authStr: authStr,
+        backFn: _callMethod(backFn),
+      },
+    }
+    SHApp.postMessage(JSON.stringify(msg))
+  }
+
+  /**
+   * 微信支付
+   */
+  static wxpay(auth: any, backFn: (index: number) => void): void {
+    const msg = {
+      method: 'wxpay',
+      data: {
+        ...auth,
         backFn: _callMethod(backFn),
       },
     }
