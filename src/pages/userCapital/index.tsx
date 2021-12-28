@@ -87,11 +87,11 @@ const UserCapitalPage: React.FC = () => {
           <img className="pic" src={tips} alt="" />
         </div>
       </div>
-      <div className="btn">
+      {/* <div className="btn">
         <button className="btn" onClick={() => setVisible(true)}>
           提现
         </button>
-      </div>
+      </div> */}
       <div className="footer">
         <div onClick={toMoneyRecord}>提现记录</div>
         <img className="pic" src={jump} alt="" />

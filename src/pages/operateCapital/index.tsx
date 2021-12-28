@@ -84,14 +84,14 @@ const OperateCapitalPage: React.FC = () => {
           <div>使用中&nbsp;&nbsp;激励金额 ¥{accountInfo['funds']}</div>
         </div>
       </div>
-      <div className="btn">
+      {/* <div className="btn">
         <button className="out" onClick={() => selectName('out')}>
           转出
         </button>
         <button className="in" onClick={() => selectName('in')}>
           转入
         </button>
-      </div>
+      </div> */}
       <Dialog visible={show} showConfirmButton={false}>
         <div className="dialog">
           <div className="text">
