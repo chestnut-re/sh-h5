@@ -1,19 +1,36 @@
 import React, { useState, FC } from 'react'
-
+import { Image } from 'react-vant'
 import './index.less'
-//商品预览
-const GoodsPreview: React.FC = () => {
+/**
+ * 商品预览
+ */
+
+const RMB_COM = 100
+
+interface GoodPreviewType {
+  goodsName: string
+  goodsNickName: string
+  goodsPriceId: string
+  personCurrentPrice: number
+  promotionalImageUrl: string
+  sales: string
+  stock: string
+}
+
+const GoodsPreview: React.FC<GoodPreviewType> = (props) => {
+  const { goodsName, personCurrentPrice, promotionalImageUrl, sales, stock } = props
+
   return (
     <div className="Good_preview-container">
       <div className="preview-h">
-        <img className="preview-img" src="http://picsum.photos/335/415" />
+        <Image width="100%" height="100%" fit="cover" src={promotionalImageUrl} />
       </div>
       <div className="pays-preview-content">
-        <div className="preview-name rv-multi-ellipsis--l2">三亚5日跟团游三亚5日跟团游三亚5日跟团游「星4晚 连住」</div>
-        <div className="preview-price">¥2988</div>
+        <div className="preview-name rv-multi-ellipsis--l2">{goodsName}</div>
+        <div className="preview-price">¥{personCurrentPrice / RMB_COM}</div>
         <div className="preview-foot">
-          <div className="foot-left">3456已付款</div>
-          <div className="foot-right">2356</div>
+          <div className="foot-left">{sales}已付款</div>
+          <div className="foot-right">{stock}</div>
         </div>
       </div>
     </div>
