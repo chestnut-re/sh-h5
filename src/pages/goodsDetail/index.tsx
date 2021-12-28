@@ -4,6 +4,9 @@ import { GoodsDetailService } from '@/service/GoodsDetailService'
 import { generateUrl, getUrlParams } from '@/utils'
 import React, { useEffect, useRef, useState } from 'react'
 import { Swiper } from 'react-vant'
+// import { Swiper, SwiperSlide } from 'swiper/react'
+import 'swiper/css'
+
 // import type { SwiperInstance } from 'react-vant';
 import GoodsDetailTemplate from './components/GoodsDetailTemplate'
 import Panel from './components/Panel'
@@ -61,6 +64,7 @@ const GoodsDetailPage: React.FC = () => {
   return (
     <div className="GoodsDetailPage__root">
       <Swiper
+        className="swiper"
         ref={swipeRef}
         vertical
         loop={false}
@@ -102,6 +106,47 @@ const GoodsDetailPage: React.FC = () => {
           />
         </Swiper.Item>
       </Swiper>
+      {/* <Swiper
+        // ref={swipeRef}
+        className="swiper"
+        direction={'vertical'}
+        // loop={true}
+        pagination={{
+          clickable: true,
+        }}
+        navigation={true}
+        // spaceBetween={0}
+        // slidesPerView={'auto'}
+      >
+        <SwiperSlide>
+          <GoodsDetailTemplate
+            templateKey={data?.goodsDetailStart?.pageTemplateKey}
+            data={data?.goodsDetailStart}
+            title={data?.goodsName}
+            makeOrder={_makeOrder}
+          />
+        </SwiperSlide>
+        {data.goodsDetailPage?.map((item, index) => {
+          return (
+            <SwiperSlide key={index}>
+              <GoodsDetailTemplate
+                templateKey={item.pageTemplateKey}
+                data={item}
+                title={data.goodsName}
+                makeOrder={_makeOrder}
+              />
+            </SwiperSlide>
+          )
+        })}
+        <SwiperSlide>
+          <GoodsDetailTemplate
+            templateKey={data?.goodsDetailEnd?.pageTemplateKey}
+            data={data.goodsDetailEnd}
+            title={data.goodsName}
+            makeOrder={_makeOrder}
+          />
+        </SwiperSlide>
+      </Swiper> */}
       <Panel swipe={swipeRef} total={total} current={current} />
       <div className="nav">
         <MyNavBar
