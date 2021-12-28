@@ -10,7 +10,7 @@ import './index.less'
 /**
  * 团小店首页
  */
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 10
 
 const GroupShopPage: FC = () => {
   const { search } = useLocation()
@@ -64,13 +64,13 @@ const GroupShopPage: FC = () => {
     return new Promise<any>((resolve, reject) => {
       SmallShop.list({
         id,
-        size:PAGE_SIZE,
-        current:current
+        size: PAGE_SIZE,
+        current: current,
       })
         .then((res) => {
           const { code, data } = res
           if (code === '200' && data) {
-            setCurrent((v) => v + 1);
+            setCurrent((v) => v + 1)
             console.log('object :>> ', code, res)
             resolve(res)
           } else {
@@ -89,7 +89,7 @@ const GroupShopPage: FC = () => {
     })
   }
   const onLoadGoodsList = async () => {
-    console.log('object :>> jiazai<<<<<<');
+    console.log('object :>> jiazai<<<<<<')
     const {
       data: { records },
     }: any = await getGoodsList()
@@ -127,11 +127,15 @@ const GroupShopPage: FC = () => {
           </div>
           <div className="smallshop-introduce">
             <div className="wrapper">
-              <input id="exp1" className="exp" type="checkbox" />
+              <div className="text">
+              简介：{shopInfo.shopDesc ?? '暂无简介内容'}
+              </div>
+            
+              {/* <input id="exp1" className="exp" type="checkbox" />
               <div className="text">
                 <label className="btn" htmlFor="exp1"></label>
                 简介：{shopInfo.shopDesc ?? '暂无简介内容'}
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="smallshop-main">

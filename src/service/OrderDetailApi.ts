@@ -30,4 +30,13 @@ export class OrderApi {
   static getDiscount(data): Promise<AxiosResponse<any>> {
     return axios.post(`/api/operation/goods/discount`, data)
   }
+
+  /**
+   * 支付成功订单确认
+   */
+  static payConfirm(data): Promise<AxiosResponse<any>> {
+    const formData = new FormData()
+    formData.append('orderId', data.orderId)
+    return axios.post(`/api/orders/payConfirm`, formData)
+  }
 }
