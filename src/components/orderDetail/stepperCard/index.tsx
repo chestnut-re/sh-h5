@@ -75,14 +75,14 @@ const StepperCard: FC<StepType> = (props) => {
       }
     } else if (type == 3) {
       //积分数据判断
-      // if (inputVal > stock) {
-      //   inputVal = stock
-      //   setChildrenVal(stock)
-      //   Toast(`最多只能买${stock}件`)
-      // } else if (inputVal <= 0) {
-      //   inputVal = 1
-      //   setChildrenVal(1)
-      // }
+      if (inputVal > deductionScaleNum) {
+        inputVal = deductionScaleNum
+        setdeductionScale(deductionScaleNum)
+        Toast(`最多只能使用${deductionScaleNum}积分`)
+      } else if (inputVal <= 0) {
+        inputVal = 0
+        setdeductionScale(0)
+      }
     }
   }
   const setChildrenValue = (val) => {
@@ -166,6 +166,7 @@ const StepperCard: FC<StepType> = (props) => {
                     inputWidth="9.6vw"
                     buttonSize="5.6vw"
                     onChange={(val) => setIntegralNumValue(val)}
+                    onBlur={(val) => setGrownNumBlur(val, 3)}
                   />
                 </ConfigProvider>
               </div>
@@ -174,7 +175,7 @@ const StepperCard: FC<StepType> = (props) => {
         </ul>
       </div>
 
-      {stepinfo?.isDeduction === 0 ? (
+      {stepinfo?.isDeduction === 0&&deductionScaleNum&&stepinfo?.tokenAmountNum>0 ? (
         <div className="info-integral rv-hairline--bottom">
           <div className="integral-instruction">
             此订单最多可用{deductionScaleNum}金豆抵<span>¥{deductionScaleNum}</span>
