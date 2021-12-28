@@ -108,7 +108,7 @@ const GoodsDetailPage: React.FC = () => {
           />
         </Swiper.Item>
       </Swiper> */}
-      {data && (
+      {data.goodsDetailStart && (
         <Swiper
           // ref={swipeRef}
           className="swiper"
