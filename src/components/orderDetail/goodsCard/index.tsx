@@ -24,7 +24,7 @@ const GoodsCard: FC<GoodsType> = (props) => {
       </div>
       <div className="goods-r">
         <div className="goods-rT_name rv-multi-ellipsis--l2">{goodsName}</div>
-        {startDate&&endDate?(<div className="goods-rC_name goods-rS">{startDate} 周五出发 {endDate} 周二返程</div>):null}
+        {startDate&&endDate?(<div className="goods-rC_name goods-rS">{startDate} 出发 {endDate} 返程</div>):null}
         {!isSubmitOrder?<div className="goods-rB_name goods-rS">
           <span>成人X{adultNum}</span>
           <span>儿童X{childNum}</span>

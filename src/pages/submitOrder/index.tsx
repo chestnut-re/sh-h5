@@ -187,8 +187,8 @@ const SubmitOrderPage: FC = () => {
       OrderApi.getIntegral()
         .then((res: any) => {
           let { code, data } = res
-          if (code == '200' && data) {
-            resolve(data)
+          if (code == '200') {
+            resolve(data??0)
           } else {
             reject(new Error('error'))
           }
