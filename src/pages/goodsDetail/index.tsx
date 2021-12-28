@@ -61,6 +61,9 @@ const GoodsDetailPage: React.FC = () => {
     })
   }
 
+  console.log('data?.goodsDetailStart?.pageTemplateKey', data?.goodsDetailStart?.pageTemplateKey)
+  console.log('data', data)
+
   return (
     <div className="GoodsDetailPage__root">
       {/* <Swiper
@@ -105,47 +108,50 @@ const GoodsDetailPage: React.FC = () => {
           />
         </Swiper.Item>
       </Swiper> */}
-      <Swiper
-        // ref={swipeRef}
-        className="swiper"
-        direction={'vertical'}
-        // loop={true}
-        pagination={{
-          clickable: true,
-        }}
-        navigation={true}
-        // spaceBetween={0}
-        // slidesPerView={'auto'}
-      >
-        <SwiperSlide>
-          <GoodsDetailTemplate
-            templateKey={data?.goodsDetailStart?.pageTemplateKey}
-            data={data?.goodsDetailStart}
-            title={data?.goodsName}
-            makeOrder={_makeOrder}
-          />
-        </SwiperSlide>
-        {data.goodsDetailPage?.map((item, index) => {
-          return (
-            <SwiperSlide key={index}>
-              <GoodsDetailTemplate
-                templateKey={item.pageTemplateKey}
-                data={item}
-                title={data.goodsName}
-                makeOrder={_makeOrder}
-              />
-            </SwiperSlide>
-          )
-        })}
-        <SwiperSlide>
-          <GoodsDetailTemplate
-            templateKey={data?.goodsDetailEnd?.pageTemplateKey}
-            data={data.goodsDetailEnd}
-            title={data.goodsName}
-            makeOrder={_makeOrder}
-          />
-        </SwiperSlide>
-      </Swiper>
+      {data && (
+        <Swiper
+          // ref={swipeRef}
+          className="swiper"
+          direction={'vertical'}
+          // loop={true}
+          pagination={{
+            clickable: true,
+          }}
+          navigation={true}
+          // spaceBetween={0}
+          // slidesPerView={'auto'}
+        >
+          <SwiperSlide>
+            <GoodsDetailTemplate
+              templateKey={data?.goodsDetailStart?.pageTemplateKey}
+              data={data?.goodsDetailStart}
+              title={data?.goodsName}
+              makeOrder={_makeOrder}
+            />
+          </SwiperSlide>
+          {data.goodsDetailPage?.map((item, index) => {
+            return (
+              <SwiperSlide key={index}>
+                <GoodsDetailTemplate
+                  templateKey={item.pageTemplateKey}
+                  data={item}
+                  title={data.goodsName}
+                  makeOrder={_makeOrder}
+                />
+              </SwiperSlide>
+            )
+          })}
+          <SwiperSlide>
+            <GoodsDetailTemplate
+              templateKey={data?.goodsDetailEnd?.pageTemplateKey}
+              data={data.goodsDetailEnd}
+              title={data.goodsName}
+              makeOrder={_makeOrder}
+            />
+          </SwiperSlide>
+        </Swiper>
+      )}
+
       <Panel swipe={swipeRef} total={total} current={current} />
       {/* <div className="nav">
         <MyNavBar
