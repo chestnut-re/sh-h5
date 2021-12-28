@@ -12,8 +12,7 @@ interface Props {
  */
 const Label: React.FC<Props> = ({ templateKey, title }) => {
   return (
-    // <div className={`Label__root__${templateKey}`}>
-    <div className={'Label__root__' + templateKey}>
+    <div className={`Label__root__${templateKey}`}>
       <img
         src={
           title &&
