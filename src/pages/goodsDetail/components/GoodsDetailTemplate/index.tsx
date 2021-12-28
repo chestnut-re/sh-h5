@@ -4,6 +4,7 @@ import BgImg from '../BgImg'
 import Price from '../Privce'
 import SubmitBtn from '../SubmitBtn'
 import Title from '../Title'
+import Label from '../Label'
 import './index.less'
 
 interface Props {
@@ -26,6 +27,7 @@ const GoodsDetailTemplate: React.FC<Props> = ({ data, title, templateKey, makeOr
       {/* 下单按钮图 */}
       <SubmitBtn templateKey={templateKey} img={data?.submitOrderImg} makeOrder={makeOrder} />
       {/* 标签图 */}
+      <Label title={title} templateKey={templateKey} />
       {/* 价格图 */}
       <Price title={title} templateKey={templateKey} />
     </div>

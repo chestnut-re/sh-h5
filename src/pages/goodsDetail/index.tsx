@@ -75,7 +75,7 @@ const GoodsDetailPage: React.FC = () => {
           return (
             <Swiper.Item key={index}>
               <GoodsDetailTemplate
-                templateKey={data?.pageTemplateKey}
+                templateKey={item.pageTemplateKey}
                 data={item}
                 title={data.goodsName}
                 makeOrder={_makeOrder}
