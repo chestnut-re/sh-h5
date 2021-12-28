@@ -3,8 +3,8 @@ import { SHBridge } from '@/jsbridge'
 import { GoodsDetailService } from '@/service/GoodsDetailService'
 import { generateUrl, getUrlParams } from '@/utils'
 import React, { useEffect, useRef, useState } from 'react'
-import { Swiper } from 'react-vant'
-// import { Swiper, SwiperSlide } from 'swiper/react'
+// import { Swiper } from 'react-vant'
+import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 
 // import type { SwiperInstance } from 'react-vant';
@@ -63,8 +63,7 @@ const GoodsDetailPage: React.FC = () => {
 
   return (
     <div className="GoodsDetailPage__root">
-      <Swiper
-        className="swiper"
+      {/* <Swiper
         ref={swipeRef}
         vertical
         loop={false}
@@ -74,7 +73,7 @@ const GoodsDetailPage: React.FC = () => {
           return <p></p>
         }}
       >
-        {/* 封面 */}
+        封面
         <Swiper.Item>
           <GoodsDetailTemplate
             templateKey={data?.goodsDetailStart?.pageTemplateKey}
@@ -83,7 +82,7 @@ const GoodsDetailPage: React.FC = () => {
             makeOrder={_makeOrder}
           />
         </Swiper.Item>
-        {/* 中间页 */}
+        中间页
         {data.goodsDetailPage?.map((item, index) => {
           return (
             <Swiper.Item key={index}>
@@ -96,7 +95,7 @@ const GoodsDetailPage: React.FC = () => {
             </Swiper.Item>
           )
         })}
-        {/* 封底 */}
+        封底
         <Swiper.Item>
           <GoodsDetailTemplate
             templateKey={data?.goodsDetailEnd?.pageTemplateKey}
@@ -105,8 +104,8 @@ const GoodsDetailPage: React.FC = () => {
             makeOrder={_makeOrder}
           />
         </Swiper.Item>
-      </Swiper>
-      {/* <Swiper
+      </Swiper> */}
+      <Swiper
         // ref={swipeRef}
         className="swiper"
         direction={'vertical'}
@@ -146,7 +145,7 @@ const GoodsDetailPage: React.FC = () => {
             makeOrder={_makeOrder}
           />
         </SwiperSlide>
-      </Swiper> */}
+      </Swiper>
       <Panel swipe={swipeRef} total={total} current={current} />
       <div className="nav">
         <MyNavBar
