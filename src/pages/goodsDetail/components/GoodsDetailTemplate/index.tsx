@@ -27,7 +27,7 @@ const GoodsDetailTemplate: React.FC<Props> = ({ data, title, templateKey, makeOr
       <SubmitBtn templateKey={templateKey} img={data?.submitOrderImg} makeOrder={makeOrder} />
       {/* 标签图 */}
       {/* 价格图 */}
-      <Price title={data?.xxx} templateKey={templateKey} />
+      <Price title={title} templateKey={templateKey} />
     </div>
   )
 }
