@@ -11,8 +11,9 @@ interface Props {
  * 标 签
  */
 const Label: React.FC<Props> = ({ templateKey, title }) => {
+  const newClass = `Label__root__${templateKey}`
   return (
-    <div className={`Label__root__${templateKey}`}>
+    <div className={newClass}>
       <img
         src={
           title &&

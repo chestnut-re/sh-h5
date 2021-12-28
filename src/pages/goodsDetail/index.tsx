@@ -147,7 +147,7 @@ const GoodsDetailPage: React.FC = () => {
         </SwiperSlide>
       </Swiper>
       <Panel swipe={swipeRef} total={total} current={current} />
-      <div className="nav">
+      {/* <div className="nav">
         <MyNavBar
           fixed
           placeholder={false}
@@ -159,7 +159,7 @@ const GoodsDetailPage: React.FC = () => {
             </div>
           }
         />
-      </div>
+      </div> */}
     </div>
   )
 }
