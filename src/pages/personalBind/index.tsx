@@ -26,13 +26,24 @@ const actions = [
 const PersonalBindPage: FC = () => {
   const [travelerList, setTravelerList] = useState([])
   const [showPopup, setShowPopup] = useState(false);
-  const [selectTravelerList, setSelectTravelerList] = useState([])
+  const [subordersList, setSubordersList] = useState([])
 
   const [userTrave, setUserTrave] = useState('与我的关系')
 
   useEffect(() => {
     getList()
+    getOrderInfo()
   }, [])
+  /**
+   * 获取订单信息
+   */
+
+  const getOrderInfo = () => {
+    Personal.getOrder('1475748114721476609').then(res => {
+      setSubordersList(res.data)
+      console.log('resresresresres', res)
+    })
+  }
   /**
    * 获取出行人列表
    */
@@ -47,38 +58,47 @@ const PersonalBindPage: FC = () => {
   }
   const onSelectItem = (obj) => {
     const newTravelerList = [...travelerList]
-    const newSelectTravelerList = []
     newTravelerList.map(item => {
       if (obj.travelerId == item['travelerId']) {
         item['select'] = !item['select']
       }
-      if (item['select']) {
-        newSelectTravelerList.push(item)
-      }
     })
-    setSelectTravelerList(newSelectTravelerList)
     setTravelerList(newTravelerList)
   }
 
-  const onSubmit = () => {
-    const newSuborderDtoList = []
-
-    selectTravelerList.map(item => {
-      console.log('item.travelerType', item['travelerType'])
-      const selectTravelerObj = {}
-      selectTravelerObj['travelerName'] = item['travelerName']
-      selectTravelerObj['travelerId'] = item['travelerId']
-      selectTravelerObj['travelerType'] = 1
-      newSuborderDtoList.push(selectTravelerObj)
+  /**
+   * 修改出行人名字
+   * @param val 
+   * @param i 
+   */
+  const onTravelerName = (val, i) => {
+    const newSubordersList = [...subordersList]
+    newSubordersList.map((item, index) => {
+      if (i === index) {
+        item['travelerName'] = val
+      }
     })
+    setSubordersList(newSubordersList)
+  }
 
-    const params = {
-      orderId: '1475748114721476609',
-      suborderDtoList: [...newSuborderDtoList]
-    }
-    console.log('onSubmit', JSON.stringify(params))
+  /**
+   * 修改出现人手机号码
+   * @param val 
+   * @param i 
+   */
 
-    Personal.addPedestrianInfo(params).then(res => {
+  const onTravelerPhone = (val, i) => {
+    const newSubordersList = [...subordersList]
+    newSubordersList.map((item, index) => {
+      if (i === index) {
+        item['travelerPhoneNumber'] = val
+      }
+    })
+    setSubordersList(newSubordersList)
+  }
+
+  const onSubmit = () => {
+    Personal.addPedestrianInfo(subordersList).then(res => {
       console.log('paramsparams', res)
     })
   }
@@ -107,13 +127,14 @@ const PersonalBindPage: FC = () => {
           </div>
         </div>
 
-        {selectTravelerList.length > 0 ? (
-          selectTravelerList.map((item, index) => (
+        {subordersList.length > 0 && (
+          subordersList.map((item, index) => (
             <div key={`index${index}`} className="personal-content">
               <div className="personal-content-header">
                 <ul className="pch-ul">
                   <li className="pch-ul-li rv-hairline--bottom">
-                    <div className="pul-name">成人{index + 1}</div>
+                    {item['travelerType'] == 1 && <div className="pul-name">成人</div>}
+                    {item['travelerType'] == 0 && <div className="pul-name">儿童</div>}
                   </li>
                   <li className="pch-ul-li rv-hairline--bottom">
                     <div className="pul-name">证件姓名</div>
@@ -125,7 +146,7 @@ const PersonalBindPage: FC = () => {
                             placeholder="与证件姓名一致"
                             // errorMessage={state.errorMessage['nameMsg']}
                             onChange={(val) => {
-
+                              onTravelerName(val, index)
                             }}
                           />
                         </Flex.Item>
@@ -146,13 +167,11 @@ const PersonalBindPage: FC = () => {
                     <div className="pul-name">手机号</div>
                     <div className="pul-content">
                       <Field
-                        value={item['phoneNumber']}
+                        value={item['travelerPhoneNumber']}
                         placeholder="常用手机号"
                         // errorMessage={state.errorMessage['phoneMsg']}
                         onChange={(val) => {
-                          // setSubmitdata({
-                          //   phoneNumber: val,
-                          // })
+                          onTravelerPhone(val, index)
                         }}
                       />
                     </div>
@@ -204,8 +223,6 @@ const PersonalBindPage: FC = () => {
               </div>
             </div>
           ))
-        ) : (
-          <div className="personal-content">请选择出行人</div>
         )}
         <div
           onClick={() => {

@@ -48,4 +48,10 @@ export class Personal {
   static addPedestrianInfo(params): Promise<AxiosResponse<any>> {
     return axios.post('/api/orders/addPedestrianInfo', params)
   }
+  /**
+   * 获取子订单信息
+   */
+  static getOrder(id): Promise<AxiosResponse<any>> {
+    return axios.get(`/api/orders/${id}/suborders`)
+  }
 }
