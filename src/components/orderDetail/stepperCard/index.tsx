@@ -147,7 +147,7 @@ const StepperCard: FC<StepType> = (props) => {
               </ConfigProvider>
             </div>
           </li>
-          {stepinfo?.isDeduction === 0&&deductionScaleNum ? (
+          {stepinfo?.isDeduction === 0&&deductionScaleNum&&stepinfo?.tokenAmountNum>0 ? (
             <li className="step-boxli">
               <div className="step-name hairline--icon">
                 <Icon size="4vw" className="integra-icon" name={integralIcon} />
