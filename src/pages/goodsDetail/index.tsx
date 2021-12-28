@@ -27,7 +27,7 @@ const GoodsDetailPage: React.FC = () => {
     pageRef.current.goodsPriceId = '1473837487616122880'
     //end
     GoodsDetailService.get({ id: pageRef.current.id, goodsPriceId: pageRef.current.goodsPriceId }).then((res) => {
-      console.log(res)
+      console.log(res.data)
       setData(res.data)
     })
   }, [])
@@ -64,9 +64,9 @@ const GoodsDetailPage: React.FC = () => {
         {/* 封面 */}
         <Swiper.Item>
           <GoodsDetailTemplate
-            templateKey={data.pageTemplateKey}
-            data={data.goodsDetailStart}
-            title={data.goodsName}
+            templateKey={data?.goodsDetailStart?.pageTemplateKey}
+            data={data?.goodsDetailStart}
+            title={data?.goodsName}
             makeOrder={_makeOrder}
           />
         </Swiper.Item>
@@ -75,7 +75,7 @@ const GoodsDetailPage: React.FC = () => {
           return (
             <Swiper.Item key={index}>
               <GoodsDetailTemplate
-                templateKey={data.pageTemplateKey}
+                templateKey={data?.pageTemplateKey}
                 data={item}
                 title={data.goodsName}
                 makeOrder={_makeOrder}
@@ -86,7 +86,7 @@ const GoodsDetailPage: React.FC = () => {
         {/* 封底 */}
         <Swiper.Item>
           <GoodsDetailTemplate
-            templateKey={data.pageTemplateKey}
+            templateKey={data?.goodsDetailEnd?.pageTemplateKey}
             data={data.goodsDetailEnd}
             title={data.goodsName}
             makeOrder={_makeOrder}

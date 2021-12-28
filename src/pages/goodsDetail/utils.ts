@@ -7,7 +7,7 @@ export enum PageTemplate {
 
 /**所有模版Key */
 export enum PageTemplateKey {
-  face0 = 'face-0' /**https://app.mockplus.cn/app/ltJhhpjK9_jw/develop/design/bgKx0ORmuGGF */,
-  center0 = 'center-0' /**https://app.mockplus.cn/app/ltJhhpjK9_jw/develop/design/_c-z4yiEW5_ */,
-  end0 = 'end-0' /**https://app.mockplus.cn/app/ltJhhpjK9_jw/develop/design/ApZVeEsf1ZhK */,
+  face0 = 'face0' /**https://app.mockplus.cn/app/ltJhhpjK9_jw/develop/design/bgKx0ORmuGGF */,
+  center0 = 'center0' /**https://app.mockplus.cn/app/ltJhhpjK9_jw/develop/design/_c-z4yiEW5_ */,
+  end0 = 'end0' /**https://app.mockplus.cn/app/ltJhhpjK9_jw/develop/design/ApZVeEsf1ZhK */,
 }

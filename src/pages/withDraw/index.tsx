@@ -34,14 +34,14 @@ const WithDrawPage: React.FC = () => {
     // window.location.href = '/detailed'
   }
   const toExamine = () => {
-    // askFor()
-    SHBridge.jump({ url: generateUrl('/examine'), replace: true, title: '申请提现' })
+    askFor()
+    // SHBridge.jump({ url: generateUrl('/examine'), replace: true, title: '申请提现' })
   }
   const onFocus = () => {
     setVisible(true)
   }
   const askFor = () => {
-    if (Number(myK) > 0) {
+    if (Number(myK) > 0 && Number(myK) < Number(dollar)) {
       MyTokenService.askForWithDraw({ amount: myK }).then((res) => {
         console.log(res)
         // setDollar(res.data.maxCashAmount)
@@ -70,9 +70,9 @@ const WithDrawPage: React.FC = () => {
     return num
   }
   const mywellat = (e) => {
-    console.log('e', e)
-    const a = money(e)
-    console.log('e2', a)
+    // console.log('e', e)
+    // const a = money(e)
+    // console.log('e2', a)
     setMyK(e)
     // console.log(e)
   }

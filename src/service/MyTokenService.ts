@@ -22,8 +22,8 @@ export class MyTokenService {
   /**
    * 申请提现
    */
-  static askForWithDraw(param): Promise<AxiosResponse<any>> {
-    return axios.post('/api/wallet/c/cash')
+  static askForWithDraw(data): Promise<AxiosResponse<any>> {
+    return axios.post('/api/wallet/c/cash', data)
   }
 
   /**
