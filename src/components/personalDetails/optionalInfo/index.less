@@ -57,18 +57,25 @@
     background: #f3f4f4;
   }
   .optional-add-btn {
-    width: 155px;
-    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
     position: relative;
-    font-size: 28px;
-    font-family: PingFang SC, PingFang SC-Medium;
-    font-weight: 500;
-    color: #4dcfc5;
-    text-align: center;
+
     line-height: 1;
-    padding: 33px 0 25px 41px;
-    background: url('../../../assets/img/add_icon@3x.png') no-repeat;
-    background-size: 31px 31px;
+    padding: 33px 0 25px 0;
     background-position: left 55%;
+    .optional-add-img {
+      width: 31px;
+      height: 31px;
+    }
+    .optional-add-txt {
+      font-size: 28px;
+      font-weight: 500;
+      color: #4dcfc5;
+      text-align: center;
+      margin-left: 10px;
+    }
   }
 }

@@ -1,0 +1,226 @@
+.PersonalBind-container {
+  position: relative;
+  background-color: #f3f4f4;
+  min-height: 100vh;
+  .bind-list {
+    margin: 24px;
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    padding: 5px 0;
+    height: 114px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    .bind-itemView {
+      display: flex;
+      flex: 1;
+      flex-direction: row;
+      padding-left: 10px;
+      .bind-item {
+        border: 1px solid #cccccc;
+        border-radius: 12px;
+        padding: 12px 36px;
+        margin-left: 20px;
+        box-sizing: border-box;
+        .text {
+          line-height: 28px;
+          font-size: 28px;
+          font-weight: 400;
+          color: #666666;
+        }
+      }
+      .bind-item-select {
+        background-image: url('./../../assets/img/bind-select.png');
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        border: none;
+        .text {
+          line-height: 28px;
+          font-size: 28px;
+          font-weight: 400;
+          color: #4dcfc5;
+        }
+      }
+    }
+    .bind-more {
+      font-size: 24px;
+      font-weight: 500;
+      color: #ababab;
+      width: 100px;
+    }
+  }
+  .personal-content {
+    margin: 24px;
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    padding: 5px 0;
+    .personal-content-header {
+      position: relative;
+      .pch-ul {
+        overflow: hidden;
+        .pch-ul-li {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 23px 0;
+          margin: 0 30px;
+          .pul-name {
+            width: 175px;
+            font-size: 28px;
+            font-family: PingFang SC, PingFang SC-Regular;
+            font-weight: 400;
+            text-align: left;
+            color: #666666;
+          }
+          .pul-content {
+            flex: 1;
+            font-size: 28px;
+            font-family: PingFang SC, PingFang SC-Regular;
+            font-weight: 400;
+            text-align: left;
+            color: #333333;
+            .pul-content-title {
+              position: relative;
+              font-size: 28px;
+              font-family: PingFang SC, PingFang SC-Regular;
+              font-weight: 400;
+              text-align: right;
+              color: #cccccc;
+              width: 100%;
+              padding-right: 37px;
+              &::after {
+                content: '';
+                position: absolute;
+                width: 17px;
+                height: 10px;
+                right: 0;
+                top: 50%;
+                margin-top: -5px;
+                background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAPCAMAAADNjy/UAAAAYFBMVEUAAABmZmZlZWVlZWVlZWVmZmZmZmZkZGRmZmZmZmZlZWViYmJoaGiAgIBlZWVkZGRmZmZmZmZlZWVkZGRnZ2dpaWllZWVlZWVkZGRlZWVlZWVnZ2dmZmZhYWH///9mZmbwfKxMAAAAH3RSTlMA+9rq1vfw4n1pMg0JAsWnnpaFKSURtZVrYkwhGRUB30Y/3wAAAHVJREFUGNN1zdkWgjAMRdGbFGsHEBmcB/7/L41LgVLCfj0rN/B2yBhmLmr3hBk2XHEhvZgep+NOK/t7BWmklCBFNPkdFQE/sc0ahzdGzXItItHaee3QIVU6mv70FZac/d9ErHjzLecHFJ5krYTqxrUUXfdC4gPkEhdf6+pGiQAAAABJRU5ErkJggg==')
+                  no-repeat right center;
+                background-size: 17px 10px;
+              }
+            }
+            .img-icon {
+              width: 3.8vw;
+              height: 3.8vw;
+            }
+            .pul-content-area {
+              font-size: 28px;
+              font-family: PingFang SC, PingFang SC-Regular;
+              font-weight: 400;
+              text-align: left;
+              color: #ababab;
+            }
+            .pul-content-right {
+              text-align: right;
+            }
+          }
+        }
+      }
+    }
+  }
+  .personal-submit {
+    position: relative;
+    margin-top: 43px;
+    padding: 0 24px;
+    text-align: center;
+    .personal-submit-btn {
+      background: #4dcfc5;
+      border-radius: 46px;
+      font-size: 32px;
+      font-family: PingFang SC, PingFang SC-Medium;
+      font-weight: 500;
+      text-align: left;
+      color: #ffffff;
+      padding: 24px 0;
+      text-align: center;
+    }
+    .personal-submit-btnDis {
+      background: #f3f4f4;
+    }
+  }
+}
+.PersonalBind-popupView {
+  background-color: #f3f4f4;
+  .popupView {
+    margin: 24px;
+    .travelerItem {
+      height: 156px;
+      border-radius: 20px;
+      background-color: #ffffff;
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 20px;
+      align-items: center;
+      .info {
+        padding-right: 20px;
+        flex: 1;
+        .nameView {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          .name {
+            display: flex;
+            flex-direction: row;
+            .text {
+              font-size: 28px;
+              font-weight: 500;
+              color: #333333;
+            }
+            .tag {
+              margin-left: 10px;
+              width: 84px;
+              height: 32px;
+              background: #fcf1f0;
+              border-radius: 16px;
+              font-size: 24px;
+              color: #fd7d81;
+              line-height: 32px;
+              text-align: center;
+            }
+          }
+        }
+        .nameView {
+          display: flex;
+          flex-direction: row;
+          .phoneNum {
+            font-size: 28px;
+            font-weight: 400;
+            color: #333333;
+          }
+        }
+        .IDcard {
+          margin-top: 10px;
+          font-size: 24px;
+          font-weight: 400;
+          color: #999999;
+        }
+      }
+      .selectView {
+        width: 40px;
+        .img-icon {
+          width: 40px;
+          height: 40px;
+        }
+      }
+    }
+    .popupViewBtn {
+      height: 80px;
+      background-color: #4dcfc5;
+      border-radius: 40px;
+      line-height: 80px;
+      text-align: center;
+      .text {
+        font-size: 32px;
+        font-weight: 400;
+        color: #ffffff;
+      }
+    }
+  }
+}

@@ -41,4 +41,11 @@ export class Personal {
   static delete(id): Promise<any> {
     return axios.delete(`/users/customer/travelerInfo/delete/${id}`)
   }
+
+  /**
+   * 出行人信息填写
+   */
+  static addPedestrianInfo(params): Promise<AxiosResponse<any>> {
+    return axios.post('/api/orders/addPedestrianInfo', params)
+  }
 }
