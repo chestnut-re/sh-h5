@@ -13,10 +13,26 @@ import './index.less'
 /**
  * 订单待付款入口页
  */
-const OrderPaymentPage:FC = (props) => {
-
+const OrderPaymentPage:FC = (props:any) => {
+  const {
+    promotionalImageUrl,
+    goodsName,
+    travelStartDate,
+    travelEndDate,
+    adultNum,
+    childNum,
+    tokenAmount,
+    discountAmount,
+    payAmount,
+    orderNo,
+    payType,
+    orderTime,
+    payTime
+  } = props
   console.log('object :>> ', props);
+  const changePayType = ()=>{
 
+  }
   return (
     <div className="Order-container">
         <div className="order-count">
@@ -26,17 +42,25 @@ const OrderPaymentPage:FC = (props) => {
         />
         </div>
         <div className="order-main">
-            <ContactWcharCard/>
+            {/* <ContactWcharCard/> */}
           <div className="preview_card">
-              <GoodsCard/>
-              <PreferCard/>
+          <GoodsCard
+            goodsName={goodsName}
+            startDate={travelStartDate}
+            endDate={travelEndDate}
+            adultNum={adultNum}
+            childNum={childNum}
+            promotionalImageUrl={promotionalImageUrl}
+          />
+             <PreferCard tokenAmount={tokenAmount} discountAmount={discountAmount} payAmount={payAmount} />
+      
           </div>
-          <PayTypeCard/>
-          <IndentCard/>
+          <PayTypeCard changePayType={changePayType}/>
+          <IndentCard orderNo={orderNo}  payType={payType} orderTime={orderTime} payTime={payTime} />
           <BackCard/>
          
         </div>
-        <FooterCard/>
+        {/* <FooterCard/> */}
     </div>
   )
 }

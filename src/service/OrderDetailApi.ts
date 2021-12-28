@@ -39,4 +39,12 @@ export class OrderApi {
     formData.append('orderId', data.orderId)
     return axios.post(`/api/orders/payConfirm`, formData)
   }
+/**
+   * 积分查询
+   */
+ static orderdetail(params): Promise<AxiosResponse<any>> {
+  return axios.get(`/api/orders/${params.orderId}`)
+}
+
+  
 }

@@ -13,8 +13,22 @@ import './index.less'
 /**
  * 订单待确认入口页
  */
-const OrderConfirmaPage:FC = (props) => {
-
+const OrderConfirmaPage:FC = (props:any) => {
+  const {
+    promotionalImageUrl,
+    goodsName,
+    travelStartDate,
+    travelEndDate,
+    adultNum,
+    childNum,
+    tokenAmount,
+    discountAmount,
+    payAmount,
+    orderNo,
+    payType,
+    orderTime,
+    payTime
+  } = props
   console.log('object :>> ', props);
   const BarsConfig = {
     showLeftLinkBtn:true,
@@ -28,13 +42,20 @@ const OrderConfirmaPage:FC = (props) => {
   return (
     <div className="Order-container">
         <div className="order-main">
-            <ContactWcharCard/>
+            {/* <ContactWcharCard/> */}
           <div className="preview_card">
-              <GoodsCard/>
-              <PreferCard/>
+          <GoodsCard
+            goodsName={goodsName}
+            startDate={travelStartDate}
+            endDate={travelEndDate}
+            adultNum={adultNum}
+            childNum={childNum}
+            promotionalImageUrl={promotionalImageUrl}
+          />
+             <PreferCard tokenAmount={tokenAmount} discountAmount={discountAmount} payAmount={payAmount} />
           </div>
           <TravelCodeCard/>
-          <IndentCard/>
+          <IndentCard orderNo={orderNo}  payType={payType} orderTime={orderTime} payTime={payTime} />
           <BackCard/>
           {
             [1,2,3].map(item=>{
