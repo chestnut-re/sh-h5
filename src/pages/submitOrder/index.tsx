@@ -1,14 +1,15 @@
 import React, { useState, useEffect, FC } from 'react'
 import { useLocation } from 'react-router-dom'
-import GoodsCard from '@/components/orderDetail/goodsCard'
+import GoodsCard from '@/components/orderDetail/goodsCard/submitGoods'
 import StepperCard from '@/components/orderDetail/stepperCard'
 import qs from 'query-string'
-import { Toast,Popup } from 'react-vant'
+import { Toast, Popup } from 'react-vant'
 import PayTypeCard from '@/components/orderDetail/payTypeCard'
 import BackCard from '@/components/orderDetail/backthatCard'
 import FooterCard from '@/components/orderDetail/footerCard'
 import ProtocolCard from '@/components/orderDetail/protocolCard'
 import KnownCalendarCard from '@/components/orderDetail/knownCalendarCard'
+import Privilege from './privilege'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
 import { OrderApi } from '@/service/OrderDetailApi'
@@ -46,19 +47,6 @@ const GoodsPrice = [
     childCostPrice: 180000,
     childMarkPrice: 180000,
     stock: 99,
-    days: 7,
-  },
-  {
-    goodsPriceId: 1473837487616100,
-    startDate: '2022-01-02',
-    endDate: '2022-12-29',
-    personCurrentPrice: 180000,
-    personCostPrice: 180000,
-    personMarkPrice: 1800,
-    childCurrentPrice: 180,
-    childCostPrice: 180000,
-    childMarkPrice: 180000,
-    stock: 199,
     days: 7,
   },
 ]
@@ -104,7 +92,7 @@ const SubmitOrderPage: FC = () => {
   //协议是否勾选
   const [isProtocol, setIsProtocol] = useState(false)
 
-  const [showPrivilege, setShowPrivilege] = useState(false);
+  const [showPrivilege, setShowPrivilege] = useState(false)
   const [submitinfo, setSubmitinfo] = useState({
     id: '', //商品id
     goodsName: '', //商品标题
@@ -151,7 +139,7 @@ const SubmitOrderPage: FC = () => {
       const childPreferPriceNum = (childMarkPrice - childCurrentPrice) * childNum //儿童优惠总价
       return {
         ...v,
-        priceNum: personpriceNum + childpriceNum - stepperData['intNum'],
+        priceNum: personpriceNum + childpriceNum - intNum,
         preferPrice: personPreferPriceNum + childPreferPriceNum,
       }
     })
@@ -187,7 +175,7 @@ const SubmitOrderPage: FC = () => {
     return new Promise<any>((resolve, reject) => {
       OrderApi.getIntegral()
         .then((res: any) => {
-          let { code, data } = res
+          const { code, data } = res
           if (code == '200') {
             resolve(data ?? 0)
           } else {
@@ -259,8 +247,8 @@ const SubmitOrderPage: FC = () => {
   }
   //处理优惠说明
   const handleDiscountsInfo = () => {
-    const { goodsPriceId } = selectTime;
-    setShowPrivilege(true);
+    const { goodsPriceId } = selectTime
+    setShowPrivilege(true)
 
     // SHBridge.jump({
     //   url: generateUrl(`/privilege?t=${search}&id=${id}&goodsPriceId=${goodsPriceId}`),
@@ -287,9 +275,9 @@ const SubmitOrderPage: FC = () => {
     setSelectTime(item)
   }
   //支付成功跳转
-  const paySuccessLink = ()=>{
+  const paySuccessLink = (orderId) => {
     SHBridge.jump({
-      url: generateUrl(`/pay-success?t=${search}&id=${id}`),
+      url: generateUrl(`/pay-success?t=${search}&id=${id}&orderId=${orderId}`),
       newWebView: false,
       replace: true,
       title: '支付成功',
@@ -327,7 +315,6 @@ const SubmitOrderPage: FC = () => {
       },
     }
 
-
     if (isProtocol) {
       const toast1 = Toast.loading({
         message: '订单生成中...',
@@ -336,38 +323,37 @@ const SubmitOrderPage: FC = () => {
       })
 
       OrderApi.submit(subInfo)
-        .then((res) => {
+        .then((res: any) => {
           console.log('res提交订单 :>> ', res)
           const { code, msg, data } = res
           if (code == '200' && data) {
             if (data.code == '200') {
+              const { returnPayInfo, orderId } = data.data
               switch (payType) {
                 case 1:
-                  SHBridge.minipay(JSON.stringify(data), 1)
+                  // SHBridge.minipay(JSON.stringify(data), 1)
                   break
                 case 2:
-                  SHBridge.wxpay(data.data,
-                    (wxres:any) => {
-                      const {errorCode} = wxres
-                      if (errorCode === 0) {
-                          toast1 && toast1.clear();
-                          paySuccessLink()
-                      }else{
-                          Toast('支付失败')
-                      }
-                      console.log(res)
+                  SHBridge.wxpay(returnPayInfo, (wxres: any) => {
+                    const { errorCode } = wxres
+                    if (errorCode === 0) {
+                      toast1 && toast1.clear()
+                      paySuccessLink(orderId)
+                    } else {
+                      Toast('支付失败')
                     }
-                  )
+                    console.log(res)
+                  })
                   break
                 case 3:
-                  SHBridge.alipay(data.data, (alires:any) => {
+                  SHBridge.alipay(returnPayInfo, (alires: any) => {
                     const {
                       alipay_trade_app_pay_response: { code },
                     } = JSON.parse(alires.result)
                     console.log('支付成功', code, res)
                     if (code == '10000') {
-                        toast1 && toast1.clear()
-                        paySuccessLink()
+                      toast1 && toast1.clear()
+                      paySuccessLink(orderId)
                     }
                   })
                   break
@@ -401,8 +387,8 @@ const SubmitOrderPage: FC = () => {
               endDate={selectTime.endDate}
               adultNum="0"
               childNum="0"
-              isSubmitOrder={true}
               goodsName={submitinfo.goodsName}
+              travelMode={submitinfo.travelMode}
             />
             {submitinfo.travelMode === 1 ? (
               <KnownCalendarCard
@@ -430,10 +416,18 @@ const SubmitOrderPage: FC = () => {
       <FooterCard priceSetData={priceSet} submitHandleOrder={submitHandle} />
 
       <Popup
-      title="优惠信息"
+        title="优惠信息"
         visible={showPrivilege}
-        onClose={() => setShowPrivilege(false)}>
-        内容
+        position="bottom"
+        destroyOnClose={true}
+        closeable
+        round
+        closeIcon="close"
+        onClose={() => setShowPrivilege(false)}
+      >
+        <div className="privilege-box">
+          <Privilege  goodsPriceId={selectTime["goodsPriceId"]} id={id} />
+        </div>
       </Popup>
     </div>
   )

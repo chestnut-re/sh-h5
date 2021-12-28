@@ -1,29 +1,54 @@
-import React, { useState, FC } from 'react'
+import React, { useState, useEffect, FC } from 'react'
 import GoodsPreview from '../../components/goodsPreview'
+import qs from 'query-string'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
 import { useLocation } from 'react-router-dom'
+import { OrderApi } from '@/service/OrderDetailApi'
+
 import './index.less'
 
 /**
  * 支付成功入口页
  */
-const themeVars = {
-  '--rv-tabs-bottom-bar-color': '#3BD1C4',
-  '--rv-tab-font-size': '4.26667vw',
-}
 
 const PaymentSuccessPage: FC = () => {
   const { search } = useLocation()
-   const openPersonalDetails = ()=>{
-    
+  const { orderId } = qs.parse(search.slice(1))
+  const judgePayConfirmStatus = (orderId) => {
+    OrderApi.payConfirm({
+      orderId,
+    })
+      .then((res: any) => {
+        const { code, data } = res
+
+        if (code == '200' && !data) {
+          SHBridge.jump({
+            url: generateUrl(`/order-detail${search}&type=4`),
+            newWebView: false,
+            replace: true,
+            title: '出行人信息',
+          })
+        }
+        console.log('res :>> ', res)
+      })
+      .catch((err) => {
+        console.log('err :>> ', err)
+      })
+  }
+
+  useEffect(() => {
+    judgePayConfirmStatus(orderId)
+  }, [])
+
+  const openPersonalDetails = () => {
     SHBridge.jump({
       url: generateUrl(`/personal-details${search}`),
       newWebView: false,
       replace: true,
       title: '出行人信息',
     })
-   }
+  }
 
   return (
     <div className="Pays-container">
@@ -34,7 +59,9 @@ const PaymentSuccessPage: FC = () => {
         </div>
         <div className="pays-btns">
           <div className="pays-left pays-com">查看订单</div>
-          <div className="pays-right pays-com" onClick={openPersonalDetails}>填写出行人信息</div>
+          <div className="pays-right pays-com" onClick={openPersonalDetails}>
+            填写出行人信息
+          </div>
         </div>
       </div>
       {/* <div className="pays-you-like">
