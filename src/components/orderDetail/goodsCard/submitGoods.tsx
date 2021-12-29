@@ -12,10 +12,11 @@ interface GoodsType {
   adultNum:string;
   childNum:string;
   travelMode:number;
+  stock:number;
 }
 
 const GoodsCard: FC<GoodsType> = (props) => {
-  const {promotionalImageUrl,goodsName,startDate,endDate,travelMode} = props;
+  const {promotionalImageUrl,goodsName,startDate,endDate,travelMode,stock} = props;
  
   return (
     <div className="goods-content">
@@ -26,7 +27,7 @@ const GoodsCard: FC<GoodsType> = (props) => {
         <div className="goods-rT_name rv-multi-ellipsis--l2">{goodsName}</div>
        {travelMode==0?(<div className='goods-r-time'>
             <div className="goods-rC_name goods-rS">{startDate} 出发 {endDate} 返程</div>
-            <div className="goods-inventory">库存：11</div>
+            <div className="goods-inventory">库存：{stock}</div>
         </div>):null}
 
       </div>

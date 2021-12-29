@@ -390,6 +390,7 @@ const SubmitOrderPage: FC = () => {
               childNum="0"
               goodsName={submitinfo.goodsName}
               travelMode={submitinfo.travelMode}
+              stock={selectTime.stock}
             />
             {submitinfo.travelMode === 1 ? (
               <KnownCalendarCard
