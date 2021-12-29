@@ -201,7 +201,7 @@ const SubmitOrderPage: FC = () => {
   useEffect(() => {
     getGoodsDetail(id)
       .then((res: any) => {
-        const { departureCity,departureCityAdcode, goodsName, id, isDeduction } = res
+        const { departureCity, departureCityAdcode, goodsName, id, isDeduction } = res
         setSubmitinfo(res)
         setSelectTime(res['goodsPrices'][0])
         setPriceSet((v) => {
@@ -226,7 +226,7 @@ const SubmitOrderPage: FC = () => {
         setSubmitData((v) => {
           return {
             ...v,
-            departureCity:departureCityAdcode,
+            departureCity: departureCityAdcode,
             orderDto: {
               ...v.orderDto,
               goodsName,
@@ -410,7 +410,13 @@ const SubmitOrderPage: FC = () => {
             />
           </div>
           <PayTypeCard changePayType={handlePayType} />
-          <BackCard />
+          <div
+            onClick={() => {
+              Toast('暂无退改说明')
+            }}
+          >
+            <BackCard />
+          </div>
 
           <ProtocolCard changeProtocolStatus={handleProtocolStatus} />
         </div>
@@ -428,7 +434,7 @@ const SubmitOrderPage: FC = () => {
         onClose={() => setShowPrivilege(false)}
       >
         <div className="privilege-box">
-          <Privilege  goodsPriceId={selectTime["goodsPriceId"]} id={id} />
+          <Privilege goodsPriceId={selectTime['goodsPriceId']} id={id} />
         </div>
       </Popup>
     </div>
