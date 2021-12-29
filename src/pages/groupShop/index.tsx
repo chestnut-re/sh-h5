@@ -156,7 +156,9 @@ const GroupShopPage: FC = () => {
               <ul className="smallshop-main-ul">
                 {goodsList.map((item, index) => {
                   return (
-                    <li className="smallshop-main-li" key={index} onClick={openDoodsDetailLink(item)}>
+                    <li className="smallshop-main-li" key={index} onClick={()=>{
+                      openDoodsDetailLink(item)
+                    }}>
                       <GoodsPreview {...item} />
                     </li>
                   )
