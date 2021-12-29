@@ -156,7 +156,7 @@ const ManageOrderPage: FC = () => {
   useEffect(()=>{
     SHBridge.setTitleAction(
       [
-        { value: '搜索', type: 'text' },
+        { value: 'https://shanhai-shoping.oss-cn-beijing.aliyuncs.com/img/user/pic/a3046d485c8c4898b14cd7587dcfafde.png', type: 'img' },
       ],
       (index) => {
         SHBridge.jump({
