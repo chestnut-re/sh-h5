@@ -15,7 +15,7 @@ interface PayType{
 const PayTypeList = [
   {name:"微信支付",payIcon:wechatPayicon,value:2,alias:'微信', showTerm:isApp()},
   {name:"支付宝支付",payIcon:aliPayicon,value:3,alias:'支付宝', showTerm:isApp()},
-  {name:"微信小程序",payIcon:otherPayicon,value:1,alias:'小程序支付', showTerm:isMini()}
+  {name:"微信小程序",payIcon:otherPayicon,value:1,alias:'小程序支付', showTerm:false}
 ]
 const themeVars = {
   '--rv-cell-vertical-padding': '16px',
@@ -27,9 +27,14 @@ const PayTypeCard: FC<PayType> = (props) => {
   const [radiovSelectObj, setSelectObj] = useState(PayTypeList[0]);
 
   useEffect(()=>{
-      if (isMini()) {
+    alert(isMini())
+    isMini().then((res) => {
+      console.log(res)
+      if (res) {
+        PayTypeList[2].showTerm = true;
         setSelectObj(PayTypeList[2])
       }
+    })
   },[])
 
   useEffect(() => {
