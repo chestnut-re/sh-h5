@@ -1,12 +1,12 @@
 import React, { useState, useEffect, FC } from 'react'
-import { Image,CountDown } from 'react-vant'
+import { Image, CountDown, ConfigProvider } from 'react-vant'
 import dayjs from 'dayjs'
 import './index.less'
 /**
  * 订单管理详情
  * 包含 订单号 订单状态 购买用户 下单时间 商品名称 价格
  */
- const COUNT_DOWN = 60 * 30 * 1000
+const COUNT_DOWN = 60 * 30 * 1000
 const MaStatusMap = {
   1: { text: '待付款', bgName: 'BGdaifk', cName: 'CF57272', type: 1 },
   2: { text: '已失效', bgName: 'BGyisx', cName: 'C999999', type: 2 },
@@ -17,20 +17,22 @@ const MaStatusMap = {
   7: { text: '退款失败', bgName: 'BGyitk', cName: 'C999999', type: 7 },
   '': { text: '未知', bgName: 'BGyisx', cName: '', type: '' },
 }
+const themeVars = {
+  '--rv-count-down-text-color': '#f57272',
+}
 interface ManageProps {
-  state: number;
-  orderNo: string;
-  orderUserName: string;
-  orderTime: string;
-  goodsName: string;
-  payAmount: number;
+  state: number
+  orderNo: string
+  orderUserName: string
+  orderTime: string
+  goodsName: string
+  payAmount: number
 }
 
 const ManageDetailItem: FC<ManageProps> = (props) => {
   console.log('propsprops :>> ', props)
   const { goodsName, payAmount, orderUserName, orderTime, orderNo, state } = props
   const [countdowntime, setCountdownTime] = useState<number>(COUNT_DOWN)
- 
 
   useEffect(() => {
     if (state === 1 && orderTime) {
@@ -46,10 +48,12 @@ const ManageDetailItem: FC<ManageProps> = (props) => {
         </div>
         <div className="mig-right">
           <div className="mig-name rv-multi-ellipsis--l2">{goodsName}</div>
-          {payAmount?(<div className="mig-pro">
-            付款<span className="mig-pro-icon">¥</span>
-            <span>{payAmount}</span>
-          </div>):null}
+          {payAmount ? (
+            <div className="mig-pro">
+              付款<span className="mig-pro-icon">¥</span>
+              <span>{payAmount}</span>
+            </div>
+          ) : null}
         </div>
       </div>
       <div className="detail-box">
@@ -57,11 +61,15 @@ const ManageDetailItem: FC<ManageProps> = (props) => {
           <li className="detail-listLi">
             <div className="listLi-left">购买用户</div>
             <div className="listLi-right">{orderUserName}</div>
-            {state === 1 && (
-              <div className="maorder-countdown">
-                <CountDown time={countdowntime} format="剩 mm:ss" />
-              </div>
-            )}
+            <div className="maorder-countdown">
+              <ConfigProvider themeVars={themeVars}>
+                {state === 1 && (
+                  <div className="maorder-countdown">
+                    <CountDown time={countdowntime} format="剩 mm:ss" />
+                  </div>
+                )}
+              </ConfigProvider>
+            </div>
           </li>
           <li className="detail-listLi">
             <div className="listLi-left">下单时间</div>
@@ -77,11 +85,11 @@ const ManageDetailItem: FC<ManageProps> = (props) => {
           </li> */}
         </ul>
       </div>
-      <div className={`detail-status ${MaStatusMap[state]?.bgName}`}>
+      {state>=0?(<div className={`detail-status ${MaStatusMap[state]?.bgName}`}>
         <div className={`status-text ${MaStatusMap[state]?.cName}`}>
           <h1>{MaStatusMap[state]?.text}</h1>
         </div>
-      </div>
+      </div>):null}
     </div>
   )
 }
