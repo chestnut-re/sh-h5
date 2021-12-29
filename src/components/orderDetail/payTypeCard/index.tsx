@@ -27,7 +27,6 @@ const PayTypeCard: FC<PayType> = (props) => {
   const [radiovSelectObj, setSelectObj] = useState(PayTypeList[0]);
 
   useEffect(()=>{
-    alert(isMini())
     isMini().then((res) => {
       console.log(res)
       if (res) {
