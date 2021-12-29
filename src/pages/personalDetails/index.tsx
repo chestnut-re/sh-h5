@@ -212,7 +212,7 @@ const PersonalDetailPage: FC = () => {
         if (key == 'type') {
           return undefined
         } else if (key == 'certificateType') {
-          return value == '身份证' ? 0 : 1
+          return value == '身份证' ? 1 : 2
         } else {
           return value
         }
