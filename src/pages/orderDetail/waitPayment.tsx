@@ -31,7 +31,7 @@ const OrderPaymentPage:FC = (props:any) => {
   } = props
   console.log('object :>> ', props);
   const changePayType = ()=>{
-
+      
   }
   return (
     <div className="Order-container">

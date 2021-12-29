@@ -11,18 +11,22 @@ import { Toast } from 'react-vant'
 
 /**
  * 订单详情入口页
- * type 1 已完成（OrderDone）
+ * type 4 已完成（OrderDone）
  * type 2 已失效（OrderFailure）
- * type 3 待确认（OrderConfirma）
- * type 4 待支付（OrderPayment）
+ * type 3 待核销（OrderConfirma）
+ * type 1 待支付（OrderPayment）
+ * 1-待付款 2-已失效 3-待核销 4-已完成 5-退款中 6-退款成功 7-退款失败
  */
 const OrderIndexPage: FC = (props: any) => {
   
   const [orders,setOrders] = useState({})
-
+  const {
+    location: { search },
+  } = props
+  const { type,orderId } = qs.parse(search.slice(1))
   useEffect(() => {
     OrderApi.orderdetail({
-      orderId:"1475748114721476609"
+      orderId:orderId
     }).then((result) => {
       const {code,data,msg} = result;
 
@@ -39,16 +43,13 @@ const OrderIndexPage: FC = (props: any) => {
 
 
   console.log('object :>> ', props)
-  const {
-    location: { search },
-  } = props
-  const { type } = qs.parse(search.slice(1))
+  
   return (
     <div className="container">
-      {type === '1' && <OrderDone {...orders} />}
+      {type === '4' && <OrderDone {...orders} />}
       {type === '2' && <OrderFailure {...orders} />}
       {type === '3' && <OrderConfirma  {...orders} />}
-      {type === '4' && <OrderPayment {...orders} />}
+      {type === '1' && <OrderPayment {...orders} />}
     </div>
   )
 }
