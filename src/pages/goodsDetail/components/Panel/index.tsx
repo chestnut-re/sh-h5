@@ -7,38 +7,15 @@ import down from '@/assets/img/tinified/down.png'
 import { Toast } from 'react-vant'
 import './index.less'
 
-interface Props {
-  swipe: any
-  total: number
-  current: number
-}
+interface Props {}
 /**面板 */
-const Panel: React.FC<Props> = ({ swipe, total, current }) => {
-  const changeSwipe = (e) => {
-    console.log(swipe)
-
-    // console.log(current)
-    if (e == 'up') {
-      // if (current == 1) {
-      //   Toast('当前已是第一页')
-      // } else {
-      // swipe.current.swipePrev()
-      // }
-    } else if (e == 'down') {
-      // if (current == total) {
-      //   Toast('当前已是最后一页')
-      // } else {
-      // swipe.current.swipeNext()
-      // }
-    }
-  }
-
+const Panel: React.FC<Props> = ({}) => {
   return (
     <div className="Panel__root">
-      <div className={'swiper-button-prev2'} onClick={() => changeSwipe('up')}>
+      <div className={'swiper-button-prev2'}>
         <img src={up} alt="" />
       </div>
-      <div className={'swiper-button-next2'} onClick={() => changeSwipe('down')}>
+      <div className={'swiper-button-next2'}>
         <img src={down} alt="" />
       </div>
       {/* <div>

@@ -11,9 +11,9 @@ interface Props {
 /**
  * 轮播
  */
-const GSwiper: React.FC<Props> = ({ imgs }) => {
+const GSwiper: React.FC<Props> = ({ imgs, templateKey }) => {
   return (
-    <div className="GSwiper__root">
+    <div className={`GSwiper__root GSwiper__root__${templateKey}`}>
       {imgs && (
         <Swiper effect={'cards'} grabCursor={true} className="mySwiper">
           {imgs.map((item, index) => {
