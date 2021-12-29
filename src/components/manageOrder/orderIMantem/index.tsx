@@ -1,24 +1,23 @@
 import React, { useState, useEffect, FC } from 'react'
 import dayjs from 'dayjs'
-import { Image, Flex, CountDown, ConfigProvider, Icon, Tag } from 'react-vant'
-import arrowRight from '@/assets/img/arrow@3x.png'
+import { Image, CountDown, ConfigProvider } from 'react-vant'
 import './index.less'
 /**
  * 订单管理单条列表页
- * 全部 待付款 待确认 已完成 退款_售后
+ * 全部 待付款 待核销 已完成 退款_售后
  */
 const ManageStatusMap = {
-  1: { text: '待付款', cName: 'CF15E5E' },
+  1: { text: '待付款', cName: 'CF57272' },
   2: { text: '已失效', cName: 'C999999' },
-  3: { text: '待确认', cName: 'C3AD2C5' },
-  4: { text: '已完成', cName: 'C3AD2C5' },
-  5: { text: '退款中', cName: 'CF48B43' },
-  6: { text: '已退款', cName: 'C999999' },
+  3: { text: '待核销', cName: 'C7193f4' },
+  4: { text: '已完成', cName: 'C666666' },
+  5: { text: '退款中', cName: 'CF5B572' },
+  6: { text: '退款成功', cName: 'C666666' },
   7: { text: '退款失败', cName: 'C999999' },
   '': { text: '未知', cName: 'C999999' },
 }
 const themeVars = {
-  '--rv-count-down-text-color': '#f15e5e',
+  '--rv-count-down-text-color': '#f57272',
   '--rv-count-down-font-size': '11px',
 }
 
@@ -61,6 +60,52 @@ const ManageItem: FC<ManageItemProps> = (props) => {
   return (
     <div className="maorder-item">
       <ConfigProvider themeVars={themeVars}>
+        <div className='maorder-item-header'>
+            <div className={`maorder-item-header-left ${ManageStatusMap[oitem.state ?? '']?.['cName']}`}>
+            {ManageStatusMap[oitem.state ?? '']?.['text']}
+            </div>
+
+            {oitem.state === 1 && (
+            <div className="maorder-item-header-right">
+              
+                  <CountDown time={countdowntime} onFinish={countdownTimeFinish} format="剩 mm:ss" />
+              
+            </div>
+          )}
+        </div>
+        </ConfigProvider>
+        <div className='maorder-item-content'>
+            <div className='maorder-item-content-left'>
+                <Image width="100%" height="100%" fit="cover" src={oitem.orderUserAvatar} />
+            </div>
+            <div className='maorder-item-content-right'>
+                <div className='micr-name rv-ellipsis'>
+                {oitem.goodsName}
+                </div>
+                <div className='micr-tags'>
+                    <span>成人x{oitem.adultNum ?? 0}</span>
+                    <span>儿童x{oitem.childNum ?? 0}</span>
+                </div>
+                <div className='micr-price'>
+                ¥{oitem.payAmount}
+                </div>
+            </div>
+        </div>
+
+        {oitem.state==5?(<div className='maorder-item-footer'>
+            <ul className='maorder-item-footer-ul'>
+              <li className='mifu-item'>
+                  <div className='mifu-item-left'>成人x2</div>
+                  <div className='mifu-item-right'>退款成功</div>
+              </li>
+              <li className='mifu-item'>
+                  <div className='mifu-item-left'>儿童x1</div>
+                  <div className='mifu-item-right mifu-ing'>退款中</div>
+              </li>
+            </ul>
+        </div>):null}
+
+      {/* <ConfigProvider themeVars={themeVars}>
         <div className="maorder-left">
           <span className={`maorder-status ${ManageStatusMap[oitem.state ?? '']?.['cName']}`}>
             {ManageStatusMap[oitem.state ?? '']?.['text']}
@@ -114,7 +159,7 @@ const ManageItem: FC<ManageItemProps> = (props) => {
             </Flex.Item>
           </Flex>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

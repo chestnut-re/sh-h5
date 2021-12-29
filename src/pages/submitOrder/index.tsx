@@ -201,7 +201,7 @@ const SubmitOrderPage: FC = () => {
   useEffect(() => {
     getGoodsDetail(id)
       .then((res: any) => {
-        const { departureCity, goodsName, id, isDeduction } = res
+        const { departureCity,departureCityAdcode, goodsName, id, isDeduction } = res
         setSubmitinfo(res)
         setSelectTime(res['goodsPrices'][0])
         setPriceSet((v) => {
@@ -226,7 +226,7 @@ const SubmitOrderPage: FC = () => {
         setSubmitData((v) => {
           return {
             ...v,
-            departureCity,
+            departureCity:departureCityAdcode,
             orderDto: {
               ...v.orderDto,
               goodsName,
