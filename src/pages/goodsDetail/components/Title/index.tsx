@@ -11,11 +11,7 @@ interface Props {
  * 标题
  */
 const Title: React.FC<Props> = ({ templateKey, img }) => {
-  return (
-    <div className={`Title__root Title__root__${templateKey}`}>
-      <img src={img} />
-    </div>
-  )
+  return <div className={`Title__root Title__root__${templateKey}`}>{img && <img src={img} />}</div>
 }
 
 export default Title

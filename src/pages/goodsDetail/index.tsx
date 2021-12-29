@@ -4,7 +4,9 @@ import { GoodsDetailService } from '@/service/GoodsDetailService'
 import { generateUrl, getUrlParams } from '@/utils'
 import React, { useEffect, useRef, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
+import { Navigation } from 'swiper'
 import 'swiper/css'
+import 'swiper/css/navigation'
 import GoodsDetailTemplate from './components/GoodsDetailTemplate'
 import Panel from './components/Panel'
 import { Controller } from 'swiper'
@@ -18,11 +20,11 @@ import './index.less'
  */
 const GoodsDetailPage: React.FC = () => {
   const pageRef = useRef<any>({})
-  const swipeRef = useRef<any>({})
+  const swipeRef = useRef<any>()
   const [total, setTotal] = useState<any>()
   const [current, setCurrent] = useState<any>()
   const [data, setData] = useState<any>({})
-  const [controlledSwiper, setControlledSwiper] = useState<any>(null);
+  const [controlledSwiper, setControlledSwiper] = useState<any>(null)
 
   useEffect(() => {
     const params = getUrlParams(window.location.href)
@@ -62,20 +64,20 @@ const GoodsDetailPage: React.FC = () => {
 
   return (
     <div className="GoodsDetailPage__root">
-      {data.goodsDetailStart && (
+      {data?.goodsDetailStart && (
         <Swiper
-          // ref={swipeRef}
           className="swiper"
           direction="vertical"
           loop={false}
           pagination={{
             clickable: true,
           }}
-          navigation={true}
-          modules={[Controller]}
+          navigation={{
+            nextEl: '.swiper-button-next2',
+            prevEl: '.swiper-button-prev2',
+          }}
+          modules={[Controller, Navigation]}
           controller={{ control: controlledSwiper }}
-          // spaceBetween={0}
-          // slidesPerView={'auto'}
         >
           <SwiperSlide>
             <GoodsDetailTemplate
@@ -110,7 +112,7 @@ const GoodsDetailPage: React.FC = () => {
         </Swiper>
       )}
 
-      <Panel swipe={swipeRef} total={total} current={current} />
+      <Panel swipe={controlledSwiper} total={total} current={current} />
       {/* <div className="nav">
         <MyNavBar
           fixed

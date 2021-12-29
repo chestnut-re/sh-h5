@@ -11,11 +11,7 @@ interface Props {
  * 价格
  */
 const Price: React.FC<Props> = ({ img, templateKey }) => {
-  return (
-    <div className={`Price__root Price__root__${templateKey}`}>
-      <img src={img} />
-    </div>
-  )
+  return <div className={`Price__root Price__root__${templateKey}`}>{img && <img src={img} />}</div>
 }
 
 export default Price
