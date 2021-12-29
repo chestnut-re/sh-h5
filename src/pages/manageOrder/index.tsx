@@ -151,6 +151,21 @@ const ManageOrderPage: FC = () => {
     setListData([])
   }, [activeState])
 
+
+  useEffect(()=>{
+    SHBridge.setTitleAction(
+      [
+        {
+          value:
+            'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0179995befdd37a8012092526f378c.jpg%402o.jpg',
+          type: 'img',
+        },
+      ],
+      (index) => {
+        Toast(index.toString())
+      }
+    )
+  })
   const tabHandelClick = (info) => {
     const { name } = info
     setActive(name)

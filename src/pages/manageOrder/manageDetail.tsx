@@ -4,7 +4,7 @@ import qs from 'query-string'
 import ManageDetail from '@/components/manageOrder/manageDetail'
 import PersonalDetails from '@/components/manageOrder/personalDetails'
 import { ManageOrder } from '@/service/ManageOrderApi'
-
+import { SHBridge } from '@/jsbridge'
 import './index.less'
 /**
  * 订单管理详情入口页面
@@ -12,22 +12,22 @@ import './index.less'
  */
 
 //测试数据
-// const Des = [
-//   {
-//     id: '12312312',
-//     suborderNo: '1345 99839 0000',
-//     state: 1,
-//     travelerId: '2131312',
-//     travelerName: '李康',
-//     travelerType: 0,
-//     travelerRelation: 0,
-//     travelerPhoneAreaCode: '+86',
-//     travelerPhoneNumber: '135675567766',
-//     travelerCertificateType: '',
-//     travelerCertificateNo: '',
-//     emerName: 'asdas',
-//   }
-// ]
+const Des = [
+  {
+    id: '12312312',
+    suborderNo: '1345 99839 0000',
+    state: 1,
+    travelerId: '2131312',
+    travelerName: '李康',
+    travelerType: 0,
+    travelerRelation: 0,
+    travelerPhoneAreaCode: '+86',
+    travelerPhoneNumber: '135675567766',
+    travelerCertificateType: '',
+    travelerCertificateNo: '',
+    emerName: 'asdas',
+  }
+]
 
 //子订单分类
 const CategoryArr = (list)=>{
@@ -93,7 +93,8 @@ const MaorderDetailPage: FC = () => {
 
   useEffect(() => {
     onLoadMaorderDetail()
-
+    SHBridge.setNavBgColor('#7495ee');
+    SHBridge.setTitleColor('#fff')
   }, [])// eslint-disable-line
 
   return (
