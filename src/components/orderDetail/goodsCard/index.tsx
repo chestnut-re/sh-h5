@@ -11,10 +11,11 @@ interface GoodsType {
   endDate:string;
   adultNum:string;
   childNum:string;
+  isSubmitOrder:boolean;
 }
 
 const GoodsCard: FC<GoodsType> = (props) => {
-  const {promotionalImageUrl,goodsName,startDate,endDate,adultNum,childNum} = props;
+  const {promotionalImageUrl,goodsName,startDate,endDate,adultNum,childNum,isSubmitOrder=false} = props;
  
   return (
     <div className="goods-content">
