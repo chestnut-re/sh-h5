@@ -6,6 +6,7 @@ import emptyIcon from '@/assets/img/empty@3x.png'
 import { ManageOrder } from '@/service/ManageOrderApi'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
+import sousuo from '../../assets/img/sousuo-2@3x.png';
 
 import './index.less'
 /**
@@ -156,8 +157,7 @@ const ManageOrderPage: FC = () => {
     SHBridge.setTitleAction(
       [
         {
-          value:
-            'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0179995befdd37a8012092526f378c.jpg%402o.jpg',
+          value:sousuo,
           type: 'img',
         },
       ],
