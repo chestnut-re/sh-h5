@@ -392,7 +392,7 @@ const SubmitOrderPage: FC = () => {
               travelMode={submitinfo.travelMode}
               stock={selectTime.stock}
             />
-            {submitinfo.travelMode === 1 ? (
+            {submitinfo.travelMode === 0 ? (
               <KnownCalendarCard
                 calendata={submitinfo['goodsPrices']}
                 selecttime={selectTime}

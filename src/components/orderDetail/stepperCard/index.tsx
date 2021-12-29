@@ -183,7 +183,7 @@ const StepperCard: FC<StepType> = (props) => {
         </div>
       ) : null}
 
-      <div className="info-discounts">
+     {priceSet?.preferPrice>0?( <div className="info-discounts">
         <div
           className="discounts-title hairline--icon"
           onClick={() => {
@@ -199,7 +199,7 @@ const StepperCard: FC<StepType> = (props) => {
             <span>{priceSet?.preferPrice}</span>
           </div>
         </div>
-      </div>
+      </div>):null}
     </div>
   )
 }

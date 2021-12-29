@@ -31,10 +31,10 @@ const OrderConfirmaPage:FC = (props:any) => {
   } = props
   console.log('object :>> ', props);
   const BarsConfig = {
-    showLeftLinkBtn:true,
+    showLeftLinkBtn:false,
     LeftLinkActions:[{ text: '申请售后' }],
     barLeftTitle:"再次购买",
-    barRightTitle:"分享给TA",
+    barRightTitle:"",
     onSelect:(type,item)=>{
         console.log('event :>> ', type,item);
     }

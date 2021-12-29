@@ -40,11 +40,16 @@ export class OrderApi {
     return axios.post(`/api/orders/payConfirm`, formData)
   }
 /**
-   * 积分查询
+   * 订单详情查询
    */
  static orderdetail(params): Promise<AxiosResponse<any>> {
   return axios.get(`/api/orders/${params.orderId}`)
 }
-
+/**
+   * 子订单查询
+   */
+ static suborders(params): Promise<AxiosResponse<any>> {
+  return axios.get(`/api/orders/${params.orderId}/suborders`)
+}
   
 }
