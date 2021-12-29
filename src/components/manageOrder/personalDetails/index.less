@@ -1,59 +1,122 @@
-.Peosonaldetail-item {
+.pdetail-item {
   position: relative;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0px 0px 16px 0px #f0f6f5;
-  .peodetail-container{
+  background: #fafafa;
+  border-radius: 12px;
+  padding: 12px 28px;
+  .pdetail-item-box {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 212px;
+    .pdetail-item-box-left {
+      width: 168px;
+      font-size: 28px;
+      font-family: PingFangSC, PingFangSC-Regular;
+      font-weight: 400;
+      text-align: center;
+      color: #666666;
+      line-height: 28px;
+    }
+    .pdetail-item-box-right {
+      padding-left: 46px;
+      .pibr-box {
+        padding: 12px 0;
+        .pibr-box-li {
+          padding: 8px 0;
+          .pibr-label {
+            font-size: 24px;
+            font-family: PingFangSC, PingFangSC-Regular;
+            font-weight: 400;
+            text-align: left;
+            color: #c1c1c1;
+            line-height: 24px;
+            margin-right: 16px;
+          }
+          .pibr-name {
+            font-size: 24px;
+            font-family: PingFangSC, PingFangSC-Medium;
+            font-weight: 500;
+            text-align: left;
+            color: #333333;
+            line-height: 24px;
+            margin-right: 16px;
+          }
+          .pibr-tag{
+            display: inline-block;
+            font-size: 20px;
+            font-family: PingFangSC, PingFangSC-Regular;
+            font-weight: 400;
+            text-align: left;
+            color: #c1c1c1;
+            line-height: 20px;
+            padding: 4px 22px;
+            &::after {
+              border-radius: 25px;
+            }
+          }
+          .pibr-content {
+            font-size: 24px;
+            font-family: PingFangSC, PingFangSC-Regular;
+            font-weight: 400;
+            text-align: left;
+            color: #333333;
+            line-height: 24px;
+          }
+        }
+      }
+    }
+  }
+  .peodetail-container {
     padding: 20px 0 24px;
-  .personal-btn {
-    font-size: 36px;
-    font-family: PingFangSC, PingFangSC-Semibold;
-    font-weight: 600;
-    text-align: center;
-    color: #3cd2c5;
-    line-height: 50px;
-    padding: 12px 52px;
-    background: rgba(59, 209, 196, 0.1);
-    border-radius: 8px;
-    margin: 20px auto;
-    width: 176px;
-  }
-  .personal-status {
-    font-size: 36px;
-    font-family: PingFangSC, PingFangSC-Semibold;
-    font-weight: 600;
-    text-align: center;
-    color: #3cd2c5;
-    line-height: 50px;
-  }
-  .personal-info {
-    font-size: 24px;
-    font-family: PingFangSC, PingFangSC-Regular;
-    font-weight: 400;
-    text-align: left;
-    color: #666666;
-    line-height: 34px;
-    padding: 8px 0;
-    .personal-infoL {
+    .personal-btn {
+      font-size: 36px;
+      font-family: PingFangSC, PingFangSC-Semibold;
+      font-weight: 600;
+      text-align: center;
+      color: #3cd2c5;
+      line-height: 50px;
+      padding: 12px 52px;
+      background: rgba(59, 209, 196, 0.1);
+      border-radius: 8px;
+      margin: 20px auto;
+      width: 176px;
+    }
+    .personal-status {
+      font-size: 36px;
+      font-family: PingFangSC, PingFangSC-Semibold;
+      font-weight: 600;
+      text-align: center;
+      color: #3cd2c5;
+      line-height: 50px;
+    }
+    .personal-info {
       font-size: 24px;
       font-family: PingFangSC, PingFangSC-Regular;
       font-weight: 400;
       text-align: left;
       color: #666666;
       line-height: 34px;
-      text-align: justify;
-      text-align-last: justify;
-    }
-    .personal-infoR {
-      font-size: 24px;
-      font-family: PingFangSC, PingFangSC-Regular;
-      font-weight: 400;
-      text-align: left;
-      color: #333333;
-      line-height: 34px;
+      padding: 8px 0;
+      .personal-infoL {
+        font-size: 24px;
+        font-family: PingFangSC, PingFangSC-Regular;
+        font-weight: 400;
+        text-align: left;
+        color: #666666;
+        line-height: 34px;
+        text-align: justify;
+        text-align-last: justify;
+      }
+      .personal-infoR {
+        font-size: 24px;
+        font-family: PingFangSC, PingFangSC-Regular;
+        font-weight: 400;
+        text-align: left;
+        color: #333333;
+        line-height: 34px;
+      }
     }
   }
-}
   .personal-contact {
     font-size: 24px;
     font-family: PingFangSC, PingFangSC-Regular;
@@ -71,5 +134,4 @@
       text-align: right;
     }
   }
-
 }
