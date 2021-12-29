@@ -4,6 +4,8 @@ import PageView from '@/components/personal/pageView'
 import { Personal } from '@/service/Personal'
 import inactiveIcon from '@/assets/img/inactive_Icon@3x.png'
 import activeIcon from '@/assets/img/active_Icon@3x.png'
+import { areaList } from '@vant/area-data'
+import OptionalInfo from '@/components/personalDetails/optionalInfo'
 
 import './index.less'
 
@@ -27,8 +29,12 @@ const PersonalBindPage: FC = () => {
   const [travelerList, setTravelerList] = useState([])
   const [showPopup, setShowPopup] = useState(false);
   const [subordersList, setSubordersList] = useState([])
+  const optionalInfoRef = useRef()
 
-  const [userTrave, setUserTrave] = useState('与我的关系')
+  const [state, set] = hooks.useSetState({
+    visible: false,
+    travelerCertificate: [], //出行人证件信息
+  })
 
   useEffect(() => {
     getList()
@@ -65,6 +71,36 @@ const PersonalBindPage: FC = () => {
     })
     setTravelerList(newTravelerList)
   }
+  /**
+   * 选择出行人关系
+   * @param val
+   * @param i
+   */
+
+  const onPopoverSelect = (item, i, type) => {
+    console.log('itemitem', item)
+    const newSubordersList = [...subordersList]
+    if (type == 0) {
+      newSubordersList.map((items, index) => {
+        if (i === index) {
+          items['travelerRelation'] = item['type']
+        }
+      })
+    } else if (type == 1) {
+      if (item['type'] == 0) {
+        Toast({
+          message: '紧急联系人不能选择本人',
+        })
+        return
+      }
+      newSubordersList.map((items, index) => {
+        if (i === index) {
+          items['emerTravelerRelation'] = item['type']
+        }
+      })
+    }
+    setSubordersList(newSubordersList)
+  }
 
   /**
    * 修改出行人名字
@@ -97,10 +133,78 @@ const PersonalBindPage: FC = () => {
     setSubordersList(newSubordersList)
   }
 
+  /**
+   * 修改出行人常驻地址
+   * @param val 
+   * @param i 
+   */
+
+  const changeAreaVal = (val, i) => {
+    set({ visible: false })
+  }
+
+  /**
+   * 修改紧急联系人姓名
+   * @param val 
+   * @param i 
+   */
+
+  const onEmerTravelerName = (val, i) => {
+    const newSubordersList = [...subordersList]
+    newSubordersList.map((item, index) => {
+      if (i === index) {
+        item['emerName'] = val
+      }
+    })
+    setSubordersList(newSubordersList)
+  }
+
+  /**
+ * 修改紧急联系人手机号码
+ * @param val 
+ * @param i 
+ */
+
+  const onEmerTravelerPhone = (val, i) => {
+    const newSubordersList = [...subordersList]
+    newSubordersList.map((item, index) => {
+      if (i === index) {
+        item['emerPhoneNumber'] = val
+      }
+    })
+    setSubordersList(newSubordersList)
+  }
+
   const onSubmit = () => {
+    console.log('pruneprune', prune())
     Personal.addPedestrianInfo(subordersList).then(res => {
       console.log('paramsparams', res)
     })
+  }
+  const getActionsText = (type) => {
+    const item = actions[type]
+    if (!type && type != 0) return '身份关系'
+    return item.text
+  }
+
+  /**
+   * 删除请求多余的字段和
+   */
+
+  const prune = () => {
+    const { infolist } = optionalInfoRef.current
+    const newInfolist = JSON.parse(
+      JSON.stringify(infolist, (key, value) => {
+        if (key == 'type') {
+          return undefined
+        } else if (key == 'certificateType') {
+          return value == '身份证' ? 0 : 1
+        } else {
+          return value
+        }
+      })
+    )
+    return newInfolist
   }
 
   return (
@@ -109,23 +213,23 @@ const PersonalBindPage: FC = () => {
         <NoticeBar color="#fd7d81" background="#fdefef" leftIcon="warning">
           请填写真实可用信息，用于购买机票、火车票、办理住宿等
         </NoticeBar>
-
-        <div className='bind-list'>
-          <div className='bind-itemView'>
-            {travelerList.map((item, index) => (
-              index < 3 && (
-                <div onClick={() => onSelectItem(item)} key={`index${index}`} className={`bind-item ${item['select'] && 'bind-item-select'}`}>
-                  <span className='text'>{item['travelerName']}</span>
-                </div>
-              )
-            ))}
+        {travelerList.length > 0 && (
+          <div className='bind-list'>
+            <div className='bind-itemView'>
+              {travelerList.map((item, index) => (
+                index < 3 && (
+                  <div onClick={() => onSelectItem(item)} key={`index${index}`} className={`bind-item ${item['select'] && 'bind-item-select'}`}>
+                    <span className='text'>{item['travelerName']}</span>
+                  </div>
+                )
+              ))}
+            </div>
+            <div onClick={() => setShowPopup(true)} className='bind-more'>
+              <span className='text'>更多</span>
+              <Icon name="arrow" />
+            </div>
           </div>
-
-          <div onClick={() => setShowPopup(true)} className='bind-more'>
-            <span className='text'>更多</span>
-            <Icon name="arrow" />
-          </div>
-        </div>
+        )}
 
         {subordersList.length > 0 && (
           subordersList.map((item, index) => (
@@ -154,10 +258,8 @@ const PersonalBindPage: FC = () => {
                           <Popover
                             placement="bottom-end"
                             actions={actions}
-                            onSelect={(item) => {
-                              // onPopoverSelect(item, 0)
-                            }}
-                            reference={<div className="pul-content-title">{userTrave}</div>}
+                            onSelect={(actionsItem) => { onPopoverSelect(actionsItem, index, 0) }}
+                            reference={<div className="pul-content-title">{getActionsText(item['travelerRelation'])}</div>}
                           />
                         </Flex.Item>
                       </Flex>
@@ -178,6 +280,33 @@ const PersonalBindPage: FC = () => {
                   </li>
 
                   <li className="pch-ul-li rv-hairline--bottom">
+                    <div className="pul-name">常住地</div>
+                    <div className="pul-content">
+                      <Field
+                        isLink
+                        readonly
+                        value={item['addr']}
+                        label=""
+                        placeholder="请选择出行人常住地"
+                        onClick={() => set({ visible: true })}
+                      />
+                      <Popup round visible={state.visible} position="bottom" onClose={() => set({ visible: false })}>
+                        <Area
+                          title="常住地选择"
+                          areaList={areaList}
+                          onConfirm={(result) => {
+                            changeAreaVal(result, index)
+                          }}
+                        />
+                      </Popup>
+                    </div>
+                  </li>
+                  <li className="pch-ul-li-box rv-hairline--bottom">
+                    <div className="hairline-top"></div>
+                    <OptionalInfo index={index} certificate={state.travelerCertificate} ref={optionalInfoRef} />
+                  </li>
+
+                  <li className="pch-ul-li rv-hairline--bottom">
                     <div className="pul-name">紧急联系人</div>
                     <div className="pul-content">
                       <Flex align="center">
@@ -187,9 +316,7 @@ const PersonalBindPage: FC = () => {
                             placeholder="联系人姓名"
                             // errorMessage={state.errorMessage['emerNameMsg']}
                             onChange={(val) => {
-                              // setSubmitdata({
-                              //   emerName: val,
-                              // })
+                              onEmerTravelerName(val, index)
                             }}
                           />
                         </Flex.Item>
@@ -197,8 +324,8 @@ const PersonalBindPage: FC = () => {
                           <Popover
                             placement="top-end"
                             actions={actions}
-                            // onSelect={onPopoverSelect}
-                            reference={<div className="pul-content-title">{ }</div>}
+                            onSelect={(actionsItem) => { onPopoverSelect(actionsItem, index, 1) }}
+                            reference={<div className="pul-content-title">{getActionsText(item['emerTravelerRelation'])}</div>}
                           />
                         </Flex.Item>
                       </Flex>
@@ -212,9 +339,7 @@ const PersonalBindPage: FC = () => {
                         placeholder="紧急联系人手机号"
                         // errorMessage={state.errorMessage['emerPhoneMsg']}
                         onChange={(val) => {
-                          // setSubmitdata({
-                          //   emerPhoneNumber: val,
-                          // })
+                          onEmerTravelerPhone(val, index)
                         }}
                       />
                     </div>
@@ -282,7 +407,7 @@ const PersonalBindPage: FC = () => {
           </div>
         </div>
       </Popup>
-    </PageView>
+    </PageView >
   )
 }
 export default PersonalBindPage

@@ -31,12 +31,14 @@ const OptionalInfo = (props, ref) => {
   const [infolist, setInfolist] = useState([] as any[])
   const [newKey, setNewKey] = useState(0)
 
-  const { certificate } = props
+  const { certificate, index } = props
   useEffect(() => {
+    console.log('indexindex', index)
+
     if (certificate && certificate.length > 0) {
       certificate.map((item, index) => {
         item.type = index
-        item.certificateType = item.certificateType == 0 ? '身份证' : '护照'
+        item.certificateType = item.certificateType == 1 ? '身份证' : '护照'
       })
       setInfolist([...certificate])
     } else {
@@ -128,7 +130,7 @@ const OptionalInfo = (props, ref) => {
                 <Field
                   className="oic-input"
                   onChange={(val) => onFieldChange(val, item['type'])}
-                  value={item['certificateNo']}
+                  value={item['certificateNo'] || ''}
                   placeholder="请填写正确的证件号码"
                 />
               </div>
@@ -139,7 +141,7 @@ const OptionalInfo = (props, ref) => {
                 <Field
                   isLink
                   readonly
-                  value={item['validity']}
+                  value={item['validity'] || ''}
                   onClick={() => {
                     setShowPicker(true)
                     setShowPickerId(item['type'])
