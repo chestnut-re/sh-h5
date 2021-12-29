@@ -332,6 +332,7 @@ const SubmitOrderPage: FC = () => {
               switch (payType) {
                 case 1:
                   // SHBridge.minipay(JSON.stringify(data), 1)
+                  SHBridge.minipay(JSON.stringify(returnPayInfo), priceNum)
                   break
                 case 2:
                   SHBridge.wxpay(returnPayInfo, (wxres: any) => {
