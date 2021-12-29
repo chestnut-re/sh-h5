@@ -140,7 +140,7 @@ const SubmitOrderPage: FC = () => {
       return {
         ...v,
         priceNum: personpriceNum + childpriceNum - intNum,
-        preferPrice: personPreferPriceNum + childPreferPriceNum,
+        preferPrice: (personPreferPriceNum + childPreferPriceNum)>0?(personPreferPriceNum + childPreferPriceNum):0,
       }
     })
   }, [selectTime, stepperData])
