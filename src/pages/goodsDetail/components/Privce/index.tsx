@@ -12,7 +12,7 @@ interface Props {
  */
 const Price: React.FC<Props> = ({ title, templateKey }) => {
   return (
-    <div className={`Price__root__${templateKey}`}>
+    <div className={`Price__root Price__root__${templateKey}`}>
       <img
         alt={title}
         src={

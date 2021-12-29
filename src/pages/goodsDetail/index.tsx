@@ -64,8 +64,8 @@ const GoodsDetailPage: React.FC = () => {
         <Swiper
           // ref={swipeRef}
           className="swiper"
-          direction={'vertical'}
-          // loop={true}
+          direction='vertical'
+          loop={false}
           pagination={{
             clickable: true,
           }}
@@ -75,7 +75,8 @@ const GoodsDetailPage: React.FC = () => {
         >
           <SwiperSlide>
             <GoodsDetailTemplate
-              templateKey={data?.goodsDetailStart?.pageTemplateKey}
+              // templateKey={data?.goodsDetailStart?.pageTemplateKey}
+              templateKey={'null'}
               data={data?.goodsDetailStart}
               title={data?.goodsName}
               makeOrder={_makeOrder}
@@ -86,6 +87,7 @@ const GoodsDetailPage: React.FC = () => {
               <SwiperSlide key={index}>
                 <GoodsDetailTemplate
                   templateKey={item.pageTemplateKey}
+                  // templateKey={'null'}
                   data={item}
                   title={data.goodsName}
                   makeOrder={_makeOrder}
@@ -96,6 +98,7 @@ const GoodsDetailPage: React.FC = () => {
           <SwiperSlide>
             <GoodsDetailTemplate
               templateKey={data?.goodsDetailEnd?.pageTemplateKey}
+              // templateKey={'null'}
               data={data.goodsDetailEnd}
               title={data.goodsName}
               makeOrder={_makeOrder}
