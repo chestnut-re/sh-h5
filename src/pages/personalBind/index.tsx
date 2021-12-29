@@ -105,7 +105,7 @@ const PersonalBindPage: FC = () => {
   /**
    * 修改出行人名字
    * @param val 
-   * @param i 
+   * @param i
    */
   const onTravelerName = (val, i) => {
     const newSubordersList = [...subordersList]

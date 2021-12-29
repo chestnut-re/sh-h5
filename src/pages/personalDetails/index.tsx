@@ -32,7 +32,7 @@ const actions = [
   { text: '姐妹', type: 7 },
 ]
 
-const PersonalDetailPage: FC = () => {
+const PersonalDetailPage: FC = (props: any) => {
   const [userTrave, setUserTrave] = useState('与我的关系')
   const [emerTrave, setEmerTrave] = useState('身份关系')
   const [selectProtocol, setSelectProtocol] = useState(false)
@@ -225,6 +225,13 @@ const PersonalDetailPage: FC = () => {
     setSelectProtocol(!selectProtocol)
   }
 
+  const onService = () => {
+    props.history.push('/protocol/service')
+  }
+  //再次购买处理
+
+
+
   return (
     <ConfigProvider themeVars={themeVars}>
       <div className="Personal-container">
@@ -390,7 +397,7 @@ const PersonalDetailPage: FC = () => {
         <div className="personal-protocol">
           <div onClick={onSelectProtocol} className='selectProtocol'>
             <img alt="" className="img-icon" src={selectProtocol ? activeIcon : inactiveIcon} />
-            <span className='text'>点击保存表示同意 《占位协议名称》</span>
+            <span className='text'>点击保存表示同意 <span onClick={onService} className='text-a'>《占位协议名称》</span></span>
           </div>
         </div>
         <div
