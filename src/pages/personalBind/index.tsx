@@ -5,7 +5,10 @@ import { Personal } from '@/service/Personal'
 import inactiveIcon from '@/assets/img/inactive_Icon@3x.png'
 import activeIcon from '@/assets/img/active_Icon@3x.png'
 import { areaList } from '@vant/area-data'
-import OptionalInfo from '@/components/personalDetails/optionalInfo'
+import OrderTravelerView from '@/components/orderTravelerView'
+import addIcon from '@/assets/img/add_icon@3x.png'
+import { getUrlParams } from '@/utils'
+import { SHBridge } from '@/jsbridge'
 
 import './index.less'
 
@@ -29,12 +32,18 @@ const PersonalBindPage: FC = () => {
   const [travelerList, setTravelerList] = useState([])
   const [showPopup, setShowPopup] = useState(false);
   const [subordersList, setSubordersList] = useState([])
+  const [travelerCertificateDtoList, setTravelerCertificateDtoList] = useState([])
+
+
   const optionalInfoRef = useRef()
 
   const [state, set] = hooks.useSetState({
     visible: false,
     travelerCertificate: [], //出行人证件信息
   })
+
+  const urlParams = getUrlParams(window.location.href)
+
 
   useEffect(() => {
     getList()
@@ -45,7 +54,19 @@ const PersonalBindPage: FC = () => {
    */
 
   const getOrderInfo = () => {
-    Personal.getOrder('1475748114721476609').then(res => {
+    Personal.getOrder(urlParams.id).then(res => {
+      setTravelerCertificateDtoList([
+        {
+          "certificateNo": "",
+          "certificateType": 0,
+          "createTime": "",
+          "id": 0,
+          "isDelete": 0,
+          "suborderId": res.data[0].id,
+          "updateTime": "",
+          "validity": ""
+        }
+      ])
       setSubordersList(res.data)
       console.log('resresresresres', res)
     })
@@ -176,8 +197,19 @@ const PersonalBindPage: FC = () => {
   }
 
   const onSubmit = () => {
-    console.log('pruneprune', prune())
-    Personal.addPedestrianInfo(subordersList).then(res => {
+    // console.log('pruneprune', prune())
+    const postData = {
+      suborderDtoList: [...subordersList],
+      travelerCertificateDtoList: [...travelerCertificateDtoList]
+    }
+    console.log('postDatapostData', postData)
+    Personal.addPedestrianInfo(postData).then(res => {
+      if (res['code'] == '200') {
+        SHBridge.closePage()
+        Toast({
+          message: '添加成功',
+        })
+      }
       console.log('paramsparams', res)
     })
   }
@@ -191,20 +223,23 @@ const PersonalBindPage: FC = () => {
    * 删除请求多余的字段和
    */
 
-  const prune = () => {
-    const { infolist } = optionalInfoRef.current
+  const prune = (obj) => {
     const newInfolist = JSON.parse(
-      JSON.stringify(infolist, (key, value) => {
+      JSON.stringify(obj, (key, value) => {
         if (key == 'type') {
           return undefined
         } else if (key == 'certificateType') {
-          return value == '身份证' ? 0 : 1
+          return value == '身份证' ? 1 : 2
         } else {
           return value
         }
       })
     )
     return newInfolist
+  }
+
+  const onOrderTravelerChange = (val, type) => {
+    console.log(val, type)
   }
 
   return (
@@ -303,7 +338,7 @@ const PersonalBindPage: FC = () => {
                   </li>
                   <li className="pch-ul-li-box rv-hairline--bottom">
                     <div className="hairline-top"></div>
-                    <OptionalInfo index={index} certificate={state.travelerCertificate} ref={optionalInfoRef} />
+                    <OrderTravelerView onFieldChange={onOrderTravelerChange} />
                   </li>
 
                   <li className="pch-ul-li rv-hairline--bottom">
