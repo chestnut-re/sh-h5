@@ -156,13 +156,14 @@ const ManageOrderPage: FC = () => {
   useEffect(()=>{
     SHBridge.setTitleAction(
       [
-        {
-          value:sousuo,
-          type: 'img',
-        },
+        { value: '搜索', type: 'text' },
       ],
       (index) => {
-        Toast(index.toString())
+        SHBridge.jump({
+          url: generateUrl(`/order-search`),
+          newWebView: true,
+          title: '订单搜索',
+        })
       }
     )
   })
