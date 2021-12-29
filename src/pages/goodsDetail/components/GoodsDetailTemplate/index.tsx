@@ -21,15 +21,15 @@ const GoodsDetailTemplate: React.FC<Props> = ({ data, title, templateKey, makeOr
   return (
     <div className='GoodsDetailTemplate__root'>
       {/* 背景图片 */}
-      <BgImg img={data?.TODO} />
+      <BgImg img={data?.backgroundImage} />
       {/* 标题图 */}
-      <Title title={title} templateKey={templateKey} />
+      <Title img={data?.detailTitleImage} templateKey={templateKey} />
       {/* 下单按钮图 */}
       <SubmitBtn templateKey={templateKey} img={data?.submitOrderImg} makeOrder={makeOrder} />
       {/* 标签图 */}
-      <Label title={title} templateKey={templateKey} />
+      <Label img={data?.goodsTypeTagImage} templateKey={templateKey} />
       {/* 价格图 */}
-      <Price title={title} templateKey={templateKey} />
+      <Price img={data?.priceImage} templateKey={templateKey} />
     </div>
   )
 }

@@ -7,6 +7,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import GoodsDetailTemplate from './components/GoodsDetailTemplate'
 import Panel from './components/Panel'
+import { Controller } from 'swiper'
 
 import './index.less'
 
@@ -21,6 +22,7 @@ const GoodsDetailPage: React.FC = () => {
   const [total, setTotal] = useState<any>()
   const [current, setCurrent] = useState<any>()
   const [data, setData] = useState<any>({})
+  const [controlledSwiper, setControlledSwiper] = useState<any>(null);
 
   useEffect(() => {
     const params = getUrlParams(window.location.href)
@@ -64,12 +66,14 @@ const GoodsDetailPage: React.FC = () => {
         <Swiper
           // ref={swipeRef}
           className="swiper"
-          direction='vertical'
+          direction="vertical"
           loop={false}
           pagination={{
             clickable: true,
           }}
           navigation={true}
+          modules={[Controller]}
+          controller={{ control: controlledSwiper }}
           // spaceBetween={0}
           // slidesPerView={'auto'}
         >
