@@ -1,0 +1,81 @@
+.optional-info {
+  position: relative;
+  background-color: #fff;
+  .optional-info-text {
+    color: #ababab;
+    font-style: italic;
+    font-size: 26px;
+    font-weight: 500;
+    padding: 30px 30px 0;
+  }
+  .optional-info-content {
+    position: relative;
+
+    .oic-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 25px 0;
+      margin: 0 30px;
+      .oic-item-label {
+        width: 175px;
+        font-size: 28px;
+        font-family: PingFang SC, PingFang SC-Medium;
+        font-weight: 500;
+        text-align: left;
+        color: #333;
+      }
+      .oic-item-card {
+        background: url('../../assets/img/arrow@3x.png') no-repeat 62% center;
+        background-size: 11px 19px;
+      }
+      .oic-label-c {
+        font-weight: 400;
+        text-align: left;
+        color: #666666;
+      }
+      .oic-item-content {
+        flex: 1;
+        flex-shrink: 0;
+        .oic-input {
+          width: 100%;
+        }
+      }
+    }
+    .optional-info-del {
+      position: absolute;
+      right: 29px;
+      top: 32px;
+      width: 32px;
+      height: 32px;
+      background: url('../../assets/img/del_icon@3x.png') no-repeat center;
+      background-size: 32px 32px;
+    }
+  }
+  .oic-line {
+    height: 4px;
+    background: #f3f4f4;
+  }
+  .optional-add-btn {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    line-height: 1;
+    padding: 33px 0 25px 0;
+    background-position: left 55%;
+    .optional-add-img {
+      width: 31px;
+      height: 31px;
+    }
+    .optional-add-txt {
+      font-size: 28px;
+      font-weight: 500;
+      color: #4dcfc5;
+      text-align: center;
+      margin-left: 10px;
+    }
+  }
+}

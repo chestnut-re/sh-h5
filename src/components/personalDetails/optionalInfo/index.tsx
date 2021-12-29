@@ -4,6 +4,7 @@ import {
   Popup,
   DatetimePicker,
   Field,
+  hooks
 } from 'react-vant'
 import addIcon from '@/assets/img/add_icon@3x.png'
 
@@ -24,17 +25,14 @@ const actions = [
 ]
 
 const OptionalInfo = (props, ref) => {
-  const [value2, setvalue2] = useState('')
   const [showPicker, setShowPicker] = useState(false)
   const [showPickerId, setShowPickerId] = useState()
 
   const [infolist, setInfolist] = useState([] as any[])
   const [newKey, setNewKey] = useState(0)
 
-  const { certificate, index } = props
+  const { certificate } = props
   useEffect(() => {
-    console.log('indexindex', index)
-
     if (certificate && certificate.length > 0) {
       certificate.map((item, index) => {
         item.type = index
@@ -44,6 +42,7 @@ const OptionalInfo = (props, ref) => {
     } else {
       setInfolist([infos])
     }
+
   }, [certificate])
 
   const addOptionalInfo = () => {
