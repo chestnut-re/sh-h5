@@ -107,12 +107,10 @@ const PersonalDetailPage: FC = (props: any) => {
     const errorMsg = {}
     const nameReg = /^[\u4E00-\u9FA5]{2,4}$/
     const phoneReg = /(^1[3|4|5|7|8|9]\d{9}$)|(^09\d{8}$)/
-
     const nameTxt = nameReg.test(submittal.travelerName)
     const phoneTxt = phoneReg.test(submittal.phoneNumber)
     const emerNameTxt = nameReg.test(submittal.emerName)
     const emerPhoneTxt = phoneReg.test(submittal.emerPhoneNumber)
-
     if (!nameTxt || !phoneTxt || !emerNameTxt || !emerPhoneTxt) {
       if (!nameTxt) {
         errorMsg['nameMsg'] = submittal.travelerName == '' ? '请输入姓名' : '请输入正确的证件姓名'
@@ -126,7 +124,9 @@ const PersonalDetailPage: FC = (props: any) => {
       if (!emerPhoneTxt) {
         errorMsg['emerPhoneMsg'] = submittal.emerPhoneNumber == '' ? '请输入紧急联系人手机号码' : '请输入正确的手机号'
       }
-
+      if (submittal.addr == '') {
+        errorMsg['addrMsg'] = '请输入用户常住地址'
+      }
       set({
         errorMessage: errorMsg,
       })
@@ -230,8 +230,6 @@ const PersonalDetailPage: FC = (props: any) => {
   }
   //再次购买处理
 
-
-
   return (
     <ConfigProvider themeVars={themeVars}>
       <div className="Personal-container">
@@ -250,6 +248,7 @@ const PersonalDetailPage: FC = (props: any) => {
                   <Flex align="center">
                     <Flex.Item span={14}>
                       <Field
+                        maxlength={20}
                         value={submittal.travelerName}
                         placeholder="与证件姓名一致"
                         errorMessage={state.errorMessage['nameMsg']}
@@ -281,6 +280,8 @@ const PersonalDetailPage: FC = (props: any) => {
                     value={submittal.phoneNumber}
                     placeholder="常用手机号"
                     errorMessage={state.errorMessage['phoneMsg']}
+                    maxlength={11}
+                    type='number'
                     onChange={(val) => {
                       setSubmitdata({
                         phoneNumber: val,
@@ -297,6 +298,7 @@ const PersonalDetailPage: FC = (props: any) => {
                     readonly
                     value={submittal.addr}
                     label=""
+                    errorMessage={state.errorMessage['addrMsg']}
                     placeholder="请选择出行人常住地"
                     onClick={() => set({ visible: true })}
                   />
@@ -356,6 +358,7 @@ const PersonalDetailPage: FC = (props: any) => {
                       <Field
                         value={submittal.emerName}
                         placeholder="联系人姓名"
+                        maxlength={20}
                         errorMessage={state.errorMessage['emerNameMsg']}
                         onChange={(val) => {
                           setSubmitdata({
@@ -382,6 +385,8 @@ const PersonalDetailPage: FC = (props: any) => {
                   <Field
                     value={submittal.emerPhoneNumber}
                     placeholder="紧急联系人手机号"
+                    maxlength={11}
+                    type='number'
                     errorMessage={state.errorMessage['emerPhoneMsg']}
                     onChange={(val) => {
                       setSubmitdata({
