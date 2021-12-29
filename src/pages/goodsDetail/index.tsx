@@ -27,8 +27,8 @@ const GoodsDetailPage: React.FC = () => {
     pageRef.current.id = params['id']
     pageRef.current.goodsPriceId = params['goodsPriceId']
     //TODO: test
-    pageRef.current.id = '1473837487611928576'
-    pageRef.current.goodsPriceId = '1473837487616122880'
+    pageRef.current.id = pageRef.current.id || '1473837487611928576'
+    pageRef.current.goodsPriceId = pageRef.current.goodsPriceId || '1473837487616122880'
     //end
     GoodsDetailService.get({ id: pageRef.current.id, goodsPriceId: pageRef.current.goodsPriceId }).then((res) => {
       console.log(res.data)
@@ -75,8 +75,7 @@ const GoodsDetailPage: React.FC = () => {
         >
           <SwiperSlide>
             <GoodsDetailTemplate
-              // templateKey={data?.goodsDetailStart?.pageTemplateKey}
-              templateKey={'null'}
+              templateKey={data?.goodsDetailStart?.pageTemplateKey}
               data={data?.goodsDetailStart}
               title={data?.goodsName}
               makeOrder={_makeOrder}
