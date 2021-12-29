@@ -3,11 +3,8 @@ import { SHBridge } from '@/jsbridge'
 import { GoodsDetailService } from '@/service/GoodsDetailService'
 import { generateUrl, getUrlParams } from '@/utils'
 import React, { useEffect, useRef, useState } from 'react'
-// import { Swiper } from 'react-vant'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
-
-// import type { SwiperInstance } from 'react-vant';
 import GoodsDetailTemplate from './components/GoodsDetailTemplate'
 import Panel from './components/Panel'
 
@@ -61,53 +58,8 @@ const GoodsDetailPage: React.FC = () => {
     })
   }
 
-  console.log('data?.goodsDetailStart?.pageTemplateKey', data?.goodsDetailStart?.pageTemplateKey)
-  console.log('data', data)
-
   return (
     <div className="GoodsDetailPage__root">
-      {/* <Swiper
-        ref={swipeRef}
-        vertical
-        loop={false}
-        indicator={(total, current) => {
-          setTotal(total)
-          setCurrent(current)
-          return <p></p>
-        }}
-      >
-        封面
-        <Swiper.Item>
-          <GoodsDetailTemplate
-            templateKey={data?.goodsDetailStart?.pageTemplateKey}
-            data={data?.goodsDetailStart}
-            title={data?.goodsName}
-            makeOrder={_makeOrder}
-          />
-        </Swiper.Item>
-        中间页
-        {data.goodsDetailPage?.map((item, index) => {
-          return (
-            <Swiper.Item key={index}>
-              <GoodsDetailTemplate
-                templateKey={item.pageTemplateKey}
-                data={item}
-                title={data.goodsName}
-                makeOrder={_makeOrder}
-              />
-            </Swiper.Item>
-          )
-        })}
-        封底
-        <Swiper.Item>
-          <GoodsDetailTemplate
-            templateKey={data?.goodsDetailEnd?.pageTemplateKey}
-            data={data.goodsDetailEnd}
-            title={data.goodsName}
-            makeOrder={_makeOrder}
-          />
-        </Swiper.Item>
-      </Swiper> */}
       {data.goodsDetailStart && (
         <Swiper
           // ref={swipeRef}
