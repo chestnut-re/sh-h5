@@ -93,16 +93,7 @@ const ManageOrderPage: FC = () => {
 
   const getOrderListData = async () => {
     return new Promise<any>((resolve, reject) => {
-      resolve({
-        code:"200",
-        data:{
-          records:ListData,
 
-        },
-        total:100
-      })
-
-return
       ManageOrder.list({
         state: activeState,
         size: PAGE_SIZE,
