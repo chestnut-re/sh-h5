@@ -26,6 +26,31 @@ const TabsListObj = [
   { tabName: '已完成', type: 4, id: 3, isTag: false },
   { tabName: '退款/售后', type: 5, id: 4, isTag: false },
 ]
+const ListData = [
+  {
+    id: '61ada88d4e147741543c7efd',
+    orderNo: '1235 8793 1234 9090',
+    orderTime: '2021-12-21 12:30:45',
+    goodsName: '之前就对杜伽Fusion念念不忘\n复古的外观\n手感确实不错\n这次就可以将鼠标、手绘板、键盘三个都...',
+    adultNum: 0,
+    childNum: 2,
+    payAmount: 1798,
+    orderUserId: '41543c7e',
+    orderUserName: '大头君有点困',
+    state: 1,
+  },
+  {
+    id: '71ada88d4e147741543c7efd',
+    orderNo: '1235 8793 1234 9090',
+    orderTime: '2021-12-21 12:30:45',
+    goodsName: '合肥包公园  冬游变春游（二）\n两个多小时的拍摄，整理出了两组十二张照片，等下个季节下次再去里面...',
+    adultNum: 2,
+    childNum: 2,
+    payAmount: 1998,
+    orderUserId: '41590c7e',
+    orderUserName: '既白',
+    state: 2,
+  }]
 
 const ManageOrderPage: FC = () => {
   const { search } = useLocation()
@@ -44,6 +69,16 @@ const ManageOrderPage: FC = () => {
 
   const getOrderListData = async () => {
     return new Promise<any>((resolve, reject) => {
+//       resolve({
+//         code:"200",
+//         data:{
+//           records:ListData,
+
+//         },
+//         total:100
+//       })
+
+// return
       ManageOrder.list({
         state: activeState,
         size: PAGE_SIZE,

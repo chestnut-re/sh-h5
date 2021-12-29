@@ -5,7 +5,7 @@ import GoodsCard from '@/components/orderDetail/goodsCard'
 import PreferCard from '@/components/orderDetail/preferCard'
 import IndentCard from '@/components/orderDetail/indentCard'
 import BackCard from '@/components/orderDetail/backthatCard'
-
+import { useLocation } from 'react-router-dom'
 import CompleteFooter from '@/components/submitBars/completeFooter'
 import PreviewTripCard from '@/components/orderDetail/previewTrip'
 import './index.less'
@@ -13,11 +13,26 @@ import './index.less'
 /**
  * 订单已完成入口页
  */
-const OrderDonePage: FC = (props: any) => {
+const OrderDonePage: FC = (props:any) => {
   console.log('object :>> ', props)
+  const {
+    promotionalImageUrl,
+    goodsName,
+    travelStartDate,
+    travelEndDate,
+    adultNum,
+    childNum,
+    tokenAmount,
+    discountAmount,
+    payAmount,
+    orderNo,
+    payType,
+    orderTime,
+    payTime
+  } = props
   const BarsConfig = {
     barLeftTitle: '再次购买',
-    barRightTitle: '分享给TA',
+    barRightTitle: '',
     onSelect: (type, item) => {
       switch (type) {
         case 'barLeftTitle':
@@ -36,13 +51,20 @@ const OrderDonePage: FC = (props: any) => {
   return (
     <div className="Order-container">
       <div className="order-main">
-        <ContactWcharCard />
+        {/* <ContactWcharCard /> */}
         <div className="preview_card">
-          <GoodsCard />
-          <PreferCard />
+          <GoodsCard
+            goodsName={goodsName}
+            startDate={travelStartDate}
+            endDate={travelEndDate}
+            adultNum={adultNum}
+            childNum={childNum}
+            promotionalImageUrl={promotionalImageUrl}
+          />
+          <PreferCard tokenAmount={tokenAmount} discountAmount={discountAmount} payAmount={payAmount} />
         </div>
         <PreviewTripCard />
-        <IndentCard />
+        <IndentCard orderNo={orderNo}  payType={payType} orderTime={orderTime} payTime={payTime} />
         <BackCard />
       </div>
       <CompleteFooter {...BarsConfig} />

@@ -5,6 +5,7 @@ import {
   DatetimePicker,
   Field,
 } from 'react-vant'
+import addIcon from '@/assets/img/add_icon@3x.png'
 
 import './index.less'
 /**
@@ -168,7 +169,8 @@ const OptionalInfo = (props, ref) => {
                 addOptionalInfo()
               }}
             >
-              添加证件
+              <img className='optional-add-img' src={addIcon} />
+              <div className='optional-add-txt'>添加证件</div>
             </div>
           </div>
           <div className="oic-line"></div>

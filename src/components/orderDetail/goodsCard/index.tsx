@@ -11,11 +11,10 @@ interface GoodsType {
   endDate:string;
   adultNum:string;
   childNum:string;
-  isSubmitOrder:boolean;
 }
 
 const GoodsCard: FC<GoodsType> = (props) => {
-  const {promotionalImageUrl,goodsName,startDate,endDate,adultNum,childNum,isSubmitOrder=false} = props;
+  const {promotionalImageUrl,goodsName,startDate,endDate,adultNum,childNum} = props;
  
   return (
     <div className="goods-content">
@@ -25,10 +24,10 @@ const GoodsCard: FC<GoodsType> = (props) => {
       <div className="goods-r">
         <div className="goods-rT_name rv-multi-ellipsis--l2">{goodsName}</div>
         {startDate&&endDate?(<div className="goods-rC_name goods-rS">{startDate} 出发 {endDate} 返程</div>):null}
-        {!isSubmitOrder?<div className="goods-rB_name goods-rS">
+        <div className="goods-rB_name goods-rS">
           <span>成人X{adultNum}</span>
           <span>儿童X{childNum}</span>
-        </div>:null}
+        </div>
       </div>
     </div>
   )

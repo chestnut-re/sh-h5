@@ -6,6 +6,7 @@ import inactiveIcon from '@/assets/img/inactiveIcon@3x.png'
 import OptionalInfo from '@/components/personalDetails/optionalInfo'
 import { Personal } from '@/service/Personal'
 import { getUrlParams } from '@/utils'
+import { SHBridge } from '@/jsbridge'
 
 import './index.less'
 /**
@@ -34,6 +35,7 @@ const actions = [
 const PersonalDetailPage: FC = () => {
   const [userTrave, setUserTrave] = useState('与我的关系')
   const [emerTrave, setEmerTrave] = useState('身份关系')
+  const [selectProtocol, setSelectProtocol] = useState(false)
   const [submittal, setSubmitdata] = hooks.useSetState({
     userTravelerRelation: '', //登录用户与出行人关系
     travelerName: '', //出行人姓名
@@ -124,6 +126,7 @@ const PersonalDetailPage: FC = () => {
       if (!emerPhoneTxt) {
         errorMsg['emerPhoneMsg'] = submittal.emerPhoneNumber == '' ? '请输入紧急联系人手机号码' : '请输入正确的手机号'
       }
+
       set({
         errorMessage: errorMsg,
       })
@@ -144,7 +147,14 @@ const PersonalDetailPage: FC = () => {
   }
 
   const onSubmit = useCallback(() => {
+
     if (rules()) {
+      if (!selectProtocol) {
+        Toast({
+          message: '请勾选用户协议',
+        })
+        return
+      }
       set({ subBtnDisabled: true })
       submittal.travelerCertificate = prune()
       if (urlParams.id) {
@@ -153,7 +163,7 @@ const PersonalDetailPage: FC = () => {
         add()
       }
     }
-  }, [submittal, state.errorMessage])
+  }, [submittal, state.errorMessage, selectProtocol])
 
   /**
    * 新增出行人
@@ -163,8 +173,13 @@ const PersonalDetailPage: FC = () => {
     Personal.add(submittal).then((res) => {
       set({ subBtnDisabled: false })
       if (res['code'] == '200') {
+        SHBridge.closePage()
         Toast({
           message: '添加成功',
+        })
+      } else {
+        Toast({
+          message: '添加失败',
         })
       }
     })
@@ -206,6 +221,10 @@ const PersonalDetailPage: FC = () => {
     return newInfolist
   }
 
+  const onSelectProtocol = () => {
+    setSelectProtocol(!selectProtocol)
+  }
+
   return (
     <ConfigProvider themeVars={themeVars}>
       <div className="Personal-container">
@@ -214,6 +233,7 @@ const PersonalDetailPage: FC = () => {
             请填写真实可用信息，用于购买机票、火车票、办理住宿等
           </NoticeBar>
         </div>
+
         <div className="personal-content">
           <div className="personal-content-header">
             <ul className="pch-ul">
@@ -367,7 +387,12 @@ const PersonalDetailPage: FC = () => {
             </ul>
           </div>
         </div>
-        <div className="personal-protocol">点击保存表示同意 《占位协议名称》</div>
+        <div className="personal-protocol">
+          <div onClick={onSelectProtocol} className='selectProtocol'>
+            <img alt="" className="img-icon" src={selectProtocol ? activeIcon : inactiveIcon} />
+            <span className='text'>点击保存表示同意 《占位协议名称》</span>
+          </div>
+        </div>
         <div
           onClick={() => {
             !state.subBtnDisabled && onSubmit()

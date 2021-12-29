@@ -8,7 +8,7 @@ import './index.less'
  */
 
 const PreferCard:FC = (props) => {
-  
+  const {tokenAmount,discountAmount,payAmount} = props;
   return (
     <div className="Prefer-content">
       <div className="info-integral rv-hairline--bottom">
@@ -17,7 +17,7 @@ const PreferCard:FC = (props) => {
           <span>积分</span>
         </div>
         <div className="integral-instruction">
-          使用¥340<span>-¥340</span>
+          使用¥{tokenAmount}<span>-¥{tokenAmount}</span>
         </div>
       </div>
 
@@ -27,7 +27,8 @@ const PreferCard:FC = (props) => {
         </div>
         <div className="discounts-instruction">
           <div className="instruction-l">
-            已优惠<span>¥200</span>
+            已优惠<span>¥{discountAmount}</span>&nbsp;
+            共计<span>¥{payAmount}</span>
           </div>
         </div>
       </div>
