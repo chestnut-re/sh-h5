@@ -3,13 +3,14 @@ import { PageTemplateKey } from '../../utils'
 import './index.less'
 
 interface Props {
-  title: string
+  img: string
   templateKey: PageTemplateKey
 }
 
 /**
  * 标 签
  */
+<<<<<<< HEAD
 const Label: React.FC<Props> = ({ templateKey, title }) => {
   return (
     <div className={`Label__root__${templateKey}`}>
@@ -21,6 +22,10 @@ const Label: React.FC<Props> = ({ templateKey, title }) => {
       />
     </div>
   )
+=======
+const Label: React.FC<Props> = ({ templateKey, img }) => {
+  return <div className={`Label__root Label__root__${templateKey}`}>{img && <img src={img} />}</div>
+>>>>>>> 8d6a1e31f357cd43014080966b6d1503d94c0185
 }
 
 export default Label

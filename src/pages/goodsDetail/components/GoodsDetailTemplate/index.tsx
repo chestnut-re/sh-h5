@@ -6,6 +6,7 @@ import SubmitBtn from '../SubmitBtn'
 import Title from '../Title'
 import Label from '../Label'
 import './index.less'
+import GSwiper from '../GSwiper'
 
 interface Props {
   templateKey: PageTemplateKey
@@ -18,19 +19,20 @@ interface Props {
  * 商品详情页模版
  */
 const GoodsDetailTemplate: React.FC<Props> = ({ data, title, templateKey, makeOrder }) => {
-  console.log('GoodsDetailTemplate', templateKey)
   return (
-    <div className='GoodsDetailTemplate__root'>
+    <div className="GoodsDetailTemplate__root">
       {/* 背景图片 */}
-      <BgImg img={data?.TODO} />
+      <BgImg img={data?.backgroundImage} />
       {/* 标题图 */}
-      <Title title={title} templateKey={templateKey} />
+      <Title img={data?.detailTitleImage} templateKey={templateKey} />
       {/* 下单按钮图 */}
-      <SubmitBtn templateKey={templateKey} img={data?.submitOrderImg} makeOrder={makeOrder} />
+      <SubmitBtn templateKey={templateKey} img={data?.submitOrderImage} makeOrder={makeOrder} />
       {/* 标签图 */}
-      <Label title={title} templateKey={templateKey} />
+      <Label img={data?.goodsTypeTagImage} templateKey={templateKey} />
       {/* 价格图 */}
-      <Price title={title} templateKey={templateKey} />
+      <Price img={data?.priceImage} templateKey={templateKey} />
+      {/* 轮播图 */}
+      <GSwiper imgs={data?.contentImages} templateKey={templateKey} />
     </div>
   )
 }

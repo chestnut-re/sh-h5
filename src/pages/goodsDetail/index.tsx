@@ -3,13 +3,13 @@ import { SHBridge } from '@/jsbridge'
 import { GoodsDetailService } from '@/service/GoodsDetailService'
 import { generateUrl, getUrlParams } from '@/utils'
 import React, { useEffect, useRef, useState } from 'react'
-// import { Swiper } from 'react-vant'
 import { Swiper, SwiperSlide } from 'swiper/react'
+import { Navigation } from 'swiper'
 import 'swiper/css'
-
-// import type { SwiperInstance } from 'react-vant';
+import 'swiper/css/navigation'
 import GoodsDetailTemplate from './components/GoodsDetailTemplate'
 import Panel from './components/Panel'
+import { Controller } from 'swiper'
 
 import './index.less'
 
@@ -20,18 +20,19 @@ import './index.less'
  */
 const GoodsDetailPage: React.FC = () => {
   const pageRef = useRef<any>({})
-  const swipeRef = useRef<any>({})
+  const swipeRef = useRef<any>()
   const [total, setTotal] = useState<any>()
   const [current, setCurrent] = useState<any>()
   const [data, setData] = useState<any>({})
+  const [controlledSwiper, setControlledSwiper] = useState<any>(null)
 
   useEffect(() => {
     const params = getUrlParams(window.location.href)
     pageRef.current.id = params['id']
     pageRef.current.goodsPriceId = params['goodsPriceId']
     //TODO: test
-    pageRef.current.id = '1473837487611928576'
-    pageRef.current.goodsPriceId = '1473837487616122880'
+    pageRef.current.id = pageRef.current.id || '1473837487611928576'
+    pageRef.current.goodsPriceId = pageRef.current.goodsPriceId || '1473837487616122880'
     //end
     GoodsDetailService.get({ id: pageRef.current.id, goodsPriceId: pageRef.current.goodsPriceId }).then((res) => {
       console.log(res.data)
@@ -61,65 +62,22 @@ const GoodsDetailPage: React.FC = () => {
     })
   }
 
-  console.log('data?.goodsDetailStart?.pageTemplateKey', data?.goodsDetailStart?.pageTemplateKey)
-  console.log('data', data)
-
   return (
     <div className="GoodsDetailPage__root">
-      {/* <Swiper
-        ref={swipeRef}
-        vertical
-        loop={false}
-        indicator={(total, current) => {
-          setTotal(total)
-          setCurrent(current)
-          return <p></p>
-        }}
-      >
-        封面
-        <Swiper.Item>
-          <GoodsDetailTemplate
-            templateKey={data?.goodsDetailStart?.pageTemplateKey}
-            data={data?.goodsDetailStart}
-            title={data?.goodsName}
-            makeOrder={_makeOrder}
-          />
-        </Swiper.Item>
-        中间页
-        {data.goodsDetailPage?.map((item, index) => {
-          return (
-            <Swiper.Item key={index}>
-              <GoodsDetailTemplate
-                templateKey={item.pageTemplateKey}
-                data={item}
-                title={data.goodsName}
-                makeOrder={_makeOrder}
-              />
-            </Swiper.Item>
-          )
-        })}
-        封底
-        <Swiper.Item>
-          <GoodsDetailTemplate
-            templateKey={data?.goodsDetailEnd?.pageTemplateKey}
-            data={data.goodsDetailEnd}
-            title={data.goodsName}
-            makeOrder={_makeOrder}
-          />
-        </Swiper.Item>
-      </Swiper> */}
-      {data.goodsDetailStart && (
+      {data?.goodsDetailStart && (
         <Swiper
-          // ref={swipeRef}
           className="swiper"
-          direction={'vertical'}
-          // loop={true}
+          direction="vertical"
+          loop={false}
           pagination={{
             clickable: true,
           }}
-          navigation={true}
-          // spaceBetween={0}
-          // slidesPerView={'auto'}
+          navigation={{
+            nextEl: '.swiper-button-next2',
+            prevEl: '.swiper-button-prev2',
+          }}
+          modules={[Controller, Navigation]}
+          controller={{ control: controlledSwiper }}
         >
           <SwiperSlide>
             <GoodsDetailTemplate
@@ -134,6 +92,7 @@ const GoodsDetailPage: React.FC = () => {
               <SwiperSlide key={index}>
                 <GoodsDetailTemplate
                   templateKey={item.pageTemplateKey}
+                  // templateKey={'null'}
                   data={item}
                   title={data.goodsName}
                   makeOrder={_makeOrder}
@@ -144,6 +103,7 @@ const GoodsDetailPage: React.FC = () => {
           <SwiperSlide>
             <GoodsDetailTemplate
               templateKey={data?.goodsDetailEnd?.pageTemplateKey}
+              // templateKey={'null'}
               data={data.goodsDetailEnd}
               title={data.goodsName}
               makeOrder={_makeOrder}
@@ -152,7 +112,7 @@ const GoodsDetailPage: React.FC = () => {
         </Swiper>
       )}
 
-      <Panel swipe={swipeRef} total={total} current={current} />
+      <Panel swipe={controlledSwiper} total={total} current={current} />
       {/* <div className="nav">
         <MyNavBar
           fixed

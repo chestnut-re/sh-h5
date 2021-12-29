@@ -5,6 +5,8 @@ import { useLocation } from 'react-router-dom'
 import qs from 'query-string'
 import clsx from 'clsx'
 import { Image, Empty, Toast, List } from 'react-vant'
+import { SHBridge } from '@/jsbridge'
+import { generateUrl } from '@/utils'
 import './index.less'
 
 /**
@@ -90,7 +92,6 @@ const GroupShopPage: FC = () => {
     })
   }
   const onLoadGoodsList = async () => {
-    console.log('object :>> jiazai<<<<<<')
     const {
       data: { records },
     }: any = await getGoodsList()
@@ -98,6 +99,17 @@ const GroupShopPage: FC = () => {
     if (PAGE_SIZE > records.length) {
       setFinished(true)
     }
+  }
+
+  //打开小店商品详情
+  const openDoodsDetailLink = (item)=>{
+    const {id , goodsPriceId} = item;
+    console.log('item :>> ', item);
+    SHBridge.jump({
+      url: generateUrl(`/goods-detail?id=${id}&goodsPriceId=${goodsPriceId}`),
+      newWebView: true,
+      title: '商品详情',
+    })
   }
 
   useEffect(() => {
@@ -144,7 +156,9 @@ const GroupShopPage: FC = () => {
               <ul className="smallshop-main-ul">
                 {goodsList.map((item, index) => {
                   return (
-                    <li className="smallshop-main-li" key={index}>
+                    <li className="smallshop-main-li" key={index} onClick={()=>{
+                      openDoodsDetailLink(item)
+                    }}>
                       <GoodsPreview {...item} />
                     </li>
                   )
