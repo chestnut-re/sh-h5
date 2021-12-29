@@ -213,7 +213,7 @@ const PersonalBindPage: FC = () => {
         <NoticeBar color="#fd7d81" background="#fdefef" leftIcon="warning">
           请填写真实可用信息，用于购买机票、火车票、办理住宿等
         </NoticeBar>
-        {travelerList.length > 0 && (
+        {travelerList && travelerList.length > 0 && (
           <div className='bind-list'>
             <div className='bind-itemView'>
               {travelerList.map((item, index) => (
@@ -231,7 +231,7 @@ const PersonalBindPage: FC = () => {
           </div>
         )}
 
-        {subordersList.length > 0 && (
+        {subordersList && subordersList.length > 0 && (
           subordersList.map((item, index) => (
             <div key={`index${index}`} className="personal-content">
               <div className="personal-content-header">
