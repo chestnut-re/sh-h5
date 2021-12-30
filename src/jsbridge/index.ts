@@ -82,10 +82,10 @@ export class SHBridge {
    * @newWebView 是否开启新页面，在 App 中有效
    * @replace 是否替换当前页面
    */
-  static jump({ url, title, newWebView = false, replace = false }: JumpParams): void {
+  static jump({ url, title, newWebView = false, replace = false, needLogin = true }: JumpParams): void {
     if (newWebView) {
       if (isApp()) {
-        AppBridge.jump({ url, title, newWebView, replace })
+        AppBridge.jump({ url, title, newWebView, replace, needLogin })
         return
       }
     }

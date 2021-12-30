@@ -87,7 +87,7 @@ export class AppBridge {
    * @newWebView 是否开启新页面，在 App 中有效
    * @replace 是否替换当前页面
    */
-  static jump({ url, title, newWebView = false, replace = false }: JumpParams): void {
+  static jump({ url, title, newWebView = false, replace = false, needLogin = false }: JumpParams): void {
     const msg = {
       method: 'jump',
       data: {
@@ -95,6 +95,7 @@ export class AppBridge {
         title: title,
         newWebView: newWebView,
         replace: replace,
+        needLogin: needLogin,
       },
     }
     SHApp.postMessage(JSON.stringify(msg))
