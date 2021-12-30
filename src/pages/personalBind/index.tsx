@@ -1,5 +1,5 @@
 import React, { useState, FC, useRef, useEffect, useCallback } from 'react'
-import { hooks, NoticeBar, Icon, Button, Radio, Flex, Toast, Popup, Area, Field, Popover, ConfigProvider } from 'react-vant'
+import { hooks, NoticeBar, Icon, Button, Radio, Flex, Toast, Popup, Area, Field, Popover, DatetimePicker } from 'react-vant'
 import PageView from '@/components/personal/pageView'
 import { Personal } from '@/service/Personal'
 import inactiveIcon from '@/assets/img/inactive_Icon@3x.png'
@@ -27,13 +27,25 @@ const actions = [
   { text: '姐妹', type: 7 },
 ]
 
+const actionsCertificate = [
+  { text: '身份证', disabled: false },
+  { text: '护照', disabled: false },
+]
 
 const PersonalBindPage: FC = () => {
+  const [showPicker, setShowPicker] = useState(false)
+  const [showPickerId, setShowPickerId] = useState()
+
   const [travelerList, setTravelerList] = useState([])
   const [showPopup, setShowPopup] = useState(false);
   const [subordersList, setSubordersList] = useState([])
   const [travelerCertificateDtoList, setTravelerCertificateDtoList] = useState([])
+  const [newKey, setNewKey] = useState(1)
 
+  const [timeIndex, setTimeIndex] = useState(0)
+  const [addrIndex, setAddrIndex] = useState(0)
+
+  const fieldRef = useRef();
 
   const optionalInfoRef = useRef()
 
@@ -55,18 +67,24 @@ const PersonalBindPage: FC = () => {
 
   const getOrderInfo = () => {
     Personal.getOrder(urlParams.id).then(res => {
-      setTravelerCertificateDtoList([
-        {
-          "certificateNo": "",
-          "certificateType": 0,
-          "createTime": "",
-          "id": 0,
-          "isDelete": 0,
-          "suborderId": res.data[0].id,
-          "updateTime": "",
-          "validity": ""
-        }
-      ])
+      const travelerArr = []
+      res.data.map((item) => {
+        item['addr'] = ''
+        travelerArr.push([
+          {
+            "certificateNo": "",
+            "certificateType": 1,
+            "createTime": "",
+            "id": item.id,
+            "isDelete": 0,
+            "suborderId": 0,
+            "updateTime": "",
+            "validity": "",
+            'type': 1
+          }
+        ])
+      })
+      setTravelerCertificateDtoList(travelerArr)
       setSubordersList(res.data)
       console.log('resresresresres', res)
     })
@@ -77,6 +95,7 @@ const PersonalBindPage: FC = () => {
   const getList = () => {
     Personal.list().then(res => {
       const { data } = res
+      if (!data) return
       data.map(item => {
         item.select = false
       })
@@ -155,16 +174,6 @@ const PersonalBindPage: FC = () => {
   }
 
   /**
-   * 修改出行人常驻地址
-   * @param val 
-   * @param i 
-   */
-
-  const changeAreaVal = (val, i) => {
-    set({ visible: false })
-  }
-
-  /**
    * 修改紧急联系人姓名
    * @param val 
    * @param i 
@@ -181,10 +190,10 @@ const PersonalBindPage: FC = () => {
   }
 
   /**
- * 修改紧急联系人手机号码
- * @param val 
- * @param i 
- */
+   * 修改紧急联系人手机号码
+   * @param val 
+   * @param i 
+   */
 
   const onEmerTravelerPhone = (val, i) => {
     const newSubordersList = [...subordersList]
@@ -198,9 +207,17 @@ const PersonalBindPage: FC = () => {
 
   const onSubmit = () => {
     // console.log('pruneprune', prune())
+    const certificate = []
+    travelerCertificateDtoList.map((item, i) => {
+      item.map((itemj, j) => {
+        if (itemj.certificateNo != '') {
+          certificate.push(itemj)
+        }
+      })
+    })
     const postData = {
       suborderDtoList: [...subordersList],
-      travelerCertificateDtoList: [...travelerCertificateDtoList]
+      travelerCertificateDtoList: [...certificate]
     }
     console.log('postDatapostData', postData)
     Personal.addPedestrianInfo(postData).then(res => {
@@ -218,28 +235,112 @@ const PersonalBindPage: FC = () => {
     if (!type && type != 0) return '身份关系'
     return item.text
   }
-
   /**
-   * 删除请求多余的字段和
+   * 添加多个证件信息
+   * @param val 
+   * @param type 
    */
 
-  const prune = (obj) => {
-    const newInfolist = JSON.parse(
-      JSON.stringify(obj, (key, value) => {
-        if (key == 'type') {
-          return undefined
-        } else if (key == 'certificateType') {
-          return value == '身份证' ? 1 : 2
-        } else {
-          return value
-        }
-      })
-    )
-    return newInfolist
+  const addOptionalInfo = (index) => {
+    setNewKey(newKey + 1)
+    const activeKey = `new${newKey}`
+    const newObj = [...travelerCertificateDtoList]
+    newObj[index].push({
+      "certificateNo": "",
+      "certificateType": 1,
+      "createTime": "",
+      "id": subordersList[index].id,
+      "isDelete": 0,
+      "suborderId": '1',
+      "updateTime": "",
+      "validity": "",
+      'type': activeKey
+    })
+    setTravelerCertificateDtoList(newObj)
   }
 
-  const onOrderTravelerChange = (val, type) => {
-    console.log(val, type)
+  const onSelect = (value, type, index) => {
+    const newObj = [...travelerCertificateDtoList]
+
+    newObj[index].map((item, i) => {
+      if (item.type == type) {
+        item['certificateType'] = value.text == '身份证' ? 1 : 2
+      }
+    })
+    setTravelerCertificateDtoList(newObj)
+  }
+  /**
+   * 证件过期时间
+   */
+  const onTimeChange = (val) => {
+    const d = new Date(val)
+    const datetime =
+      d.getFullYear() +
+      '-' +
+      (d.getMonth() + 1) +
+      '-' +
+      d.getDate() +
+      ' ' +
+      d.getHours() +
+      ':' +
+      d.getMinutes() +
+      ':' +
+      d.getSeconds()
+    const newObj = [...travelerCertificateDtoList]
+
+    newObj[timeIndex].map((item, i) => {
+      if (item['type'] === showPickerId) {
+        item['validity'] = datetime
+      }
+    })
+    setTravelerCertificateDtoList(newObj)
+  }
+  /**
+   * 证件号码
+   */
+  const onFieldChange = (value, type, index) => {
+
+    const newObj = [...travelerCertificateDtoList]
+
+    newObj[index].map((item, i) => {
+      if (item.type == type) {
+        item['certificateNo'] = value
+      }
+    })
+    console.log('newObj', newObj, type)
+    setTravelerCertificateDtoList(newObj)
+  }
+
+
+
+  /**
+   * 
+   */
+  const changeAddrVal = (val) => {
+    const newSubordersList = [...subordersList]
+    const res = val
+      .map((obj) => {
+        return obj.name
+      })
+      .join('')
+    newSubordersList.map((item, index) => {
+      if (addrIndex === index) {
+        item['addr'] = res
+      }
+    })
+    setSubordersList(newSubordersList)
+    set({ visible: false })
+  }
+
+  const deleteHandelOptional = (i, j) => {
+    const list = travelerCertificateDtoList[i]
+
+    const newInfolist = list.filter((item, index) => {
+      return index != j
+    })
+
+    travelerCertificateDtoList.splice(i, 1, newInfolist)
+    setTravelerCertificateDtoList([...travelerCertificateDtoList])
   }
 
   return (
@@ -320,25 +421,90 @@ const PersonalBindPage: FC = () => {
                       <Field
                         isLink
                         readonly
-                        value={item['addr']}
+                        value={item.addr}
                         label=""
+                        // errorMessage={state.errorMessage['addrMsg']}
                         placeholder="请选择出行人常住地"
-                        onClick={() => set({ visible: true })}
+                        onClick={() => {
+                          setAddrIndex(index)
+                          set({ visible: true })
+                        }}
                       />
-                      <Popup round visible={state.visible} position="bottom" onClose={() => set({ visible: false })}>
-                        <Area
-                          title="常住地选择"
-                          areaList={areaList}
-                          onConfirm={(result) => {
-                            changeAreaVal(result, index)
-                          }}
-                        />
-                      </Popup>
                     </div>
                   </li>
                   <li className="pch-ul-li-box rv-hairline--bottom">
                     <div className="hairline-top"></div>
-                    <OrderTravelerView onFieldChange={onOrderTravelerChange} />
+                    <div className="optional-info">
+                      <div onClick={addOptionalInfo} className="optional-info-text">儿童选填</div>
+                      {travelerCertificateDtoList[index].map((travelerItem, travelerIndex) => {
+                        return (
+                          <div key={travelerIndex} className="optional-info-content">
+                            <div className="oic-item rv-hairline--bottom">
+                              <div className="oic-item-label oic-item-card">
+                                <Popover
+                                  onSelect={(vals) => onSelect(vals, travelerItem.type, index)}
+                                  actions={actionsCertificate}
+                                  placement="bottom-start"
+                                  reference={<span>{travelerItem['certificateType'] == 1 ? '身份证' : '护照'}</span>}
+                                />
+                              </div>
+                              <div className="oic-item-content">
+                                <Field
+                                  className="oic-input"
+                                  onChange={(val) => onFieldChange(val, travelerItem['type'], index)}
+                                  value={travelerItem['certificateNo'] || ''}
+                                  placeholder="请填写正确的证件号码"
+                                />
+                              </div>
+                            </div>
+                            <div className="oic-item rv-hairline--bottom">
+                              <div className="oic-item-label oic-label-c">有效期至</div>
+                              <div className="oic-item-content">
+                                <Field
+                                  isLink
+                                  readonly
+                                  value={travelerItem['validity'] || ''}
+                                  onClick={() => {
+                                    setTimeIndex(index)
+                                    setShowPicker(true)
+                                    setShowPickerId(travelerItem['type'])
+                                  }}
+                                  placeholder="请选择"
+                                />
+                              </div>
+                            </div>
+                            {travelerCertificateDtoList[index].length > 1 && (
+                              <div
+                                className="optional-info-del"
+                                onClick={() => {
+                                  deleteHandelOptional(index, travelerIndex)
+                                }}
+                              ></div>
+                            )}
+                            {travelerCertificateDtoList[index].length > 1 && <div className="oic-line"></div>}
+                          </div>
+                        )
+                      })}
+                      {travelerCertificateDtoList[index].length <= 1 && (
+                        <div>
+                          <div className="optional-add  rv-hairline--top">
+                            <div
+                              className="optional-add-btn"
+                              onClick={() => {
+                                addOptionalInfo(index)
+                              }}
+                            >
+                              <img className='optional-add-img' src={addIcon} />
+                              <div className='optional-add-txt'>添加证件</div>
+                            </div>
+                          </div>
+                          <div className="oic-line"></div>
+                        </div>
+                      )}
+
+
+                    </div>
+                    {/* <OrderTravelerView onFieldChange={onOrderTravelerChange} /> */}
                   </li>
 
                   <li className="pch-ul-li rv-hairline--bottom">
@@ -395,6 +561,27 @@ const PersonalBindPage: FC = () => {
           </div>
         </div>
       </div>
+      <Popup round visible={state.visible} position="bottom" onClose={() => set({ visible: false })}>
+        <Area
+          title="常住地选择"
+          areaList={areaList}
+          onConfirm={(result) => {
+            changeAddrVal(result)
+          }}
+        />
+      </Popup>
+      <Popup visible={showPicker} round position="bottom" onClose={() => setShowPicker(false)}>
+        <DatetimePicker
+          onConfirm={(value) => {
+            onTimeChange(value)
+            setShowPicker(false)
+          }}
+          type="date"
+          minDate={new Date(2021, 11, 21)}
+          maxDate={new Date(2221, 1, 1)}
+          value={new Date()}
+        />
+      </Popup>
       <Popup
         visible={showPopup}
         closeable

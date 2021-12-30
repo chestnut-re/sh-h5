@@ -21,11 +21,18 @@ const infos = {
   certificateType: '身份证',
 }
 
+const actions = [
+  { text: '身份证', disabled: false },
+  { text: '护照', disabled: false },
+]
+
 const OrderTravelerView: FC<Props> = (props) => {
   const [infolist, setInfolist] = useState([] as any[])
   useEffect(() => {
     setInfolist([infos])
   }, [])
+  const [newKey, setNewKey] = useState(0)
+
 
   const { onFieldChange } = props;
 
@@ -37,12 +44,26 @@ const OrderTravelerView: FC<Props> = (props) => {
         item['certificateNo'] = value
       }
     })
-    onFieldChange(value, '1')
+    onFieldChange(newInfolist)
+    setInfolist(newInfolist)
+  }
+
+  const onSelect = (value, type) => {
+    const newInfolist = [...infolist]
+
+    newInfolist.map((item, i) => {
+      if (item['type'] === type) {
+        item['certificateType'] = value.text
+      }
+    })
     setInfolist(newInfolist)
   }
 
   const addOptionalInfo = () => {
-    console.log('123')
+    setNewKey(newKey + 1)
+    const activeKey = `new${newKey}`
+    infolist.push({ type: activeKey, certificateNo: '', certificateType: '身份证' })
+    setInfolist(infolist)
   }
 
   return (
@@ -53,8 +74,8 @@ const OrderTravelerView: FC<Props> = (props) => {
           <div className="oic-item rv-hairline--bottom">
             <div className="oic-item-label oic-item-card">
               <Popover
-                // onSelect={(vals) => onSelect(vals, item['type'])}
-                // actions={actions}
+                onSelect={(vals) => onSelect(vals, item['type'])}
+                actions={actions}
                 placement="bottom-start"
                 reference={<span>{item['certificateType']}</span>}
               />

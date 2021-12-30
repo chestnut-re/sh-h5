@@ -1,5 +1,5 @@
 import React, { useState, FC, useRef, useEffect, useCallback } from 'react'
-import { hooks, NoticeBar, Form, Radio, Flex, Toast, Popup, Area, Field, Popover, ConfigProvider } from 'react-vant'
+import { hooks, NoticeBar, Form, Radio, Flex, Toast, Popup, Area, Field, Popover, ConfigProvider, DatetimePicker } from 'react-vant'
 import { areaList } from '@vant/area-data'
 import activeIcon from '@/assets/img/activeIcon@3x.png'
 import inactiveIcon from '@/assets/img/inactiveIcon@3x.png'
@@ -347,6 +347,7 @@ const PersonalDetailPage: FC = (props: any) => {
 
               <li className="pch-ul-li-box rv-hairline--bottom">
                 <div className="hairline-top"></div>
+
                 <OptionalInfo certificate={submittal.travelerCertificate} ref={optionalInfoRef} />
               </li>
 
