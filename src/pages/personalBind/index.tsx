@@ -45,9 +45,7 @@ const PersonalBindPage: FC = () => {
   const [timeIndex, setTimeIndex] = useState(0)
   const [addrIndex, setAddrIndex] = useState(0)
 
-  const fieldRef = useRef();
-
-  const optionalInfoRef = useRef()
+  const [selectedTraveler, setSelectedTraveler] = useState([])
 
   const [state, set] = hooks.useSetState({
     visible: false,
@@ -62,31 +60,34 @@ const PersonalBindPage: FC = () => {
     getOrderInfo()
   }, [])
   /**
+   * 初始化提交证件信息字段
+   * @param id
+   */
+  const initialTravelerInfo = (id: any, type = '1') => {
+    const travelerObj = {
+      certificateNo: "",
+      certificateType: 1,
+      createTime: "",
+      id: '',
+      isDelete: 0,
+      suborderId: id,
+      updateTime: "",
+      validity: "",
+      type: type
+    }
+    return travelerObj
+  }
+  /**
    * 获取订单信息
    */
-
   const getOrderInfo = () => {
     Personal.getOrder(urlParams.id).then(res => {
       const travelerArr = []
       res.data.map((item) => {
-        item['addr'] = ''
-        travelerArr.push([
-          {
-            "certificateNo": "",
-            "certificateType": 1,
-            "createTime": "",
-            "id": item.id,
-            "isDelete": 0,
-            "suborderId": 0,
-            "updateTime": "",
-            "validity": "",
-            'type': 1
-          }
-        ])
+        travelerArr.push([initialTravelerInfo(item.id)])
       })
       setTravelerCertificateDtoList(travelerArr)
       setSubordersList(res.data)
-      console.log('resresresresres', res)
     })
   }
   /**
@@ -102,15 +103,51 @@ const PersonalBindPage: FC = () => {
       setTravelerList(data)
     })
   }
+  /**
+   * 选择出行人模板
+   * @param obj 
+   */
   const onSelectItem = (obj) => {
-    const newTravelerList = [...travelerList]
-    newTravelerList.map(item => {
-      if (obj.travelerId == item['travelerId']) {
-        item['select'] = !item['select']
+    const newSelectedTraveler = [...selectedTraveler]
+    const newSubordersList = [...subordersList]
+    const fillingArr = []
+    newSubordersList.map((item, i) => {
+      if (!item['travelerName']) {
+        fillingArr.push({ index: i })
       }
     })
-    setTravelerList(newTravelerList)
+
+    if (newSelectedTraveler.length < fillingArr.length) {
+      const newTravelerList = [...travelerList]
+      newTravelerList.map(item => {
+        if (obj.travelerId == item['travelerId']) {
+          item['select'] = !item['select']
+        }
+      })
+
+      for (let i = 0; i < newSubordersList.length; i++) {
+        if (!newSubordersList[i].travelerName && !newSubordersList[i].selectedTraveler) {
+          newSubordersList[i].selectedTraveler = true
+          newSubordersList[i].travelerName = obj.travelerName
+          newSubordersList[i].travelerPhoneNumber = obj.phoneNumber
+          travelerCertificateDtoList[i] = obj.travelerCertificate
+          console.log('travelerCertificateDtoList', travelerCertificateDtoList)
+          setSubordersList(newSubordersList)
+          break;
+        }
+      }
+      // travelerCertificateDtoList.splice(i, 1, [initialTravelerInfo(subordersList[i].id)]);
+
+      newSelectedTraveler.push(obj)
+      setSelectedTraveler(newSelectedTraveler)
+      setTravelerList(newTravelerList)
+    } else {
+      Toast({
+        message: `只能添加${fillingArr.length}位出行人模板信息`,
+      })
+    }
   }
+
   /**
    * 选择出行人关系
    * @param val
@@ -149,11 +186,7 @@ const PersonalBindPage: FC = () => {
    */
   const onTravelerName = (val, i) => {
     const newSubordersList = [...subordersList]
-    newSubordersList.map((item, index) => {
-      if (i === index) {
-        item['travelerName'] = val
-      }
-    })
+    newSubordersList[i].travelerName = val
     setSubordersList(newSubordersList)
   }
 
@@ -165,11 +198,7 @@ const PersonalBindPage: FC = () => {
 
   const onTravelerPhone = (val, i) => {
     const newSubordersList = [...subordersList]
-    newSubordersList.map((item, index) => {
-      if (i === index) {
-        item['travelerPhoneNumber'] = val
-      }
-    })
+    newSubordersList[i].travelerPhoneNumber = val
     setSubordersList(newSubordersList)
   }
 
@@ -181,11 +210,7 @@ const PersonalBindPage: FC = () => {
 
   const onEmerTravelerName = (val, i) => {
     const newSubordersList = [...subordersList]
-    newSubordersList.map((item, index) => {
-      if (i === index) {
-        item['emerName'] = val
-      }
-    })
+    newSubordersList[i].emerName = val
     setSubordersList(newSubordersList)
   }
 
@@ -197,16 +222,11 @@ const PersonalBindPage: FC = () => {
 
   const onEmerTravelerPhone = (val, i) => {
     const newSubordersList = [...subordersList]
-    newSubordersList.map((item, index) => {
-      if (i === index) {
-        item['emerPhoneNumber'] = val
-      }
-    })
+    newSubordersList[i].emerPhoneNumber = val
     setSubordersList(newSubordersList)
   }
 
   const onSubmit = () => {
-    // console.log('pruneprune', prune())
     const certificate = []
     travelerCertificateDtoList.map((item, i) => {
       item.map((itemj, j) => {
@@ -245,17 +265,7 @@ const PersonalBindPage: FC = () => {
     setNewKey(newKey + 1)
     const activeKey = `new${newKey}`
     const newObj = [...travelerCertificateDtoList]
-    newObj[index].push({
-      "certificateNo": "",
-      "certificateType": 1,
-      "createTime": "",
-      "id": subordersList[index].id,
-      "isDelete": 0,
-      "suborderId": '1',
-      "updateTime": "",
-      "validity": "",
-      'type': activeKey
-    })
+    newObj[index].push(initialTravelerInfo(subordersList[index].id, activeKey))
     setTravelerCertificateDtoList(newObj)
   }
 
@@ -307,11 +317,8 @@ const PersonalBindPage: FC = () => {
         item['certificateNo'] = value
       }
     })
-    console.log('newObj', newObj, type)
     setTravelerCertificateDtoList(newObj)
   }
-
-
 
   /**
    * 
@@ -325,7 +332,7 @@ const PersonalBindPage: FC = () => {
       .join('')
     newSubordersList.map((item, index) => {
       if (addrIndex === index) {
-        item['addr'] = res
+        item['habitualResidence'] = res
       }
     })
     setSubordersList(newSubordersList)
@@ -338,9 +345,38 @@ const PersonalBindPage: FC = () => {
     const newInfolist = list.filter((item, index) => {
       return index != j
     })
-
     travelerCertificateDtoList.splice(i, 1, newInfolist)
     setTravelerCertificateDtoList([...travelerCertificateDtoList])
+  }
+  /**
+   * 一键清空
+   * @param i
+   */
+  const onEmpty = (i) => {
+    const newSubordersList = [...subordersList]
+    newSubordersList.map((item, index) => {
+      if (i === index) {
+        item['travelerName'] = ''
+        item['travelerRelation'] = null
+        item['travelerPhoneNumber'] = ''
+        item['habitualResidence'] = ''
+        item['emerName'] = ''
+        item['emerPhoneNumber'] = ''
+        item['emerTravelerRelation'] = null
+        item['selectedTraveler'] = false
+      }
+    })
+
+    // const newTravelerList = [...travelerList]
+    // newTravelerList.map(item => {
+    //   if (newSubordersList[i].travelerId == item['travelerId']) {
+    //     item['select'] = !item['select']
+    //   }
+    // })
+
+
+    travelerCertificateDtoList.splice(i, 1, [initialTravelerInfo(subordersList[i].id)]);
+    setSubordersList(newSubordersList)
   }
 
   return (
@@ -355,7 +391,9 @@ const PersonalBindPage: FC = () => {
               {travelerList.map((item, index) => (
                 index < 3 && (
                   <div onClick={() => onSelectItem(item)} key={`index${index}`} className={`bind-item ${item['select'] && 'bind-item-select'}`}>
-                    <span className='text'>{item['travelerName']}</span>
+                    <div className='text'>{item['travelerName']}</div>
+                    <div className='hint'>成人</div>
+                    {item['select'] && <div className='tag'>✓</div>}
                   </div>
                 )
               ))}
@@ -366,188 +404,217 @@ const PersonalBindPage: FC = () => {
             </div>
           </div>
         )}
-
         {subordersList && subordersList.length > 0 && (
           subordersList.map((item, index) => (
-            <div key={`index${index}`} className="personal-content">
-              <div className="personal-content-header">
-                <ul className="pch-ul">
-                  <li className="pch-ul-li rv-hairline--bottom">
-                    {item['travelerType'] == 1 && <div className="pul-name">成人</div>}
-                    {item['travelerType'] == 0 && <div className="pul-name">儿童</div>}
-                  </li>
-                  <li className="pch-ul-li rv-hairline--bottom">
-                    <div className="pul-name">证件姓名</div>
-                    <div className="pul-content">
-                      <Flex align="center">
-                        <Flex.Item span={14}>
-                          <Field
-                            value={item['travelerName']}
-                            placeholder="与证件姓名一致"
-                            // errorMessage={state.errorMessage['nameMsg']}
-                            onChange={(val) => {
-                              onTravelerName(val, index)
-                            }}
-                          />
-                        </Flex.Item>
-                        <Flex.Item span={10} className="pul-content-right">
-                          <Popover
-                            placement="bottom-end"
-                            actions={actions}
-                            onSelect={(actionsItem) => { onPopoverSelect(actionsItem, index, 0) }}
-                            reference={<div className="pul-content-title">{getActionsText(item['travelerRelation'])}</div>}
-                          />
-                        </Flex.Item>
-                      </Flex>
-                    </div>
-                  </li>
-                  <li className="pch-ul-li rv-hairline--bottom">
-                    <div className="pul-name">手机号</div>
-                    <div className="pul-content">
-                      <Field
-                        value={item['travelerPhoneNumber']}
-                        placeholder="常用手机号"
-                        // errorMessage={state.errorMessage['phoneMsg']}
-                        onChange={(val) => {
-                          onTravelerPhone(val, index)
-                        }}
-                      />
-                    </div>
-                  </li>
-
-                  <li className="pch-ul-li rv-hairline--bottom">
-                    <div className="pul-name">常住地</div>
-                    <div className="pul-content">
-                      <Field
-                        isLink
-                        readonly
-                        value={item.addr}
-                        label=""
-                        // errorMessage={state.errorMessage['addrMsg']}
-                        placeholder="请选择出行人常住地"
-                        onClick={() => {
-                          setAddrIndex(index)
-                          set({ visible: true })
-                        }}
-                      />
-                    </div>
-                  </li>
-                  <li className="pch-ul-li-box rv-hairline--bottom">
-                    <div className="hairline-top"></div>
-                    <div className="optional-info">
-                      <div onClick={addOptionalInfo} className="optional-info-text">儿童选填</div>
-                      {travelerCertificateDtoList[index].map((travelerItem, travelerIndex) => {
-                        return (
-                          <div key={travelerIndex} className="optional-info-content">
-                            <div className="oic-item rv-hairline--bottom">
-                              <div className="oic-item-label oic-item-card">
-                                <Popover
-                                  onSelect={(vals) => onSelect(vals, travelerItem.type, index)}
-                                  actions={actionsCertificate}
-                                  placement="bottom-start"
-                                  reference={<span>{travelerItem['certificateType'] == 1 ? '身份证' : '护照'}</span>}
-                                />
-                              </div>
-                              <div className="oic-item-content">
-                                <Field
-                                  className="oic-input"
-                                  onChange={(val) => onFieldChange(val, travelerItem['type'], index)}
-                                  value={travelerItem['certificateNo'] || ''}
-                                  placeholder="请填写正确的证件号码"
-                                />
-                              </div>
-                            </div>
-                            <div className="oic-item rv-hairline--bottom">
-                              <div className="oic-item-label oic-label-c">有效期至</div>
-                              <div className="oic-item-content">
-                                <Field
-                                  isLink
-                                  readonly
-                                  value={travelerItem['validity'] || ''}
-                                  onClick={() => {
-                                    setTimeIndex(index)
-                                    setShowPicker(true)
-                                    setShowPickerId(travelerItem['type'])
-                                  }}
-                                  placeholder="请选择"
-                                />
-                              </div>
-                            </div>
-                            {travelerCertificateDtoList[index].length > 1 && (
-                              <div
-                                className="optional-info-del"
-                                onClick={() => {
-                                  deleteHandelOptional(index, travelerIndex)
-                                }}
-                              ></div>
-                            )}
-                            {travelerCertificateDtoList[index].length > 1 && <div className="oic-line"></div>}
+            item.selectedTraveler ? (
+              <div key={`index${index}`} className="personal-content">
+                <div className="personal-content-header">
+                  <ul className="pch-ul">
+                    <li className="pch-ul-li rv-hairline--bottom">
+                      {item['travelerType'] == 1 && <div className="pul-name">成人</div>}
+                      {item['travelerType'] == 0 && <div className="pul-name">儿童</div>}
+                      <div onClick={() => onEmpty(index)} className='pul-emptyView'>一键清空</div>
+                    </li>
+                    <li className="pch-ul-li rv-hairline--bottom">
+                      <div className='travelerView'>
+                        <div className='traveler-user'>
+                          <div className='user'>
+                            <div className='name'>{item['travelerName']}</div>
+                            <div className='tag'>本人</div>
                           </div>
-                        )
-                      })}
-                      {travelerCertificateDtoList[index].length <= 1 && (
-                        <div>
-                          <div className="optional-add  rv-hairline--top">
-                            <div
-                              className="optional-add-btn"
-                              onClick={() => {
-                                addOptionalInfo(index)
-                              }}
-                            >
-                              <img className='optional-add-img' src={addIcon} />
-                              <div className='optional-add-txt'>添加证件</div>
-                            </div>
-                          </div>
-                          <div className="oic-line"></div>
+                          <div className='phone'>{item['travelerPhoneNumber']}</div>
                         </div>
-                      )}
+                        {/* {travelerCertificateDtoList[index].map((travelerItem, travelerIndex) => (
+                          
+                        ))} */}
 
-
-                    </div>
-                    {/* <OrderTravelerView onFieldChange={onOrderTravelerChange} /> */}
-                  </li>
-
-                  <li className="pch-ul-li rv-hairline--bottom">
-                    <div className="pul-name">紧急联系人</div>
-                    <div className="pul-content">
-                      <Flex align="center">
-                        <Flex.Item span={14}>
-                          <Field
-                            value={item['emerName']}
-                            placeholder="联系人姓名"
-                            // errorMessage={state.errorMessage['emerNameMsg']}
-                            onChange={(val) => {
-                              onEmerTravelerName(val, index)
-                            }}
-                          />
-                        </Flex.Item>
-                        <Flex.Item span={10} className="pul-content-right">
-                          <Popover
-                            placement="top-end"
-                            actions={actions}
-                            onSelect={(actionsItem) => { onPopoverSelect(actionsItem, index, 1) }}
-                            reference={<div className="pul-content-title">{getActionsText(item['emerTravelerRelation'])}</div>}
-                          />
-                        </Flex.Item>
-                      </Flex>
-                    </div>
-                  </li>
-                  <li className="pch-ul-li">
-                    <div className="pul-name">联系人手机</div>
-                    <div className="pul-content">
-                      <Field
-                        value={item['emerPhoneNumber']}
-                        placeholder="紧急联系人手机号"
-                        // errorMessage={state.errorMessage['emerPhoneMsg']}
-                        onChange={(val) => {
-                          onEmerTravelerPhone(val, index)
-                        }}
-                      />
-                    </div>
-                  </li>
-                </ul>
+                        <div className='Id'>身份证 1100 **** **** **8899</div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
               </div>
-            </div>
+            ) : (
+              <div key={`index${index}`} className="personal-content">
+                <div className="personal-content-header">
+                  <ul className="pch-ul">
+                    <li className="pch-ul-li rv-hairline--bottom">
+                      {item['travelerType'] == 1 && <div className="pul-name">成人</div>}
+                      {item['travelerType'] == 0 && <div className="pul-name">儿童</div>}
+                      <div onClick={() => onEmpty(index)} className='pul-emptyView'>一键清空</div>
+                    </li>
+                    <li className="pch-ul-li rv-hairline--bottom">
+                      <div className="pul-name">证件姓名</div>
+                      <div className="pul-content">
+                        <Flex align="center">
+                          <Flex.Item span={14}>
+                            <Field
+                              value={item['travelerName']}
+                              placeholder="与证件姓名一致"
+                              // errorMessage={state.errorMessage['nameMsg']}
+                              onChange={(val) => {
+                                onTravelerName(val, index)
+                              }}
+                            />
+                          </Flex.Item>
+                          <Flex.Item span={10} className="pul-content-right">
+                            <Popover
+                              placement="bottom-end"
+                              actions={actions}
+                              onSelect={(actionsItem) => { onPopoverSelect(actionsItem, index, 0) }}
+                              reference={<div className="pul-content-title">{getActionsText(item['travelerRelation'])}</div>}
+                            />
+                          </Flex.Item>
+                        </Flex>
+                      </div>
+                    </li>
+                    <li className="pch-ul-li rv-hairline--bottom">
+                      <div className="pul-name">手机号</div>
+                      <div className="pul-content">
+                        <Field
+                          value={item['travelerPhoneNumber']}
+                          placeholder="常用手机号"
+                          // errorMessage={state.errorMessage['phoneMsg']}
+                          onChange={(val) => {
+                            onTravelerPhone(val, index)
+                          }}
+                        />
+                      </div>
+                    </li>
+
+                    <li className="pch-ul-li rv-hairline--bottom">
+                      <div className="pul-name">常住地</div>
+                      <div className="pul-content">
+                        <Field
+                          isLink
+                          readonly
+                          value={item.habitualResidence}
+                          label=""
+                          // errorMessage={state.errorMessage['addrMsg']}
+                          placeholder="请选择出行人常住地"
+                          onClick={() => {
+                            setAddrIndex(index)
+                            set({ visible: true })
+                          }}
+                        />
+                      </div>
+                    </li>
+                    <li className="pch-ul-li-box rv-hairline--bottom">
+                      <div className="hairline-top"></div>
+                      <div className="optional-info">
+                        {item['travelerType'] == 0 && <div className="optional-info-text">儿童选填</div>}
+                        {travelerCertificateDtoList[index].map((travelerItem, travelerIndex) => {
+                          return (
+                            <div key={travelerIndex} className="optional-info-content">
+                              <div className="oic-item rv-hairline--bottom">
+                                <div className="oic-item-label oic-item-card">
+                                  <Popover
+                                    onSelect={(vals) => onSelect(vals, travelerItem.type, index)}
+                                    actions={actionsCertificate}
+                                    placement="bottom-start"
+                                    reference={<span>{travelerItem['certificateType'] == 1 ? '身份证' : '护照'}</span>}
+                                  />
+                                </div>
+                                <div className="oic-item-content">
+                                  <Field
+                                    className="oic-input"
+                                    onChange={(val) => onFieldChange(val, travelerItem['type'], index)}
+                                    value={travelerItem['certificateNo'] || ''}
+                                    placeholder="请填写正确的证件号码"
+                                  />
+                                </div>
+                              </div>
+                              <div className="oic-item rv-hairline--bottom">
+                                <div className="oic-item-label oic-label-c">有效期至</div>
+                                <div className="oic-item-content">
+                                  <Field
+                                    isLink
+                                    readonly
+                                    value={travelerItem['validity'] || ''}
+                                    onClick={() => {
+                                      setTimeIndex(index)
+                                      setShowPicker(true)
+                                      setShowPickerId(travelerItem['type'])
+                                    }}
+                                    placeholder="请选择"
+                                  />
+                                </div>
+                              </div>
+                              {travelerCertificateDtoList[index].length > 1 && (
+                                <div
+                                  className="optional-info-del"
+                                  onClick={() => {
+                                    deleteHandelOptional(index, travelerIndex)
+                                  }}
+                                ></div>
+                              )}
+                              {travelerCertificateDtoList[index].length > 1 && <div className="oic-line"></div>}
+                            </div>
+                          )
+                        })}
+                        {travelerCertificateDtoList[index].length <= 1 && (
+                          <div>
+                            <div className="optional-add  rv-hairline--top">
+                              <div
+                                className="optional-add-btn"
+                                onClick={() => {
+                                  addOptionalInfo(index)
+                                }}
+                              >
+                                <img className='optional-add-img' src={addIcon} />
+                                <div className='optional-add-txt'>添加证件</div>
+                              </div>
+                            </div>
+                            <div className="oic-line"></div>
+                          </div>
+                        )}
+
+
+                      </div>
+                    </li>
+
+                    <li className="pch-ul-li rv-hairline--bottom">
+                      <div className="pul-name">紧急联系人</div>
+                      <div className="pul-content">
+                        <Flex align="center">
+                          <Flex.Item span={14}>
+                            <Field
+                              value={item['emerName']}
+                              placeholder="联系人姓名"
+                              // errorMessage={state.errorMessage['emerNameMsg']}
+                              onChange={(val) => {
+                                onEmerTravelerName(val, index)
+                              }}
+                            />
+                          </Flex.Item>
+                          <Flex.Item span={10} className="pul-content-right">
+                            <Popover
+                              placement="top-end"
+                              actions={actions}
+                              onSelect={(actionsItem) => { onPopoverSelect(actionsItem, index, 1) }}
+                              reference={<div className="pul-content-title">{getActionsText(item['emerTravelerRelation'])}</div>}
+                            />
+                          </Flex.Item>
+                        </Flex>
+                      </div>
+                    </li>
+                    <li className="pch-ul-li">
+                      <div className="pul-name">联系人手机</div>
+                      <div className="pul-content">
+                        <Field
+                          value={item['emerPhoneNumber']}
+                          placeholder="紧急联系人手机号"
+                          // errorMessage={state.errorMessage['emerPhoneMsg']}
+                          onChange={(val) => {
+                            onEmerTravelerPhone(val, index)
+                          }}
+                        />
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            )
           ))
         )}
         <div

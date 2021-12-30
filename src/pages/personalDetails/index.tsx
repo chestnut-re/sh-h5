@@ -197,6 +197,11 @@ const PersonalDetailPage: FC = (props: any) => {
         Toast({
           message: '修改成功',
         })
+        SHBridge.closePage()
+      } else {
+        Toast({
+          message: '添加失败',
+        })
       }
     })
   }

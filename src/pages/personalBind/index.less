@@ -14,33 +14,66 @@
     align-items: center;
     justify-content: space-between;
     .bind-itemView {
+      position: relative;
       display: flex;
       flex: 1;
       flex-direction: row;
       padding-left: 10px;
       .bind-item {
+        overflow: hidden;
         border: 1px solid #cccccc;
         border-radius: 12px;
-        padding: 12px 36px;
         margin-left: 20px;
+        width: 156px;
         box-sizing: border-box;
+        position: relative;
+        .hint {
+          height: 32px;
+          background: rgba(171, 171, 171, 0.6);
+          font-size: 18px;
+          font-family: PingFangSC, PingFangSC-Medium;
+          font-weight: 500;
+          color: #ffffff;
+          line-height: 22px;
+          text-align: center;
+          line-height: 32px;
+        }
         .text {
+          padding-top: 16px;
+          padding-bottom: 8px;
           line-height: 28px;
           font-size: 28px;
           font-weight: 400;
+          text-align: center;
           color: #666666;
+        }
+        .tag {
+          position: absolute;
+          top: -6px;
+          left: -6px;
+          width: 30px;
+          height: 28px;
+          background: #4dcfc5;
+          border-radius: 50%;
+          color: #ffffff;
+          font-size: 10px;
+          text-align: right;
+          line-height: 28px;
+          padding-right: 3px;
+          padding-top: 1px;
         }
       }
       .bind-item-select {
-        background-image: url('./../../assets/img/bind-select.png');
-        background-repeat: no-repeat;
-        background-size: 100% 100%;
-        border: none;
+        // border: none;
+        border: 1px solid #4dcfc5;
         .text {
           line-height: 28px;
           font-size: 28px;
           font-weight: 400;
           color: #4dcfc5;
+        }
+        .hint {
+          background: rgba(77, 207, 197, 0.6);
         }
       }
     }
@@ -122,6 +155,13 @@
         }
       }
     }
+    .pul-emptyView {
+      font-size: 22px;
+      font-family: PingFangSC, PingFangSC-Regular;
+      font-weight: 400;
+      color: #ababab;
+      line-height: 32px;
+    }
   }
   .personal-submit {
     position: relative;
@@ -143,9 +183,58 @@
       background: #f3f4f4;
     }
   }
+  .travelerView {
+    width: 100%;
+    .traveler-user {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      .phone {
+        font-size: 28px;
+        font-weight: 400;
+        color: #333333;
+        line-height: 40px;
+      }
+      .user {
+        flex: 1;
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        .name {
+          font-size: 28px;
+          font-weight: 500;
+          text-align: left;
+          color: #333333;
+          line-height: 40px;
+        }
+        .tag {
+          margin-left: 10px;
+          width: 84px;
+          height: 32px;
+          background: #f2fffe;
+          border-radius: 16px;
+          font-size: 24px;
+          font-weight: 400;
+          text-align: center;
+          color: #4dcfc5;
+          line-height: 34px;
+        }
+      }
+    }
+    .Id {
+      font-size: 24px;
+      font-family: PingFangSC, PingFangSC-Regular;
+      font-weight: 400;
+      color: #ababab;
+      line-height: 34px;
+      margin-top: 15px;
+    }
+  }
   .optional-info {
     position: relative;
     background-color: #fff;
+
     .optional-info-text {
       color: #ababab;
       font-style: italic;
