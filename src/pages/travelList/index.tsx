@@ -8,6 +8,7 @@ import './index.less'
 
 /**
  * 出行确认码
+ * 二维码显示条件 姓名不存在不显示二维码
  */
 
 const SubmitOrderPage: FC = () => {
@@ -33,11 +34,11 @@ const SubmitOrderPage: FC = () => {
   return (
     <div className="travel-container">
       {ordersTravel.map((item, index) => {
-        return (
+        return item.travelerName?(
           <div className="travel-item" key={item.id}>
             <TravelCodeCard {...item} />
           </div>
-        )
+        ):null
       })}
     </div>
   )

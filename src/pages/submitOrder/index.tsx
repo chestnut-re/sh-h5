@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom'
 import GoodsCard from '@/components/orderDetail/goodsCard/submitGoods'
 import StepperCard from '@/components/orderDetail/stepperCard'
 import qs from 'query-string'
+import dayjs from 'dayjs';
 import { Toast, Popup } from 'react-vant'
 import PayTypeCard from '@/components/orderDetail/payTypeCard'
 import BackCard from '@/components/orderDetail/backthatCard'
@@ -26,8 +27,8 @@ import './index.less'
 const RMB_CON = 100
 //mock数据
 
-
 const SubmitOrderPage: FC = () => {
+  let toast1;
   const { search } = useLocation()
   const { id } = qs.parse(search.slice(1))
   //提交数据
@@ -50,7 +51,7 @@ const SubmitOrderPage: FC = () => {
       discountAmount: 0, //优惠总金额
       goodsId: '', //商品id
       goodsName: '', //商品名称
-      promotionalImageUrl:"", //商品预览图
+      promotionalImageUrl: '', //商品预览图
       insuranceAmount: 0, //保险金额
       originPrice: 0, //商品原总价
       payAmount: 0, //支付金额
@@ -100,6 +101,7 @@ const SubmitOrderPage: FC = () => {
     childMarkPrice: 0,
     stock: 0,
     days: 0,
+    startDate:"",
   })
   const [priceSet, setPriceSet] = useState({
     priceNum: 0, //总价格
@@ -117,7 +119,7 @@ const SubmitOrderPage: FC = () => {
       return {
         ...v,
         priceNum: personpriceNum + childpriceNum - intNum,
-        preferPrice: (personPreferPriceNum + childPreferPriceNum)>0?(personPreferPriceNum + childPreferPriceNum):0,
+        preferPrice: personPreferPriceNum + childPreferPriceNum > 0 ? personPreferPriceNum + childPreferPriceNum : 0,
       }
     })
   }, [selectTime, stepperData])
@@ -176,9 +178,13 @@ const SubmitOrderPage: FC = () => {
   }, [selectTime])
 
   useEffect(() => {
+
+
+    SHBridge.setTitle("提交订单")
+
     getGoodsDetail(id)
       .then((res: any) => {
-        const { departureCity, departureCityAdcode, goodsName,promotionalImageUrl, id, isDeduction } = res
+        const { departureCity, departureCityAdcode, goodsName, promotionalImageUrl, id, isDeduction } = res
         setSubmitinfo(res)
         setSelectTime(res['goodsPrices'][0])
         setPriceSet((v) => {
@@ -208,7 +214,7 @@ const SubmitOrderPage: FC = () => {
               ...v.orderDto,
               goodsName,
               goodsId: id,
-              promotionalImageUrl
+              promotionalImageUrl,
             },
           }
         })
@@ -225,14 +231,7 @@ const SubmitOrderPage: FC = () => {
   }
   //处理优惠说明
   const handleDiscountsInfo = () => {
-    const { goodsPriceId } = selectTime
     setShowPrivilege(true)
-
-    // SHBridge.jump({
-    //   url: generateUrl(`/privilege?t=${search}&id=${id}&goodsPriceId=${goodsPriceId}`),
-    //   newWebView: true,
-    //   title: '优惠说明',
-    // })
   }
   //处理支付方式
   const handlePayType = (item) => {
@@ -254,6 +253,7 @@ const SubmitOrderPage: FC = () => {
   }
   //支付成功跳转
   const paySuccessLink = (orderId) => {
+    toast1 && toast1.clear()
     SHBridge.jump({
       url: generateUrl(`/pay-success?t=${search}&id=${id}&orderId=${orderId}`),
       newWebView: false,
@@ -264,9 +264,12 @@ const SubmitOrderPage: FC = () => {
 
   //提交订单
   const submitHandle = () => {
-    const { childCurrentPrice, childMarkPrice, personCurrentPrice, personMarkPrice, goodsPriceId } = selectTime
+    const { childCurrentPrice, childMarkPrice, personCurrentPrice, personMarkPrice, goodsPriceId,startDate,days } = selectTime
     const { adultNum, childNum, intNum } = stepperData
-    const { priceNum, preferPrice } = priceSet
+    const { priceNum, preferPrice } = priceSet;
+
+    const endDate = dayjs(startDate).add(days, 'day').format("YYYY-MM-DD")
+
     const subInfo = {
       ...submitData,
       childCurrentPrice: childCurrentPrice,
@@ -290,11 +293,12 @@ const SubmitOrderPage: FC = () => {
         travelId: goodsPriceId,
         discountAmount: preferPrice,
         tokenAmount: intNum,
+        travelStartDate:startDate,
+        travelEndDate:endDate
       },
     }
-
     if (isProtocol) {
-      const toast1 = Toast.loading({
+      toast1 = Toast.loading({
         message: '订单生成中...',
         forbidClick: true,
         duration: 0,
@@ -309,16 +313,16 @@ const SubmitOrderPage: FC = () => {
               const { returnPayInfo, orderId } = data.data
               switch (payType) {
                 case 1:
-                  // SHBridge.minipay(JSON.stringify(data), 1)
-                  SHBridge.minipay(JSON.stringify(returnPayInfo), priceNum)
+                  toast1.clear()
+                  SHBridge.minipay(JSON.stringify(returnPayInfo), priceNum,orderId)
                   break
                 case 2:
                   SHBridge.wxpay(returnPayInfo, (wxres: any) => {
                     const { errorCode } = wxres
-                    if (errorCode === 0) {
-                      toast1 && toast1.clear()
+                    if (errorCode == 0) {
                       paySuccessLink(orderId)
                     } else {
+                      toast1.clear()
                       Toast('支付失败')
                     }
                     console.log(res)
@@ -326,13 +330,15 @@ const SubmitOrderPage: FC = () => {
                   break
                 case 3:
                   SHBridge.alipay(returnPayInfo, (alires: any) => {
+                    console.log('支付宝回调', alires)
                     const {
                       alipay_trade_app_pay_response: { code },
                     } = JSON.parse(alires.result)
                     console.log('支付成功', code, res)
                     if (code == '10000') {
-                      toast1 && toast1.clear()
                       paySuccessLink(orderId)
+                    }else{
+                      toast1.clear()
                     }
                   })
                   break
@@ -342,14 +348,13 @@ const SubmitOrderPage: FC = () => {
               }
             }
           } else {
+            toast1.clear()
             Toast(msg)
           }
         })
         .catch((err) => {
-          console.log('object订单接口异常:>> ', err)
-        })
-        .finally(() => {
           toast1.clear()
+          console.log('object订单接口异常:>> ', err)
         })
     } else {
       Toast('请勾选相关协议')
@@ -408,11 +413,12 @@ const SubmitOrderPage: FC = () => {
         destroyOnClose={true}
         closeable
         round
+        safeAreaInsetBottom={true}
         closeIcon="close"
         onClose={() => setShowPrivilege(false)}
       >
         <div className="privilege-box">
-          <Privilege goodsPriceId={selectTime['goodsPriceId']} id={id} />
+          <Privilege goodsPriceId={selectTime['goodsPriceId']} stepperData={stepperData}  id={id} />
         </div>
       </Popup>
     </div>

@@ -25,7 +25,7 @@ const GoodsCard: FC<GoodsType> = (props) => {
       </div>
       <div className="goods-r">
         <div className="goods-rT_name rv-multi-ellipsis--l2">{goodsName}</div>
-       {travelMode==0?(<div className='goods-r-time'>
+       {travelMode==1?(<div className='goods-r-time'>
             <div className="goods-rC_name goods-rS">{startDate} 出发 {endDate} 返程</div>
             <div className="goods-inventory">库存：{stock}</div>
         </div>):null}

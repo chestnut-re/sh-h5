@@ -4,7 +4,7 @@ import ManageItem from '@/components/manageOrder/orderIMantem'
 import { ManageOrder } from '@/service/ManageOrderApi'
 import { useLocation } from 'react-router-dom'
 import { Empty, Toast, List, Field, Loading, NavBar, ConfigProvider } from 'react-vant'
-import emptyIcon from '@/assets/img/empty@3x.png'
+import emptyIcon from '@/assets/img/empty_b@3x.png'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
 import './search.less'
@@ -53,12 +53,12 @@ const OrderSearchPage: FC = () => {
             // setCurrent((v) => v + 1)
             resolve(res)
           } else {
-            Toast('服务器异常')
+            Toast('系统异常')
             reject(new Error('error'))
           }
         })
         .catch((err) => {
-          Toast(err.msg)
+          Toast('系统异常')
           reject(new Error('error'))
         })
         .finally(() => {

@@ -7,6 +7,7 @@ import OrderConfirma from './waitConfirma'
 import OrderPayment from './waitPayment'
 import { OrderApi } from '@/service/OrderDetailApi'
 import emptyIcon from '@/assets/img/empty@3x.png'
+import { SHBridge } from '@/jsbridge'
 import './index.less'
 import { Toast,Empty } from 'react-vant'
 
@@ -30,6 +31,7 @@ const OrderIndexPage: FC = (props: any) => {
   const { type,orderId } = qs.parse(search.slice(1))
 
   useEffect(() => {
+    SHBridge.setTitle("订单详情")
     OrderApi.orderdetail({
       orderId:orderId
     }).then((result) => {
@@ -40,7 +42,7 @@ const OrderIndexPage: FC = (props: any) => {
           setOrders(data)
       }else{
         setOrderType('-1')
-        Toast(msg)
+        Toast("订单数据不存在")
       }
         console.log('result :>> ', result);
     }).catch((err) => {
@@ -54,7 +56,6 @@ const OrderIndexPage: FC = (props: any) => {
           if (code==="200"&&data) {
               setOrdersTravel(data)
           }
-        console.log('resultxinxix :>> ', result);
     }).catch((err) => {
         console.log('err :>> ', err);
     });

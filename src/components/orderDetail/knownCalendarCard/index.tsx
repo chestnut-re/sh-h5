@@ -25,7 +25,7 @@ const isCalendarDisabled = (time, timelist: any[] = []) => {
 
   if (timestate) {
     return {
-      bottomInfo: timestate.personMarkPrice,
+      bottomInfo: timestate.personCurrentPrice,
       type: '',
       ...timestate,
     }
@@ -95,7 +95,7 @@ const KnownCalendarCard: FC<KnownCalendarType> = (props) => {
                 >
                   <p>{dayjs(item.startDate).format('MM-DD')}</p>
                   <p>{WeekMap[dayjs(item.startDate).format('d')]}</p>
-                  <p className="price">¥{item.personMarkPrice / RMB_CON}</p>
+                  <p className="price">¥{item.personCurrentPrice / RMB_CON}</p>
                 </div>
               )
             })}
@@ -118,6 +118,7 @@ const KnownCalendarCard: FC<KnownCalendarType> = (props) => {
       <Calendar
         ref={calendarRef}
         title="选择出发日期"
+        weekdays={['周日', '周一', '周二', '周三', '周四', '周五', '周六']}
         onClose={() => setVisible(false)}
         visible={visible}
         showConfirm={false}

@@ -1,5 +1,5 @@
 import React, { useState,useEffect,FC } from 'react'
-
+import dayjs from 'dayjs';
 import { CountDown } from 'react-vant';
 import GoodsCard from '@/components/orderDetail/goodsCard'
 import PreferCard from '@/components/orderDetail/preferCard'
@@ -15,6 +15,9 @@ import './index.less'
 /**
  * 订单待付款入口页
  */
+ const COUNT_DOWN = 60 * 30 * 1000
+
+
 const OrderPaymentPage:FC = (props:any) => {
   const {
     promotionalImageUrl,
@@ -33,7 +36,15 @@ const OrderPaymentPage:FC = (props:any) => {
     id,
   } = props
   console.log('objectidididid :>> ', props);
- 
+  const [countdowntime, setCountdownTime] = useState<number>(COUNT_DOWN)
+
+  useEffect(() => {
+    if (orderTime) {
+      const restTime = (dayjs().unix() - dayjs(orderTime).unix()) * 1000
+      setCountdownTime(COUNT_DOWN - restTime)
+    }
+  }, [])
+
  //支付成功跳转
  const paySuccessLink = (orderId) => {
   SHBridge.jump({
@@ -51,23 +62,25 @@ const OrderPaymentPage:FC = (props:any) => {
     })
     OrderApi.toPay({
       orderId:id
-    }).then((res)=>{
+    }).then((res:any)=>{
       const { code, msg, data } = res
           if (code == '200' && data) {
             if (data.code == '200') {
               const { returnPayInfo,payType, orderId } = data.data
               switch (payType) {
                 case 1:
+                  toast1 && toast1.clear()
                   // SHBridge.minipay(JSON.stringify(data), 1)
-                  SHBridge.minipay(JSON.stringify(returnPayInfo), priceNum)
+                  SHBridge.minipay(JSON.stringify(returnPayInfo), payAmount,orderId)
                   break
                 case 2:
                   SHBridge.wxpay(returnPayInfo, (wxres: any) => {
                     const { errorCode } = wxres
-                    if (errorCode === 0) {
+                    if (errorCode == 0) {
                       toast1 && toast1.clear()
                       paySuccessLink(orderId)
                     } else {
+                      toast1.clear()
                       Toast('支付失败')
                     }
                     console.log(res)
@@ -103,8 +116,8 @@ const OrderPaymentPage:FC = (props:any) => {
     <div className="Order-container">
         <div className="order-count">
         <CountDown 
-          time={30 * 60 * 60 * 2000} 
-          format="剩 DD 天 HH:mm:ss" 
+          time={countdowntime} 
+          format="剩 mm:ss"
         />
         </div>
         <div className="order-main">

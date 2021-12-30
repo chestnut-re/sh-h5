@@ -1,4 +1,4 @@
-import React, { useState,FC } from 'react'
+import React, { useState, useEffect, FC } from 'react'
 import { useLocation } from 'react-router-dom'
 import qs from 'query-string'
 import GoodsCard from '@/components/orderDetail/goodsCard'
@@ -7,6 +7,8 @@ import IndentCard from '@/components/orderDetail/indentCard'
 import BackCard from '@/components/orderDetail/backthatCard'
 import CompleteFooter from '@/components/submitBars/completeFooter'
 import TravelCodeCard from '@/components/orderDetail/travelCodeCard'
+import FillTravelCodeCard from '@/components/orderDetail/fillTravelCodeCard'
+
 import TripPeopleCard from '@/components/orderDetail/tripPeopleCard'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
@@ -15,7 +17,7 @@ import './index.less'
 /**
  * 订单待确认入口页
  */
-const OrderConfirmaPage:FC = (props:any) => {
+const OrderConfirmaPage: FC = (props: any) => {
   const {
     promotionalImageUrl,
     goodsName,
@@ -31,17 +33,19 @@ const OrderConfirmaPage:FC = (props:any) => {
     orderTime,
     payTime,
     ordersTravel,
-    goodsId
+    goodsId,
   } = props
   const { search } = useLocation()
   const { orderId } = qs.parse(search.slice(1))
-  console.log('object :>> ', props);
+  //满足生成二维码条件数据
+  const [qrCodedata, setQrCodedata] = useState()
+  console.log('object :>> ', props)
   const BarsConfig = {
-    showLeftLinkBtn:false,
-    LeftLinkActions:[{ text: '申请售后' }],
-    barLeftTitle:"再次购买",
-    barRightTitle:"",
-    onSelect:(type,item)=>{
+    showLeftLinkBtn: false,
+    LeftLinkActions: [],
+    barLeftTitle: '再次购买',
+    barRightTitle: qrCodedata?'':'填写出行人信息',
+    onSelect: (type, item) => {
       switch (type) {
         case 'barLeftTitle':
           //再次购买处理
@@ -53,30 +57,63 @@ const OrderConfirmaPage:FC = (props:any) => {
           })
           break
         case 'barRightTitle':
-          //处理分享逻辑
-
+          FillTraveHandelfun()
           break
         default:
           break
       }
-    }
+    },
   }
 
-  const openTravelList = ()=>{
+  useEffect(() => {
+    const conformData = ordersTravel.find((item) => {
+      return item.travelerName
+    })
+    console.log('conformData :>> ', conformData)
+    setQrCodedata(conformData)
+  }, [ordersTravel])
 
+  //处理展开二维码
+  const openTravelList = () => {
     SHBridge.jump({
       url: generateUrl(`/order-travel?orderId=${orderId}`),
       newWebView: true,
       replace: false,
       title: '出行确认码',
     })
-    console.log('dakia :>> ',);
+    console.log('dakia :>> ')
   }
+  //处理出行人列表数据根据不同子订单状态跳转不同订单详情
+  const openTravelListItem = (item) => {
+    console.log('item :>> ', item);
+    const {state} = item;
+    if (state!=3) {
+      SHBridge.jump({
+        url: generateUrl(`/order-detail?orderId=${orderId}`),
+        newWebView: true,
+        replace: false,
+        title: '订单详情',
+      })
+    }
+   
+    console.log('dakia :>> ')
+  }
+  //点击填写出行人逻辑
+  const FillTraveHandelfun = () => {
+    SHBridge.jump({
+      url: generateUrl(`/personal-bind?id=${orderId}`),
+      newWebView: false,
+      replace: true,
+      title: '填写出行人',
+    })
+    console.log('object :>>填写出行人 ')
+  }
+
   return (
     <div className="Order-container">
-        <div className="order-main">
-            {/* <ContactWcharCard/> */}
-          <div className="preview_card">
+      <div className="order-main">
+        {/* <ContactWcharCard/> */}
+        <div className="preview_card">
           <GoodsCard
             goodsName={goodsName}
             startDate={travelStartDate}
@@ -85,23 +122,26 @@ const OrderConfirmaPage:FC = (props:any) => {
             childNum={childNum}
             promotionalImageUrl={promotionalImageUrl}
           />
-             <PreferCard tokenAmount={tokenAmount} discountAmount={discountAmount} payAmount={payAmount} />
-          </div>
-          
-          <div className='order-qrbox'>
-              {ordersTravel.length&&<TravelCodeCard {...ordersTravel[0]} />}
-              <div className='order-more-icon' onClick={openTravelList}>展开</div>
-          </div>
-          <IndentCard orderNo={orderNo}  payType={payType} orderTime={orderTime} payTime={payTime} />
-          <BackCard/>
-          {
-            ordersTravel.map((item,index)=>{
-                return <TripPeopleCard openTravelClick={openTravelList} {...item} key={index}/>
-            })
-          }
-          
+          <PreferCard tokenAmount={tokenAmount} discountAmount={discountAmount} payAmount={payAmount} />
         </div>
-        <CompleteFooter {...BarsConfig}/>
+
+        {qrCodedata ? (
+          <div className="order-qrbox">
+            <TravelCodeCard {...qrCodedata} />
+            <div className="order-more-icon" onClick={openTravelList}>
+              展开
+            </div>
+          </div>
+        ) : (
+          <FillTravelCodeCard FillTraveHandel={FillTraveHandelfun} />
+        )}
+        <IndentCard orderNo={orderNo} payType={payType} orderTime={orderTime} payTime={payTime} />
+        <BackCard />
+        {ordersTravel.map((item, index) => {
+          return item.travelerName ? <TripPeopleCard openTravelClick={openTravelListItem} {...item} key={index} /> : null
+        })}
+      </div>
+      <CompleteFooter {...BarsConfig} />
     </div>
   )
 }

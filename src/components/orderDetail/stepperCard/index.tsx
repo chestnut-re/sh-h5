@@ -96,7 +96,14 @@ const StepperCard: FC<StepType> = (props) => {
   const getExamine = () => {
     props.handleDiscounts()
   }
-
+  //处理用户输入位数过多导致总价显示变形
+const beforeChangeValue = (val)=>{
+  if (val>999999) {
+    return false
+  }
+  return true
+  console.log('val :>> ', val);
+}
   useEffect(() => {
     props.handleStepper({
       adultNum: adultNum && adultNum > 0 ? adultNum : 1, //成人数量
@@ -122,6 +129,7 @@ const StepperCard: FC<StepType> = (props) => {
                   integer={true}
                   inputWidth="9.6vw"
                   buttonSize="5.6vw"
+                  beforeChange={(val)=>beforeChangeValue(val)}
                   onChange={(val) => setGrownNumValue(val)}
                   onBlur={(val) => setGrownNumBlur(val, 1)}
                 />
@@ -141,6 +149,7 @@ const StepperCard: FC<StepType> = (props) => {
                   integer={true}
                   inputWidth="9.6vw"
                   buttonSize="5.6vw"
+                  beforeChange={(val)=>beforeChangeValue(val)}
                   onChange={(val) => setChildrenValue(val)}
                   onBlur={(val) => setGrownNumBlur(val, 2)}
                 />
@@ -162,9 +171,11 @@ const StepperCard: FC<StepType> = (props) => {
                     min="0"
                     max={deductionScaleNum}
                     step="1"
+                    longPress={false}
                     integer={true}
                     inputWidth="9.6vw"
                     buttonSize="5.6vw"
+                    beforeChange={(val)=>beforeChangeValue(val)}
                     onChange={(val) => setIntegralNumValue(val)}
                     onBlur={(val) => setGrownNumBlur(val, 3)}
                   />

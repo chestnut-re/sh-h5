@@ -1,8 +1,8 @@
 import React, { useState, useEffect, FC } from 'react'
-import { ConfigProvider, Tabs, Empty, List, Toast, Loading } from 'react-vant'
+import { ConfigProvider, Tabs, Empty, List, Toast, Loading,PullRefresh } from 'react-vant'
 import ManageItem from '@/components/manageOrder/orderIMantem'
 import { useHistory, useLocation } from 'react-router-dom'
-import emptyIcon from '@/assets/img/empty@3x.png'
+import emptyIcon from '@/assets/img/empty_b@3x.png'
 import { ManageOrder } from '@/service/ManageOrderApi'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
@@ -131,7 +131,7 @@ const ManageOrderPage: FC = () => {
 
     setListData((v) => [...v, ...records])
 
-    if (activeState === 1 || activeState == '') {
+    if (activeState == '') {
       const setPayList = listData.filter((item) => {
         return item.state == 1
       })

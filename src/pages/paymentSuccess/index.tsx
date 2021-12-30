@@ -23,12 +23,7 @@ const PaymentSuccessPage: FC = () => {
         const { code, data } = res
 
         if (code == '200' && !data) {
-          SHBridge.jump({
-            url: generateUrl(`/order-detail${search}&type=4`),
-            newWebView: false,
-            replace: true,
-            title: '出行人信息',
-          })
+          openOrderDetails()
         }
         console.log('res :>> ', res)
       })
@@ -41,12 +36,22 @@ const PaymentSuccessPage: FC = () => {
     judgePayConfirmStatus(orderId)
   }, [])
 
-  const openPersonalDetails = () => {
+  const openOrderDetails = ()=>{
     SHBridge.jump({
-      url: generateUrl(`/personal-details${search}`),
+      url: generateUrl(`/order-detail?orderId=${orderId}`),
       newWebView: false,
       replace: true,
-      title: '出行人信息',
+      title: '订单详情',
+    })
+  }
+
+    //跳转出行人
+  const openPersonalDetails = () => {
+    SHBridge.jump({
+      url: generateUrl(`/personal-bind?id=${orderId}`),
+      newWebView: false,
+      replace: true,
+      title: '填写出行人信息',
     })
   }
 
@@ -58,7 +63,7 @@ const PaymentSuccessPage: FC = () => {
           <p>为了确保您的旅行顺利进行，赶紧去填写出行人信息吧！</p>
         </div>
         <div className="pays-btns">
-          <div className="pays-left pays-com">查看订单</div>
+          <div className="pays-left pays-com" onClick={openOrderDetails}>查看订单</div>
           <div className="pays-right pays-com" onClick={openPersonalDetails}>
             填写出行人信息
           </div>

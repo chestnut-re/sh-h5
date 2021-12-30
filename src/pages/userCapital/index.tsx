@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Dialog, Toast, ActionSheet, NumberKeyboard, NavBar } from 'react-vant'
 import './index.less'
 import { useDebouncedEffect } from '@/hooks/useDebouncedEffect'
-import tip from '@/assets/img/capital/tip.png'
+import tip from '@/assets/img/capital/desc.png'
 import jump from '@/assets/img/capital/jump.png'
 import tips from '@/assets/img/capital/tips.png'
 import close from '@/assets/img/successMove/close.png'
@@ -76,14 +76,19 @@ const UserCapitalPage: React.FC = () => {
       />
       <div className="top">
         <div className="one">
-          <div>可用金额</div> <img className="pic" src={tip} alt="" />
+          <div>可用金额</div>
+
+          <div className="top-img">
+            {' '}
+            <img className="pic" src={tip} alt="" />
+          </div>
         </div>
         <div className="two">
           <span>¥</span>
           <span className="num">&nbsp;{accountInfo['total']}</span>
         </div>
         <div className="three">
-          <div>冻结资金 ¥{accountInfo['frozen']}</div>
+          <div>锁定金额 ¥ ¥{accountInfo['frozen']}</div>
           <img className="pic" src={tips} alt="" />
         </div>
       </div>

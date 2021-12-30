@@ -1,7 +1,7 @@
-import React, { useState,useEffect, FC } from 'react'
+import React, { useState, useEffect, FC } from 'react'
 
-import Clipboard from 'clipboard';
-import {Toast} from 'react-vant';
+import Clipboard from 'clipboard'
+import { Toast } from 'react-vant'
 
 import './index.less'
 /**
@@ -9,33 +9,33 @@ import './index.less'
  */
 const PayTypes = {
   // 1 微信小程序支付、2 微信APP支付、3 支付宝APP支付
-  1:"微信小程序",
-  2:"微信",
-  3:"支付宝"
+  1: '微信小程序',
+  2: '微信',
+  3: '支付宝',
 }
-interface IndentProps{
-  orderNo:string,
-  payType:number,
-  orderTime:string,
-  payTime:string
+interface IndentProps {
+  orderNo: string
+  payType: number
+  orderTime: string
+  payTime: string
 }
 
 const IndentCard: FC<IndentProps> = (props) => {
-  const {orderNo,payType,orderTime,payTime} = props;
-  useEffect(()=>{
-    const copy = new Clipboard('.copy-btn');
-    copy.on('success', e => {
-        console.log(e);
-        Toast("复制成功")
-    });
+  const { orderNo, payType, orderTime, payTime } = props
+  useEffect(() => {
+    const copy = new Clipboard('.copy-btn')
+    copy.on('success', (e) => {
+      console.log(e)
+      Toast('复制成功')
+    })
     copy.on('error', function (e) {
-        console.error('Action:', e.action);
-    });
-    return ()=>{
-      console.log('销毁');
-      copy.destroy();
+      console.error('Action:', e.action)
+    })
+    return () => {
+      console.log('销毁')
+      copy.destroy()
     }
-  },[])
+  }, [])
 
   return (
     <div className="indent-card">
@@ -43,7 +43,9 @@ const IndentCard: FC<IndentProps> = (props) => {
         <li className="indent-li">
           <div className="indent-li-left">订单编号</div>
           <div className="indent-li-right">{orderNo}</div>
-          <div className="copy-btn indent-licopy" data-clipboard-text={orderNo}>复制</div>
+          <div className="copy-btn indent-licopy" data-clipboard-text={orderNo}>
+            复制
+          </div>
         </li>
         <li className="indent-li">
           <div className="indent-li-left">支付方式</div>
