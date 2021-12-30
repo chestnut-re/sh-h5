@@ -330,6 +330,7 @@ const SubmitOrderPage: FC = () => {
                   break
                 case 3:
                   SHBridge.alipay(returnPayInfo, (alires: any) => {
+                    console.log('支付宝回调', alires)
                     const {
                       alipay_trade_app_pay_response: { code },
                     } = JSON.parse(alires.result)
