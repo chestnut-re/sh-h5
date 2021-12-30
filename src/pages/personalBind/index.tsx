@@ -46,6 +46,9 @@ const PersonalBindPage: FC = () => {
   const [addrIndex, setAddrIndex] = useState(0)
 
   const [selectedTraveler, setSelectedTraveler] = useState([])
+  const [fillingArr, setFillingArr] = useState([])
+
+
 
   const [state, set] = hooks.useSetState({
     visible: false,
@@ -111,13 +114,15 @@ const PersonalBindPage: FC = () => {
     const newSelectedTraveler = [...selectedTraveler]
     const newSubordersList = [...subordersList]
     const fillingArr = []
+    console.log('newSubordersList', newSubordersList)
     newSubordersList.map((item, i) => {
       if (!item['travelerName']) {
         fillingArr.push({ index: i })
       }
     })
+    console.log('fillingArr', fillingArr)
 
-    if (newSelectedTraveler.length < fillingArr.length) {
+    if (fillingArr.length > 0) {
       const newTravelerList = [...travelerList]
       newTravelerList.map(item => {
         if (obj.travelerId == item['travelerId']) {
@@ -130,20 +135,19 @@ const PersonalBindPage: FC = () => {
           newSubordersList[i].selectedTraveler = true
           newSubordersList[i].travelerName = obj.travelerName
           newSubordersList[i].travelerPhoneNumber = obj.phoneNumber
+          newSubordersList[i].travelerId = obj.travelerId
           travelerCertificateDtoList[i] = obj.travelerCertificate
-          console.log('travelerCertificateDtoList', travelerCertificateDtoList)
-          setSubordersList(newSubordersList)
           break;
         }
       }
       // travelerCertificateDtoList.splice(i, 1, [initialTravelerInfo(subordersList[i].id)]);
-
+      setSubordersList(newSubordersList)
       newSelectedTraveler.push(obj)
       setSelectedTraveler(newSelectedTraveler)
       setTravelerList(newTravelerList)
     } else {
       Toast({
-        message: `只能添加${fillingArr.length}位出行人模板信息`,
+        message: `不能继续添加行程人了`,
       })
     }
   }
@@ -239,7 +243,7 @@ const PersonalBindPage: FC = () => {
       suborderDtoList: [...subordersList],
       travelerCertificateDtoList: [...certificate]
     }
-    console.log('postDatapostData', postData)
+    console.log('postDatapostData', JSON.stringify(postData))
     Personal.addPedestrianInfo(postData).then(res => {
       if (res['code'] == '200') {
         SHBridge.closePage()
@@ -367,14 +371,15 @@ const PersonalBindPage: FC = () => {
       }
     })
 
-    // const newTravelerList = [...travelerList]
-    // newTravelerList.map(item => {
-    //   if (newSubordersList[i].travelerId == item['travelerId']) {
-    //     item['select'] = !item['select']
-    //   }
-    // })
+    const newTravelerList = [...travelerList]
+    newTravelerList.map(item => {
+      console.log('item[travelerId]', item['travelerId'])
+      if (newSubordersList[i].travelerId == item['travelerId']) {
+        item['select'] = false
+      }
+    })
 
-
+    setTravelerList(newTravelerList)
     travelerCertificateDtoList.splice(i, 1, [initialTravelerInfo(subordersList[i].id)]);
     setSubordersList(newSubordersList)
   }
@@ -424,11 +429,12 @@ const PersonalBindPage: FC = () => {
                           </div>
                           <div className='phone'>{item['travelerPhoneNumber']}</div>
                         </div>
-                        {/* {travelerCertificateDtoList[index].map((travelerItem, travelerIndex) => (
-                          
-                        ))} */}
-
-                        <div className='Id'>身份证 1100 **** **** **8899</div>
+                        {travelerCertificateDtoList[index].map((travelerItem, travelerIndex) => (
+                          <div key={`travelerIndex${travelerIndex}`} className='Id'>
+                            {travelerItem.certificateType == 1 ? '身份证 ' : '护照 '}
+                            {travelerItem.certificateNo}
+                          </div>
+                        ))}
                       </div>
                     </li>
                   </ul>
