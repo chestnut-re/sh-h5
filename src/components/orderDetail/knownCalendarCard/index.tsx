@@ -43,7 +43,7 @@ interface KnownCalendarType {
 }
 
 const KnownCalendarCard: FC<KnownCalendarType> = (props) => {
-  const { calendata, selecttime } = props
+  const { calendata=[], selecttime } = props
   //ref获取日历方法
   const calendarRef = useRef<CalendarInstance>()
   //显隐日历
@@ -100,11 +100,11 @@ const KnownCalendarCard: FC<KnownCalendarType> = (props) => {
               )
             })}
           </div>
-          <div className="kcalendar-more">
+          {calendata.length>4?(<div className="kcalendar-more">
             <div className="more-btn" onClick={() => setVisible(true)}>
               查看更多
             </div>
-          </div>
+          </div>):null}
         </div>
         <div className="kcalendar-box">
           <div className="kcalendar-item-l">

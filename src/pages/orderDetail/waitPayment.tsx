@@ -1,4 +1,4 @@
-import React, { useState,FC } from 'react'
+import React, { useState,useEffect,FC } from 'react'
 
 import { CountDown } from 'react-vant';
 import ContactWcharCard from '@/components/orderDetail/contactCard'
@@ -8,6 +8,7 @@ import PayTypeCard from '@/components/orderDetail/payTypeCard'
 import IndentCard from '@/components/orderDetail/indentCard'
 import BackCard from '@/components/orderDetail/backthatCard'
 import FooterCard from '@/components/orderDetail/footerCard'
+import { OrderApi } from '@/service/OrderDetailApi'
 import './index.less'
 
 /**
@@ -30,8 +31,16 @@ const OrderPaymentPage:FC = (props:any) => {
     payTime
   } = props
   console.log('object :>> ', props);
+  useEffect(()=>{
+
+  },[])
+
+
   const changePayType = ()=>{
       
+  }
+  const HandleOrdersubmit = ()=>{
+    console.log('object :>> ', );
   }
   return (
     <div className="Order-container">
@@ -60,7 +69,7 @@ const OrderPaymentPage:FC = (props:any) => {
           <BackCard/>
          
         </div>
-        {/* <FooterCard/> */}
+        {/* <FooterCard priceSetData={} submitHandleOrder={HandleOrdersubmit} /> */}
     </div>
   )
 }

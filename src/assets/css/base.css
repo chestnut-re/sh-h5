@@ -100,6 +100,13 @@ a:active {
 .CF57272{
   color:  #f57272 !important;
 }
+.CFD7D81{
+  color:  #fd7d81 !important;
+}
+.C4DCFC5{
+  color:  #4dcfc5 !important;
+}
+
 
 .padding-bottom {
   padding-bottom: constant(safe-area-inset-bottom); /*兼容 IOS<11.2*/

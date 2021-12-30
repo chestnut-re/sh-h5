@@ -1,6 +1,6 @@
 import React, { useState,FC } from 'react'
-
-import ContactWcharCard from '@/components/orderDetail/contactCard'
+import { useLocation } from 'react-router-dom'
+import qs from 'query-string'
 import GoodsCard from '@/components/orderDetail/goodsCard'
 import PreferCard from '@/components/orderDetail/preferCard'
 import IndentCard from '@/components/orderDetail/indentCard'
@@ -8,6 +8,8 @@ import BackCard from '@/components/orderDetail/backthatCard'
 import CompleteFooter from '@/components/submitBars/completeFooter'
 import TravelCodeCard from '@/components/orderDetail/travelCodeCard'
 import TripPeopleCard from '@/components/orderDetail/tripPeopleCard'
+import { SHBridge } from '@/jsbridge'
+import { generateUrl } from '@/utils'
 import './index.less'
 
 /**
@@ -27,8 +29,11 @@ const OrderConfirmaPage:FC = (props:any) => {
     orderNo,
     payType,
     orderTime,
-    payTime
+    payTime,
+    ordersTravel
   } = props
+  const { search } = useLocation()
+  const { orderId } = qs.parse(search.slice(1))
   console.log('object :>> ', props);
   const BarsConfig = {
     showLeftLinkBtn:false,
@@ -38,6 +43,17 @@ const OrderConfirmaPage:FC = (props:any) => {
     onSelect:(type,item)=>{
         console.log('event :>> ', type,item);
     }
+  }
+
+  const openTravelList = ()=>{
+
+    SHBridge.jump({
+      url: generateUrl(`/order-travel?orderId=${orderId}`),
+      newWebView: true,
+      replace: false,
+      title: '出行确认码',
+    })
+    console.log('dakia :>> ',);
   }
   return (
     <div className="Order-container">
@@ -54,12 +70,16 @@ const OrderConfirmaPage:FC = (props:any) => {
           />
              <PreferCard tokenAmount={tokenAmount} discountAmount={discountAmount} payAmount={payAmount} />
           </div>
-          <TravelCodeCard/>
+          
+          <div className='order-qrbox'>
+              {ordersTravel.length&&<TravelCodeCard {...ordersTravel[0]} />}
+              <div className='order-more-icon' onClick={openTravelList}>展开</div>
+          </div>
           <IndentCard orderNo={orderNo}  payType={payType} orderTime={orderTime} payTime={payTime} />
           <BackCard/>
           {
-            [1,2,3].map(item=>{
-                return <TripPeopleCard key={item}/>
+            ordersTravel.map((item,index)=>{
+                return <TripPeopleCard openTravelClick={openTravelList} {...item} key={index}/>
             })
           }
           
