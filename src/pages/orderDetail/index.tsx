@@ -20,8 +20,10 @@ import { Toast,Empty } from 'react-vant'
  */
 const OrderIndexPage: FC = (props: any) => {
   const [orderType,setOrderType] = useState<number | string>()
-
+  //订单详情数据
   const [orders,setOrders] = useState({})
+  //出行人数据
+  const [ordersTravel,setOrdersTravel] = useState([])
   const {
     location: { search },
   } = props
@@ -48,6 +50,10 @@ const OrderIndexPage: FC = (props: any) => {
     OrderApi.suborders({
        orderId:orderId
     }).then((result) => {
+        const {code,data} = result;
+          if (code==="200"&&data) {
+              setOrdersTravel(data)
+          }
         console.log('resultxinxix :>> ', result);
     }).catch((err) => {
         console.log('err :>> ', err);
@@ -63,7 +69,7 @@ const OrderIndexPage: FC = (props: any) => {
     <div className="container">
       {orderType == '4' && <OrderDone {...orders} />}
       {orderType == '2' && <OrderFailure {...orders} />}
-      {orderType == '3' && <OrderConfirma  {...orders} />}
+      {orderType == '3' && <OrderConfirma  {...orders} ordersTravel={ordersTravel} />}
       {orderType == '1' && <OrderPayment {...orders} />}
       {orderType == '-1' &&<Empty className="custom-image" image={emptyIcon} description="暂无数据" />}
     </div>

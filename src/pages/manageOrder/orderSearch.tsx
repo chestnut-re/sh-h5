@@ -22,6 +22,7 @@ const themeVars = {
 const PAGE_SIZE = 10
 
 const OrderSearchPage: FC = () => {
+  let current = 1;
   const { search } = useLocation()
   const { t } = qs.parse(search.slice(1))
 
@@ -32,7 +33,7 @@ const OrderSearchPage: FC = () => {
   //是否在请求状态
   const [isloading, setIsloading] = useState<boolean>(false)
   //当前请求页码
-  const [current, setCurrent] = useState(1)
+  // const [current, setCurrent] = useState(1)
   //列表数据
   const [listData, setListData] = useState<any[]>([])
   //是否是首次搜索
@@ -48,7 +49,8 @@ const OrderSearchPage: FC = () => {
         .then((res: any) => {
           const { code } = res
           if (code == '200') {
-            setCurrent((v) => v + 1)
+            current+=1
+            // setCurrent((v) => v + 1)
             resolve(res)
           } else {
             Toast('服务器异常')
@@ -81,7 +83,7 @@ const OrderSearchPage: FC = () => {
     if (keyWords.trim()) {
       setIssearch(true)
       setListData([])
-      setCurrent(1)
+      current = 1;
       setIsloading(true)
       onLoadManageOrderSearch()
     } else {
