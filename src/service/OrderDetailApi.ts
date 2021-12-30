@@ -51,5 +51,13 @@ export class OrderApi {
  static suborders(params): Promise<AxiosResponse<any>> {
   return axios.get(`/api/orders/${params.orderId}/suborders`)
 }
-  
+  /**
+   * 待支付订单去付款
+   */
+ static toPay(data): Promise<AxiosResponse<any>> {
+   console.log(`data`, data)
+  const formData = new FormData()
+  formData.append('orderId', data.orderId)
+  return axios.post(`/api/orders/toPay`,formData)
+}
 }

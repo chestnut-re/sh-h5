@@ -6,8 +6,6 @@ import emptyIcon from '@/assets/img/empty@3x.png'
 import { ManageOrder } from '@/service/ManageOrderApi'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
-import sousuo from '../../assets/img/sousuo-2@3x.png';
-
 import './index.less'
 /**
  * 订单管理入口页面

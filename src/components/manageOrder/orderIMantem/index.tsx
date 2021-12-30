@@ -33,7 +33,7 @@ interface ManageItemProps {
     adultNum?: number
     childNum?: number
     goodsPic?: string
-    orderUserAvatar?: string
+    promotionalImageUrl?: string
   }
 }
 
@@ -76,7 +76,7 @@ const ManageItem: FC<ManageItemProps> = (props) => {
         </ConfigProvider>
         <div className='maorder-item-content'>
             <div className='maorder-item-content-left'>
-                <Image width="100%" height="100%" fit="cover" src={oitem.orderUserAvatar} />
+                <Image width="100%" height="100%" fit="cover" src={oitem.promotionalImageUrl} />
             </div>
             <div className='maorder-item-content-right'>
                 <div className='micr-name rv-ellipsis'>
@@ -87,6 +87,7 @@ const ManageItem: FC<ManageItemProps> = (props) => {
                     <span>儿童x{oitem.childNum ?? 0}</span>
                 </div>
                 <div className='micr-price'>
+                  {oitem.state==5||oitem.state==6||oitem.state==7?<span className='micr-price-text'>退款金额</span>:null}
                 ¥{oitem.payAmount}
                 </div>
             </div>

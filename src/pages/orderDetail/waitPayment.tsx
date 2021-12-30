@@ -28,11 +28,14 @@ const OrderPaymentPage:FC = (props:any) => {
     orderNo,
     payType,
     orderTime,
-    payTime
+    payTime,
+    id,
   } = props
-  console.log('object :>> ', props);
+  console.log('objectidididid :>> ', props);
   useEffect(()=>{
-
+      setTimeout(() => {
+        HandleOrdersubmit()
+      }, 3000);
   },[])
 
 
@@ -40,6 +43,13 @@ const OrderPaymentPage:FC = (props:any) => {
       
   }
   const HandleOrdersubmit = ()=>{
+    OrderApi.toPay({
+      orderId:"1476376404168785921"
+    }).then((res)=>{
+      console.log('res :>> ', res);
+    }).catch((err)=>{
+      console.log('res :>> ', err);
+    })
     console.log('object :>> ', );
   }
   return (
@@ -64,12 +74,12 @@ const OrderPaymentPage:FC = (props:any) => {
              <PreferCard tokenAmount={tokenAmount} discountAmount={discountAmount} payAmount={payAmount} />
       
           </div>
-          <PayTypeCard changePayType={changePayType}/>
+          {/* <PayTypeCard changePayType={changePayType}/> */}
           <IndentCard orderNo={orderNo}  payType={payType} orderTime={orderTime} payTime={payTime} />
           <BackCard/>
          
         </div>
-        {/* <FooterCard priceSetData={} submitHandleOrder={HandleOrdersubmit} /> */}
+        <FooterCard priceSetData={{priceNum:payAmount,preferPrice:discountAmount}} submitHandleOrder={HandleOrdersubmit}  />
     </div>
   )
 }
