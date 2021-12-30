@@ -176,6 +176,8 @@ const SubmitOrderPage: FC = () => {
   }, [selectTime])
 
   useEffect(() => {
+    SHBridge.setTitle("提交订单")
+
     getGoodsDetail(id)
       .then((res: any) => {
         const { departureCity, departureCityAdcode, goodsName, promotionalImageUrl, id, isDeduction } = res

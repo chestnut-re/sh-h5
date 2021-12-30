@@ -25,8 +25,8 @@ const isCalendarDisabled = (time, timelist: any[] = []) => {
 
   if (timestate) {
     return {
-      bottomInfo: timestate.personMarkPrice,
-      type: timestate.stock==0?'disabled':'',
+      bottomInfo: timestate.personCurrentPrice,
+      type: '',
       ...timestate,
     }
   } else {
@@ -95,7 +95,7 @@ const KnownCalendarCard: FC<KnownCalendarType> = (props) => {
                 >
                   <p>{dayjs(item.startDate).format('MM-DD')}</p>
                   <p>{WeekMap[dayjs(item.startDate).format('d')]}</p>
-                  <p className="price">¥{item.personMarkPrice / RMB_CON}</p>
+                  <p className="price">¥{item.personCurrentPrice / RMB_CON}</p>
                 </div>
               )
             })}

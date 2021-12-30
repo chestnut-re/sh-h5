@@ -23,12 +23,7 @@ const PaymentSuccessPage: FC = () => {
         const { code, data } = res
 
         if (code == '200' && !data) {
-          SHBridge.jump({
-            url: generateUrl(`/order-detail?orderId=${orderId}`),
-            newWebView: false,
-            replace: true,
-            title: '订单详情',
-          })
+          openOrderDetails()
         }
         console.log('res :>> ', res)
       })
@@ -40,6 +35,15 @@ const PaymentSuccessPage: FC = () => {
   useEffect(() => {
     judgePayConfirmStatus(orderId)
   }, [])
+
+  const openOrderDetails = ()=>{
+    SHBridge.jump({
+      url: generateUrl(`/order-detail?orderId=${orderId}`),
+      newWebView: false,
+      replace: true,
+      title: '订单详情',
+    })
+  }
 
     //跳转出行人
   const openPersonalDetails = () => {
@@ -59,7 +63,7 @@ const PaymentSuccessPage: FC = () => {
           <p>为了确保您的旅行顺利进行，赶紧去填写出行人信息吧！</p>
         </div>
         <div className="pays-btns">
-          <div className="pays-left pays-com">查看订单</div>
+          <div className="pays-left pays-com" onClick={openOrderDetails}>查看订单</div>
           <div className="pays-right pays-com" onClick={openPersonalDetails}>
             填写出行人信息
           </div>
