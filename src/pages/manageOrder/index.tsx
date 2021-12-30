@@ -131,7 +131,7 @@ const ManageOrderPage: FC = () => {
 
     setListData((v) => [...v, ...records])
 
-    if (activeState === 1 || activeState == '') {
+    if (activeState == '') {
       const setPayList = listData.filter((item) => {
         return item.state == 1
       })
