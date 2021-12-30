@@ -1,6 +1,14 @@
-import React from 'react'
-import { Swiper, SwiperSlide } from 'swiper/react'
+import React, { useState } from 'react'
 import { PageTemplateKey } from '../../utils'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Controller } from 'swiper'
+import { Navigation, EffectFade, EffectCoverflow, EffectCards } from 'swiper'
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/effect-fade'
+import 'swiper/css/effect-coverflow'
+import 'swiper/css/effect-cards'
+import 'swiper/css/pagination'
 import './index.less'
 
 interface Props {
@@ -12,10 +20,18 @@ interface Props {
  * 轮播
  */
 const GSwiper: React.FC<Props> = ({ imgs, templateKey }) => {
+  const [controlledSwiper, setControlledSwiper] = useState<any>(null)
+
   return (
     <div className={`GSwiper__root GSwiper__root__${templateKey}`}>
       {imgs && (
-        <Swiper effect={'cards'} grabCursor={true} className="mySwiper">
+        <Swiper
+          // effect={'cards'}
+          grabCursor={true}
+          modules={[Controller, Navigation, EffectFade, EffectCoverflow, EffectCards]}
+          controller={{ control: controlledSwiper }}
+          className="mySwiper"
+        >
           {imgs.map((item, index) => {
             return (
               <SwiperSlide key={index}>

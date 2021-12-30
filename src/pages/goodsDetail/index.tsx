@@ -3,16 +3,15 @@ import { SHBridge } from '@/jsbridge'
 import { GoodsDetailService } from '@/service/GoodsDetailService'
 import { generateUrl, getUrlParams } from '@/utils'
 import React, { useEffect, useRef, useState } from 'react'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation } from 'swiper'
-import 'swiper/css'
-import 'swiper/css/navigation'
 import GoodsDetailTemplate from './components/GoodsDetailTemplate'
 import Panel from './components/Panel'
+import { Swiper, SwiperSlide } from 'swiper/react'
 import { Controller } from 'swiper'
+import { Navigation, EffectFade, EffectCoverflow } from 'swiper'
 import 'swiper/css'
-import 'swiper/css/effect-fade'
 import 'swiper/css/navigation'
+import 'swiper/css/effect-fade'
+import 'swiper/css/effect-coverflow'
 import 'swiper/css/pagination'
 import './index.less'
 
@@ -34,8 +33,8 @@ const GoodsDetailPage: React.FC = () => {
     pageRef.current.id = params['id']
     pageRef.current.goodsPriceId = params['goodsPriceId']
     //TODO: test
-    pageRef.current.id = pageRef.current.id || '1473837487611928576'
-    pageRef.current.goodsPriceId = pageRef.current.goodsPriceId || '1473837487616122880'
+    pageRef.current.id = pageRef.current.id
+    pageRef.current.goodsPriceId = pageRef.current.goodsPriceId
     //end
     GoodsDetailService.get({ id: pageRef.current.id, goodsPriceId: pageRef.current.goodsPriceId }).then((res) => {
       console.log(res.data)
@@ -67,11 +66,23 @@ const GoodsDetailPage: React.FC = () => {
 
   return (
     <div className="GoodsDetailPage__root">
+      <div className="tips">提示：此商品最多三单</div>
       {data?.goodsDetailStart && (
         <Swiper
           className="swiper"
           direction="vertical"
           effect={'fade'}
+          // effect={'coverflow'}
+          // grabCursor={true}
+          // centeredSlides={true}
+          // slidesPerView={'auto'}
+          // coverflowEffect={{
+          //   rotate: 50,
+          //   stretch: 0,
+          //   depth: 100,
+          //   modifier: 1,
+          //   slideShadows: true,
+          // }}
           loop={false}
           pagination={{
             clickable: true,
@@ -80,7 +91,7 @@ const GoodsDetailPage: React.FC = () => {
             nextEl: '.swiper-button-next2',
             prevEl: '.swiper-button-prev2',
           }}
-          modules={[Controller, Navigation]}
+          modules={[Controller, Navigation, EffectFade, EffectCoverflow]}
           controller={{ control: controlledSwiper }}
         >
           <SwiperSlide>
@@ -117,7 +128,7 @@ const GoodsDetailPage: React.FC = () => {
       )}
 
       <Panel swipe={controlledSwiper} total={total} current={current} />
-      {/* <div className="nav">
+      <div className="nav">
         <MyNavBar
           fixed
           placeholder={false}
@@ -129,7 +140,7 @@ const GoodsDetailPage: React.FC = () => {
             </div>
           }
         />
-      </div> */}
+      </div>
     </div>
   )
 }
