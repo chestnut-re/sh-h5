@@ -231,14 +231,7 @@ const SubmitOrderPage: FC = () => {
   }
   //处理优惠说明
   const handleDiscountsInfo = () => {
-    const { goodsPriceId } = selectTime
     setShowPrivilege(true)
-
-    // SHBridge.jump({
-    //   url: generateUrl(`/privilege?t=${search}&id=${id}&goodsPriceId=${goodsPriceId}`),
-    //   newWebView: true,
-    //   title: '优惠说明',
-    // })
   }
   //处理支付方式
   const handlePayType = (item) => {
@@ -424,7 +417,7 @@ const SubmitOrderPage: FC = () => {
         onClose={() => setShowPrivilege(false)}
       >
         <div className="privilege-box">
-          <Privilege goodsPriceId={selectTime['goodsPriceId']} id={id} />
+          <Privilege goodsPriceId={selectTime['goodsPriceId']} stepperData={stepperData}  id={id} />
         </div>
       </Popup>
     </div>

@@ -53,12 +53,12 @@ const OrderSearchPage: FC = () => {
             // setCurrent((v) => v + 1)
             resolve(res)
           } else {
-            Toast('服务器异常')
+            Toast('系统异常')
             reject(new Error('error'))
           }
         })
         .catch((err) => {
-          Toast(err.msg)
+          Toast('系统异常')
           reject(new Error('error'))
         })
         .finally(() => {

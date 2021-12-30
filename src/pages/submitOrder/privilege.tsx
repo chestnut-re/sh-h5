@@ -13,65 +13,19 @@ const PRIVI_Map = {
      5:"其他"
 }
 interface PrivType{
-  id:string;
+  id:string|number;
   goodsPriceId:string;
+  stepperData:any;
 }
 
 const PrivilegePage: FC<PrivType> = (props) => {
-  const { goodsPriceId, id } = props;
+  const { goodsPriceId, id,stepperData:{adultNum,childNum,intNum} } = props;
   const [privilegeList, setPrivilegeList] = useState()
   const getDiscountApi = (id, goodsPriceId) => {
     OrderApi.getDiscount({
       id: id, // 商品ID
       goodsPriceId: goodsPriceId, //商品价格ID
-    }).then((res) => {
-      res.data = [
-        {
-          longitude: '经度',
-          latitude: '纬度',
-          personCurrentPrice: 2000,
-          personCostPrice: 2500,
-          personMarkPrice: 2300,
-          childCurrentPrice: 1800,
-          childCostPrice: 2300,
-          childMarkPrice: 2100,
-          remark: '飞不动11',
-          travelType: 2,
-          travelTitle: '机票',
-          personDiscountAmount: 300,
-          childDiscountAmount: 300,
-        },
-        {
-          longitude: '经度',
-          latitude: '纬度',
-          personCurrentPrice: 2000,
-          personCostPrice: 2500,
-          personMarkPrice: 2300,
-          childCurrentPrice: 1800,
-          childCostPrice: 2300,
-          childMarkPrice: 2100,
-          remark: '飞不动222',
-          travelType: 2,
-          travelTitle: '机票',
-          personDiscountAmount: 300,
-          childDiscountAmount: 300,
-        },
-        {
-          longitude: '经度',
-          latitude: '纬度',
-          personCurrentPrice: 2000,
-          personCostPrice: 2500,
-          personMarkPrice: 2300,
-          childCurrentPrice: 1800,
-          childCostPrice: 2300,
-          childMarkPrice: 2100,
-          remark: '飞不动333',
-          travelType: 3,
-          travelTitle: '机票',
-          personDiscountAmount: 300,
-          childDiscountAmount: 300,
-        },
-      ]
+    }).then((res:any) => {
       const { code, data } = res
       const privilegeMap = new Map()
       if (code === '200' && data) {
@@ -98,8 +52,8 @@ const PrivilegePage: FC<PrivType> = (props) => {
                       <div className="li-left">{item.remark}</div>
                       <div className="li-right">
                         <span className="rightli-l">¥{item.childMarkPrice}</span>
-                        <span className="rightli-c">0</span>
-                        <span className="rightli-r">X2</span>
+                        <span className="rightli-c">¥{item.personCurrentPrice}</span>
+                        <span className="rightli-r">X{adultNum+childNum}</span>
                       </div>
                     </li>
                   )
