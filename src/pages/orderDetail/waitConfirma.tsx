@@ -30,7 +30,8 @@ const OrderConfirmaPage:FC = (props:any) => {
     payType,
     orderTime,
     payTime,
-    ordersTravel
+    ordersTravel,
+    goodsId
   } = props
   const { search } = useLocation()
   const { orderId } = qs.parse(search.slice(1))
@@ -41,7 +42,23 @@ const OrderConfirmaPage:FC = (props:any) => {
     barLeftTitle:"再次购买",
     barRightTitle:"",
     onSelect:(type,item)=>{
-        console.log('event :>> ', type,item);
+      switch (type) {
+        case 'barLeftTitle':
+          //再次购买处理
+          SHBridge.jump({
+            url: generateUrl(`/submit-order?id=${goodsId}`),
+            newWebView: true,
+            replace: false,
+            title: '提交订单',
+          })
+          break
+        case 'barRightTitle':
+          //处理分享逻辑
+
+          break
+        default:
+          break
+      }
     }
   }
 

@@ -18,38 +18,14 @@ import './index.less'
 
 /**
  * 提交订单页面
+ * url 必填入参
+ * id : 商品id
+ * source：下单途径:1 自然获客、2 分享任务链接、3 分享普通链接、4 线下扫码
  */
 
 const RMB_CON = 100
 //mock数据
-const GoodsPrice = [
-  {
-    goodsPriceId: 1473837416123000,
-    startDate: '2021-12-29',
-    endDate: '2022-12-29',
-    personCurrentPrice: 180000,
-    personCostPrice: 180000,
-    personMarkPrice: 1999,
-    childCurrentPrice: 1999,
-    childCostPrice: 180000,
-    childMarkPrice: 180000,
-    stock: 99,
-    days: 7,
-  },
-  {
-    goodsPriceId: 1473837486123000,
-    startDate: '2021-12-31',
-    endDate: '2022-12-29',
-    personCurrentPrice: 180000,
-    personCostPrice: 180000,
-    personMarkPrice: 6700,
-    childCurrentPrice: 199,
-    childCostPrice: 180000,
-    childMarkPrice: 180000,
-    stock: 99,
-    days: 7,
-  },
-]
+
 
 const SubmitOrderPage: FC = () => {
   const { search } = useLocation()
@@ -74,6 +50,7 @@ const SubmitOrderPage: FC = () => {
       discountAmount: 0, //优惠总金额
       goodsId: '', //商品id
       goodsName: '', //商品名称
+      promotionalImageUrl:"", //商品预览图
       insuranceAmount: 0, //保险金额
       originPrice: 0, //商品原总价
       payAmount: 0, //支付金额
@@ -201,7 +178,7 @@ const SubmitOrderPage: FC = () => {
   useEffect(() => {
     getGoodsDetail(id)
       .then((res: any) => {
-        const { departureCity, departureCityAdcode, goodsName, id, isDeduction } = res
+        const { departureCity, departureCityAdcode, goodsName,promotionalImageUrl, id, isDeduction } = res
         setSubmitinfo(res)
         setSelectTime(res['goodsPrices'][0])
         setPriceSet((v) => {
@@ -231,6 +208,7 @@ const SubmitOrderPage: FC = () => {
               ...v.orderDto,
               goodsName,
               goodsId: id,
+              promotionalImageUrl
             },
           }
         })

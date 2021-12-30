@@ -3,6 +3,8 @@ import { useHistory, useLocation } from 'react-router-dom'
 import GoodsCard from '@/components/orderDetail/goodsCard'
 import IndentCard from '@/components/orderDetail/indentCard'
 import CompleteFooter from '@/components/submitBars/completeFooter'
+import { SHBridge } from '@/jsbridge'
+import { generateUrl } from '@/utils'
 import './index.less'
 
 /**
@@ -20,7 +22,8 @@ const OrderFailurePage: FC = (props:any) => {
     orderNo,
     payType,
     orderTime,
-    payTime
+    payTime,
+    goodsId
   } = props
   const history = useHistory()
   const { search } = useLocation()
@@ -32,7 +35,12 @@ const OrderFailurePage: FC = (props:any) => {
       switch (type) {
         case 'barLeftTitle':
           //再次购买处理
-          history.push('/submit-order')
+          SHBridge.jump({
+            url: generateUrl(`/submit-order?id=${goodsId}`),
+            newWebView: true,
+            replace: false,
+            title: '提交订单',
+          })
           break
         case 'barRightTitle':
           //处理分享逻辑

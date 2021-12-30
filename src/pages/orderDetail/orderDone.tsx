@@ -1,13 +1,13 @@
 import React, { useState, FC } from 'react'
 import { withRouter } from 'react-router-dom'
-import ContactWcharCard from '@/components/orderDetail/contactCard'
 import GoodsCard from '@/components/orderDetail/goodsCard'
 import PreferCard from '@/components/orderDetail/preferCard'
 import IndentCard from '@/components/orderDetail/indentCard'
 import BackCard from '@/components/orderDetail/backthatCard'
-import { useLocation } from 'react-router-dom'
 import CompleteFooter from '@/components/submitBars/completeFooter'
 import PreviewTripCard from '@/components/orderDetail/previewTrip'
+import { SHBridge } from '@/jsbridge'
+import { generateUrl } from '@/utils'
 import './index.less'
 
 /**
@@ -28,7 +28,8 @@ const OrderDonePage: FC = (props:any) => {
     orderNo,
     payType,
     orderTime,
-    payTime
+    payTime,
+    goodsId
   } = props
   const BarsConfig = {
     barLeftTitle: '再次购买',
@@ -37,7 +38,12 @@ const OrderDonePage: FC = (props:any) => {
       switch (type) {
         case 'barLeftTitle':
           //再次购买处理
-          props.history.push('/submit-order')
+          SHBridge.jump({
+            url: generateUrl(`/submit-order?id=${goodsId}`),
+            newWebView: true,
+            replace: false,
+            title: '提交订单',
+          })
           break
         case 'barRightTitle':
           //处理分享逻辑
