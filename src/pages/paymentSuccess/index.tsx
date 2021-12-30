@@ -24,10 +24,10 @@ const PaymentSuccessPage: FC = () => {
 
         if (code == '200' && !data) {
           SHBridge.jump({
-            url: generateUrl(`/order-detail${search}&type=4`),
+            url: generateUrl(`/order-detail?orderId=${orderId}`),
             newWebView: false,
             replace: true,
-            title: '出行人信息',
+            title: '订单详情',
           })
         }
         console.log('res :>> ', res)
@@ -41,12 +41,13 @@ const PaymentSuccessPage: FC = () => {
     judgePayConfirmStatus(orderId)
   }, [])
 
+    //跳转出行人
   const openPersonalDetails = () => {
     SHBridge.jump({
-      url: generateUrl(`/personal-details${search}`),
+      url: generateUrl(`/personal-bind?id=${orderId}`),
       newWebView: false,
       replace: true,
-      title: '出行人信息',
+      title: '填写出行人信息',
     })
   }
 

@@ -26,7 +26,7 @@ const isCalendarDisabled = (time, timelist: any[] = []) => {
   if (timestate) {
     return {
       bottomInfo: timestate.personMarkPrice,
-      type: '',
+      type: timestate.stock==0?'disabled':'',
       ...timestate,
     }
   } else {
@@ -118,6 +118,7 @@ const KnownCalendarCard: FC<KnownCalendarType> = (props) => {
       <Calendar
         ref={calendarRef}
         title="选择出发日期"
+        weekdays={['周日', '周一', '周二', '周三', '周四', '周五', '周六']}
         onClose={() => setVisible(false)}
         visible={visible}
         showConfirm={false}

@@ -87,14 +87,16 @@ const OrderConfirmaPage: FC = (props: any) => {
   //处理出行人列表数据根据不同子订单状态跳转不同订单详情
   const openTravelListItem = (item) => {
     console.log('item :>> ', item);
-    Toast("开发中")
-    return
-    SHBridge.jump({
-      url: generateUrl(`/order-travel?orderId=${orderId}`),
-      newWebView: true,
-      replace: false,
-      title: '出行确认码',
-    })
+    const {state} = item;
+    if (state!=3) {
+      SHBridge.jump({
+        url: generateUrl(`/order-detail?orderId=${orderId}`),
+        newWebView: true,
+        replace: false,
+        title: '订单详情',
+      })
+    }
+   
     console.log('dakia :>> ')
   }
   //点击填写出行人逻辑
