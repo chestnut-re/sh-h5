@@ -129,7 +129,7 @@ const GoodsDetailPage: React.FC = () => {
 
       <Panel swipe={controlledSwiper} total={total} current={current} />
       <div className="nav">
-        <MyNavBar
+        {/* <MyNavBar
           fixed
           placeholder={false}
           zIndex={100}
@@ -139,7 +139,10 @@ const GoodsDetailPage: React.FC = () => {
               参考行程
             </div>
           }
-        />
+        /> */}
+        <div className="ref-route1" onClick={_toTravelRoute}>
+          参考行程
+        </div>
       </div>
     </div>
   )
