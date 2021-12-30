@@ -26,12 +26,13 @@ interface ManageProps {
   orderUserName: string
   orderTime: string
   goodsName: string
-  payAmount: number
+  payAmount: number,
+  promotionalImageUrl:string
 }
 
 const ManageDetailItem: FC<ManageProps> = (props) => {
   console.log('propsprops :>> ', props)
-  const { goodsName, payAmount, orderUserName, orderTime, orderNo, state } = props
+  const { goodsName, payAmount, orderUserName, orderTime, orderNo, state,promotionalImageUrl } = props
   const [countdowntime, setCountdownTime] = useState<number>(COUNT_DOWN)
 
   useEffect(() => {
@@ -44,7 +45,7 @@ const ManageDetailItem: FC<ManageProps> = (props) => {
     <div className="mdetail-item">
       <div className="mdetail-item-goods">
         <div className="mig-left">
-          <Image width="100%" height="100%" fit="cover" src="" />
+          <Image width="100%" height="100%" fit="cover" src={promotionalImageUrl} />
         </div>
         <div className="mig-right">
           <div className="mig-name rv-multi-ellipsis--l2">{goodsName}</div>
