@@ -1,5 +1,5 @@
 import React, { useState,useEffect,FC } from 'react'
-
+import dayjs from 'dayjs';
 import { CountDown } from 'react-vant';
 import GoodsCard from '@/components/orderDetail/goodsCard'
 import PreferCard from '@/components/orderDetail/preferCard'
@@ -15,6 +15,9 @@ import './index.less'
 /**
  * 订单待付款入口页
  */
+ const COUNT_DOWN = 60 * 30 * 1000
+
+
 const OrderPaymentPage:FC = (props:any) => {
   const {
     promotionalImageUrl,
@@ -33,7 +36,15 @@ const OrderPaymentPage:FC = (props:any) => {
     id,
   } = props
   console.log('objectidididid :>> ', props);
- 
+  const [countdowntime, setCountdownTime] = useState<number>(COUNT_DOWN)
+
+  useEffect(() => {
+    if (orderTime) {
+      const restTime = (dayjs().unix() - dayjs(orderTime).unix()) * 1000
+      setCountdownTime(COUNT_DOWN - restTime)
+    }
+  }, [])
+
  //支付成功跳转
  const paySuccessLink = (orderId) => {
   SHBridge.jump({
@@ -105,8 +116,8 @@ const OrderPaymentPage:FC = (props:any) => {
     <div className="Order-container">
         <div className="order-count">
         <CountDown 
-          time={30 * 60 * 60 * 2000} 
-          format="剩 DD 天 HH:mm:ss" 
+          time={countdowntime} 
+          format="剩 mm:ss"
         />
         </div>
         <div className="order-main">
