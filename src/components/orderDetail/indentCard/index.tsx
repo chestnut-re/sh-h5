@@ -13,8 +13,14 @@ const PayTypes = {
   2:"微信",
   3:"支付宝"
 }
+interface IndentProps{
+  orderNo:string,
+  payType:number,
+  orderTime:string,
+  payTime:string
+}
 
-const IndentCard: FC = (props) => {
+const IndentCard: FC<IndentProps> = (props) => {
   const {orderNo,payType,orderTime,payTime} = props;
   useEffect(()=>{
     const copy = new Clipboard('.copy-btn');
@@ -37,7 +43,7 @@ const IndentCard: FC = (props) => {
         <li className="indent-li">
           <div className="indent-li-left">订单编号</div>
           <div className="indent-li-right">{orderNo}</div>
-          <div className="copy-btn indent-licopy" data-clipboard-text='1234 1234 11114 8888'>复制</div>
+          <div className="copy-btn indent-licopy" data-clipboard-text={orderNo}>复制</div>
         </li>
         <li className="indent-li">
           <div className="indent-li-left">支付方式</div>
