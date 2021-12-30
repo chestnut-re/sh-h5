@@ -76,14 +76,13 @@ const ListData = [
   }]
 
 const ManageOrderPage: FC = () => {
-  let current = 1;
   const { search } = useLocation()
   //请求是否完成
   const [finished, setFinished] = useState<boolean>(false)
   //是否在请求状态
   const [isloading, setIsloading] = useState<boolean>(true)
   //当前请求页码
-  // const [current, setCurrent] = useState(1)
+  const [current, setCurrent] = useState(1)
   //列表数据
   const [listData, setListData] = useState<any[]>([])
   //高亮tab
@@ -94,12 +93,6 @@ const ManageOrderPage: FC = () => {
   const getOrderListData = async () => {
     return new Promise<any>((resolve, reject) => {
 
-      // resolve({
-      //   data:{
-      //     records:ListData,
-      //   }
-      // })
-      // return
       ManageOrder.list({
         state: activeState,
         size: PAGE_SIZE,
@@ -108,11 +101,9 @@ const ManageOrderPage: FC = () => {
         .then((res: any) => {
           let { code } = res
           if (code == '200') {
-            current = current+1;
-            // setCurrent((v) => v + 1)
+            setCurrent((v) => v + 1)
             resolve(res)
           } else {
-            Toast('系统异常')
             reject(new Error('error'))
           }
         })
@@ -133,45 +124,29 @@ const ManageOrderPage: FC = () => {
     }
   }, [current, activeState])
 
-  const onLoadManageOrderList = async (isRefresh?) => {
+  const onLoadManageOrderList = async () => {
     const {
       data: { total, records },
     }: any = await getOrderListData()
 
-    // setListData((v) => [...v, ...records])
+    setListData((v) => [...v, ...records])
 
-    setListData((v)=>{
-        const newList = isRefresh ? records : [...v, ...records];
-        if (PAGE_SIZE > records.length) {
-          setFinished(true)
-        }
-        return newList
-    })
-
-    if (activeState === 1 || activeState == '') {
+    if (activeState == '') {
       const setPayList = listData.filter((item) => {
         return item.state == 1
       })
       setPaymentNum(setPayList.length)
     }
 
-    // if (activeState === 1 || activeState == '') {
-    //   const setPayList = listData.filter((item) => {
-    //     return item.state == 1
-    //   })
-    //   setPaymentNum(setPayList.length)
-    // }
-
-    // if (PAGE_SIZE > records.length) {
-    //   setFinished(true)
-    // }
+    if (PAGE_SIZE > records.length) {
+      setFinished(true)
+    }
   }
 
   useEffect(() => {
     setIsloading(true)
     setFinished(false)
-    current= 1;
-    // setCurrent(1)
+    setCurrent(1)
     setListData([])
   }, [activeState])
 
@@ -193,16 +168,6 @@ const ManageOrderPage: FC = () => {
   const tabHandelClick = (info) => {
     const { name } = info
     setActive(name)
-  }
-
-  const onRefreshHandel = async ()=>{
-    setIsloading(true)
-    setFinished(false)
-    // setCurrent(1)
-    current = 1;
-    setListData([])
-    await onLoadManageOrderList(1)
-      console.log('object :>> ');
   }
 
   const manageOrderDetail = (item) => {
@@ -247,7 +212,6 @@ const ManageOrderPage: FC = () => {
       </div>
       <div className="maorder-content">
         {listData.length ? (
-          <PullRefresh successText="刷新成功" onRefresh={onRefreshHandel}>
           <List
             finished={finished}
             errorText="请求失败，点击重新加载"
@@ -268,7 +232,6 @@ const ManageOrderPage: FC = () => {
               )
             })}
           </List>
-          </PullRefresh>
         ) : isloading ? (
           <Loading className="maorder-loading" vertical color="#3AD2C5">
             加载中...
