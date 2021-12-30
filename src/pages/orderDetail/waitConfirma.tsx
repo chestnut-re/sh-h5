@@ -13,7 +13,6 @@ import TripPeopleCard from '@/components/orderDetail/tripPeopleCard'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
 import './index.less'
-import { Toast } from 'react-vant'
 
 /**
  * 订单待确认入口页
@@ -45,7 +44,7 @@ const OrderConfirmaPage: FC = (props: any) => {
     showLeftLinkBtn: false,
     LeftLinkActions: [],
     barLeftTitle: '再次购买',
-    barRightTitle: '填写出行人信息',
+    barRightTitle: qrCodedata?'':'填写出行人信息',
     onSelect: (type, item) => {
       switch (type) {
         case 'barLeftTitle':

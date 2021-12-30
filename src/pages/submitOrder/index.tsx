@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom'
 import GoodsCard from '@/components/orderDetail/goodsCard/submitGoods'
 import StepperCard from '@/components/orderDetail/stepperCard'
 import qs from 'query-string'
+import dayjs from 'dayjs';
 import { Toast, Popup } from 'react-vant'
 import PayTypeCard from '@/components/orderDetail/payTypeCard'
 import BackCard from '@/components/orderDetail/backthatCard'
@@ -100,6 +101,7 @@ const SubmitOrderPage: FC = () => {
     childMarkPrice: 0,
     stock: 0,
     days: 0,
+    startDate:"",
   })
   const [priceSet, setPriceSet] = useState({
     priceNum: 0, //总价格
@@ -176,6 +178,8 @@ const SubmitOrderPage: FC = () => {
   }, [selectTime])
 
   useEffect(() => {
+
+
     SHBridge.setTitle("提交订单")
 
     getGoodsDetail(id)
@@ -267,9 +271,12 @@ const SubmitOrderPage: FC = () => {
 
   //提交订单
   const submitHandle = () => {
-    const { childCurrentPrice, childMarkPrice, personCurrentPrice, personMarkPrice, goodsPriceId } = selectTime
+    const { childCurrentPrice, childMarkPrice, personCurrentPrice, personMarkPrice, goodsPriceId,startDate,days } = selectTime
     const { adultNum, childNum, intNum } = stepperData
-    const { priceNum, preferPrice } = priceSet
+    const { priceNum, preferPrice } = priceSet;
+
+    const endDate = dayjs(startDate).add(days, 'day').format("YYYY-MM-DD")
+
     const subInfo = {
       ...submitData,
       childCurrentPrice: childCurrentPrice,
@@ -293,9 +300,10 @@ const SubmitOrderPage: FC = () => {
         travelId: goodsPriceId,
         discountAmount: preferPrice,
         tokenAmount: intNum,
+        travelStartDate:startDate,
+        travelEndDate:endDate
       },
     }
-
     if (isProtocol) {
       toast1 = Toast.loading({
         message: '订单生成中...',
@@ -312,9 +320,8 @@ const SubmitOrderPage: FC = () => {
               const { returnPayInfo, orderId } = data.data
               switch (payType) {
                 case 1:
-                  // SHBridge.minipay(JSON.stringify(data), 1)
                   toast1.clear()
-                  SHBridge.minipay(JSON.stringify(returnPayInfo), priceNum)
+                  SHBridge.minipay(JSON.stringify(returnPayInfo), priceNum,orderId)
                   break
                 case 2:
                   SHBridge.wxpay(returnPayInfo, (wxres: any) => {
