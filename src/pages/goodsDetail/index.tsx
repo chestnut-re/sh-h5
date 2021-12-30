@@ -66,7 +66,7 @@ const GoodsDetailPage: React.FC = () => {
 
   return (
     <div className="GoodsDetailPage__root">
-      <div className="tips">提示：此商品最多三单</div>
+      {/* <div className="tips">提示：此商品最多三单</div> */}
       {data?.goodsDetailStart && (
         <Swiper
           className="swiper"
