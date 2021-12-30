@@ -27,6 +27,7 @@ const RMB_CON = 100
 //mock数据
 
 const SubmitOrderPage: FC = () => {
+  let toast1;
   const { search } = useLocation()
   const { id } = qs.parse(search.slice(1))
   //提交数据
@@ -253,6 +254,7 @@ const SubmitOrderPage: FC = () => {
   }
   //支付成功跳转
   const paySuccessLink = (orderId) => {
+    toast1 && toast1.clear()
     SHBridge.jump({
       url: generateUrl(`/pay-success?t=${search}&id=${id}&orderId=${orderId}`),
       newWebView: false,
@@ -293,7 +295,7 @@ const SubmitOrderPage: FC = () => {
     }
 
     if (isProtocol) {
-      const toast1 = Toast.loading({
+      toast1 = Toast.loading({
         message: '订单生成中...',
         forbidClick: true,
         duration: 0,
@@ -309,16 +311,16 @@ const SubmitOrderPage: FC = () => {
               switch (payType) {
                 case 1:
                   // SHBridge.minipay(JSON.stringify(data), 1)
-                  toast1 && toast1.clear()
+                  toast1.clear()
                   SHBridge.minipay(JSON.stringify(returnPayInfo), priceNum)
                   break
                 case 2:
                   SHBridge.wxpay(returnPayInfo, (wxres: any) => {
                     const { errorCode } = wxres
                     if (errorCode == 0) {
-                      toast1 && toast1.clear()
                       paySuccessLink(orderId)
                     } else {
+                      toast1.clear()
                       Toast('支付失败')
                     }
                     console.log(res)
@@ -331,8 +333,9 @@ const SubmitOrderPage: FC = () => {
                     } = JSON.parse(alires.result)
                     console.log('支付成功', code, res)
                     if (code == '10000') {
-                      toast1 && toast1.clear()
                       paySuccessLink(orderId)
+                    }else{
+                      toast1.clear()
                     }
                   })
                   break
@@ -342,14 +345,13 @@ const SubmitOrderPage: FC = () => {
               }
             }
           } else {
+            toast1.clear()
             Toast(msg)
           }
         })
         .catch((err) => {
-          console.log('object订单接口异常:>> ', err)
-        })
-        .finally(() => {
           toast1.clear()
+          console.log('object订单接口异常:>> ', err)
         })
     } else {
       Toast('请勾选相关协议')
