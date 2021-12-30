@@ -86,6 +86,7 @@ const OrderSearchPage: FC = () => {
       current = 1;
       setIsloading(true)
       onLoadManageOrderSearch()
+      window.scrollTo(0, 0)
     } else {
       Toast('请输入商品名称或订单编号')
       setIssearch(false)
