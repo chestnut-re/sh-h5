@@ -111,7 +111,7 @@ const PersonalDetailPage: FC = (props: any) => {
     const phoneTxt = phoneReg.test(submittal.phoneNumber)
     const emerNameTxt = nameReg.test(submittal.emerName)
     const emerPhoneTxt = phoneReg.test(submittal.emerPhoneNumber)
-    if (!nameTxt || !phoneTxt || !emerNameTxt || !emerPhoneTxt) {
+    if (!nameTxt || !phoneTxt || !emerNameTxt || !emerPhoneTxt || submittal.addr == '') {
       if (!nameTxt) {
         errorMsg['nameMsg'] = submittal.travelerName == '' ? '请输入姓名' : '请输入正确的证件姓名'
       }
@@ -253,7 +253,7 @@ const PersonalDetailPage: FC = (props: any) => {
                   <Flex align="center">
                     <Flex.Item span={14}>
                       <Field
-                        maxlength={20}
+                        maxlength={10}
                         value={submittal.travelerName}
                         placeholder="与证件姓名一致"
                         errorMessage={state.errorMessage['nameMsg']}
@@ -364,7 +364,7 @@ const PersonalDetailPage: FC = (props: any) => {
                       <Field
                         value={submittal.emerName}
                         placeholder="联系人姓名"
-                        maxlength={20}
+                        maxlength={10}
                         errorMessage={state.errorMessage['emerNameMsg']}
                         onChange={(val) => {
                           setSubmitdata({

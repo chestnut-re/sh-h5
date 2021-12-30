@@ -13,6 +13,13 @@ export class Personal {
   }
 
   /**
+   * 出行人列表
+   */
+  static listInfo(): Promise<AxiosResponse<any>> {
+    return axios.get(`/api/users/customer/travelerDetails/list`)
+  }
+
+  /**
    * 新增出行人
    */
   static add(params): Promise<AxiosResponse<any>> {

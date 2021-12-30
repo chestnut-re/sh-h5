@@ -47,13 +47,13 @@ const PersonalBindPage: FC = () => {
 
   const [selectedTraveler, setSelectedTraveler] = useState([])
   const [fillingArr, setFillingArr] = useState([])
-
+  const [errorMessage, setErrorMessage] = useState([])
 
 
   const [state, set] = hooks.useSetState({
     visible: false,
-    travelerCertificate: [], //出行人证件信息
   })
+
 
   const urlParams = getUrlParams(window.location.href)
 
@@ -76,19 +76,133 @@ const PersonalBindPage: FC = () => {
       suborderId: id,
       updateTime: "",
       validity: "",
+      addrMsg: '',
       type: type
     }
     return travelerObj
   }
+
+  const initialErrorObj = (id = '0') => {
+    const errorObj = {
+      nameMsg: '',
+      phoneMsg: '',
+      validityMsg: '',
+      emerPhoneMsg: '',
+      emerNameMsg: '',
+      certificateNoMsg: '',
+      index: id
+    }
+    return errorObj
+  }
+  /**
+   * 表单验证
+   */
+
+  const rules = () => {
+    const newErrorMessage = [...errorMessage]
+    const nameReg = /^[\u4E00-\u9FA5]{2,4}$/
+    const phoneReg = /(^1[3|4|5|7|8|9]\d{9}$)|(^09\d{8}$)/
+    let isNull = false
+    subordersList.map((item, index) => {
+      const errorObj = {}
+      const nameTxt = nameReg.test(item['travelerName'])
+      const phoneTxt = phoneReg.test(item['travelerPhoneNumber'])
+      const emerNameTxt = nameReg.test(item['emerName'])
+      const emerPhoneTxt = phoneReg.test(item['emerPhoneNumber'])
+      const habitualResidencetext = item['habitualResidence']
+      const travelerCertificateObj = travelerCertificateDtoList[index][0]
+      const certificateNoText = travelerCertificateObj['certificateNo']
+      const validityText = travelerCertificateObj['validity']
+      console.log('habitualResidencetext', habitualResidencetext)
+      // if (!nameTxt || !phoneTxt || !emerNameTxt || !emerPhoneTxt || certificateNoText == '' || validityText == '') {
+      if (!nameTxt) {
+        newErrorMessage[index].nameMsg = item['travelerName'] == '' ? '请输入姓名' : '请输入正确的证件姓名'
+      } else {
+        newErrorMessage[index].nameMsg = ''
+      }
+
+      if (!phoneTxt) {
+        newErrorMessage[index].phoneMsg = item['phoneNumber'] == '' ? '请输入手机号码' : '请输入正确的手机号'
+      } else {
+        newErrorMessage[index].phoneMsg = ''
+      }
+
+      if (!emerNameTxt) {
+        newErrorMessage[index].emerNameMsg = item['emerName'] == '' ? '请输入紧急联系人' : '请输入正确联系人姓名'
+      } else {
+        newErrorMessage[index].emerNameMsg = ''
+      }
+
+      if (!emerPhoneTxt) {
+        newErrorMessage[index].emerPhoneMsg = item['emerPhoneNumber'] == '' ? '请输入紧急联系人手机号码' : '请输入正确的手机号'
+      } else {
+        newErrorMessage[index].emerPhoneMsg = ''
+      }
+      if (item['travelerType'] == 1) {
+        if (certificateNoText == '') {
+          newErrorMessage[index].certificateNoMsg = '请输入证件号'
+        } else {
+          newErrorMessage[index].certificateNoMsg = ''
+        }
+        if (validityText == '') {
+          newErrorMessage[index].validityMsg = '请输入证件过期日期'
+        } else {
+          newErrorMessage[index].validityMsg = ''
+        }
+      }
+
+      if (habitualResidencetext == '' || !habitualResidencetext) {
+        newErrorMessage[index].addrMsg = '请输入用户常住地址'
+      } else {
+        newErrorMessage[index].addrMsg = ''
+      }
+    })
+    console.log('newErrorMessage', newErrorMessage)
+    setErrorMessage(newErrorMessage)
+    return judgeListComplete(newErrorMessage)
+  }
+
+  const judgeObjectComplete = (ObjectValue) => {
+    let flag = new Boolean()
+    flag = true
+    for (const key in ObjectValue) {
+      console.log(key)
+      ObjectValue.id = ''
+      if (ObjectValue[key] == '') {
+
+      } else {
+        flag = false
+      }
+    }
+    if (!flag) {
+      return false
+    } else {
+      return true
+    }
+  }
+  const judgeListComplete = (list) => {
+    const isNotComplete = list.findIndex(item => {
+      return judgeObjectComplete(item) === false
+    })
+    if (isNotComplete > -1) {
+      return false
+    } else {
+      return true
+    }
+  }
+
   /**
    * 获取订单信息
    */
   const getOrderInfo = () => {
     Personal.getOrder(urlParams.id).then(res => {
       const travelerArr = []
-      res.data.map((item) => {
+      const errorMsg = []
+      res.data.map((item, index) => {
         travelerArr.push([initialTravelerInfo(item.id)])
+        errorMsg.push(initialErrorObj(index))
       })
+      setErrorMessage(errorMsg)
       setTravelerCertificateDtoList(travelerArr)
       setSubordersList(res.data)
     })
@@ -97,7 +211,7 @@ const PersonalBindPage: FC = () => {
    * 获取出行人列表
    */
   const getList = () => {
-    Personal.list().then(res => {
+    Personal.listInfo().then(res => {
       const { data } = res
       if (!data) return
       data.map(item => {
@@ -114,33 +228,37 @@ const PersonalBindPage: FC = () => {
     const newSelectedTraveler = [...selectedTraveler]
     const newSubordersList = [...subordersList]
     const fillingArr = []
-    console.log('newSubordersList', newSubordersList)
     newSubordersList.map((item, i) => {
       if (!item['travelerName']) {
         fillingArr.push({ index: i })
       }
     })
-    console.log('fillingArr', fillingArr)
 
     if (fillingArr.length > 0) {
       const newTravelerList = [...travelerList]
       newTravelerList.map(item => {
-        if (obj.travelerId == item['travelerId']) {
+        if (obj.id == item['id']) {
           item['select'] = !item['select']
         }
       })
 
       for (let i = 0; i < newSubordersList.length; i++) {
         if (!newSubordersList[i].travelerName && !newSubordersList[i].selectedTraveler) {
+          console.log('obj.travelerId', obj.id)
           newSubordersList[i].selectedTraveler = true
           newSubordersList[i].travelerName = obj.travelerName
           newSubordersList[i].travelerPhoneNumber = obj.phoneNumber
-          newSubordersList[i].travelerId = obj.travelerId
+          newSubordersList[i].travelerId = obj.id
+          newSubordersList[i].habitualResidence = obj.addr
+          newSubordersList[i].emerName = obj.emerName
+          newSubordersList[i].emerPhoneNumber = obj.emerPhoneNumber
+          newSubordersList[i].emerTravelerRelation = obj.emerTravelerRelation
+          newSubordersList[i].travelerRelation = obj.userTravelerRelation
+
           travelerCertificateDtoList[i] = obj.travelerCertificate
           break;
         }
       }
-      // travelerCertificateDtoList.splice(i, 1, [initialTravelerInfo(subordersList[i].id)]);
       setSubordersList(newSubordersList)
       newSelectedTraveler.push(obj)
       setSelectedTraveler(newSelectedTraveler)
@@ -231,29 +349,32 @@ const PersonalBindPage: FC = () => {
   }
 
   const onSubmit = () => {
-    const certificate = []
-    travelerCertificateDtoList.map((item, i) => {
-      item.map((itemj, j) => {
-        if (itemj.certificateNo != '') {
-          certificate.push(itemj)
-        }
-      })
-    })
-    const postData = {
-      suborderDtoList: [...subordersList],
-      travelerCertificateDtoList: [...certificate]
-    }
-    console.log('postDatapostData', JSON.stringify(postData))
-    Personal.addPedestrianInfo(postData).then(res => {
-      if (res['code'] == '200') {
-        SHBridge.closePage()
-        Toast({
-          message: '添加成功',
+    if (rules()) {
+      const certificate = []
+      travelerCertificateDtoList.map((item, i) => {
+        item.map((itemj, j) => {
+          if (itemj.certificateNo != '') {
+            certificate.push(itemj)
+          }
         })
+      })
+      const postData = {
+        suborderDtoList: [...subordersList],
+        travelerCertificateDtoList: [...certificate]
       }
-      console.log('paramsparams', res)
-    })
+      console.log(postData)
+      Personal.addPedestrianInfo(postData).then(res => {
+        if (res['code'] == '200') {
+          SHBridge.closePage()
+          Toast({
+            message: '添加成功',
+          })
+        }
+        console.log('paramsparams', res)
+      })
+    }
   }
+
   const getActionsText = (type) => {
     const item = actions[type]
     if (!type && type != 0) return '身份关系'
@@ -373,7 +494,6 @@ const PersonalBindPage: FC = () => {
 
     const newTravelerList = [...travelerList]
     newTravelerList.map(item => {
-      console.log('item[travelerId]', item['travelerId'])
       if (newSubordersList[i].travelerId == item['travelerId']) {
         item['select'] = false
       }
@@ -382,6 +502,16 @@ const PersonalBindPage: FC = () => {
     setTravelerList(newTravelerList)
     travelerCertificateDtoList.splice(i, 1, [initialTravelerInfo(subordersList[i].id)]);
     setSubordersList(newSubordersList)
+  }
+
+  const getRelationText = (id) => {
+    let relationText = ''
+    actions.map(item => {
+      if (item.type == id) {
+        relationText = item.text
+      }
+    })
+    return relationText
   }
 
   return (
@@ -397,7 +527,7 @@ const PersonalBindPage: FC = () => {
                 index < 3 && (
                   <div onClick={() => onSelectItem(item)} key={`index${index}`} className={`bind-item ${item['select'] && 'bind-item-select'}`}>
                     <div className='text'>{item['travelerName']}</div>
-                    <div className='hint'>成人</div>
+                    <div className='hint'>{getRelationText(item['userTravelerRelation'])}</div>
                     {item['select'] && <div className='tag'>✓</div>}
                   </div>
                 )
@@ -425,7 +555,7 @@ const PersonalBindPage: FC = () => {
                         <div className='traveler-user'>
                           <div className='user'>
                             <div className='name'>{item['travelerName']}</div>
-                            <div className='tag'>本人</div>
+                            <div className='tag'>{getRelationText(item['travelerRelation'])}</div>
                           </div>
                           <div className='phone'>{item['travelerPhoneNumber']}</div>
                         </div>
@@ -457,7 +587,8 @@ const PersonalBindPage: FC = () => {
                             <Field
                               value={item['travelerName']}
                               placeholder="与证件姓名一致"
-                              // errorMessage={state.errorMessage['nameMsg']}
+                              maxlength={10}
+                              errorMessage={errorMessage[index].nameMsg}
                               onChange={(val) => {
                                 onTravelerName(val, index)
                               }}
@@ -480,7 +611,8 @@ const PersonalBindPage: FC = () => {
                         <Field
                           value={item['travelerPhoneNumber']}
                           placeholder="常用手机号"
-                          // errorMessage={state.errorMessage['phoneMsg']}
+                          maxlength={11}
+                          errorMessage={errorMessage[index].phoneMsg}
                           onChange={(val) => {
                             onTravelerPhone(val, index)
                           }}
@@ -496,7 +628,7 @@ const PersonalBindPage: FC = () => {
                           readonly
                           value={item.habitualResidence}
                           label=""
-                          // errorMessage={state.errorMessage['addrMsg']}
+                          errorMessage={errorMessage[index].addrMsg}
                           placeholder="请选择出行人常住地"
                           onClick={() => {
                             setAddrIndex(index)
@@ -527,6 +659,7 @@ const PersonalBindPage: FC = () => {
                                     onChange={(val) => onFieldChange(val, travelerItem['type'], index)}
                                     value={travelerItem['certificateNo'] || ''}
                                     placeholder="请填写正确的证件号码"
+                                    errorMessage={errorMessage[index].certificateNoMsg}
                                   />
                                 </div>
                               </div>
@@ -537,6 +670,7 @@ const PersonalBindPage: FC = () => {
                                     isLink
                                     readonly
                                     value={travelerItem['validity'] || ''}
+                                    errorMessage={errorMessage[index].validityMsg}
                                     onClick={() => {
                                       setTimeIndex(index)
                                       setShowPicker(true)
@@ -587,7 +721,8 @@ const PersonalBindPage: FC = () => {
                             <Field
                               value={item['emerName']}
                               placeholder="联系人姓名"
-                              // errorMessage={state.errorMessage['emerNameMsg']}
+                              maxlength={10}
+                              errorMessage={errorMessage[index].emerNameMsg}
                               onChange={(val) => {
                                 onEmerTravelerName(val, index)
                               }}
@@ -610,7 +745,8 @@ const PersonalBindPage: FC = () => {
                         <Field
                           value={item['emerPhoneNumber']}
                           placeholder="紧急联系人手机号"
-                          // errorMessage={state.errorMessage['emerPhoneMsg']}
+                          maxlength={11}
+                          errorMessage={errorMessage[index].emerPhoneMsg}
                           onChange={(val) => {
                             onEmerTravelerPhone(val, index)
                           }}
@@ -681,9 +817,12 @@ const PersonalBindPage: FC = () => {
                       <div className='text'>
                         {item['travelerName']}
                       </div>
-                      <div className='tag'>
-                        本人
-                      </div>
+                      {getRelationText(item['userTravelerRelation']) && (
+                        <div className='tag'>
+                          {getRelationText(item['userTravelerRelation'])}
+                        </div>
+                      )}
+
                     </div>
                     <div className='phoneNum'>{item['phoneNumber']}</div>
                   </div>
