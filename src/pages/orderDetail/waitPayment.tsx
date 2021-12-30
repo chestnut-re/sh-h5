@@ -51,20 +51,21 @@ const OrderPaymentPage:FC = (props:any) => {
     })
     OrderApi.toPay({
       orderId:id
-    }).then((res)=>{
+    }).then((res:any)=>{
       const { code, msg, data } = res
           if (code == '200' && data) {
             if (data.code == '200') {
               const { returnPayInfo,payType, orderId } = data.data
               switch (payType) {
                 case 1:
+                  toast1 && toast1.clear()
                   // SHBridge.minipay(JSON.stringify(data), 1)
                   SHBridge.minipay(JSON.stringify(returnPayInfo), priceNum)
                   break
                 case 2:
                   SHBridge.wxpay(returnPayInfo, (wxres: any) => {
                     const { errorCode } = wxres
-                    if (errorCode === 0) {
+                    if (errorCode == 0) {
                       toast1 && toast1.clear()
                       paySuccessLink(orderId)
                     } else {

@@ -32,14 +32,16 @@ interface TripPeopleType{
   travelerName:string;
   suborderNo:string;
   state:number;
-  openTravelClick:()=>void;
+  openTravelClick:(val)=>void;
 }
 
 const TripPeopleCard:FC<TripPeopleType> = (props) => {
   const {travelerRelation,travelerName,suborderNo,state} = props;
   
   return (
-    <div className="tripeop-content" onClick={props.openTravelClick}>
+    <div className="tripeop-content" onClick={()=>{
+      props.openTravelClick(props)
+    }}>
         <div className="tripeop-l">
             <div className="tripeop-lT">
                 <div className="tripeop-name">

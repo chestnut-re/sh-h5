@@ -40,7 +40,7 @@ const OrderIndexPage: FC = (props: any) => {
           setOrders(data)
       }else{
         setOrderType('-1')
-        Toast(msg)
+        Toast("订单数据不存在")
       }
         console.log('result :>> ', result);
     }).catch((err) => {
@@ -54,7 +54,6 @@ const OrderIndexPage: FC = (props: any) => {
           if (code==="200"&&data) {
               setOrdersTravel(data)
           }
-        console.log('resultxinxix :>> ', result);
     }).catch((err) => {
         console.log('err :>> ', err);
     });

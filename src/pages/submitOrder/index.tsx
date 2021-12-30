@@ -26,7 +26,6 @@ import './index.less'
 const RMB_CON = 100
 //mock数据
 
-
 const SubmitOrderPage: FC = () => {
   const { search } = useLocation()
   const { id } = qs.parse(search.slice(1))
@@ -50,7 +49,7 @@ const SubmitOrderPage: FC = () => {
       discountAmount: 0, //优惠总金额
       goodsId: '', //商品id
       goodsName: '', //商品名称
-      promotionalImageUrl:"", //商品预览图
+      promotionalImageUrl: '', //商品预览图
       insuranceAmount: 0, //保险金额
       originPrice: 0, //商品原总价
       payAmount: 0, //支付金额
@@ -117,7 +116,7 @@ const SubmitOrderPage: FC = () => {
       return {
         ...v,
         priceNum: personpriceNum + childpriceNum - intNum,
-        preferPrice: (personPreferPriceNum + childPreferPriceNum)>0?(personPreferPriceNum + childPreferPriceNum):0,
+        preferPrice: personPreferPriceNum + childPreferPriceNum > 0 ? personPreferPriceNum + childPreferPriceNum : 0,
       }
     })
   }, [selectTime, stepperData])
@@ -178,7 +177,7 @@ const SubmitOrderPage: FC = () => {
   useEffect(() => {
     getGoodsDetail(id)
       .then((res: any) => {
-        const { departureCity, departureCityAdcode, goodsName,promotionalImageUrl, id, isDeduction } = res
+        const { departureCity, departureCityAdcode, goodsName, promotionalImageUrl, id, isDeduction } = res
         setSubmitinfo(res)
         setSelectTime(res['goodsPrices'][0])
         setPriceSet((v) => {
@@ -208,7 +207,7 @@ const SubmitOrderPage: FC = () => {
               ...v.orderDto,
               goodsName,
               goodsId: id,
-              promotionalImageUrl
+              promotionalImageUrl,
             },
           }
         })
@@ -310,12 +309,13 @@ const SubmitOrderPage: FC = () => {
               switch (payType) {
                 case 1:
                   // SHBridge.minipay(JSON.stringify(data), 1)
+                  toast1 && toast1.clear()
                   SHBridge.minipay(JSON.stringify(returnPayInfo), priceNum)
                   break
                 case 2:
                   SHBridge.wxpay(returnPayInfo, (wxres: any) => {
                     const { errorCode } = wxres
-                    if (errorCode === 0) {
+                    if (errorCode == 0) {
                       toast1 && toast1.clear()
                       paySuccessLink(orderId)
                     } else {
@@ -408,6 +408,7 @@ const SubmitOrderPage: FC = () => {
         destroyOnClose={true}
         closeable
         round
+        safeAreaInsetBottom={true}
         closeIcon="close"
         onClose={() => setShowPrivilege(false)}
       >
