@@ -60,7 +60,7 @@ const OrderPaymentPage:FC = (props:any) => {
                 case 1:
                   toast1 && toast1.clear()
                   // SHBridge.minipay(JSON.stringify(data), 1)
-                  SHBridge.minipay(JSON.stringify(returnPayInfo), priceNum)
+                  SHBridge.minipay(JSON.stringify(returnPayInfo), payAmount,orderId)
                   break
                 case 2:
                   SHBridge.wxpay(returnPayInfo, (wxres: any) => {
