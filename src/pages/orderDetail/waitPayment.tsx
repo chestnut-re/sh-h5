@@ -69,6 +69,7 @@ const OrderPaymentPage:FC = (props:any) => {
                       toast1 && toast1.clear()
                       paySuccessLink(orderId)
                     } else {
+                      toast1.clear()
                       Toast('支付失败')
                     }
                     console.log(res)

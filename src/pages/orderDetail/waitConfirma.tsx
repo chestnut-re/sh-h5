@@ -102,8 +102,8 @@ const OrderConfirmaPage: FC = (props: any) => {
   const FillTraveHandelfun = () => {
     SHBridge.jump({
       url: generateUrl(`/personal-bind?id=${orderId}`),
-      newWebView: true,
-      replace: false,
+      newWebView: false,
+      replace: true,
       title: '填写出行人',
     })
     console.log('object :>>填写出行人 ')
