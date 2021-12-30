@@ -3,15 +3,15 @@ import { PageTemplateKey } from '../../utils'
 import './index.less'
 
 interface Props {
-  title: string
+  img: string
   templateKey: PageTemplateKey
 }
 
 /**
  * 价格
  */
-const Price: React.FC<Props> = ({ title, templateKey }) => {
-  return <div className={`Price__root__${templateKey}`}>{title}</div>
+const Price: React.FC<Props> = ({ img, templateKey }) => {
+  return <div className={`Price__root Price__root__${templateKey}`}>{img && <img src={img} />}</div>
 }
 
 export default Price

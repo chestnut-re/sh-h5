@@ -6,20 +6,27 @@ import './index.less'
 /**
  * 积分、优惠卡片
  */
+const RMB_CON = 100;
 
-const PreferCard:FC = (props) => {
-  
+interface PreferType{
+  tokenAmount:number;
+  discountAmount:number;
+  payAmount:number;
+}
+
+const PreferCard:FC<PreferType> = (props) => {
+  const {tokenAmount,discountAmount,payAmount} = props;
   return (
     <div className="Prefer-content">
-      <div className="info-integral rv-hairline--bottom">
+      {tokenAmount>0?<div className="info-integral rv-hairline--bottom">
         <div className="integral-title hairline--icon">
           <Icon size="4vw" className="integra-icon" name={integralIcon} />
           <span>积分</span>
         </div>
         <div className="integral-instruction">
-          使用¥340<span>-¥340</span>
+          使用¥{tokenAmount}<span>-¥{tokenAmount}</span>
         </div>
-      </div>
+      </div>:null}
 
       <div className="info-discounts">
         <div className="discounts-title hairline--icon">
@@ -27,7 +34,8 @@ const PreferCard:FC = (props) => {
         </div>
         <div className="discounts-instruction">
           <div className="instruction-l">
-            已优惠<span>¥200</span>
+            已优惠<span>¥{discountAmount/RMB_CON}</span>&nbsp;
+            共计<span>¥{payAmount/RMB_CON}</span>
           </div>
         </div>
       </div>

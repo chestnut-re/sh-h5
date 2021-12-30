@@ -1,29 +1,59 @@
-import React, { useState, FC } from 'react'
+import React, { useState, useEffect, FC } from 'react'
 import GoodsPreview from '../../components/goodsPreview'
+import qs from 'query-string'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
 import { useLocation } from 'react-router-dom'
+import { OrderApi } from '@/service/OrderDetailApi'
+
 import './index.less'
 
 /**
  * 支付成功入口页
  */
-const themeVars = {
-  '--rv-tabs-bottom-bar-color': '#3BD1C4',
-  '--rv-tab-font-size': '4.26667vw',
-}
 
 const PaymentSuccessPage: FC = () => {
   const { search } = useLocation()
-   const openPersonalDetails = ()=>{
-    
+  const { orderId } = qs.parse(search.slice(1))
+  const judgePayConfirmStatus = (orderId) => {
+    OrderApi.payConfirm({
+      orderId,
+    })
+      .then((res: any) => {
+        const { code, data } = res
+
+        if (code == '200' && !data) {
+          openOrderDetails()
+        }
+        console.log('res :>> ', res)
+      })
+      .catch((err) => {
+        console.log('err :>> ', err)
+      })
+  }
+
+  useEffect(() => {
+    judgePayConfirmStatus(orderId)
+  }, [])
+
+  const openOrderDetails = ()=>{
     SHBridge.jump({
-      url: generateUrl(`/personal-details${search}`),
+      url: generateUrl(`/order-detail?orderId=${orderId}`),
       newWebView: false,
       replace: true,
-      title: '出行人信息',
+      title: '订单详情',
     })
-   }
+  }
+
+    //跳转出行人
+  const openPersonalDetails = () => {
+    SHBridge.jump({
+      url: generateUrl(`/personal-bind?id=${orderId}`),
+      newWebView: false,
+      replace: true,
+      title: '填写出行人信息',
+    })
+  }
 
   return (
     <div className="Pays-container">
@@ -33,8 +63,10 @@ const PaymentSuccessPage: FC = () => {
           <p>为了确保您的旅行顺利进行，赶紧去填写出行人信息吧！</p>
         </div>
         <div className="pays-btns">
-          <div className="pays-left pays-com">查看订单</div>
-          <div className="pays-right pays-com" onClick={openPersonalDetails}>填写出行人信息</div>
+          <div className="pays-left pays-com" onClick={openOrderDetails}>查看订单</div>
+          <div className="pays-right pays-com" onClick={openPersonalDetails}>
+            填写出行人信息
+          </div>
         </div>
       </div>
       {/* <div className="pays-you-like">

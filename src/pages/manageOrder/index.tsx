@@ -2,18 +2,17 @@ import React, { useState, useEffect, FC } from 'react'
 import { ConfigProvider, Tabs, Empty, List, Toast, Loading } from 'react-vant'
 import ManageItem from '@/components/manageOrder/orderIMantem'
 import { useHistory, useLocation } from 'react-router-dom'
-import emptyIcon from '@/assets/img/empty@3x.png'
+import emptyIcon from '@/assets/img/empty_b@3x.png'
 import { ManageOrder } from '@/service/ManageOrderApi'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
-
 import './index.less'
 /**
  * 订单管理入口页面
  * 全部 待付款 待确认 已完成 退款_售后
  */
 const themeVars = {
-  '--rv-tabs-bottom-bar-color': '#3BD1C4',
+  '--rv-tabs-bottom-bar-color': '#7193f4',
   '--rv-tab-font-size': '3.7vw',
 }
 //分页大小
@@ -22,10 +21,59 @@ const PAGE_SIZE = 10
 const TabsListObj = [
   { tabName: '全部', type: '', id: 0, isTag: false },
   { tabName: '待付款', type: 1, id: 1, isTag: true },
-  { tabName: '待确认', type: 3, id: 2, isTag: false },
+  { tabName: '待核销', type: 3, id: 2, isTag: false },
   { tabName: '已完成', type: 4, id: 3, isTag: false },
   { tabName: '退款/售后', type: 5, id: 4, isTag: false },
 ]
+const ListData = [
+  {
+    id: '61ada88d4e147741543c7efd',
+    orderNo: '1235 8793 1234 9090',
+    orderTime: '2021-12-29 13:42:45',
+    goodsName: '之前就对杜伽Fusion念念不忘\n复古的外观\n手感确实不错\n这次就可以将鼠标、手绘板、键盘三个都...',
+    adultNum: 0,
+    childNum: 2,
+    payAmount: 1798,
+    orderUserId: '41543c7e',
+    orderUserName: '大头君有点困',
+    state: 1,
+  },
+  {
+    id: '71ada88d4e147741543c7efd',
+    orderNo: '1235 8793 1234 9090',
+    orderTime: '2021-12-21 12:30:45',
+    goodsName: '合肥包公园  冬游变春游（二）\n两个多小时的拍摄，整理出了两组十二张照片，等下个季节下次再去里面...',
+    adultNum: 2,
+    childNum: 2,
+    payAmount: 1998,
+    orderUserId: '41590c7e',
+    orderUserName: '既白',
+    state: 3,
+  },
+  {
+    id: '71ada88d4e147741543c7efd',
+    orderNo: '1235 8793 1234 9090',
+    orderTime: '2021-12-21 12:30:45',
+    goodsName: '合肥包公园  冬游变春游（二）\n两个多小时的拍摄，整理出了两组十二张照片，等下个季节下次再去里面...',
+    adultNum: 2,
+    childNum: 2,
+    payAmount: 1998,
+    orderUserId: '41590c7e',
+    orderUserName: '既白',
+    state: 4,
+  },
+  {
+    id: '71ada88d4e147741543c7efd',
+    orderNo: '1235 8793 1234 9090',
+    orderTime: '2021-12-21 12:30:45',
+    goodsName: '合肥包公园  冬游变春游（二）\n两个多小时的拍摄，整理出了两组十二张照片，等下个季节下次再去里面...',
+    adultNum: 2,
+    childNum: 2,
+    payAmount: 1998,
+    orderUserId: '41590c7e',
+    orderUserName: '既白',
+    state: 5,
+  }]
 
 const ManageOrderPage: FC = () => {
   const { search } = useLocation()
@@ -44,6 +92,7 @@ const ManageOrderPage: FC = () => {
 
   const getOrderListData = async () => {
     return new Promise<any>((resolve, reject) => {
+
       ManageOrder.list({
         state: activeState,
         size: PAGE_SIZE,
@@ -83,13 +132,13 @@ const ManageOrderPage: FC = () => {
     setListData((v) => [...v, ...records])
 
     if (activeState === 1 || activeState == '') {
-      let setPayList = listData.filter((item) => {
+      const setPayList = listData.filter((item) => {
         return item.state == 1
       })
       setPaymentNum(setPayList.length)
     }
 
-    if (listData.length >= total) {
+    if (PAGE_SIZE > records.length) {
       setFinished(true)
     }
   }
@@ -101,6 +150,21 @@ const ManageOrderPage: FC = () => {
     setListData([])
   }, [activeState])
 
+
+  useEffect(()=>{
+    SHBridge.setTitleAction(
+      [
+        { value: 'https://shanhai-shoping.oss-cn-beijing.aliyuncs.com/img/user/pic/a3046d485c8c4898b14cd7587dcfafde.png', type: 'img' },
+      ],
+      (index) => {
+        SHBridge.jump({
+          url: generateUrl(`/order-search`),
+          newWebView: true,
+          title: '订单搜索',
+        })
+      }
+    )
+  })
   const tabHandelClick = (info) => {
     const { name } = info
     setActive(name)

@@ -1,12 +1,126 @@
 .maorder-item {
   position: relative;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 280px;
+  min-height: 240px;
   background: #fff;
   text-align: left;
   overflow: hidden;
+  border-radius: 10px;
+  padding: 32px;
+  .maorder-item-header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: justify;
+    .maorder-item-header-left {
+      font-size: 28px;
+      font-family: PingFangSC, PingFangSC-Medium;
+      font-weight: 500;
+      text-align: left;
+      color: #f57272;
+      line-height: 28px;
+    }
+    .maorder-item-header-right {
+      flex: 1;
+      font-size: 22px;
+      font-family: SFPro, SFPro-Medium;
+      font-weight: 500;
+      text-align: left;
+      color: #f57272;
+      line-height: 22px;
+      padding-left: 16px;
+      padding-top: 4px;
+    }
+  }
+  .maorder-item-content {
+    margin-top: 32px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    .maorder-item-content-left {
+      overflow: hidden;
+      width: 116px;
+      height: 116px;
+      border-radius: 8px;
+    }
+    .maorder-item-content-right {
+      position: relative;
+      padding-left: 16px;
+      .micr-name {
+        max-width: 490px;
+        font-size: 28px;
+        font-family: PingFangSC, PingFangSC-Regular;
+        font-weight: 400;
+        text-align: left;
+        color: #111423;
+        line-height: 28px;
+      }
+      .micr-tags {
+        margin-top: 16px;
+        font-size: 20px;
+        font-family: PingFangSC, PingFangSC-Regular;
+        font-weight: 400;
+        text-align: left;
+        color: #c1c1c1;
+        line-height: 28px;
+        span {
+          margin-right: 16px;
+        }
+      }
+      .micr-price {
+        margin-top: 16px;
+        font-size: 28px;
+        font-family: SFPro, SFPro-Medium;
+        font-weight: 500;
+        text-align: left;
+        color: #7193f4;
+        line-height: 24px;
+        .micr-price-text {
+          font-size: 24px;
+          font-family: PingFangSC, PingFangSC-Medium;
+          font-weight: 500;
+          text-align: left;
+          color: #333333;
+          margin-right: 12px;
+        }
+      }
+    }
+  }
+  .maorder-item-footer {
+    margin-top: 32px;
+    min-height: 120px;
+    background: #fafafa;
+    padding: 12px 32px;
+    border-radius: 12px;
+    .maorder-item-footer-ul {
+      position: relative;
+      .mifu-item {
+        padding: 12px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .mifu-item-left {
+          font-size: 24px;
+          font-family: PingFangSC, PingFangSC-Regular;
+          font-weight: 400;
+          text-align: left;
+          color: #999999;
+          line-height: 24px;
+        }
+        .mifu-item-right {
+          font-size: 24px;
+          font-family: PingFangSC, PingFangSC-Regular;
+          font-weight: 400;
+          text-align: left;
+          color: #666666;
+          line-height: 24px;
+        }
+        .mifu-ing {
+          color: #f5b572;
+        }
+      }
+    }
+  }
+
   .maorder-left {
     width: 186px;
     text-align: center;

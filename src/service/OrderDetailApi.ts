@@ -30,4 +30,34 @@ export class OrderApi {
   static getDiscount(data): Promise<AxiosResponse<any>> {
     return axios.post(`/api/operation/goods/discount`, data)
   }
+
+  /**
+   * 支付成功订单确认
+   */
+  static payConfirm(data): Promise<AxiosResponse<any>> {
+    const formData = new FormData()
+    formData.append('orderId', data.orderId)
+    return axios.post(`/api/orders/payConfirm`, formData)
+  }
+/**
+   * 订单详情查询
+   */
+ static orderdetail(params): Promise<AxiosResponse<any>> {
+  return axios.get(`/api/orders/${params.orderId}`)
+}
+/**
+   * 子订单查询
+   */
+ static suborders(params): Promise<AxiosResponse<any>> {
+  return axios.get(`/api/orders/${params.orderId}/suborders`)
+}
+  /**
+   * 待支付订单去付款
+   */
+ static toPay(data): Promise<AxiosResponse<any>> {
+   console.log(`data`, data)
+  const formData = new FormData()
+  formData.append('orderId', data.orderId)
+  return axios.post(`/api/orders/toPay`,formData)
+}
 }

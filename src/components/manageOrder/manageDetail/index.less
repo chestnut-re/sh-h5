@@ -1,12 +1,59 @@
-.Maorderdetail-item {
+.mdetail-item {
   position: relative;
   background: #fff;
+  .mdetail-item-goods {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 26px 32px 0;
+    .mig-left {
+      width: 116px;
+      height: 108px;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .mig-right {
+      padding-left: 16px;
+      .mig-name {
+        max-width: 490px;
+        font-size: 28px;
+        font-family: PingFangSC, PingFangSC-Regular;
+        font-weight: 400;
+        text-align: left;
+        color: #111423;
+        line-height: 32px;
+      }
+      .mig-pro {
+        padding-top: 10px;
+        font-size: 24px;
+        font-family: PingFangSC, PingFangSC-Medium;
+        font-weight: 500;
+        text-align: left;
+        color: #333333;
+        line-height: 28px;
+        span {
+          font-size: 28px;
+          font-family: PingFangSC, PingFangSC-Medium;
+          font-weight: 500;
+          text-align: left;
+          color: #7193f4;
+          line-height: 28px;
+          margin-left: 2px;
+        }
+        .mig-pro-icon{
+          font-size: 20px;
+          margin-left: 12px;
+        }
+      }
+    }
+  }
   .detail-box {
-    padding: 20px 40px;
+    padding: 46px 40px 32px;
     background: #fff;
     .detail-listUl {
       position: relative;
       .detail-listLi {
+        position: relative;
         display: flex;
         justify-content: flex-start;
         align-items: center;
@@ -15,9 +62,9 @@
           font-size: 24px;
           font-family: PingFangSC, PingFangSC-Regular;
           font-weight: 400;
-          color: #666666;
-          line-height: 34px;
-          width: 96px;
+          color: #c1c1c1;
+          line-height: 24px;
+          letter-spacing: 7px;
           text-align: justify;
           text-align-last: justify;
         }
@@ -29,67 +76,70 @@
           font-weight: 400;
           text-align: left;
           color: #333333;
-          line-height: 34px;
+          line-height: 24px;
+        }
+        .maorder-countdown {
+          position: absolute;
+          right: 40px;
+          top: 0;
+          font-size: 22px;
+          font-family: PingFangSC, PingFangSC-Medium;
+          font-weight: 500;
+          text-align: center;
+          color: #f57272;
+          transform: scale(0.84);
         }
       }
     }
   }
-  .detail-status{
+  .detail-status {
     position: absolute;
-    width: 266px;
-    height: 108px;
-    right: 18px;
-    top: 32px;
-    background: url("../../../assets/img/daifk_icon@3x.png") no-repeat center;
+    width: 160px;
+    height: 64px;
+    right: 34px;
+    top: 108px;
+    background: url('../../../assets/img/daifk_icon@3x.png') no-repeat center;
     background-size: 100%;
 
-    .status-text{
+    .status-text {
       width: 100%;
       position: absolute;
       text-align: center;
-      left:50%;
-      top:50%;
+      left: 50%;
+      top: 50%;
       transform: translate(-50%, -50%);
-      h1{
-        font-size: 52px;
-        font-family: PingFangSC, PingFangSC-Semibold;
-        font-weight: 600;
+      h1 {
+        font-size: 32px;
+        font-family: PingFangSC, PingFangSC-Medium;
+        font-weight: 500;
         text-align: center;
-        line-height: 52px;
-      }
-      p{
-        font-size: 24px;
-        font-family: PingFangSC, PingFangSC-Regular;
-        font-weight: 400;
-        text-align: center;
-        color: #666666;
-        line-height: 30px;
-        transform:scale(0.84);
+        color: #f5b572;
+        line-height: 44px;
       }
     }
   }
-  .BGdaifk{
-    background: url("../../../assets/img/daifk_icon@3x.png") no-repeat center;
+  .BGdaifk {
+    background: url('../../../assets/img/daifk_icon@3x.png') no-repeat center;
     background-size: 100%;
   }
-  .BGdaiqr{
-    background: url("../../../assets/img/daiqr_icon@3x.png") no-repeat center;
+  .BGdaiqr {
+    background: url('../../../assets/img/daiqr_icon@3x.png') no-repeat center;
     background-size: 100%;
   }
-  .BGyitk{
-    background: url("../../../assets/img/yitk_icon@3x.png") no-repeat center;
+  .BGyitk {
+    background: url('../../../assets/img/yitk_icon@3x.png') no-repeat center;
     background-size: 100%;
   }
-  .BGyiwc{
-    background: url("../../../assets/img/yiwc_icon@3x.png") no-repeat center;
+  .BGyiwc {
+    background: url('../../../assets/img/yiwc_icon@3x.png') no-repeat center;
     background-size: 100%;
   }
-  .BGyisx{
-    background: url("../../../assets/img/yisx_icon@3x.png") no-repeat center;
+  .BGyisx {
+    background: url('../../../assets/img/yisx_icon@3x.png') no-repeat center;
     background-size: 100%;
   }
-  .BGtuikz{
-    background: url("../../../assets/img/tuikz_icon@3x.png") no-repeat center;
+  .BGtuikz {
+    background: url('../../../assets/img/tuikz_icon@3x.png') no-repeat center;
     background-size: 100%;
   }
 }

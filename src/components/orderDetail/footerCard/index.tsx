@@ -23,7 +23,8 @@ const FooterCard: FC<FootPropsType> = (props) => {
           <div className="action-total">
             <span>¥</span> {priceinfo['priceNum']/RMB_CON}
           </div>
-          <div className="action-dis">已优惠{priceinfo['preferPrice']/RMB_CON}</div>
+          {
+          priceinfo['preferPrice']>0?(<div className="action-dis">已优惠{priceinfo['preferPrice']/RMB_CON}</div>):null}
         </div>
         <div className="action-r" onClick={props.submitHandleOrder}>
           <div className="btn-pay">立即付款</div>

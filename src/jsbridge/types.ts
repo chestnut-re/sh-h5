@@ -10,6 +10,7 @@ export interface JumpParams {
   newWebView?: boolean
   /**是否替换当前页面 */
   replace?: boolean
+  needLogin?: boolean
 }
 
 export enum UiType {

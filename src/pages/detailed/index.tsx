@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Toast } from 'react-vant'
 import { useDebouncedEffect } from '@/hooks/useDebouncedEffect'
 import token from '@/assets/img/token/22token.png'
 import { MyTokenService } from '@/service/MyTokenService'
@@ -12,8 +13,13 @@ const DetailedPage: React.FC = (props) => {
   const [selectPage, setSelectPage] = useState(0)
   useEffect(() => {
     MyTokenService.getWalletPage().then((res) => {
-      console.log(res)
-      setDetails(res.records)
+      if (!res['code']) {
+        setDetails(res['records'])
+      } else {
+        Toast({
+          message: res['msg'],
+        })
+      }
     })
   }, [])
 

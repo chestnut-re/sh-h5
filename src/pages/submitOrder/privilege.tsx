@@ -1,7 +1,4 @@
 import React, { useState, useEffect, FC } from 'react'
-import { useLocation } from 'react-router-dom'
-import qs from 'query-string'
-import SubmitIntegralFooterCard from '@/components/submitBars/submitIntegralFooter'
 import { OrderApi } from '@/service/OrderDetailApi'
 
 import './privilege.less'
@@ -15,10 +12,13 @@ const PRIVI_Map = {
      4:"景点",
      5:"其他"
 }
+interface PrivType{
+  id:string;
+  goodsPriceId:string;
+}
 
-const PrivilegePage: FC = (props) => {
-  const { search } = useLocation()
-  const { goodsPriceId, id } = qs.parse(search.slice(1))
+const PrivilegePage: FC<PrivType> = (props) => {
+  const { goodsPriceId, id } = props;
   const [privilegeList, setPrivilegeList] = useState()
   const getDiscountApi = (id, goodsPriceId) => {
     OrderApi.getDiscount({
@@ -129,9 +129,6 @@ const PrivilegePage: FC = (props) => {
           {privilegeList}
           <div className="privilege-nomore">没有了</div>
         </div>
-      </div>
-      <div className="privilege-box">
-        <SubmitIntegralFooterCard />
       </div>
     </div>
   )

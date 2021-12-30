@@ -21,7 +21,7 @@ export interface FooterProps {
   //右侧按钮文案
   barRightTitle?: string
   //是否显示最右侧按钮
-  showRightLinkBtn: boolean
+  showRightLinkBtn?: boolean
   //右侧按钮文案
   RightLinkTitle?: string
   //点击选项时触发

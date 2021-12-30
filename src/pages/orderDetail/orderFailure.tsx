@@ -3,13 +3,28 @@ import { useHistory, useLocation } from 'react-router-dom'
 import GoodsCard from '@/components/orderDetail/goodsCard'
 import IndentCard from '@/components/orderDetail/indentCard'
 import CompleteFooter from '@/components/submitBars/completeFooter'
+import { SHBridge } from '@/jsbridge'
+import { generateUrl } from '@/utils'
 import './index.less'
 
 /**
  * 订单已失效入口页
  */
 
-const OrderFailurePage: FC = (props) => {
+const OrderFailurePage: FC = (props:any) => {
+  const {
+    promotionalImageUrl,
+    goodsName,
+    travelStartDate,
+    travelEndDate,
+    adultNum,
+    childNum,
+    orderNo,
+    payType,
+    orderTime,
+    payTime,
+    goodsId
+  } = props
   const history = useHistory()
   const { search } = useLocation()
   console.log('useParams :>> 路由信息', useLocation())
@@ -20,7 +35,12 @@ const OrderFailurePage: FC = (props) => {
       switch (type) {
         case 'barLeftTitle':
           //再次购买处理
-          history.push('/submit-order')
+          SHBridge.jump({
+            url: generateUrl(`/submit-order?id=${goodsId}`),
+            newWebView: true,
+            replace: false,
+            title: '提交订单',
+          })
           break
         case 'barRightTitle':
           //处理分享逻辑
@@ -35,9 +55,16 @@ const OrderFailurePage: FC = (props) => {
     <div className="Order-container">
       <div className="order-main">
         <div className="preview_card">
-          <GoodsCard />
+        <GoodsCard
+            goodsName={goodsName}
+            startDate={travelStartDate}
+            endDate={travelEndDate}
+            adultNum={adultNum}
+            childNum={childNum}
+            promotionalImageUrl={promotionalImageUrl}
+          />
         </div>
-        <IndentCard />
+        <IndentCard orderNo={orderNo}  payType={payType} orderTime={orderTime} payTime={payTime} />
       </div>
       <CompleteFooter {...tabBarsList} />
     </div>

@@ -25,7 +25,7 @@ const isCalendarDisabled = (time, timelist: any[] = []) => {
 
   if (timestate) {
     return {
-      bottomInfo: timestate.personMarkPrice,
+      bottomInfo: timestate.personCurrentPrice,
       type: '',
       ...timestate,
     }
@@ -43,7 +43,7 @@ interface KnownCalendarType {
 }
 
 const KnownCalendarCard: FC<KnownCalendarType> = (props) => {
-  const { calendata, selecttime } = props
+  const { calendata=[], selecttime } = props
   //ref获取日历方法
   const calendarRef = useRef<CalendarInstance>()
   //显隐日历
@@ -95,16 +95,16 @@ const KnownCalendarCard: FC<KnownCalendarType> = (props) => {
                 >
                   <p>{dayjs(item.startDate).format('MM-DD')}</p>
                   <p>{WeekMap[dayjs(item.startDate).format('d')]}</p>
-                  <p className="price">¥{item.personMarkPrice / RMB_CON}</p>
+                  <p className="price">¥{item.personCurrentPrice / RMB_CON}</p>
                 </div>
               )
             })}
           </div>
-          <div className="kcalendar-more">
+          {calendata.length>4?(<div className="kcalendar-more">
             <div className="more-btn" onClick={() => setVisible(true)}>
               查看更多
             </div>
-          </div>
+          </div>):null}
         </div>
         <div className="kcalendar-box">
           <div className="kcalendar-item-l">
@@ -118,6 +118,7 @@ const KnownCalendarCard: FC<KnownCalendarType> = (props) => {
       <Calendar
         ref={calendarRef}
         title="选择出发日期"
+        weekdays={['周日', '周一', '周二', '周三', '周四', '周五', '周六']}
         onClose={() => setVisible(false)}
         visible={visible}
         showConfirm={false}

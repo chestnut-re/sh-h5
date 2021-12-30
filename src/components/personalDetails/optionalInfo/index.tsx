@@ -4,7 +4,9 @@ import {
   Popup,
   DatetimePicker,
   Field,
+  hooks
 } from 'react-vant'
+import addIcon from '@/assets/img/add_icon@3x.png'
 
 import './index.less'
 /**
@@ -23,7 +25,6 @@ const actions = [
 ]
 
 const OptionalInfo = (props, ref) => {
-  const [value2, setvalue2] = useState('')
   const [showPicker, setShowPicker] = useState(false)
   const [showPickerId, setShowPickerId] = useState()
 
@@ -35,12 +36,13 @@ const OptionalInfo = (props, ref) => {
     if (certificate && certificate.length > 0) {
       certificate.map((item, index) => {
         item.type = index
-        item.certificateType = item.certificateType == 0 ? '身份证' : '护照'
+        item.certificateType = item.certificateType == 1 ? '身份证' : '护照'
       })
       setInfolist([...certificate])
     } else {
       setInfolist([infos])
     }
+
   }, [certificate])
 
   const addOptionalInfo = () => {
@@ -127,7 +129,7 @@ const OptionalInfo = (props, ref) => {
                 <Field
                   className="oic-input"
                   onChange={(val) => onFieldChange(val, item['type'])}
-                  value={item['certificateNo']}
+                  value={item['certificateNo'] || ''}
                   placeholder="请填写正确的证件号码"
                 />
               </div>
@@ -138,7 +140,7 @@ const OptionalInfo = (props, ref) => {
                 <Field
                   isLink
                   readonly
-                  value={item['validity']}
+                  value={item['validity'] || ''}
                   onClick={() => {
                     setShowPicker(true)
                     setShowPickerId(item['type'])
@@ -168,7 +170,8 @@ const OptionalInfo = (props, ref) => {
                 addOptionalInfo()
               }}
             >
-              添加证件
+              <img className='optional-add-img' src={addIcon} />
+              <div className='optional-add-txt'>添加证件</div>
             </div>
           </div>
           <div className="oic-line"></div>

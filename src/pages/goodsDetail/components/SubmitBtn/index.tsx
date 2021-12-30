@@ -1,9 +1,10 @@
-import React from 'react'
+import { SHBridge } from '@/jsbridge'
+import { generateUrl, getUrlParams } from '@/utils'
+import React, { useEffect, useRef, useState } from 'react'
 import { PageTemplateKey } from '../../utils'
 import './index.less'
 
 interface Props {
-  makeOrder: () => void
   img: string
   templateKey: PageTemplateKey
 }
@@ -11,18 +12,31 @@ interface Props {
 /**
  * 立即下单按钮
  */
-const SubmitBtn: React.FC<Props> = ({ templateKey, makeOrder, img }) => {
+const SubmitBtn: React.FC<Props> = ({ templateKey, img }) => {
+  const pageRef = useRef<any>({})
+
+  useEffect(() => {
+    const params = getUrlParams(window.location.href)
+    pageRef.current.id = params['id']
+    pageRef.current.goodsPriceId = params['goodsPriceId']
+    //TODO: test
+    pageRef.current.id = pageRef.current.id || '1473837487611928576'
+    pageRef.current.goodsPriceId = pageRef.current.goodsPriceId || '1473837487616122880'
+    //end
+  }, [])
+
+  const makeOrder = () => {
+    console.log('dainji')
+    SHBridge.jump({
+      url: generateUrl(`/submit-order?id=${pageRef.current.id}&goodsPriceId=${pageRef.current.goodsPriceId}`),
+      newWebView: true,
+      title: '下单',
+      needLogin: true,
+    })
+  }
   return (
-    <div
-      className={`SubmitBtn__root__${templateKey}`}
-      onClick={() => makeOrder}
-      style={{ transform: 'translate3d(0, 0, 0)' }}
-    >
-      <img
-        className="btn-img"
-        src={`https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg9.51tietu.net%2Fpic%2F2019-091106%2F1eqn3t2og0k1eqn3t2og0k.jpg&refer=http%3A%2F%2Fimg9.51tietu.net&app=2002&size=f9999`}
-        onClick={makeOrder}
-      />
+    <div className={`SubmitBtn__root SubmitBtn__root__${templateKey}`}>
+      {img && <img className="btn-img" src={img} onClick={makeOrder} />}
     </div>
   )
 }

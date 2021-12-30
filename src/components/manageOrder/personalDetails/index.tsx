@@ -1,5 +1,4 @@
 import React, { useState, useEffect, FC } from 'react'
-import { Flex } from 'react-vant'
 import './index.less'
 /**
  * 订单管理详情
@@ -16,76 +15,48 @@ const RelationMap = {
   '6': '兄弟',
   '7': '姐妹',
 }
+const MaStatusMap = {
+  1: { text: '【待付款】', bgName: 'BGdaifk', cName: 'CF57272', type: 1 },
+  2: { text: '【已失效】', bgName: 'BGyisx', cName: 'C999999', type: 2 },
+  3: { text: '【待核销】', bgName: 'BGdaiqr', cName: 'C7193f4', type: 3 },
+  4: { text: '【已完成】', bgName: 'BGyiwc', cName: 'C666666', type: 4 },
+  5: { text: '【退款中】', bgName: 'BGtuikz', cName: 'CF5B572', type: 5 },
+  6: { text: '【已退款】', bgName: 'BGyitk', cName: 'C666666', type: 6 },
+  7: { text: '【退款失败】', bgName: 'BGyitk', cName: 'C999999', type: 7 },
+  '': { text: '未知', bgName: 'BGyisx', cName: '', type: '' },
+}
 interface Peosonalprops {
-  subordersitem: {
-    travelerType: number
-    travelerName: string
-    travelerPhoneNumber: string
-    travelerCertificateNo: string
-    emerName: string
-    emerPhoneNumber: string
-    travelerRelation: string
-    emerTravelerRelation: string
-  }
+  subordersitem: any[]
 }
 const ManagePeosonalDetailItem: FC<Peosonalprops> = (props) => {
   const { subordersitem } = props
-  const [suborders, setSuborders] = useState(subordersitem)
-
+ 
   return (
-    <div className="Peosonaldetail-item">
-      <Flex justify="center" className="peodetail-container">
-        <Flex.Item span={9}>
-          <div className="personal-btn">{suborders?.travelerType == 0 ? '儿童' : '成人'}</div>
-          <div className="personal-status">【待确认】</div>
-        </Flex.Item>
-        <Flex.Item span={15}>
-          <Flex className="personal-info" gutter={14}>
-            <Flex.Item span={6} className="personal-infoL">
-              姓名
-            </Flex.Item>
-            <Flex.Item span={18} className="personal-infoR">
-              {suborders?.travelerName}
-              <span>{`（${RelationMap[suborders.travelerRelation]}）`}</span>
-            </Flex.Item>
-          </Flex>
-          <Flex className="personal-info" gutter={14}>
-            <Flex.Item span={6} className="personal-infoL">
-              电话
-            </Flex.Item>
-            <Flex.Item span={18} className="personal-infoR">
-              {suborders?.travelerPhoneNumber}
-            </Flex.Item>
-          </Flex>
-          <Flex className="personal-info" gutter={14}>
-            <Flex.Item span={6} className="personal-infoL">
-              身份证
-            </Flex.Item>
-            <Flex.Item span={18} className="personal-infoR">
-              {suborders?.travelerCertificateNo}
-            </Flex.Item>
-          </Flex>
-          <Flex className="personal-info" gutter={14}>
-            <Flex.Item span={6} className="personal-infoL">
-              护照
-            </Flex.Item>
-            <Flex.Item span={18} className="personal-infoR">
-              *********
-            </Flex.Item>
-          </Flex>
-        </Flex.Item>
-      </Flex>
-      <Flex className="personal-contact" justify="between" align="center">
-        <Flex.Item span={14}>
-          <div className="personal-conleft">
-            紧急联系人 {suborders?.emerName}
-            <span>{`（${RelationMap[suborders.emerTravelerRelation]}）`}</span>
-          </div>
-        </Flex.Item>
-        <Flex.Item span={10}>
-          <div className="personal-conright">电话 {suborders?.emerPhoneNumber}</div>
-        </Flex.Item>
-      </Flex>
+    <div className="pdetail-item">
+      <div className="pdetail-item-box">
+        <div className={`pdetail-item-box-left ${MaStatusMap[subordersitem[0].state]?.['cName']}`}>{MaStatusMap[subordersitem[0].state].text}</div>
+        <div className="pdetail-item-box-right">
+          {subordersitem?.map((item,index)=>{
+              return (<div className="pibr-box" key={index}>
+              <ul className="pibr-box-ul">
+                <li className="pibr-box-li"><span className='pibr-label'>{item?.travelerType == 0 ? '儿童' : '成人'}</span></li>
+                <li className="pibr-box-li">
+                  <span className='pibr-name'>{item?.travelerName}</span>
+                  <span className='pibr-tag rv-hairline--surround'>{RelationMap[item.travelerRelation]}</span>
+                </li>
+                <li className="pibr-box-li">
+                  <span className='pibr-label'>电&emsp;&emsp;话</span>
+                  <span className='pibr-content'>{item?.travelerPhoneNumber}</span>
+                </li>
+                <li className="pibr-box-li">
+                  <span className='pibr-label'>订单编号</span>
+                  <span className='pibr-content'>{item?.suborderNo}</span>
+                </li>
+              </ul>
+            </div>)
+          })}
+        </div>
+      </div>
     </div>
   )
 }

@@ -17,7 +17,20 @@ const WithDrawPage: React.FC = () => {
   useEffect(() => {
     MyTokenService.getCashPage().then((res) => {
       console.log(res)
-      setDollar(res.data.maxCashAmount)
+      if (res['code'] == '200') {
+        if (res.data.maxCashAmount > res.data.cashableAmount) {
+          setDollar(res.data.cashableAmount)
+        } else {
+          setDollar(res.data.maxCashAmount)
+        }
+        Toast({
+          message: res['msg'],
+        })
+      } else {
+        Toast({
+          message: res['msg'],
+        })
+      }
     })
   }, [])
 
@@ -35,19 +48,31 @@ const WithDrawPage: React.FC = () => {
   }
   const toExamine = () => {
     askFor()
-    // SHBridge.jump({ url: generateUrl('/examine'), replace: true, title: '申请提现' })
   }
   const onFocus = () => {
     setVisible(true)
   }
   const askFor = () => {
-    if (Number(myK) > 0 && Number(myK) < Number(dollar)) {
+    if (Number(dollar) == 0) {
+      Toast('没有可提现金额')
+    } else if (Number(myK) == 0) {
+      Toast('提现金额不能为0')
+    } else if (Number(myK) > Number(dollar)) {
+      Toast('已超过单次最大提现金额')
+    } else {
       MyTokenService.askForWithDraw({ amount: myK }).then((res) => {
         console.log(res)
-        // setDollar(res.data.maxCashAmount)
+        if (res['code'] == '200') {
+          Toast({
+            message: res['msg'],
+          })
+          SHBridge.jump({ url: generateUrl('/examine'), replace: true, title: '申请提现' })
+        } else {
+          Toast({
+            message: res['msg'],
+          })
+        }
       })
-    } else {
-      Toast('请输入正确金额')
     }
   }
   /**
@@ -89,9 +114,10 @@ const WithDrawPage: React.FC = () => {
           </div> */}
         </div>
         <div className="text">
-          {Number(myK) < Number(dollar) ? (
+          {Number(dollar) > Number(myK) || Number(dollar) == Number(myK) ? (
             <div>
-              最多可提现{dollar}元
+              {Number(dollar) == 0 ? '暂时还没有可提现金额' : `最多可提现${dollar}元`}
+
               <Popover
                 className="popover"
                 placement="bottom-start"

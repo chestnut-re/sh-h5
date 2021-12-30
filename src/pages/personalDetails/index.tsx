@@ -1,11 +1,12 @@
 import React, { useState, FC, useRef, useEffect, useCallback } from 'react'
-import { hooks, NoticeBar, Form, Radio, Flex, Toast, Popup, Area, Field, Popover, ConfigProvider } from 'react-vant'
+import { hooks, NoticeBar, Form, Radio, Flex, Toast, Popup, Area, Field, Popover, ConfigProvider, DatetimePicker } from 'react-vant'
 import { areaList } from '@vant/area-data'
 import activeIcon from '@/assets/img/activeIcon@3x.png'
 import inactiveIcon from '@/assets/img/inactiveIcon@3x.png'
 import OptionalInfo from '@/components/personalDetails/optionalInfo'
 import { Personal } from '@/service/Personal'
 import { getUrlParams } from '@/utils'
+import { SHBridge } from '@/jsbridge'
 
 import './index.less'
 /**
@@ -31,9 +32,10 @@ const actions = [
   { text: '姐妹', type: 7 },
 ]
 
-const PersonalDetailPage: FC = () => {
+const PersonalDetailPage: FC = (props: any) => {
   const [userTrave, setUserTrave] = useState('与我的关系')
   const [emerTrave, setEmerTrave] = useState('身份关系')
+  const [selectProtocol, setSelectProtocol] = useState(false)
   const [submittal, setSubmitdata] = hooks.useSetState({
     userTravelerRelation: '', //登录用户与出行人关系
     travelerName: '', //出行人姓名
@@ -105,12 +107,10 @@ const PersonalDetailPage: FC = () => {
     const errorMsg = {}
     const nameReg = /^[\u4E00-\u9FA5]{2,4}$/
     const phoneReg = /(^1[3|4|5|7|8|9]\d{9}$)|(^09\d{8}$)/
-
     const nameTxt = nameReg.test(submittal.travelerName)
     const phoneTxt = phoneReg.test(submittal.phoneNumber)
     const emerNameTxt = nameReg.test(submittal.emerName)
     const emerPhoneTxt = phoneReg.test(submittal.emerPhoneNumber)
-
     if (!nameTxt || !phoneTxt || !emerNameTxt || !emerPhoneTxt) {
       if (!nameTxt) {
         errorMsg['nameMsg'] = submittal.travelerName == '' ? '请输入姓名' : '请输入正确的证件姓名'
@@ -123,6 +123,9 @@ const PersonalDetailPage: FC = () => {
       }
       if (!emerPhoneTxt) {
         errorMsg['emerPhoneMsg'] = submittal.emerPhoneNumber == '' ? '请输入紧急联系人手机号码' : '请输入正确的手机号'
+      }
+      if (submittal.addr == '') {
+        errorMsg['addrMsg'] = '请输入用户常住地址'
       }
       set({
         errorMessage: errorMsg,
@@ -144,7 +147,14 @@ const PersonalDetailPage: FC = () => {
   }
 
   const onSubmit = useCallback(() => {
+
     if (rules()) {
+      if (!selectProtocol) {
+        Toast({
+          message: '请勾选用户协议',
+        })
+        return
+      }
       set({ subBtnDisabled: true })
       submittal.travelerCertificate = prune()
       if (urlParams.id) {
@@ -153,7 +163,7 @@ const PersonalDetailPage: FC = () => {
         add()
       }
     }
-  }, [submittal, state.errorMessage])
+  }, [submittal, state.errorMessage, selectProtocol])
 
   /**
    * 新增出行人
@@ -163,8 +173,13 @@ const PersonalDetailPage: FC = () => {
     Personal.add(submittal).then((res) => {
       set({ subBtnDisabled: false })
       if (res['code'] == '200') {
+        SHBridge.closePage()
         Toast({
           message: '添加成功',
+        })
+      } else {
+        Toast({
+          message: '添加失败',
         })
       }
     })
@@ -182,6 +197,11 @@ const PersonalDetailPage: FC = () => {
         Toast({
           message: '修改成功',
         })
+        SHBridge.closePage()
+      } else {
+        Toast({
+          message: '添加失败',
+        })
       }
     })
   }
@@ -197,7 +217,7 @@ const PersonalDetailPage: FC = () => {
         if (key == 'type') {
           return undefined
         } else if (key == 'certificateType') {
-          return value == '身份证' ? 0 : 1
+          return value == '身份证' ? 1 : 2
         } else {
           return value
         }
@@ -205,6 +225,15 @@ const PersonalDetailPage: FC = () => {
     )
     return newInfolist
   }
+
+  const onSelectProtocol = () => {
+    setSelectProtocol(!selectProtocol)
+  }
+
+  const onService = () => {
+    props.history.push('/protocol/service')
+  }
+  //再次购买处理
 
   return (
     <ConfigProvider themeVars={themeVars}>
@@ -214,6 +243,7 @@ const PersonalDetailPage: FC = () => {
             请填写真实可用信息，用于购买机票、火车票、办理住宿等
           </NoticeBar>
         </div>
+
         <div className="personal-content">
           <div className="personal-content-header">
             <ul className="pch-ul">
@@ -223,6 +253,7 @@ const PersonalDetailPage: FC = () => {
                   <Flex align="center">
                     <Flex.Item span={14}>
                       <Field
+                        maxlength={20}
                         value={submittal.travelerName}
                         placeholder="与证件姓名一致"
                         errorMessage={state.errorMessage['nameMsg']}
@@ -254,6 +285,8 @@ const PersonalDetailPage: FC = () => {
                     value={submittal.phoneNumber}
                     placeholder="常用手机号"
                     errorMessage={state.errorMessage['phoneMsg']}
+                    maxlength={11}
+                    type='number'
                     onChange={(val) => {
                       setSubmitdata({
                         phoneNumber: val,
@@ -270,6 +303,7 @@ const PersonalDetailPage: FC = () => {
                     readonly
                     value={submittal.addr}
                     label=""
+                    errorMessage={state.errorMessage['addrMsg']}
                     placeholder="请选择出行人常住地"
                     onClick={() => set({ visible: true })}
                   />
@@ -318,6 +352,7 @@ const PersonalDetailPage: FC = () => {
 
               <li className="pch-ul-li-box rv-hairline--bottom">
                 <div className="hairline-top"></div>
+
                 <OptionalInfo certificate={submittal.travelerCertificate} ref={optionalInfoRef} />
               </li>
 
@@ -329,6 +364,7 @@ const PersonalDetailPage: FC = () => {
                       <Field
                         value={submittal.emerName}
                         placeholder="联系人姓名"
+                        maxlength={20}
                         errorMessage={state.errorMessage['emerNameMsg']}
                         onChange={(val) => {
                           setSubmitdata({
@@ -355,6 +391,8 @@ const PersonalDetailPage: FC = () => {
                   <Field
                     value={submittal.emerPhoneNumber}
                     placeholder="紧急联系人手机号"
+                    maxlength={11}
+                    type='number'
                     errorMessage={state.errorMessage['emerPhoneMsg']}
                     onChange={(val) => {
                       setSubmitdata({
@@ -367,7 +405,12 @@ const PersonalDetailPage: FC = () => {
             </ul>
           </div>
         </div>
-        <div className="personal-protocol">点击保存表示同意 《占位协议名称》</div>
+        <div className="personal-protocol">
+          <div onClick={onSelectProtocol} className='selectProtocol'>
+            <img alt="" className="img-icon" src={selectProtocol ? activeIcon : inactiveIcon} />
+            <span className='text'>点击保存表示同意 <span onClick={onService} className='text-a'>《占位协议名称》</span></span>
+          </div>
+        </div>
         <div
           onClick={() => {
             !state.subBtnDisabled && onSubmit()

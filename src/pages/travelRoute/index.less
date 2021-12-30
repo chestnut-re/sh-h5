@@ -63,7 +63,6 @@ html {
   .itemList {
     font-size: 25px;
     width: 702px;
-    height: 382px;
     padding: 19px 29px;
     background: #fff;
     // margin: 10px auto;
@@ -85,7 +84,6 @@ html {
     }
     .itemPoint {
       display: flex;
-      height: 24px;
       font-size: 24px;
       margin-top: 22px;
       .lastPoint {
@@ -114,7 +112,18 @@ html {
         width: 4px;
         top: 12px;
         left: -20px;
-        background-color: #f3f4f4;
+        // background-color: #f3f4f4;
+        &:before {
+          position: absolute;
+          width: 4px;
+          height: 100% + 50px;
+          background-color: #f3f4f4;
+          top: 0;
+          left: 0;
+          right: 0;
+          content: ' ';
+          display: block;
+        }
         &:after {
           position: absolute;
           width: 10px;

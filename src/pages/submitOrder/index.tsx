@@ -1,14 +1,15 @@
 import React, { useState, useEffect, FC } from 'react'
 import { useLocation } from 'react-router-dom'
-import GoodsCard from '@/components/orderDetail/goodsCard'
+import GoodsCard from '@/components/orderDetail/goodsCard/submitGoods'
 import StepperCard from '@/components/orderDetail/stepperCard'
 import qs from 'query-string'
-import { Toast } from 'react-vant'
+import { Toast, Popup } from 'react-vant'
 import PayTypeCard from '@/components/orderDetail/payTypeCard'
 import BackCard from '@/components/orderDetail/backthatCard'
 import FooterCard from '@/components/orderDetail/footerCard'
 import ProtocolCard from '@/components/orderDetail/protocolCard'
 import KnownCalendarCard from '@/components/orderDetail/knownCalendarCard'
+import Privilege from './privilege'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
 import { OrderApi } from '@/service/OrderDetailApi'
@@ -17,53 +18,16 @@ import './index.less'
 
 /**
  * 提交订单页面
+ * url 必填入参
+ * id : 商品id
+ * source：下单途径:1 自然获客、2 分享任务链接、3 分享普通链接、4 线下扫码
  */
 
 const RMB_CON = 100
 //mock数据
-const GoodsPrice = [
-  {
-    goodsPriceId: 1473837416123000,
-    startDate: '2021-12-29',
-    endDate: '2022-12-29',
-    personCurrentPrice: 180000,
-    personCostPrice: 180000,
-    personMarkPrice: 1999,
-    childCurrentPrice: 1999,
-    childCostPrice: 180000,
-    childMarkPrice: 180000,
-    stock: 99,
-    days: 7,
-  },
-  {
-    goodsPriceId: 1473837486123000,
-    startDate: '2021-12-31',
-    endDate: '2022-12-29',
-    personCurrentPrice: 180000,
-    personCostPrice: 180000,
-    personMarkPrice: 6700,
-    childCurrentPrice: 199,
-    childCostPrice: 180000,
-    childMarkPrice: 180000,
-    stock: 99,
-    days: 7,
-  },
-  {
-    goodsPriceId: 1473837487616100,
-    startDate: '2022-01-02',
-    endDate: '2022-12-29',
-    personCurrentPrice: 180000,
-    personCostPrice: 180000,
-    personMarkPrice: 1800,
-    childCurrentPrice: 180,
-    childCostPrice: 180000,
-    childMarkPrice: 180000,
-    stock: 199,
-    days: 7,
-  },
-]
 
 const SubmitOrderPage: FC = () => {
+  let toast1;
   const { search } = useLocation()
   const { id } = qs.parse(search.slice(1))
   //提交数据
@@ -86,6 +50,7 @@ const SubmitOrderPage: FC = () => {
       discountAmount: 0, //优惠总金额
       goodsId: '', //商品id
       goodsName: '', //商品名称
+      promotionalImageUrl: '', //商品预览图
       insuranceAmount: 0, //保险金额
       originPrice: 0, //商品原总价
       payAmount: 0, //支付金额
@@ -104,6 +69,7 @@ const SubmitOrderPage: FC = () => {
   //协议是否勾选
   const [isProtocol, setIsProtocol] = useState(false)
 
+  const [showPrivilege, setShowPrivilege] = useState(false)
   const [submitinfo, setSubmitinfo] = useState({
     id: '', //商品id
     goodsName: '', //商品标题
@@ -150,8 +116,8 @@ const SubmitOrderPage: FC = () => {
       const childPreferPriceNum = (childMarkPrice - childCurrentPrice) * childNum //儿童优惠总价
       return {
         ...v,
-        priceNum: personpriceNum + childpriceNum - stepperData['intNum'],
-        preferPrice: personPreferPriceNum + childPreferPriceNum,
+        priceNum: personpriceNum + childpriceNum - intNum,
+        preferPrice: personPreferPriceNum + childPreferPriceNum > 0 ? personPreferPriceNum + childPreferPriceNum : 0,
       }
     })
   }, [selectTime, stepperData])
@@ -186,9 +152,9 @@ const SubmitOrderPage: FC = () => {
     return new Promise<any>((resolve, reject) => {
       OrderApi.getIntegral()
         .then((res: any) => {
-          let { code, data } = res
-          if (code == '200' && data) {
-            resolve(data)
+          const { code, data } = res
+          if (code == '200') {
+            resolve(data ?? 0)
           } else {
             reject(new Error('error'))
           }
@@ -210,9 +176,11 @@ const SubmitOrderPage: FC = () => {
   }, [selectTime])
 
   useEffect(() => {
+    SHBridge.setTitle("提交订单")
+
     getGoodsDetail(id)
       .then((res: any) => {
-        const { departureCity, goodsName, id, isDeduction } = res
+        const { departureCity, departureCityAdcode, goodsName, promotionalImageUrl, id, isDeduction } = res
         setSubmitinfo(res)
         setSelectTime(res['goodsPrices'][0])
         setPriceSet((v) => {
@@ -237,11 +205,12 @@ const SubmitOrderPage: FC = () => {
         setSubmitData((v) => {
           return {
             ...v,
-            departureCity,
+            departureCity: departureCityAdcode,
             orderDto: {
               ...v.orderDto,
               goodsName,
               goodsId: id,
+              promotionalImageUrl,
             },
           }
         })
@@ -259,11 +228,13 @@ const SubmitOrderPage: FC = () => {
   //处理优惠说明
   const handleDiscountsInfo = () => {
     const { goodsPriceId } = selectTime
-    SHBridge.jump({
-      url: generateUrl(`/privilege?t=${search}&id=${id}&goodsPriceId=${goodsPriceId}`),
-      newWebView: true,
-      title: '优惠说明',
-    })
+    setShowPrivilege(true)
+
+    // SHBridge.jump({
+    //   url: generateUrl(`/privilege?t=${search}&id=${id}&goodsPriceId=${goodsPriceId}`),
+    //   newWebView: true,
+    //   title: '优惠说明',
+    // })
   }
   //处理支付方式
   const handlePayType = (item) => {
@@ -283,6 +254,17 @@ const SubmitOrderPage: FC = () => {
     console.log('item执行 :>> ', item)
     setSelectTime(item)
   }
+  //支付成功跳转
+  const paySuccessLink = (orderId) => {
+    toast1 && toast1.clear()
+    SHBridge.jump({
+      url: generateUrl(`/pay-success?t=${search}&id=${id}&orderId=${orderId}`),
+      newWebView: false,
+      replace: true,
+      title: '支付成功',
+    })
+  }
+
   //提交订单
   const submitHandle = () => {
     const { childCurrentPrice, childMarkPrice, personCurrentPrice, personMarkPrice, goodsPriceId } = selectTime
@@ -314,66 +296,64 @@ const SubmitOrderPage: FC = () => {
       },
     }
 
-    if (payType != 3) {
-      Toast('目前仅支持支付宝支付')
-      return
-    }
-
-    console.log('subInfo :>> ', subInfo)
-
-    // const payString = "alipay_root_cert_sn=687b59193f3f462dd5336e5abf83c5d8_02941eef3187dddf3d3b83462e1dfcf6&alipay_sdk=alipay-sdk-java-4.8.103.ALL&app_cert_sn=2c03fdc66c059ea1553406b3ed88fea7&app_id=2021003107621742&biz_content=%7B%22out_trade_no%22%3A%221475394781881524224%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%2C%22subject%22%3A%22%E6%AC%A7%E6%B4%B211%E5%9B%BD%E5%8F%8C%E6%97%A5%E6%B8%B8%22%2C%22total_amount%22%3A%221%22%7D&charset=UTF-8&format=json&method=alipay.trade.app.pay&notify_url=http%3A%2F%2Fdevapi.mountainseas.cn%2Fnotice%2Fpay%2Fpayment%2F3&sign=L7I5kIKReKXa4lb8jEyqyaE16VwLZIB6wX1razp98PV4vQhjSvFDWh6KXC4n4lMDQZtt2ewG2w7s0ZbDxVnj9XOQxQBOymk0EMzWUQw1i8jNw6ngh32LTRwzgWpbihwIAiI4iHlukxqA0a%2BnLQWAOMZYgppfezm0pNNS01LA6iCfCuaXVaYNMtNJUio%2FRlCLC4lWHJmS74ObMBJbfHfH1FWfq%2By9y71eoZPFRepJ47C1uw9DZAbwc%2BsA6dIma%2BQzoVkhAtM1yUI%2FilnvPqPzAl39DOXspKymj0pd%2BrA3AmCJ%2FZB9uOPPookNqeK%2F2Nx4UEK2BHFOTuTL9RA%2Fbu%2BuUQ%3D%3D&sign_type=RSA2&timestamp=2021-12-27+17%3A15%3A02&version=1.0"
-    // SHBridge.alipay(payString, (res) => {
-    //   const {alipay_trade_app_pay_response:{
-    //     code
-    //   }} = JSON.parse(res.result);
-    //   console.log('支付成功', code,res)
-    //   if (code == "10000") {
-    //     SHBridge.jump({
-    //       url: generateUrl(`/pay-success?t=${search}&id=${id}&goodsPriceId=${goodsPriceId}`),
-    //       newWebView: false,
-    //       replace:true,
-    //       title: '支付成功',
-    //     })
-    //   }
-    // })
     if (isProtocol) {
-      const toast1 = Toast.loading({
+      toast1 = Toast.loading({
         message: '订单生成中...',
         forbidClick: true,
         duration: 0,
       })
 
       OrderApi.submit(subInfo)
-        .then((res) => {
+        .then((res: any) => {
           console.log('res提交订单 :>> ', res)
           const { code, msg, data } = res
           if (code == '200' && data) {
             if (data.code == '200') {
-              SHBridge.alipay(data.data, (res) => {
-                const {
-                  alipay_trade_app_pay_response: { code },
-                } = JSON.parse(res.result)
-                console.log('支付成功', code, res)
-                if (code == '10000') {
-                  toast1 && toast1.clear()
-                  SHBridge.jump({
-                    url: generateUrl(`/pay-success?t=${search}&id=${id}&goodsPriceId=${goodsPriceId}`),
-                    newWebView: false,
-                    replace: true,
-                    title: '支付成功',
+              const { returnPayInfo, orderId } = data.data
+              switch (payType) {
+                case 1:
+                  // SHBridge.minipay(JSON.stringify(data), 1)
+                  toast1.clear()
+                  SHBridge.minipay(JSON.stringify(returnPayInfo), priceNum)
+                  break
+                case 2:
+                  SHBridge.wxpay(returnPayInfo, (wxres: any) => {
+                    const { errorCode } = wxres
+                    if (errorCode == 0) {
+                      paySuccessLink(orderId)
+                    } else {
+                      toast1.clear()
+                      Toast('支付失败')
+                    }
+                    console.log(res)
                   })
-                }
-              })
+                  break
+                case 3:
+                  SHBridge.alipay(returnPayInfo, (alires: any) => {
+                    const {
+                      alipay_trade_app_pay_response: { code },
+                    } = JSON.parse(alires.result)
+                    console.log('支付成功', code, res)
+                    if (code == '10000') {
+                      paySuccessLink(orderId)
+                    }else{
+                      toast1.clear()
+                    }
+                  })
+                  break
+                default:
+                  Toast('支付方式有误')
+                  break
+              }
             }
           } else {
+            toast1.clear()
             Toast(msg)
           }
         })
         .catch((err) => {
-          console.log('object订单接口异常:>> ', err)
-        })
-        .finally(() => {
           toast1.clear()
+          console.log('object订单接口异常:>> ', err)
         })
     } else {
       Toast('请勾选相关协议')
@@ -390,10 +370,11 @@ const SubmitOrderPage: FC = () => {
               endDate={selectTime.endDate}
               adultNum="0"
               childNum="0"
-              isSubmitOrder={true}
               goodsName={submitinfo.goodsName}
+              travelMode={submitinfo.travelMode}
+              stock={selectTime.stock}
             />
-            {submitinfo.travelMode === 1 ? (
+            {submitinfo.travelMode === 0 ? (
               <KnownCalendarCard
                 calendata={submitinfo['goodsPrices']}
                 selecttime={selectTime}
@@ -411,12 +392,34 @@ const SubmitOrderPage: FC = () => {
             />
           </div>
           <PayTypeCard changePayType={handlePayType} />
-          <BackCard />
+          <div
+            onClick={() => {
+              Toast('暂无退改说明')
+            }}
+          >
+            <BackCard />
+          </div>
 
           <ProtocolCard changeProtocolStatus={handleProtocolStatus} />
         </div>
       </div>
       <FooterCard priceSetData={priceSet} submitHandleOrder={submitHandle} />
+
+      <Popup
+        title="优惠信息"
+        visible={showPrivilege}
+        position="bottom"
+        destroyOnClose={true}
+        closeable
+        round
+        safeAreaInsetBottom={true}
+        closeIcon="close"
+        onClose={() => setShowPrivilege(false)}
+      >
+        <div className="privilege-box">
+          <Privilege goodsPriceId={selectTime['goodsPriceId']} id={id} />
+        </div>
+      </Popup>
     </div>
   )
 }
