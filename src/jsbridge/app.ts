@@ -141,7 +141,7 @@ export class AppBridge {
   /**
    * 支付宝支付
    */
-  static alipay(authStr: string, backFn: (index: number) => void): void {
+  static alipay(authStr: string, backFn: (dataStr: string) => void): void {
     const msg = {
       method: 'alipay',
       data: {
@@ -155,7 +155,7 @@ export class AppBridge {
   /**
    * 微信支付
    */
-  static wxpay(auth: any, backFn: (index: number) => void): void {
+  static wxpay(auth: any, backFn: (index: any) => void): void {
     const msg = {
       method: 'wxpay',
       data: {

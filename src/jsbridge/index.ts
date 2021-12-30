@@ -129,7 +129,7 @@ export class SHBridge {
   /**
    * 支付宝支付
    */
-  static alipay(authStr: string, backFn: (index: number) => void): void {
+  static alipay(authStr: string, backFn: (dataStr: string) => void): void {
     if (isApp()) {
       AppBridge.alipay(authStr, backFn)
     }
@@ -138,7 +138,7 @@ export class SHBridge {
   /**
    * 微信支付
    */
-  static wxpay(auth: any, backFn: (index: number) => void): void {
+  static wxpay(auth: any, backFn: (index: any) => void): void {
     if (isApp()) {
       AppBridge.wxpay(auth, backFn)
     }
