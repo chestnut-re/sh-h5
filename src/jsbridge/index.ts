@@ -147,10 +147,10 @@ export class SHBridge {
   /**
    * 小程序支付
    */
-  static minipay(data: string, amount: number): void {
+  static minipay(data: string, amount: number,orderId:string): void {
     isMini().then((res) => {
       if (res) {
-        MiniAppBridge.minipay(data, amount)
+        MiniAppBridge.minipay(data, amount,orderId)
       }
     })
   }
