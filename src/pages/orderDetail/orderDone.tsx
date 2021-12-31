@@ -1,5 +1,7 @@
 import React, { useState, FC } from 'react'
-import { withRouter } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
+import qs from 'query-string'
+// import { withRouter } from 'react-router-dom'
 import GoodsCard from '@/components/orderDetail/goodsCard'
 import PreferCard from '@/components/orderDetail/preferCard'
 import IndentCard from '@/components/orderDetail/indentCard'
@@ -15,6 +17,8 @@ import './index.less'
  */
 const OrderDonePage: FC = (props:any) => {
   console.log('object :>> ', props)
+  const { search } = useLocation()
+  const { orderId } = qs.parse(search.slice(1))
   const {
     promotionalImageUrl,
     goodsName,
@@ -29,7 +33,8 @@ const OrderDonePage: FC = (props:any) => {
     payType,
     orderTime,
     payTime,
-    goodsId
+    goodsId,
+    ordersTravel
   } = props
   const BarsConfig = {
     barLeftTitle: '再次购买',
@@ -54,6 +59,17 @@ const OrderDonePage: FC = (props:any) => {
       }
     },
   }
+
+  const openTripLinkHandelFun = ()=>{
+    SHBridge.jump({
+      url: generateUrl(`/order-travel?id=${orderId}`),
+      newWebView: true,
+      replace: false,
+      title: '出行确认码',
+    })
+
+      console.log("chuli")
+  }
   return (
     <div className="Order-container">
       <div className="order-main">
@@ -69,7 +85,7 @@ const OrderDonePage: FC = (props:any) => {
           />
           <PreferCard tokenAmount={tokenAmount} discountAmount={discountAmount} payAmount={payAmount} />
         </div>
-        <PreviewTripCard />
+        <PreviewTripCard ordersTravel={ordersTravel} openTripLinkHandel={openTripLinkHandelFun} />
         <IndentCard orderNo={orderNo}  payType={payType} orderTime={orderTime} payTime={payTime} />
         <BackCard />
       </div>
@@ -78,4 +94,4 @@ const OrderDonePage: FC = (props:any) => {
   )
 }
 
-export default withRouter(OrderDonePage)
+export default OrderDonePage

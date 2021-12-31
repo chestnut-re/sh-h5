@@ -32,6 +32,7 @@ const GroupShopPage: FC = () => {
   const getSmallShopInfo = () => {
     SmallShop.detail({
       id,
+      token:SHBridge.getToken()
     })
       .then((res) => {
         const { code, data } = res
