@@ -25,56 +25,7 @@ const TabsListObj = [
   { tabName: '已完成', type: 4, id: 3, isTag: false },
   { tabName: '退款/售后', type: 5, id: 4, isTag: false },
 ]
-const ListData = [
-  {
-    id: '61ada88d4e147741543c7efd',
-    orderNo: '1235 8793 1234 9090',
-    orderTime: '2021-12-29 13:42:45',
-    goodsName: '之前就对杜伽Fusion念念不忘\n复古的外观\n手感确实不错\n这次就可以将鼠标、手绘板、键盘三个都...',
-    adultNum: 0,
-    childNum: 2,
-    payAmount: 1798,
-    orderUserId: '41543c7e',
-    orderUserName: '大头君有点困',
-    state: 1,
-  },
-  {
-    id: '71ada88d4e147741543c7efd',
-    orderNo: '1235 8793 1234 9090',
-    orderTime: '2021-12-21 12:30:45',
-    goodsName: '合肥包公园  冬游变春游（二）\n两个多小时的拍摄，整理出了两组十二张照片，等下个季节下次再去里面...',
-    adultNum: 2,
-    childNum: 2,
-    payAmount: 1998,
-    orderUserId: '41590c7e',
-    orderUserName: '既白',
-    state: 3,
-  },
-  {
-    id: '71ada88d4e147741543c7efd',
-    orderNo: '1235 8793 1234 9090',
-    orderTime: '2021-12-21 12:30:45',
-    goodsName: '合肥包公园  冬游变春游（二）\n两个多小时的拍摄，整理出了两组十二张照片，等下个季节下次再去里面...',
-    adultNum: 2,
-    childNum: 2,
-    payAmount: 1998,
-    orderUserId: '41590c7e',
-    orderUserName: '既白',
-    state: 4,
-  },
-  {
-    id: '71ada88d4e147741543c7efd',
-    orderNo: '1235 8793 1234 9090',
-    orderTime: '2021-12-21 12:30:45',
-    goodsName: '合肥包公园  冬游变春游（二）\n两个多小时的拍摄，整理出了两组十二张照片，等下个季节下次再去里面...',
-    adultNum: 2,
-    childNum: 2,
-    payAmount: 1998,
-    orderUserId: '41590c7e',
-    orderUserName: '既白',
-    state: 5,
-  },
-]
+
 let current = 1;
 const ManageOrderPage: FC = () => {
   
@@ -83,15 +34,12 @@ const ManageOrderPage: FC = () => {
   const [finished, setFinished] = useState<boolean>(false)
   //是否在请求状态
   const [isloading, setIsloading] = useState<boolean>(true)
-  //当前请求页码
-  // const [current, setCurrent] = useState(1)
+ 
   //列表数据
   const [listData, setListData] = useState<any[]>([])
   //高亮tab
   const [activeState, setActive] = useState<any>('')
-  //当前请求页码
-  const [paymentNum, setPaymentNum] = useState<number>(0)
-
+ 
   const getOrderListData = async () => {
     return new Promise<any>((resolve, reject) => {
       ManageOrder.list({
@@ -100,7 +48,7 @@ const ManageOrderPage: FC = () => {
         current: current,
       })
         .then((res: any) => {
-          let { code } = res
+          const { code } = res
           if (code == '200') {
             
             // setCurrent((v) => v + 1)
@@ -188,6 +136,10 @@ const ManageOrderPage: FC = () => {
   })
   const tabHandelClick = (info) => {
     const { name } = info;
+    if (isloading) {
+      Toast("数据加载中，请稍后")
+      return
+    }
     current = 1;
     setActive(name)
   }

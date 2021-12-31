@@ -166,7 +166,6 @@ const OrderSearchPage: FC = () => {
 
         <div className="search-content">
           {listData.length ? (
-            <PullRefresh onRefresh={onLoadSearchRefresh}>
               <List
                 finished={finished}
                 errorText="请求失败，点击重新加载"
@@ -187,7 +186,6 @@ const OrderSearchPage: FC = () => {
                   )
                 })}
               </List>
-            </PullRefresh>
           ) : isloading ? (
             <Loading className="maorder-loading" vertical color="#3AD2C5">
               加载中...
