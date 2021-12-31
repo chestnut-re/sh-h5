@@ -128,7 +128,7 @@ const GroupShopPage: FC = () => {
             <div className="smallshop-content">
               <div className="smallshop-name">{shopInfo.shopName}</div>
               <div className="smallshop-title">如有疑问 可联系我</div>
-              <div className="smallshop-action">
+              {SHBridge.getToken()?(<div className="smallshop-action">
                 <div
                   onClick={attentionSmaiiShop}
                   className={clsx('smallshop-abtn', { 'smallshop-abtn-on': shopInfo.attentionState != 0 })}
@@ -136,7 +136,7 @@ const GroupShopPage: FC = () => {
                   {shopInfo.attentionState == 0 ? '关注' : '已关注'}
                 </div>
                 <div className="smallshop-abtn">分享</div>
-              </div>
+              </div>):null}
             </div>
           </div>
           <div className="smallshop-introduce">
