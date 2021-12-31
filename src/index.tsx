@@ -69,6 +69,14 @@ const TravelPage = loadable(() => import(/* webpackChunkName: 'TravelPage'*/ './
 const PropertyRightPage = loadable(
   () => import(/* webpackChunkName: 'PropertyRightPage'*/ './pages/protocol/PropertyRight')
 )
+/**平台用户服务协议 */
+const PlatformServicesPage = loadable(
+  () => import(/* webpackChunkName: 'PlatformServicesPage'*/ './pages/protocol/PlatformServices')
+)
+/**个人信息保护授权协议 */
+const PersonalInformationPage = loadable(
+  () => import(/* webpackChunkName: 'PersonalInformationPage'*/ './pages/protocol/PersonalInformation')
+)
 
 /**订单详情 */
 const OrderDetailPage = loadable(() => import(/* webpackChunkName: 'OrderDetailPage'*/ './pages/orderDetail'))
@@ -187,6 +195,8 @@ const App = () => (
       <Route path="/protocol/interest" exact component={InterestPage}></Route>
       <Route path="/protocol/travel" exact component={TravelPage}></Route>
       <Route path="/protocol/property-right" exact component={PropertyRightPage}></Route>
+      <Route path="/protocol/platform-service" exact component={PlatformServicesPage}></Route>
+      <Route path="/protocol/personal-information" exact component={PersonalInformationPage}></Route>
 
       <Route path="/test/page" exact component={TestPage}></Route>
       <Route path="/test/chart" exact component={TestChartPage}></Route>
