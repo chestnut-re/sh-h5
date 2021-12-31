@@ -7,7 +7,7 @@ import './index.less'
 const ServicePage: React.FC = () => {
   return (
     <div className="Protocol">
-      <h1 className="title">服务协议</h1>
+      <h2 className="title">服务协议</h2>
     </div>
   )
 }
