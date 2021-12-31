@@ -55,6 +55,7 @@ const KnownCalendarCard: FC<KnownCalendarType> = (props) => {
 
   //日期选择确定
   const onConfirms = (date) => {
+    console.log('object执行时间选择 :>> ', date);
     const dateStr = dayjs(date).format('YYYY-MM-DD')
     const dayitem = calendata?.find((item) => {
       return item.startDate == dateStr
@@ -77,6 +78,12 @@ const KnownCalendarCard: FC<KnownCalendarType> = (props) => {
       day.bottomInfo = `¥${dayitem.bottomInfo / RMB_CON}`
     }
     return day
+  }
+  const setHnadelVisible = ()=>{
+    if (!visible) {
+      setVisible(true)
+    }
+    
   }
 
   return (
@@ -101,7 +108,7 @@ const KnownCalendarCard: FC<KnownCalendarType> = (props) => {
             })}
           </div>
           {calendata.length>4?(<div className="kcalendar-more">
-            <div className="more-btn" onClick={() => setVisible(true)}>
+            <div className="more-btn" onClick={() => setHnadelVisible()}>
               查看更多
             </div>
           </div>):null}
