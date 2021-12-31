@@ -22,13 +22,12 @@ const ProtocolCard: FC<ProtocolType> = (props) => {
 
   const openProtocolLink = (type)=>{
     if (type==1) {
-      Toast("协议未提供")
-      // SHBridge.jump({
-      //   url: generateUrl(`/pay-success`),
-      //   newWebView: false,
-      //   replace: true,
-      //   title: '支付成功',
-      // })
+      SHBridge.jump({
+        url: generateUrl(`/protocol/platform-service`),
+        newWebView: true,
+        replace: false,
+        title: '平台服务协议',
+      })
     }else if(type == 2){
       SHBridge.jump({
         url: generateUrl(`/protocol/travel`),

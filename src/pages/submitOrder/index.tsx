@@ -260,6 +260,15 @@ const SubmitOrderPage: FC = () => {
       title: '支付成功',
     })
   }
+  const payErrorLink =  (orderId) => {
+    toast1 && toast1.clear()
+    SHBridge.jump({
+      url: generateUrl(`/order-detail?orderId=${orderId}`),
+      newWebView: false,
+      replace: true,
+      title: '订单详情',
+    })
+  }
 
   //提交订单
   const submitHandle = () => {
@@ -323,6 +332,7 @@ const SubmitOrderPage: FC = () => {
                     } else {
                       toast1.clear()
                       Toast('支付失败')
+                      payErrorLink(orderId)
                     }
                     console.log(res)
                   })
@@ -338,6 +348,7 @@ const SubmitOrderPage: FC = () => {
                       paySuccessLink(orderId)
                     }else{
                       toast1.clear()
+                      payErrorLink(orderId)
                     }
                   })
                   break
