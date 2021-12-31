@@ -80,9 +80,9 @@ const OperateCapitalPage: React.FC = () => {
           <span>¥</span>
           <span className="num">&nbsp;{accountInfo['funds']}</span>
         </div>
-        <div className="three">
+        {/* <div className="three">
           <div>使用中&nbsp;&nbsp;激励金额 ¥{accountInfo['funds']}</div>
-        </div>
+        </div> */}
       </div>
       {/* <div className="btn">
         <button className="out" onClick={() => selectName('out')}>

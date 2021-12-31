@@ -132,7 +132,7 @@ const FundDetailsPage: React.FC = () => {
   return (
     <div className="FundDetailsPage__root">
       <MyNavBar
-        title="账户资金"
+        title="账户资金明细"
         safeAreaInsetTop={true}
         leftArrow
         onClickLeft={() => history.back()}
@@ -140,14 +140,14 @@ const FundDetailsPage: React.FC = () => {
         rightText={'账户资金明细'}
         border={false}
       />
-      <div className="tab">
+      {/* <div className="tab">
         <div className={`${tabActiveIndex === 1 ? 'active' : ''}`} onClick={() => setTabActiveIndex(1)}>
           可用资金
         </div>
         <div className={`${tabActiveIndex === 2 ? 'active' : ''}`} onClick={() => setTabActiveIndex(2)}>
           冻结资金
         </div>
-      </div>
+      </div> */}
       <div className={'tab-list tab-view' + `${tabActiveIndex === 1 ? 'active' : ''}`}>
         <PullRefresh onRefresh={onRefresh}>
           <List finished={finished} onLoad={onLoadRefresh} immediateCheck={false} loading={isloading}>
@@ -162,11 +162,15 @@ const FundDetailsPage: React.FC = () => {
                     ) : (
                       <div></div>
                     )}
-                    <div className="counter">
-                      <div>{item['billDate']}</div>
+                    <div className="title">
+                      <div>{item['typeName']}</div>
                       <div>{item['amount']}</div>
                     </div>
-                    <div className="text">{item['typeName']}</div>
+                    <div className="counter">
+                      <div>{item['title']}</div>
+                      <div>订单编号{item['orderNo']}</div>
+                    </div>
+                    <div className="time">{item['billDate']}</div>
                   </div>
                 )
               })
@@ -178,7 +182,7 @@ const FundDetailsPage: React.FC = () => {
           </List>
         </PullRefresh>
       </div>
-      <div className={'tab-list tab-view' + `${tabActiveIndex === 2 ? 'active' : ''}`}>
+      {/* <div className={'tab-list tab-view' + `${tabActiveIndex === 2 ? 'active' : ''}`}>
         <PullRefresh onRefresh={onRefresh}>
           <List finished={finished1} onLoad={onLoadRefresh} immediateCheck={false} loading={isloading1}>
             {detailListN.length ? (
@@ -207,7 +211,7 @@ const FundDetailsPage: React.FC = () => {
             ) : null}
           </List>
         </PullRefresh>
-      </div>
+      </div> */}
     </div>
   )
 }

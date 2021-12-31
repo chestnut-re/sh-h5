@@ -87,27 +87,36 @@ a:active {
 .CF48B43 {
   color: #f48b43 !important;
 }
-.C666666{
+.C666666 {
   color: #666666 !important;
 }
-.C7193f4{
+.C7193f4 {
   color: #7193f4 !important;
- 
 }
-.CF5B572{
+.CF5B572 {
   color: #f5b572 !important;
 }
-.CF57272{
-  color:  #f57272 !important;
+.CF57272 {
+  color: #f57272 !important;
 }
-.CFD7D81{
-  color:  #fd7d81 !important;
+.CFD7D81 {
+  color: #fd7d81 !important;
 }
-.C4DCFC5{
-  color:  #4dcfc5 !important;
+.C4DCFC5 {
+  color: #4dcfc5 !important;
 }
 
-
+.rv-nav-bar__title {
+  font-weight: 400 !important;
+}
+.rv-nav-bar__text {
+  font-size: 24px;
+  font-weight: 400;
+}
+.rv-list__finished-text {
+  color: #c1c1c1 !important;
+  font-size: 20px !important;
+}
 .padding-bottom {
   padding-bottom: constant(safe-area-inset-bottom); /*兼容 IOS<11.2*/
   padding-bottom: env(safe-area-inset-bottom);

@@ -88,8 +88,8 @@ const UserCapitalPage: React.FC = () => {
           <span className="num">&nbsp;{accountInfo['total']}</span>
         </div>
         <div className="three">
-          <div>锁定金额 ¥ ¥{accountInfo['frozen']}</div>
-          <img className="pic" src={tips} alt="" />
+          <div>锁定金额 ¥{accountInfo['frozen']}</div>
+          {/* <img className="pic" src={tips} alt="" /> */}
         </div>
       </div>
       {/* <div className="btn">
@@ -97,10 +97,10 @@ const UserCapitalPage: React.FC = () => {
           提现
         </button>
       </div> */}
-      <div className="footer">
+      {/* <div className="footer">
         <div onClick={toMoneyRecord}>提现记录</div>
         <img className="pic" src={jump} alt="" />
-      </div>
+      </div> */}
       <Dialog visible={show} showConfirmButton={false}>
         <div className="dialog">
           <div className="text">

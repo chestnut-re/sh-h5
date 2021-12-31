@@ -89,6 +89,7 @@ const PersonalBindPage: FC = (props) => {
       emerPhoneMsg: '',
       emerNameMsg: '',
       certificateNoMsg: '',
+      addrMsg: '',
       index: id
     }
     return errorObj
@@ -146,11 +147,10 @@ const PersonalBindPage: FC = (props) => {
             newErrorMessage[index].validityMsg = ''
           }
         }
-
-        if (habitualResidencetext == '') {
-          newErrorMessage[index].addrMsg = '请输入用户常住地址'
-        } else {
+        if (habitualResidencetext) {
           newErrorMessage[index].addrMsg = ''
+        } else {
+          newErrorMessage[index].addrMsg = '请输入用户常住地址'
         }
       } else {
         newErrorMessage[index] = {}
