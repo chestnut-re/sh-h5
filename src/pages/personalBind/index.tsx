@@ -5,10 +5,11 @@ import { Personal } from '@/service/Personal'
 import inactiveIcon from '@/assets/img/inactive_Icon@3x.png'
 import activeIcon from '@/assets/img/active_Icon@3x.png'
 import { areaList } from '@vant/area-data'
-import OrderTravelerView from '@/components/orderTravelerView'
 import addIcon from '@/assets/img/add_icon@3x.png'
 import { getUrlParams, generateUrl } from '@/utils'
 import { SHBridge } from '@/jsbridge'
+
+import UserProtocolItem from '@/components/personal/userProtocolItem'
 import './index.less'
 
 /**
@@ -45,9 +46,9 @@ const PersonalBindPage: FC = (props) => {
   const [addrIndex, setAddrIndex] = useState(0)
 
   const [selectedTraveler, setSelectedTraveler] = useState([])
-  const [fillingArr, setFillingArr] = useState([])
   const [errorMessage, setErrorMessage] = useState([])
 
+  const [selectProtocol, setSelectProtocol] = useState(false)
 
   const [state, set] = hooks.useSetState({
     visible: false,
@@ -354,7 +355,14 @@ const PersonalBindPage: FC = (props) => {
   }
 
   const onSubmit = () => {
+
     if (rules()) {
+      if (!selectProtocol) {
+        Toast({
+          message: '请先勾选同意后才可提交',
+        })
+        return
+      }
       const certificate = []
       travelerCertificateDtoList.map((item, i) => {
         item.map((itemj, j) => {
@@ -528,6 +536,14 @@ const PersonalBindPage: FC = (props) => {
       }
     })
     return relationText
+  }
+
+  /**
+   * 选择同意用户协议
+   */
+
+  const onSelectProtocol = () => {
+    setSelectProtocol(!selectProtocol)
   }
 
   return (
@@ -775,6 +791,12 @@ const PersonalBindPage: FC = (props) => {
             )
           ))
         )}
+
+        <UserProtocolItem
+          isSelect={selectProtocol}
+          onSelect={onSelectProtocol}
+        />
+
         <div
           onClick={() => {
             onSubmit()

@@ -5,7 +5,7 @@ import activeIcon from '@/assets/img/activeIcon@3x.png'
 import inactiveIcon from '@/assets/img/inactiveIcon@3x.png'
 import OptionalInfo from '@/components/personalDetails/optionalInfo'
 import { Personal } from '@/service/Personal'
-import { getUrlParams } from '@/utils'
+import { getUrlParams, generateUrl } from '@/utils'
 import { SHBridge } from '@/jsbridge'
 
 import './index.less'
@@ -237,9 +237,12 @@ const PersonalDetailPage: FC = (props: any) => {
   }
 
   const onService = () => {
-    props.history.push('/protocol/service')
+    SHBridge.jump({
+      url: generateUrl('/protocol/personal-information'),
+      newWebView: true,
+      title: '个人信息保护授权协议'
+    })
   }
-  //再次购买处理
 
   return (
     <ConfigProvider themeVars={themeVars}>
@@ -413,7 +416,7 @@ const PersonalDetailPage: FC = (props: any) => {
         <div className="personal-protocol">
           <div onClick={onSelectProtocol} className='selectProtocol'>
             <img alt="" className="img-icon" src={selectProtocol ? activeIcon : inactiveIcon} />
-            <span className='text'>点击保存表示同意 <span onClick={onService} className='text-a'>《占位协议名称》</span></span>
+            <span className='text'>点击保存表示同意 <span onClick={onService} className='text-a'>《个人信息保护授权协议》</span></span>
           </div>
         </div>
         <div
