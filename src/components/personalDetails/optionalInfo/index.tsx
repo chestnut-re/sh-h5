@@ -112,7 +112,7 @@ const OptionalInfo = (props, ref) => {
 
   return (
     <div className="optional-info">
-      <div className="optional-info-text">儿童选填</div>
+      {props.type == 1 && <div className="optional-info-text">儿童选填</div>}
       {infolist.map((item, index) => {
         return (
           <div key={index} className="optional-info-content">
