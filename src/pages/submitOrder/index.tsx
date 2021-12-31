@@ -30,7 +30,7 @@ const RMB_CON = 100
 const SubmitOrderPage: FC = () => {
   let toast1;
   const { search } = useLocation()
-  const { id } = qs.parse(search.slice(1))
+  const { id,source } = qs.parse(search.slice(1))
   //提交数据
   const [submitData, setSubmitData] = useState({
     childCurrentPrice: 0, //儿童现售价单价
@@ -179,7 +179,6 @@ const SubmitOrderPage: FC = () => {
 
   useEffect(() => {
 
-
     SHBridge.setTitle("提交订单")
 
     getGoodsDetail(id)
@@ -261,6 +260,15 @@ const SubmitOrderPage: FC = () => {
       title: '支付成功',
     })
   }
+  const payErrorLink =  (orderId) => {
+    toast1 && toast1.clear()
+    SHBridge.jump({
+      url: generateUrl(`/order-detail?orderId=${orderId}`),
+      newWebView: false,
+      replace: true,
+      title: '订单详情',
+    })
+  }
 
   //提交订单
   const submitHandle = () => {
@@ -288,7 +296,7 @@ const SubmitOrderPage: FC = () => {
         originPrice: personCurrentPrice * adultNum + childCurrentPrice * childNum * RMB_CON,
         payAmount: priceNum,
         payType: payType,
-        source: 1,
+        source: source?source:1,
         state: 1,
         travelId: goodsPriceId,
         discountAmount: preferPrice,
@@ -324,6 +332,7 @@ const SubmitOrderPage: FC = () => {
                     } else {
                       toast1.clear()
                       Toast('支付失败')
+                      payErrorLink(orderId)
                     }
                     console.log(res)
                   })
@@ -339,6 +348,7 @@ const SubmitOrderPage: FC = () => {
                       paySuccessLink(orderId)
                     }else{
                       toast1.clear()
+                      payErrorLink(orderId)
                     }
                   })
                   break

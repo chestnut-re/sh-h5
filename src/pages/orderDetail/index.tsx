@@ -68,7 +68,7 @@ const OrderIndexPage: FC = (props: any) => {
   
   return (
     <div className="container">
-      {orderType == '4' && <OrderDone {...orders} />}
+      {orderType == '4' && <OrderDone {...orders} ordersTravel={ordersTravel} />}
       {orderType == '2' && <OrderFailure {...orders} />}
       {orderType == '3' && <OrderConfirma  {...orders} ordersTravel={ordersTravel} />}
       {orderType == '1' && <OrderPayment {...orders} />}

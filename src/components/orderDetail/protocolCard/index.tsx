@@ -1,9 +1,10 @@
 import React, { useState,useEffect, FC } from 'react'
-
+import { SHBridge } from '@/jsbridge'
+import { generateUrl } from '@/utils'
 import inactiveIcon from '@/assets/img/inactive_Icon@3x.png'
 import activeIcon from '@/assets/img/active_Icon@3x.png'
 
-import { Checkbox } from 'react-vant'
+import { Checkbox,Toast } from 'react-vant'
 import './index.less'
 /**
  * 协议确认页面
@@ -19,6 +20,24 @@ const ProtocolCard: FC<ProtocolType> = (props) => {
     props.changeProtocolStatus(protocolStatus)
   }, [protocolStatus])
 
+  const openProtocolLink = (type)=>{
+    if (type==1) {
+      SHBridge.jump({
+        url: generateUrl(`/protocol/platform-service`),
+        newWebView: true,
+        replace: false,
+        title: '平台服务协议',
+      })
+    }else if(type == 2){
+      SHBridge.jump({
+        url: generateUrl(`/protocol/travel`),
+        newWebView: true,
+        replace: false,
+        title: '预订出行须知',
+      })
+    }
+  }
+
   return (
     <div className="protocol_card">
       <div className="protocol-l">
@@ -32,7 +51,7 @@ const ProtocolCard: FC<ProtocolType> = (props) => {
       </div>
       <div className="protocol-r">
         点击提交订单表示同意
-        <span>《占位协议名称》</span>、<span>《占位协议名称》</span>
+        <span onClick={()=>{openProtocolLink(1)}}>《平台服务协议》</span>、<span onClick={()=>{openProtocolLink(2)}}>《预订出行须知》</span>
       </div>
     </div>
   )

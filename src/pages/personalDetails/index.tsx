@@ -104,6 +104,8 @@ const PersonalDetailPage: FC = (props: any) => {
    */
 
   const rules = () => {
+    const { infolist } = optionalInfoRef.current
+
     const errorMsg = {}
     const nameReg = /^[\u4E00-\u9FA5]{2,4}$/
     const phoneReg = /(^1[3|4|5|7|8|9]\d{9}$)|(^09\d{8}$)/
@@ -111,6 +113,9 @@ const PersonalDetailPage: FC = (props: any) => {
     const phoneTxt = phoneReg.test(submittal.phoneNumber)
     const emerNameTxt = nameReg.test(submittal.emerName)
     const emerPhoneTxt = phoneReg.test(submittal.emerPhoneNumber)
+
+    console.log(infolist)
+
     if (!nameTxt || !phoneTxt || !emerNameTxt || !emerPhoneTxt || submittal.addr == '') {
       if (!nameTxt) {
         errorMsg['nameMsg'] = submittal.travelerName == '' ? '请输入姓名' : '请输入正确的证件姓名'
@@ -127,6 +132,7 @@ const PersonalDetailPage: FC = (props: any) => {
       if (submittal.addr == '') {
         errorMsg['addrMsg'] = '请输入用户常住地址'
       }
+
       set({
         errorMessage: errorMsg,
       })
@@ -352,8 +358,7 @@ const PersonalDetailPage: FC = (props: any) => {
 
               <li className="pch-ul-li-box rv-hairline--bottom">
                 <div className="hairline-top"></div>
-
-                <OptionalInfo certificate={submittal.travelerCertificate} ref={optionalInfoRef} />
+                <OptionalInfo errorMsg={state.errorMessage} type={submittal.type} certificate={submittal.travelerCertificate} ref={optionalInfoRef} />
               </li>
 
               <li className="pch-ul-li rv-hairline--bottom">

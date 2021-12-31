@@ -6,12 +6,22 @@ import { AxiosResponse } from 'axios'
  */
 export class SmallShop {
   /**
-   * 查询小店基本信息
+   * 查询小店基本信息已登录调用
    */
   static detail(params): Promise<AxiosResponse<any>> {
-    return axios.get(`/api/operation/shop/get`,{
-        params,
+    if (params.token) {
+      return axios.get(`/api/operation/shop/get`,{
+        params:{
+          id:params.id
+        },
       })
+    }else{
+      return axios.get(`/api/operation/shop/getShop`,{
+        params:{
+          id:params.id
+        },
+      })
+    }
   }
 
   /**

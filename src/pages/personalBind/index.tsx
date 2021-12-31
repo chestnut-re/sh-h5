@@ -7,9 +7,8 @@ import activeIcon from '@/assets/img/active_Icon@3x.png'
 import { areaList } from '@vant/area-data'
 import OrderTravelerView from '@/components/orderTravelerView'
 import addIcon from '@/assets/img/add_icon@3x.png'
-import { getUrlParams } from '@/utils'
+import { getUrlParams, generateUrl } from '@/utils'
 import { SHBridge } from '@/jsbridge'
-
 import './index.less'
 
 /**
@@ -32,7 +31,7 @@ const actionsCertificate = [
   { text: '护照', disabled: false },
 ]
 
-const PersonalBindPage: FC = () => {
+const PersonalBindPage: FC = (props) => {
   const [showPicker, setShowPicker] = useState(false)
   const [showPickerId, setShowPickerId] = useState()
 
@@ -90,6 +89,7 @@ const PersonalBindPage: FC = () => {
       emerPhoneMsg: '',
       emerNameMsg: '',
       certificateNoMsg: '',
+      addrMsg: '',
       index: id
     }
     return errorObj
@@ -102,9 +102,7 @@ const PersonalBindPage: FC = () => {
     const newErrorMessage = [...errorMessage]
     const nameReg = /^[\u4E00-\u9FA5]{2,4}$/
     const phoneReg = /(^1[3|4|5|7|8|9]\d{9}$)|(^09\d{8}$)/
-    let isNull = false
     subordersList.map((item, index) => {
-      const errorObj = {}
       const nameTxt = nameReg.test(item['travelerName'])
       const phoneTxt = phoneReg.test(item['travelerPhoneNumber'])
       const emerNameTxt = nameReg.test(item['emerName'])
@@ -113,51 +111,51 @@ const PersonalBindPage: FC = () => {
       const travelerCertificateObj = travelerCertificateDtoList[index][0]
       const certificateNoText = travelerCertificateObj['certificateNo']
       const validityText = travelerCertificateObj['validity']
-      console.log('habitualResidencetext', habitualResidencetext)
-      // if (!nameTxt || !phoneTxt || !emerNameTxt || !emerPhoneTxt || certificateNoText == '' || validityText == '') {
-      if (!nameTxt) {
-        newErrorMessage[index].nameMsg = item['travelerName'] == '' ? '请输入姓名' : '请输入正确的证件姓名'
-      } else {
-        newErrorMessage[index].nameMsg = ''
-      }
-
-      if (!phoneTxt) {
-        newErrorMessage[index].phoneMsg = item['phoneNumber'] == '' ? '请输入手机号码' : '请输入正确的手机号'
-      } else {
-        newErrorMessage[index].phoneMsg = ''
-      }
-
-      if (!emerNameTxt) {
-        newErrorMessage[index].emerNameMsg = item['emerName'] == '' ? '请输入紧急联系人' : '请输入正确联系人姓名'
-      } else {
-        newErrorMessage[index].emerNameMsg = ''
-      }
-
-      if (!emerPhoneTxt) {
-        newErrorMessage[index].emerPhoneMsg = item['emerPhoneNumber'] == '' ? '请输入紧急联系人手机号码' : '请输入正确的手机号'
-      } else {
-        newErrorMessage[index].emerPhoneMsg = ''
-      }
-      if (item['travelerType'] == 1) {
-        if (certificateNoText == '') {
-          newErrorMessage[index].certificateNoMsg = '请输入证件号'
+      if (!item.selectedTraveler) {
+        if (!nameTxt) {
+          newErrorMessage[index].nameMsg = item['travelerName'] == '' ? '请输入姓名' : '请输入正确的证件姓名'
         } else {
-          newErrorMessage[index].certificateNoMsg = ''
+          newErrorMessage[index].nameMsg = ''
         }
-        if (validityText == '') {
-          newErrorMessage[index].validityMsg = '请输入证件过期日期'
-        } else {
-          newErrorMessage[index].validityMsg = ''
-        }
-      }
 
-      if (habitualResidencetext == '' || !habitualResidencetext) {
-        newErrorMessage[index].addrMsg = '请输入用户常住地址'
+        if (!phoneTxt) {
+          newErrorMessage[index].phoneMsg = item['phoneNumber'] == '' ? '请输入手机号码' : '请输入正确的手机号'
+        } else {
+          newErrorMessage[index].phoneMsg = ''
+        }
+
+        if (!emerNameTxt) {
+          newErrorMessage[index].emerNameMsg = item['emerName'] == '' ? '请输入紧急联系人' : '请输入正确联系人姓名'
+        } else {
+          newErrorMessage[index].emerNameMsg = ''
+        }
+
+        if (!emerPhoneTxt) {
+          newErrorMessage[index].emerPhoneMsg = item['emerPhoneNumber'] == '' ? '请输入紧急联系人手机号码' : '请输入正确的手机号'
+        } else {
+          newErrorMessage[index].emerPhoneMsg = ''
+        }
+        if (item['travelerType'] == 1) {
+          if (certificateNoText == '') {
+            newErrorMessage[index].certificateNoMsg = '请输入证件号'
+          } else {
+            newErrorMessage[index].certificateNoMsg = ''
+          }
+          if (validityText == '') {
+            newErrorMessage[index].validityMsg = '请输入证件过期日期'
+          } else {
+            newErrorMessage[index].validityMsg = ''
+          }
+        }
+        if (habitualResidencetext) {
+          newErrorMessage[index].addrMsg = ''
+        } else {
+          newErrorMessage[index].addrMsg = '请输入用户常住地址'
+        }
       } else {
-        newErrorMessage[index].addrMsg = ''
+        newErrorMessage[index] = {}
       }
     })
-    console.log('newErrorMessage', newErrorMessage)
     setErrorMessage(newErrorMessage)
     return judgeListComplete(newErrorMessage)
   }
@@ -166,8 +164,7 @@ const PersonalBindPage: FC = () => {
     let flag = new Boolean()
     flag = true
     for (const key in ObjectValue) {
-      console.log(key)
-      ObjectValue.id = ''
+      ObjectValue.index = ''
       if (ObjectValue[key] == '') {
 
       } else {
@@ -229,45 +226,52 @@ const PersonalBindPage: FC = () => {
     const newSubordersList = [...subordersList]
     const fillingArr = []
     newSubordersList.map((item, i) => {
+      if (obj.select) {
+        newSubordersList.map((item, iList) => {
+          if (item.travelerId == obj.id) {
+            console.log('fillingArr', iList)
+            onEmpty(iList)
+          }
+        })
+      }
       if (!item['travelerName']) {
         fillingArr.push({ index: i })
       }
     })
 
-    if (fillingArr.length > 0) {
-      const newTravelerList = [...travelerList]
-      newTravelerList.map(item => {
-        if (obj.id == item['id']) {
+    const newTravelerList = [...travelerList]
+    newTravelerList.map(item => {
+      console.log('fillingArr.length', fillingArr.length)
+      if (obj.id == item['id']) {
+        if (fillingArr.length > 0) {
           item['select'] = !item['select']
-        }
-      })
-
-      for (let i = 0; i < newSubordersList.length; i++) {
-        if (!newSubordersList[i].travelerName && !newSubordersList[i].selectedTraveler) {
-          console.log('obj.travelerId', obj.id)
-          newSubordersList[i].selectedTraveler = true
-          newSubordersList[i].travelerName = obj.travelerName
-          newSubordersList[i].travelerPhoneNumber = obj.phoneNumber
-          newSubordersList[i].travelerId = obj.id
-          newSubordersList[i].habitualResidence = obj.addr
-          newSubordersList[i].emerName = obj.emerName
-          newSubordersList[i].emerPhoneNumber = obj.emerPhoneNumber
-          newSubordersList[i].emerTravelerRelation = obj.emerTravelerRelation
-          newSubordersList[i].travelerRelation = obj.userTravelerRelation
-
-          travelerCertificateDtoList[i] = obj.travelerCertificate
-          break;
+          for (let i = 0; i < newSubordersList.length; i++) {
+            if (!newSubordersList[i].travelerName && !newSubordersList[i].selectedTraveler) {
+              console.log('obj.travelerId', obj.id)
+              newSubordersList[i].selectedTraveler = true
+              newSubordersList[i].travelerName = obj.travelerName
+              newSubordersList[i].travelerPhoneNumber = obj.phoneNumber
+              newSubordersList[i].travelerId = obj.id
+              newSubordersList[i].habitualResidence = obj.addr || ''
+              newSubordersList[i].emerName = obj.emerName
+              newSubordersList[i].emerPhoneNumber = obj.emerPhoneNumber
+              newSubordersList[i].emerTravelerRelation = obj.emerTravelerRelation
+              newSubordersList[i].travelerRelation = obj.userTravelerRelation
+              travelerCertificateDtoList[i] = obj.travelerCertificate
+              break;
+            }
+          }
+          newSelectedTraveler.push(obj)
+        } else {
+          Toast({
+            message: `不能继续添加行程人了`,
+          })
         }
       }
-      setSubordersList(newSubordersList)
-      newSelectedTraveler.push(obj)
-      setSelectedTraveler(newSelectedTraveler)
-      setTravelerList(newTravelerList)
-    } else {
-      Toast({
-        message: `不能继续添加行程人了`,
-      })
-    }
+    })
+    setSubordersList(newSubordersList)
+    setSelectedTraveler(newSelectedTraveler)
+    setTravelerList(newTravelerList)
   }
 
   /**
@@ -364,13 +368,23 @@ const PersonalBindPage: FC = () => {
       }
       console.log(postData)
       Personal.addPedestrianInfo(postData).then(res => {
+        console.log('paramsparams', res)
+
         if (res['code'] == '200') {
-          SHBridge.closePage()
+          if (urlParams.from == 'orderList') {
+            SHBridge.closePage()
+          } else {
+            SHBridge.jump({
+              url: generateUrl(`/order-detail?orderId=${urlParams.id}`),
+              newWebView: false,
+              replace: true,
+              title: '订单详情',
+            })
+          }
           Toast({
             message: '添加成功',
           })
         }
-        console.log('paramsparams', res)
       })
     }
   }
@@ -494,10 +508,11 @@ const PersonalBindPage: FC = () => {
 
     const newTravelerList = [...travelerList]
     newTravelerList.map(item => {
-      if (newSubordersList[i].travelerId == item['travelerId']) {
+      if (newSubordersList[i].travelerId == item['id']) {
         item['select'] = false
       }
     })
+
 
     setTravelerList(newTravelerList)
     travelerCertificateDtoList.splice(i, 1, [initialTravelerInfo(subordersList[i].id)]);
@@ -795,7 +810,7 @@ const PersonalBindPage: FC = () => {
         visible={showPopup}
         closeable
         title='选择出行人'
-        style={{ height: '50%' }}
+        style={{ height: '60%' }}
         position="bottom"
         onClickCloseIcon={() => {
           setShowPopup(false)
