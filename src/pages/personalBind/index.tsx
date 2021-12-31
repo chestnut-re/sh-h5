@@ -7,9 +7,8 @@ import activeIcon from '@/assets/img/active_Icon@3x.png'
 import { areaList } from '@vant/area-data'
 import OrderTravelerView from '@/components/orderTravelerView'
 import addIcon from '@/assets/img/add_icon@3x.png'
-import { getUrlParams } from '@/utils'
+import { getUrlParams, generateUrl } from '@/utils'
 import { SHBridge } from '@/jsbridge'
-
 import './index.less'
 
 /**
@@ -32,7 +31,7 @@ const actionsCertificate = [
   { text: '护照', disabled: false },
 ]
 
-const PersonalBindPage: FC = () => {
+const PersonalBindPage: FC = (props) => {
   const [showPicker, setShowPicker] = useState(false)
   const [showPickerId, setShowPickerId] = useState()
 
@@ -102,9 +101,7 @@ const PersonalBindPage: FC = () => {
     const newErrorMessage = [...errorMessage]
     const nameReg = /^[\u4E00-\u9FA5]{2,4}$/
     const phoneReg = /(^1[3|4|5|7|8|9]\d{9}$)|(^09\d{8}$)/
-    let isNull = false
     subordersList.map((item, index) => {
-      const errorObj = {}
       const nameTxt = nameReg.test(item['travelerName'])
       const phoneTxt = phoneReg.test(item['travelerPhoneNumber'])
       const emerNameTxt = nameReg.test(item['emerName'])
@@ -166,7 +163,6 @@ const PersonalBindPage: FC = () => {
     let flag = new Boolean()
     flag = true
     for (const key in ObjectValue) {
-      console.log(key)
       ObjectValue.id = ''
       if (ObjectValue[key] == '') {
 
@@ -229,45 +225,50 @@ const PersonalBindPage: FC = () => {
     const newSubordersList = [...subordersList]
     const fillingArr = []
     newSubordersList.map((item, i) => {
+      if (obj.select) {
+        newSubordersList.map((item, iList) => {
+          if (item.travelerId == obj.id) {
+            console.log('fillingArr', iList)
+            onEmpty(iList)
+          }
+        })
+      }
       if (!item['travelerName']) {
         fillingArr.push({ index: i })
       }
     })
 
-    if (fillingArr.length > 0) {
-      const newTravelerList = [...travelerList]
-      newTravelerList.map(item => {
-        if (obj.id == item['id']) {
-          item['select'] = !item['select']
+    const newTravelerList = [...travelerList]
+    newTravelerList.map(item => {
+      if (obj.id == item['id'] && fillingArr.length > 0) {
+        item['select'] = !item['select']
+        for (let i = 0; i < newSubordersList.length; i++) {
+          if (!newSubordersList[i].travelerName && !newSubordersList[i].selectedTraveler) {
+            console.log('obj.travelerId', obj.id)
+            newSubordersList[i].selectedTraveler = true
+            newSubordersList[i].travelerName = obj.travelerName
+            newSubordersList[i].travelerPhoneNumber = obj.phoneNumber
+            newSubordersList[i].travelerId = obj.id
+            newSubordersList[i].habitualResidence = obj.addr
+            newSubordersList[i].emerName = obj.emerName
+            newSubordersList[i].emerPhoneNumber = obj.emerPhoneNumber
+            newSubordersList[i].emerTravelerRelation = obj.emerTravelerRelation
+            newSubordersList[i].travelerRelation = obj.userTravelerRelation
+            travelerCertificateDtoList[i] = obj.travelerCertificate
+            break;
+          }
         }
-      })
+        newSelectedTraveler.push(obj)
 
-      for (let i = 0; i < newSubordersList.length; i++) {
-        if (!newSubordersList[i].travelerName && !newSubordersList[i].selectedTraveler) {
-          console.log('obj.travelerId', obj.id)
-          newSubordersList[i].selectedTraveler = true
-          newSubordersList[i].travelerName = obj.travelerName
-          newSubordersList[i].travelerPhoneNumber = obj.phoneNumber
-          newSubordersList[i].travelerId = obj.id
-          newSubordersList[i].habitualResidence = obj.addr
-          newSubordersList[i].emerName = obj.emerName
-          newSubordersList[i].emerPhoneNumber = obj.emerPhoneNumber
-          newSubordersList[i].emerTravelerRelation = obj.emerTravelerRelation
-          newSubordersList[i].travelerRelation = obj.userTravelerRelation
-
-          travelerCertificateDtoList[i] = obj.travelerCertificate
-          break;
-        }
+      } else {
+        Toast({
+          message: `不能继续添加行程人了`,
+        })
       }
-      setSubordersList(newSubordersList)
-      newSelectedTraveler.push(obj)
-      setSelectedTraveler(newSelectedTraveler)
-      setTravelerList(newTravelerList)
-    } else {
-      Toast({
-        message: `不能继续添加行程人了`,
-      })
-    }
+    })
+    setSubordersList(newSubordersList)
+    setSelectedTraveler(newSelectedTraveler)
+    setTravelerList(newTravelerList)
   }
 
   /**
@@ -364,13 +365,23 @@ const PersonalBindPage: FC = () => {
       }
       console.log(postData)
       Personal.addPedestrianInfo(postData).then(res => {
+        console.log('paramsparams', res)
+
         if (res['code'] == '200') {
-          SHBridge.closePage()
+          if (urlParams.from == 'orderList') {
+            SHBridge.closePage()
+          } else {
+            SHBridge.jump({
+              url: generateUrl(`/order-detail?orderId=${urlParams.id}`),
+              newWebView: false,
+              replace: true,
+              title: '订单详情',
+            })
+          }
           Toast({
             message: '添加成功',
           })
         }
-        console.log('paramsparams', res)
       })
     }
   }
@@ -494,7 +505,7 @@ const PersonalBindPage: FC = () => {
 
     const newTravelerList = [...travelerList]
     newTravelerList.map(item => {
-      if (newSubordersList[i].travelerId == item['travelerId']) {
+      if (newSubordersList[i].travelerId == item['id']) {
         item['select'] = false
       }
     })
