@@ -1,5 +1,5 @@
 import React, { useState, useEffect, FC } from 'react'
-import { ConfigProvider, Tabs, Empty, List, Toast, Loading,PullRefresh } from 'react-vant'
+import { ConfigProvider, Tabs, Empty, List, Toast, Loading, PullRefresh } from 'react-vant'
 import ManageItem from '@/components/manageOrder/orderIMantem'
 import { useHistory, useLocation } from 'react-router-dom'
 import emptyIcon from '@/assets/img/empty_b@3x.png'
@@ -25,83 +25,34 @@ const TabsListObj = [
   { tabName: '已完成', type: 4, id: 3, isTag: false },
   { tabName: '退款/售后', type: 5, id: 4, isTag: false },
 ]
-const ListData = [
-  {
-    id: '61ada88d4e147741543c7efd',
-    orderNo: '1235 8793 1234 9090',
-    orderTime: '2021-12-29 13:42:45',
-    goodsName: '之前就对杜伽Fusion念念不忘\n复古的外观\n手感确实不错\n这次就可以将鼠标、手绘板、键盘三个都...',
-    adultNum: 0,
-    childNum: 2,
-    payAmount: 1798,
-    orderUserId: '41543c7e',
-    orderUserName: '大头君有点困',
-    state: 1,
-  },
-  {
-    id: '71ada88d4e147741543c7efd',
-    orderNo: '1235 8793 1234 9090',
-    orderTime: '2021-12-21 12:30:45',
-    goodsName: '合肥包公园  冬游变春游（二）\n两个多小时的拍摄，整理出了两组十二张照片，等下个季节下次再去里面...',
-    adultNum: 2,
-    childNum: 2,
-    payAmount: 1998,
-    orderUserId: '41590c7e',
-    orderUserName: '既白',
-    state: 3,
-  },
-  {
-    id: '71ada88d4e147741543c7efd',
-    orderNo: '1235 8793 1234 9090',
-    orderTime: '2021-12-21 12:30:45',
-    goodsName: '合肥包公园  冬游变春游（二）\n两个多小时的拍摄，整理出了两组十二张照片，等下个季节下次再去里面...',
-    adultNum: 2,
-    childNum: 2,
-    payAmount: 1998,
-    orderUserId: '41590c7e',
-    orderUserName: '既白',
-    state: 4,
-  },
-  {
-    id: '71ada88d4e147741543c7efd',
-    orderNo: '1235 8793 1234 9090',
-    orderTime: '2021-12-21 12:30:45',
-    goodsName: '合肥包公园  冬游变春游（二）\n两个多小时的拍摄，整理出了两组十二张照片，等下个季节下次再去里面...',
-    adultNum: 2,
-    childNum: 2,
-    payAmount: 1998,
-    orderUserId: '41590c7e',
-    orderUserName: '既白',
-    state: 5,
-  }]
 
+let current = 1;
 const ManageOrderPage: FC = () => {
+  
   const { search } = useLocation()
   //请求是否完成
   const [finished, setFinished] = useState<boolean>(false)
   //是否在请求状态
   const [isloading, setIsloading] = useState<boolean>(true)
-  //当前请求页码
-  const [current, setCurrent] = useState(1)
+ 
   //列表数据
   const [listData, setListData] = useState<any[]>([])
   //高亮tab
   const [activeState, setActive] = useState<any>('')
-  //当前请求页码
-  const [paymentNum, setPaymentNum] = useState<number>(0)
-
+ 
   const getOrderListData = async () => {
     return new Promise<any>((resolve, reject) => {
-
       ManageOrder.list({
         state: activeState,
         size: PAGE_SIZE,
         current: current,
       })
         .then((res: any) => {
-          let { code } = res
+          const { code } = res
           if (code == '200') {
-            setCurrent((v) => v + 1)
+            
+            // setCurrent((v) => v + 1)
+            current++;
             resolve(res)
           } else {
             reject(new Error('error'))
@@ -119,42 +70,60 @@ const ManageOrderPage: FC = () => {
   }
 
   useEffect(() => {
-    if (current === 1) {
-      onLoadManageOrderList()
-    }
-  }, [current, activeState])
+    onLoadManageOrderList(1)
+  }, [activeState])
 
-  const onLoadManageOrderList = async () => {
+  const onLoadManageOrderList = async (isRefresh?) => {
     const {
       data: { total, records },
     }: any = await getOrderListData()
 
-    setListData((v) => [...v, ...records])
+    setListData((v) =>{
+      const newList = isRefresh ? records : [...v, ...records];
+      if (PAGE_SIZE > records.length) {
+        setFinished(true)
+      }
+      return newList;
+    })
 
-    if (activeState == '') {
-      const setPayList = listData.filter((item) => {
-        return item.state == 1
-      })
-      setPaymentNum(setPayList.length)
-    }
+    // if (activeState == '') {
+    //   const setPayList = listData.filter((item) => {
+    //     return item.state == 1
+    //   })
+    //   setPaymentNum(setPayList.length)
+    // }
 
-    if (PAGE_SIZE > records.length) {
-      setFinished(true)
-    }
+    // if (PAGE_SIZE > records.length) {
+    //   setFinished(true)
+    // }
+  }
+
+  const onLoadRefresh = async ()=>{
+    console.log('obje下拉刷新ct :>> ', );
+    setIsloading(true);
+    setFinished(false);
+    setListData([]);
+    // setCurrent(1);
+    current = 1;
+    await onLoadManageOrderList(1);
+
   }
 
   useEffect(() => {
     setIsloading(true)
     setFinished(false)
-    setCurrent(1)
+    
     setListData([])
   }, [activeState])
 
-
-  useEffect(()=>{
+  useEffect(() => {
     SHBridge.setTitleAction(
       [
-        { value: 'https://shanhai-shoping.oss-cn-beijing.aliyuncs.com/img/user/pic/a3046d485c8c4898b14cd7587dcfafde.png', type: 'img' },
+        {
+          value:
+            'https://shanhai-shoping.oss-cn-beijing.aliyuncs.com/img/user/pic/a3046d485c8c4898b14cd7587dcfafde.png',
+          type: 'img',
+        },
       ],
       (index) => {
         SHBridge.jump({
@@ -166,7 +135,12 @@ const ManageOrderPage: FC = () => {
     )
   })
   const tabHandelClick = (info) => {
-    const { name } = info
+    const { name } = info;
+    if (isloading) {
+      Toast("数据加载中，请稍后")
+      return
+    }
+    current = 1;
     setActive(name)
   }
 
@@ -199,9 +173,12 @@ const ManageOrderPage: FC = () => {
                   return !item.isTag ? (
                     item.tabName
                   ) : (
+                    // <>
+                    //   {item.tabName}
+                    //   {paymentNum > 0 ? <span className="maorder-tag">{`(${paymentNum})`}</span> : null}
+                    // </>
                     <>
                       {item.tabName}
-                      {paymentNum > 0 ? <span className="maorder-tag">{`(${paymentNum})`}</span> : null}
                     </>
                   )
                 }}
@@ -211,34 +188,36 @@ const ManageOrderPage: FC = () => {
         </ConfigProvider>
       </div>
       <div className="maorder-content">
-        {listData.length ? (
-          <List
-            finished={finished}
-            errorText="请求失败，点击重新加载"
-            onLoad={onLoadManageOrderList}
-            immediateCheck={false}
-          >
-            {listData.map((item, index) => {
-              return (
-                <div
-                  className="morderitem"
-                  key={item.id + index}
-                  onClick={() => {
-                    manageOrderDetail(item)
-                  }}
-                >
-                  <ManageItem orderItem={item} />
-                </div>
-              )
-            })}
-          </List>
-        ) : isloading ? (
-          <Loading className="maorder-loading" vertical color="#3AD2C5">
-            加载中...
-          </Loading>
-        ) : (
-          <Empty className="custom-image" image={emptyIcon} description="暂无数据" />
-        )}
+        <PullRefresh onRefresh={onLoadRefresh}>
+          {listData.length ? (
+            <List
+              finished={finished}
+              errorText="请求失败，点击重新加载"
+              onLoad={onLoadManageOrderList}
+              immediateCheck={false}
+            >
+              {listData.map((item, index) => {
+                return (
+                  <div
+                    className="morderitem"
+                    key={item.id + index}
+                    onClick={() => {
+                      manageOrderDetail(item)
+                    }}
+                  >
+                    <ManageItem orderItem={item} />
+                  </div>
+                )
+              })}
+            </List>
+          ) : isloading ? (
+            <Loading className="maorder-loading" vertical color="#3AD2C5">
+              加载中...
+            </Loading>
+          ) : (
+            <Empty className="custom-image" image={emptyIcon} description="暂无数据" />
+          )}
+        </PullRefresh>
       </div>
     </div>
   )

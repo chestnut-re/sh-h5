@@ -3,7 +3,7 @@ import qs from 'query-string'
 import ManageItem from '@/components/manageOrder/orderIMantem'
 import { ManageOrder } from '@/service/ManageOrderApi'
 import { useLocation } from 'react-router-dom'
-import { Empty, Toast, List, Field, Loading, NavBar, ConfigProvider } from 'react-vant'
+import { Empty, Toast, List, Field, Loading, NavBar, ConfigProvider, PullRefresh } from 'react-vant'
 import emptyIcon from '@/assets/img/empty_b@3x.png'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
@@ -16,13 +16,12 @@ const themeVars = {
   '--rv-cell-vertical-padding': '2px',
   '--rv-cell-font-size': '3.2vw',
   '--rv-nav-bar-icon-color': '#242424',
-  '--rv-nav-bar-background-color':"#fff"
+  '--rv-nav-bar-background-color': '#fff',
 }
 //分页大小
 const PAGE_SIZE = 10
-
+let current = 1
 const OrderSearchPage: FC = () => {
-  // let current = 1;
   const { search } = useLocation()
   const { t } = qs.parse(search.slice(1))
 
@@ -33,16 +32,15 @@ const OrderSearchPage: FC = () => {
   //是否在请求状态
   const [isloading, setIsloading] = useState<boolean>(false)
   //当前请求页码
-  const [current, setCurrent] = useState(1)
+  // const [current, setCurrent] = useState(1)
   //列表数据
   const [listData, setListData] = useState<any[]>([])
   //是否是首次搜索
   const [issearch, setIssearch] = useState<boolean>(false)
   const searchOrderListData = async (keyWords) => {
     return new Promise<any>((resolve, reject) => {
-
       ManageOrder.search({
-        keyword:keyWords,
+        keyword: keyWords,
         current,
         size: PAGE_SIZE,
       })
@@ -50,7 +48,8 @@ const OrderSearchPage: FC = () => {
           const { code } = res
           if (code == '200') {
             // current+=1
-            setCurrent((v) => v + 1)
+            current++
+            // setCurrent((v) => v + 1)
             resolve(res)
           } else {
             Toast('系统异常')
@@ -68,22 +67,25 @@ const OrderSearchPage: FC = () => {
     })
   }
 
-  const onLoadManageOrderSearch = async () => {
+  const onLoadManageOrderSearch = async (isRefresh?) => {
     const {
       data: { total, records },
     }: any = await searchOrderListData(keyWords)
     setIsloading(false)
-    setListData((v) => [...v, ...records])
-    if (PAGE_SIZE >  records.length) {
-      setFinished(true)
-    }
+    setListData((v) => {
+      const newList = isRefresh ? records : [...v, ...records]
+      if (PAGE_SIZE > records.length) {
+        setFinished(true)
+      }
+      return newList
+    })
   }
 
   const searchOrderHandeldata = () => {
     if (keyWords.trim()) {
       setIssearch(true)
       setListData([])
-      setCurrent(1)
+      current = 1
       setIsloading(true)
       onLoadManageOrderSearch()
       window.scrollTo(0, 0)
@@ -104,6 +106,16 @@ const OrderSearchPage: FC = () => {
   const closeSearchPage = () => {
     console.log('object :>> 关闭')
     SHBridge.closePage()
+  }
+  const onLoadSearchRefresh = async () => {
+    setIssearch(true)
+    setIsloading(true)
+    setListData([])
+    setFinished(false)
+    // setCurrent(1);
+    current = 1
+    setIsloading(true)
+    await onLoadManageOrderSearch(1)
   }
 
   return (
@@ -154,26 +166,26 @@ const OrderSearchPage: FC = () => {
 
         <div className="search-content">
           {listData.length ? (
-            <List
-              finished={finished}
-              errorText="请求失败，点击重新加载"
-              onLoad={onLoadManageOrderSearch}
-              immediateCheck={false}
-            >
-              {listData.map((item, index) => {
-                return (
-                  <div
-                    className="search-item"
-                    key={item.id + index}
-                    onClick={() => {
-                      manageOrderDetail(item)
-                    }}
-                  >
-                    <ManageItem orderItem={item} />
-                  </div>
-                )
-              })}
-            </List>
+              <List
+                finished={finished}
+                errorText="请求失败，点击重新加载"
+                onLoad={onLoadManageOrderSearch}
+                immediateCheck={false}
+              >
+                {listData.map((item, index) => {
+                  return (
+                    <div
+                      className="search-item"
+                      key={item.id + index}
+                      onClick={() => {
+                        manageOrderDetail(item)
+                      }}
+                    >
+                      <ManageItem orderItem={item} />
+                    </div>
+                  )
+                })}
+              </List>
           ) : isloading ? (
             <Loading className="maorder-loading" vertical color="#3AD2C5">
               加载中...
