@@ -53,6 +53,22 @@ const TestChartPage = loadable(() => import(/* webpackChunkName: 'testPage'*/ '.
 const PrivacyPage = loadable(() => import(/* webpackChunkName: 'PrivacyPage'*/ './pages/protocol/Privacy'))
 /**服务协议 */
 const ServicePage = loadable(() => import(/* webpackChunkName: 'ServicePage'*/ './pages/protocol/Service'))
+/**用户协议 */
+const UserPage = loadable(() => import(/* webpackChunkName: 'UserPage'*/ './pages/protocol/User'))
+/**网络信息侵权通知指引 */
+const NetWorkInforPage = loadable(
+  () => import(/* webpackChunkName: 'NetWorkInforPage'*/ './pages/protocol/NetworkInfor')
+)
+/**免责协议 */
+const ExemptionPage = loadable(() => import(/* webpackChunkName: 'ExemptionPage'*/ './pages/protocol/Exemption'))
+/**权利声明 */
+const InterestPage = loadable(() => import(/* webpackChunkName: 'InterestPage'*/ './pages/protocol/Interest'))
+/**预订出行须知 */
+const TravelPage = loadable(() => import(/* webpackChunkName: 'TravelPage'*/ './pages/protocol/Travel'))
+/**知识产权声明 */
+const PropertyRightPage = loadable(
+  () => import(/* webpackChunkName: 'PropertyRightPage'*/ './pages/protocol/PropertyRight')
+)
 
 /**订单详情 */
 const OrderDetailPage = loadable(() => import(/* webpackChunkName: 'OrderDetailPage'*/ './pages/orderDetail'))
@@ -165,6 +181,12 @@ const App = () => (
 
       <Route path="/protocol/privacy" exact component={PrivacyPage}></Route>
       <Route path="/protocol/service" exact component={ServicePage}></Route>
+      <Route path="/protocol/user" exact component={UserPage}></Route>
+      <Route path="/protocol/network" exact component={NetWorkInforPage}></Route>
+      <Route path="/protocol/exemption" exact component={ExemptionPage}></Route>
+      <Route path="/protocol/interest" exact component={InterestPage}></Route>
+      <Route path="/protocol/travel" exact component={TravelPage}></Route>
+      <Route path="/protocol/property-right" exact component={PropertyRightPage}></Route>
 
       <Route path="/test/page" exact component={TestPage}></Route>
       <Route path="/test/chart" exact component={TestChartPage}></Route>
@@ -205,7 +227,6 @@ const App = () => (
       <Route path="/personal-details" exact component={PersonalDetails}></Route>
       <Route path="/personal-bind" exact component={PersonalBind}></Route>
       <Route path="/order-travel" exact component={TravelList}></Route>
-      
     </BrowserRouter>
   </Suspense>
 )
