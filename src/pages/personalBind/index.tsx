@@ -228,6 +228,7 @@ const PersonalBindPage: FC = (props) => {
     newSubordersList.map((item, i) => {
       if (obj.select) {
         newSubordersList.map((item, iList) => {
+          console.log('item.travelerId == obj.id', item.travelerId == obj.id)
           if (item.travelerId == obj.id) {
             console.log('fillingArr', iList)
             onEmpty(iList)
@@ -717,7 +718,7 @@ const PersonalBindPage: FC = (props) => {
                                 }}
                               >
                                 <img className='optional-add-img' src={addIcon} />
-                                <div className='optional-add-txt'>添加证件</div>
+                                <div className='optional-add-txt'>添加其他证件</div>
                               </div>
                             </div>
                             <div className="oic-line"></div>

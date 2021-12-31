@@ -171,7 +171,7 @@ const OptionalInfo = (props, ref) => {
               }}
             >
               <img className='optional-add-img' src={addIcon} />
-              <div className='optional-add-txt'>添加证件</div>
+              <div className='optional-add-txt'>添加其他证件</div>
             </div>
           </div>
           <div className="oic-line"></div>
