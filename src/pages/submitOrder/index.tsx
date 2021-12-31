@@ -184,7 +184,7 @@ const SubmitOrderPage: FC = () => {
 
     getGoodsDetail(id)
       .then((res: any) => {
-        const { departureCity, departureCityAdcode, goodsName, promotionalImageUrl, id, isDeduction } = res
+        const { departureCityAdcode, goodsName, promotionalImageUrl, id, isDeduction } = res
         setSubmitinfo(res)
         setSelectTime(res['goodsPrices'][0])
         setPriceSet((v) => {

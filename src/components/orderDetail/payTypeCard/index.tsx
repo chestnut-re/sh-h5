@@ -23,7 +23,7 @@ const themeVars = {
   "--rv-cell-text-color":"#666666",
 };
 const PayTypeCard: FC<PayType> = (props) => {
-  const [visible, setVisible] = useState(false);
+  const [showPaytype, setVisible] = useState(false);
   const [radiovSelectObj, setSelectObj] = useState(PayTypeList[0]);
 
   useEffect(()=>{
@@ -44,15 +44,15 @@ const PayTypeCard: FC<PayType> = (props) => {
   return (
     <>
       <div className="Payment-content">
-        <div className="payment_card" onClick={() => setVisible(true)}>
+        <div className="payment_card" >
           <div className="payment-name">支付方式</div>
-          <div className="payment-select" >
+          <div className="payment-select" onClick={() => setVisible(true)}>
             {radiovSelectObj.alias}
             <Icon color="#999999" name="arrow" />
           </div>
         </div>
       </div>
-      <ActionSheet title="选择支付方式" visible={visible} onCancel={() => setVisible(false)}>
+      <ActionSheet title="选择支付方式" visible={showPaytype} onCancel={() => setVisible(false)}>
         <div className="payment-actionsheet">
           <ConfigProvider themeVars={themeVars}>
           <Radio.Group value={radiovSelectObj.value}>
