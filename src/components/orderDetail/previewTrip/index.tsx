@@ -20,9 +20,10 @@ const PreviewtripCard: FC<PreviewTripType> = (props) => {
     const TravelHas = ordersTravel.filter((item) => {
       return item.travelerName
     })
-    const TravelText = TravelHas.reduce((sum, w) => {
-      return `${w.travelerName}、${sum}`
-    }, '')
+    
+    const TravelText = TravelHas.map((item)=>{
+      return item.travelerName
+    }).join('、')
     setOrderTravelList(TravelHas)
     setOrderTravelText(TravelText)
   }, [ordersTravel])
