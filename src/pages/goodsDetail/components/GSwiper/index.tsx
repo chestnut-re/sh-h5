@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { PageTemplateKey } from '../../utils'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Controller } from 'swiper'
-import { Navigation, EffectFade, EffectCoverflow, EffectCards } from 'swiper'
+import { Navigation, EffectFade, EffectCoverflow, EffectCards, Pagination } from 'swiper'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/effect-fade'
@@ -28,7 +28,8 @@ const GSwiper: React.FC<Props> = ({ imgs, templateKey }) => {
         <Swiper
           // effect={'cards'}
           grabCursor={true}
-          modules={[Controller, Navigation, EffectFade, EffectCoverflow, EffectCards]}
+          pagination={true}
+          modules={[Controller, Pagination, Navigation, EffectFade, EffectCoverflow, EffectCards]}
           controller={{ control: controlledSwiper }}
           className="mySwiper"
         >

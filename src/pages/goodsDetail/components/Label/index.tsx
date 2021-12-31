@@ -1,5 +1,6 @@
 import React from 'react'
 import { PageTemplateKey } from '../../utils'
+import pic from '@/assets/img/sss.png'
 import './index.less'
 
 interface Props {
