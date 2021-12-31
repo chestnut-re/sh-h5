@@ -78,7 +78,7 @@ const OperateCapitalPage: React.FC = () => {
         </div>
         <div className="two">
           <span>¥</span>
-          <span className="num">&nbsp;{accountInfo['funds']}</span>
+          <span className="num">&nbsp;{(accountInfo['funds'] / 100).toFixed(2)}</span>
         </div>
         {/* <div className="three">
           <div>使用中&nbsp;&nbsp;激励金额 ¥{accountInfo['funds']}</div>

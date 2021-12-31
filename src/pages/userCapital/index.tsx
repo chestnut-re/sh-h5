@@ -85,10 +85,10 @@ const UserCapitalPage: React.FC = () => {
         </div>
         <div className="two">
           <span>¥</span>
-          <span className="num">&nbsp;{accountInfo['total']}</span>
+          <span className="num">&nbsp;{(accountInfo['available'] / 100).toFixed(2)}</span>
         </div>
         <div className="three">
-          <div>锁定金额 ¥{accountInfo['frozen']}</div>
+          <div>锁定金额 ¥{(accountInfo['frozen'] / 100).toFixed(2)}</div>
           {/* <img className="pic" src={tips} alt="" /> */}
         </div>
       </div>

@@ -29,18 +29,13 @@ const FundDetailsPage: React.FC = () => {
   //是否在请求状态
   const [isloading, setIsloading] = useState<boolean>(true)
 
-  const [finished1, setFinished1] = useState(false)
-  //是否在请求状态
-  const [isloading1, setIsloading1] = useState<boolean>(true)
+  const [current, setCurrent] = useState(1)
   //当前请求页码
-  let current = 1
-  let current1 = 1
 
   const size = 10
   useEffect(() => {
     getAccountList()
-    getAccountNoList()
-  }, [billType])
+  }, [current])
   const getAccountList = () => {
     setIsloading(true)
     AccountInfoApi.accountList({
@@ -70,64 +65,19 @@ const FundDetailsPage: React.FC = () => {
         setIsloading(false)
       })
   }
-  ///冻结的
-  const getAccountNoList = () => {
-    setIsloading1(true)
-    AccountInfoApi.accountList({
-      current: current1,
-      size: size,
-      billDate: billDate,
-      billType: 2,
-      walletType: 2,
-    })
-      .then((res: any) => {
-        let dataList = []
-        dataList = res['records'].map((item, index) => {
-          const timeArr = item['billDate'].split('-')
-          const listTitle = timeArr[0] + '年' + timeArr[1] + '月'
-          item['listTitle'] = listTitle
-          return item
-        })
-        setDetailListN((v) => [...v, ...dataList])
-        if (res['records'].length < size) {
-          setFinished1(true)
-        }
-      })
-      .catch(() => {
-        setFinished1(true)
-      })
-      .finally(() => {
-        setIsloading1(false)
-      })
-  }
+
   const onLoadRefresh = async () => {
-    console.log('current')
-    if (tabActiveIndex === 1) {
-      if (finished) return
-      if (isloading) return
-      current++
-      getAccountList()
-    } else {
-      if (finished1) return
-      if (isloading1) return
-      current1++
-      getAccountNoList()
-    }
+    if (finished) return
+    if (isloading) return
+    setCurrent((v) => v + 1)
+    getAccountList()
   }
 
   const onRefresh = async () => {
-    if (tabActiveIndex === 1) {
-      setFinished(false)
-      current++
-      console.log(current)
-      setDetailListY([])
-      getAccountList()
-    } else {
-      setFinished1(false)
-      current1++
-      setDetailListN([])
-      getAccountNoList()
-    }
+    setFinished(false)
+    setCurrent(1)
+    setDetailListY([])
+    getAccountList()
   }
   return (
     <div className="OperateDetailsPage__root">
@@ -140,7 +90,7 @@ const FundDetailsPage: React.FC = () => {
           使用中
         </div>
       </div> */}
-      <div className={'tab-list tab-view' + `${tabActiveIndex === 1 ? 'active' : ''}`}>
+      <div className="tab-list">
         <PullRefresh onRefresh={onRefresh}>
           <List finished={finished} onLoad={onLoadRefresh} immediateCheck={false} loading={isloading}>
             {detailListY.length ? (
@@ -162,7 +112,7 @@ const FundDetailsPage: React.FC = () => {
 
                     <div className="title">
                       <div>{item['typeName']}</div>
-                      <div>{item['amount']}</div>
+                      <div>{(item['amount'] / 100).toFixed(2)}</div>
                     </div>
                     <div className="counter">
                       <div>{item['title']}</div>
