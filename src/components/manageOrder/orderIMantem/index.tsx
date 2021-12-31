@@ -22,6 +22,7 @@ const themeVars = {
 }
 
 const COUNT_DOWN = 60 * 30 * 1000
+const RMB_CON = 100;
 
 interface ManageItemProps {
   orderItem: {
@@ -52,7 +53,7 @@ const ManageItem: FC<ManageItemProps> = (props) => {
   }
   useEffect(() => {
     if (oitem.state === 1 && oitem.orderTime) {
-      let restTime = (dayjs().unix() - dayjs(oitem.orderTime).unix()) * 1000
+      const restTime = (dayjs().unix() - dayjs(oitem.orderTime).unix()) * 1000
       setCountdownTime(COUNT_DOWN - restTime)
     }
   }, [])
@@ -68,7 +69,7 @@ const ManageItem: FC<ManageItemProps> = (props) => {
             {oitem.state === 1 && (
             <div className="maorder-item-header-right">
               
-                  <CountDown time={countdowntime} onFinish={countdownTimeFinish} format="剩 mm:ss" />
+                  <CountDown time={countdowntime} format="剩 mm:ss" />
               
             </div>
           )}
@@ -86,10 +87,10 @@ const ManageItem: FC<ManageItemProps> = (props) => {
                     <span>成人x{oitem.adultNum ?? 0}</span>
                     <span>儿童x{oitem.childNum ?? 0}</span>
                 </div>
-                <div className='micr-price'>
+                {oitem?.payAmount&&(<div className='micr-price'>
                   {oitem.state==5||oitem.state==6||oitem.state==7?<span className='micr-price-text'>退款金额</span>:null}
-                ¥{oitem.payAmount}
-                </div>
+                ¥{oitem?.payAmount/RMB_CON}
+                </div>)}
             </div>
         </div>
 

@@ -26,13 +26,13 @@ interface ManageProps {
   orderUserName: string
   orderTime: string
   goodsName: string
-  payAmount: number,
-  promotionalImageUrl:string
+  payAmount: number
+  promotionalImageUrl: string
 }
-
+const RMB_CON = 100
 const ManageDetailItem: FC<ManageProps> = (props) => {
   console.log('propsprops :>> ', props)
-  const { goodsName, payAmount, orderUserName, orderTime, orderNo, state,promotionalImageUrl } = props
+  const { goodsName, payAmount, orderUserName, orderTime, orderNo, state, promotionalImageUrl } = props
   const [countdowntime, setCountdownTime] = useState<number>(COUNT_DOWN)
 
   useEffect(() => {
@@ -52,7 +52,7 @@ const ManageDetailItem: FC<ManageProps> = (props) => {
           {payAmount ? (
             <div className="mig-pro">
               付款<span className="mig-pro-icon">¥</span>
-              <span>{payAmount}</span>
+              <span>{payAmount / RMB_CON}</span>
             </div>
           ) : null}
         </div>
@@ -86,11 +86,13 @@ const ManageDetailItem: FC<ManageProps> = (props) => {
           </li> */}
         </ul>
       </div>
-      {state>=0?(<div className={`detail-status ${MaStatusMap[state]?.bgName}`}>
-        <div className={`status-text ${MaStatusMap[state]?.cName}`}>
-          <h1>{MaStatusMap[state]?.text}</h1>
+      {state >= 0 ? (
+        <div className={`detail-status ${MaStatusMap[state]?.bgName}`}>
+          <div className={`status-text ${MaStatusMap[state]?.cName}`}>
+            <h1>{MaStatusMap[state]?.text}</h1>
+          </div>
         </div>
-      </div>):null}
+      ) : null}
     </div>
   )
 }
