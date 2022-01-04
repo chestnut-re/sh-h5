@@ -165,6 +165,12 @@ const TestPage = () => {
             SHBridge.jump({ url: generateUrl('/order-search'), newWebView: true, title: '订单搜索' })
           }}
         />
+        <Cell
+          title="打开主题活动 /special-events "
+          onClick={() => {
+            SHBridge.jump({ url: generateUrl('/special-events'), newWebView: true })
+          }}
+        />
       </Cell.Group>
       <Cell.Group title="文件上传">
         <Cell title="图片上传-纯H5">
@@ -217,7 +223,7 @@ const TestPage = () => {
               signType: 'MD5',
               paySign: '955D0ED896A76143F1A13CA3B7F4FDE7',
             }
-            SHBridge.minipay(JSON.stringify(data), 1)
+            SHBridge.minipay(JSON.stringify(data), 1,"1495909405900 ")
           }}
         />
       </Cell.Group>
