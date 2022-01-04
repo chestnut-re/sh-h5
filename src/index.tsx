@@ -160,6 +160,8 @@ const PersonalDetails = loadable(() => import(/* webpackChunkName: 'MassPage' */
 const PersonalBind = loadable(() => import(/* webpackChunkName: 'MassPage' */ './pages/personalBind'))
 //订单详情-出行人列表数据
 const TravelList = loadable(() => import(/* webpackChunkName: 'MassPage' */ './pages/travelList'))
+//订单详情-退改说明
+const RefundChangeIns = loadable(() => import(/* webpackChunkName: 'MassPage' */ './pages/orderDetail/refundChangeIns'))
 const env = process.env.NODE_ENV
 console.log(env)
 
@@ -237,6 +239,7 @@ const App = () => (
       <Route path="/personal-details" exact component={PersonalDetails}></Route>
       <Route path="/personal-bind" exact component={PersonalBind}></Route>
       <Route path="/order-travel" exact component={TravelList}></Route>
+      <Route path="/order-refundins" exact component={RefundChangeIns}></Route>
     </BrowserRouter>
   </Suspense>
 )
