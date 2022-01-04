@@ -6,7 +6,7 @@ import MyNavBar from '../../components/myNavBar'
 import qs from 'query-string'
 import { SHBridge } from '@/jsbridge'
 import emptyIcon from '@/assets/img/empty@3x.png'
-import shareIcon from '@/assets/img/tinified/share.png'
+import shareIcon from '@/assets/img/share_icon.png'
 import { Image, Empty, Icon } from 'react-vant'
 import './index.less'
 
