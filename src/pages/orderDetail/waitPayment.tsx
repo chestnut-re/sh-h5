@@ -43,7 +43,7 @@ const OrderPaymentPage:FC = (props:any) => {
       const restTime = (dayjs().unix() - dayjs(orderTime).unix()) * 1000
       setCountdownTime(COUNT_DOWN - restTime)
     }
-  }, [])
+  }, [orderTime])
 
  //支付成功跳转
  const paySuccessLink = (orderId) => {
