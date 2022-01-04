@@ -10,7 +10,7 @@ import './index.less'
 const BackThatCard: FC = () => {
 
   const backtChangeInsHandel = ()=>{
-    SHBridge.jump({ url: generateUrl('/order-refundins') })
+    SHBridge.jump({ url: generateUrl('/order-refundins'),newWebView:true })
   }
 
 
