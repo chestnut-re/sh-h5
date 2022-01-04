@@ -28,7 +28,7 @@ const RMB_CON = 100
 //mock数据
 
 const SubmitOrderPage: FC = () => {
-  let toast1;
+  let UseToast;
   const { search } = useLocation()
   const { id,source } = qs.parse(search.slice(1))
   //提交数据
@@ -132,10 +132,7 @@ const SubmitOrderPage: FC = () => {
         .then((res: any) => {
           const { code, data } = res
           if (code === '200' && data) {
-            //测试数据
-            // data.goodsPrices = [...GoodsPrice]
-            // const { id, goodsName, goodsNickName, promotionalImageUrl, goodsNo, isDeduction, goodsPrices } = data
-            resolve(data)
+               resolve(data)
           } else {
             reject()
           }
@@ -168,7 +165,6 @@ const SubmitOrderPage: FC = () => {
   }
 
   useEffect(() => {
-    console.log('selectTime已选中 :>> ', selectTime)
     setPriceSet((v) => {
       return {
         ...v,
@@ -201,7 +197,6 @@ const SubmitOrderPage: FC = () => {
                 tokenAmountNum: amountNum,
               }
             })
-            console.log('积分数量es :>> ', res)
           })
         }
 
@@ -221,7 +216,7 @@ const SubmitOrderPage: FC = () => {
       .catch((err) => {
         console.log(' :>>接口异常 ')
       })
-  }, [])
+  }, [id])
 
   //获取成人数量
   const handlechangeStepper = (info) => {
@@ -252,7 +247,7 @@ const SubmitOrderPage: FC = () => {
   }
   //支付成功跳转
   const paySuccessLink = (orderId) => {
-    toast1 && toast1.clear()
+    UseToast && UseToast.clear()
     SHBridge.jump({
       url: generateUrl(`/pay-success?t=${search}&id=${id}&orderId=${orderId}`),
       newWebView: false,
@@ -261,7 +256,7 @@ const SubmitOrderPage: FC = () => {
     })
   }
   const payErrorLink =  (orderId) => {
-    toast1 && toast1.clear()
+    UseToast && UseToast.clear()
     SHBridge.jump({
       url: generateUrl(`/order-detail?orderId=${orderId}`),
       newWebView: false,
@@ -306,7 +301,7 @@ const SubmitOrderPage: FC = () => {
       },
     }
     if (isProtocol) {
-      toast1 = Toast.loading({
+      UseToast = Toast.loading({
         message: '订单生成中...',
         forbidClick: true,
         duration: 0,
@@ -321,7 +316,7 @@ const SubmitOrderPage: FC = () => {
               const { returnPayInfo, orderId } = data.data
               switch (payType) {
                 case 1:
-                  toast1.clear()
+                  UseToast.clear()
                   SHBridge.minipay(JSON.stringify(returnPayInfo), priceNum,orderId)
                   break
                 case 2:
@@ -331,7 +326,7 @@ const SubmitOrderPage: FC = () => {
                     if (errorCode == 0) {
                       paySuccessLink(orderId)
                     } else {
-                      toast1.clear()
+                      UseToast.clear()
                       Toast('支付失败')
                       payErrorLink(orderId)
                     }
@@ -348,7 +343,7 @@ const SubmitOrderPage: FC = () => {
                     if (code == '10000') {
                       paySuccessLink(orderId)
                     }else{
-                      toast1.clear()
+                      UseToast.clear()
                       payErrorLink(orderId)
                     }
                   })
@@ -359,12 +354,12 @@ const SubmitOrderPage: FC = () => {
               }
             }
           } else {
-            toast1.clear()
+            UseToast.clear()
             Toast(msg)
           }
         })
         .catch((err) => {
-          toast1.clear()
+          UseToast.clear()
           console.log('object订单接口异常:>> ', err)
         })
     } else {
