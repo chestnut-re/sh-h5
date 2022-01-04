@@ -403,13 +403,7 @@ const SubmitOrderPage: FC = () => {
             />
           </div>
           <PayTypeCard changePayType={handlePayType} />
-          <div
-            onClick={() => {
-              Toast('暂无退改说明')
-            }}
-          >
-            <BackCard />
-          </div>
+          <BackCard />
 
           <ProtocolCard changeProtocolStatus={handleProtocolStatus} />
         </div>
