@@ -188,7 +188,7 @@ const ManageOrderPage: FC = () => {
         </ConfigProvider>
       </div>
       <div className="maorder-content">
-        <PullRefresh onRefresh={onLoadRefresh}>
+        <PullRefresh className='refresh-box' onRefresh={onLoadRefresh} >
           {listData.length ? (
             <List
               finished={finished}
