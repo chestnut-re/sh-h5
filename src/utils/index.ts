@@ -1,3 +1,4 @@
+import path from 'path'
 import qs from 'query-string'
 /**
  * 解析 url 参数，返回对象
@@ -22,4 +23,15 @@ export const generateUrl = (path: string): string => {
   const allParams = getUrlParams(window.location.href)
   const newParams = getUrlParams(path)
   return `${window.location.origin}${path.split('?')[0]}?${qs.stringify({ ...allParams, ...newParams })}`
+}
+
+/**
+ * 验证字符串是否为空
+ */
+
+export const isStrNull = (str: string): boolean => {
+  if (str == '') return true
+  const regu = '^[ ]+$'
+  const re = new RegExp(regu)
+  return re.test(str)
 }
