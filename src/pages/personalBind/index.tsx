@@ -224,14 +224,12 @@ const PersonalBindPage: FC = (props) => {
    */
   const onSelectItem = (obj) => {
     const newSelectedTraveler = [...selectedTraveler]
-    const newSubordersList = [...subordersList]
-    const fillingArr = []
+    const newSubordersList = [...subordersList] as any
+    const fillingArr = [] as any
     newSubordersList.map((item, i) => {
       if (obj.select) {
         newSubordersList.map((item, iList) => {
-          console.log('item.travelerId == obj.id', item.travelerId == obj.id)
           if (item.travelerId == obj.id) {
-            console.log('fillingArr', iList)
             onEmpty(iList)
           }
         })
@@ -325,7 +323,7 @@ const PersonalBindPage: FC = (props) => {
    */
 
   const onTravelerPhone = (val, i) => {
-    const newSubordersList = [...subordersList]
+    const newSubordersList = [...subordersList] as any
     newSubordersList[i].travelerPhoneNumber = val
     setSubordersList(newSubordersList)
   }
@@ -500,7 +498,7 @@ const PersonalBindPage: FC = (props) => {
    * @param i
    */
   const onEmpty = (i) => {
-    const newSubordersList = [...subordersList]
+    const newSubordersList = [...subordersList] as any
     newSubordersList.map((item, index) => {
       if (i === index) {
         item['travelerName'] = ''
@@ -514,7 +512,7 @@ const PersonalBindPage: FC = (props) => {
       }
     })
 
-    const newTravelerList = [...travelerList]
+    const newTravelerList = [...travelerList] as any
     newTravelerList.map(item => {
       if (newSubordersList[i].travelerId == item['id']) {
         item['select'] = false
@@ -668,20 +666,16 @@ const PersonalBindPage: FC = (props) => {
                         />
                       </div>
                     </li>
-                    <li className="pch-ul-li rv-hairline--bottom">
-                      <div className="pul-name">详细地址</div>
+                    <li style={{ alignItems: 'flex-start' }} className="pch-ul-li rv-hairline--bottom">
+                      <div style={{ paddingTop: 3 }} className="pul-name">详细地址</div>
                       <div className="pul-content">
                         <Field
-                          isLink
-                          readonly
-                          value={item.habitualResidence}
-                          label=""
-                          errorMessage={errorMessage[index].addrMsg}
-                          placeholder="请选择出行人常住地"
-                          onClick={() => {
-                            setAddrIndex(index)
-                            set({ visible: true })
-                          }}
+                          value={''}
+                          rows={3}
+                          type="textarea"
+                          // errorMessage={state.errorMessage['detailAddrMsg']}
+                          placeholder="街道、小区、门牌号等"
+                        // onChange={(val) => { }}
                         />
                       </div>
                     </li>
