@@ -43,6 +43,9 @@ interface KnownCalendarType {
 }
 
 const KnownCalendarCard: FC<KnownCalendarType> = (props) => {
+  const refContainer = useRef<any>(null)
+  const activeRef = useRef(null)
+
   const { calendata=[], selecttime } = props
   //ref获取日历方法
   const calendarRef = useRef<CalendarInstance>()
@@ -51,6 +54,10 @@ const KnownCalendarCard: FC<KnownCalendarType> = (props) => {
   //监听数据改变更改日历对应时间高亮
   useEffect(() => {
     calendarRef.current.reset(dayjs(selecttime?.startDate).toDate())
+    if (selecttime && activeRef.current) {
+      // console.log(activeRef.current);
+      onTransformScroll(activeRef.current)
+    }
   }, [selecttime])
 
   //日期选择确定
@@ -66,6 +73,7 @@ const KnownCalendarCard: FC<KnownCalendarType> = (props) => {
   }
   //父组件发送数据
   const onHandelSelected = (item) => {
+    
     props.selectedHandelCalend(item)
   }
   //格式化日历对应数据
@@ -85,17 +93,41 @@ const KnownCalendarCard: FC<KnownCalendarType> = (props) => {
     }
     
   }
+  const onTransformScroll = (target, animation = 'smooth') => {
+    // 计算当前标签到最左侧的宽度,本身的宽度
+    const { offsetLeft: itemLeft, offsetWidth: itemWidth } = target
+    // 可移动区域宽度
+    const { offsetWidth: containerWidth } = refContainer.current
+    // 当前标签中心点到最左侧的距离
+    const curCenter = itemLeft + itemWidth / 2
+    // 可移动区域中心点（减去的30是列表两边的15像素的留白）
+    const center = (containerWidth - 60) / 2
+
+    // console.log(curCenter, center);
+    if (curCenter > center) {
+      refContainer.current.scrollTo({
+        left: curCenter - center,
+        behavior: animation,
+      })
+    } else {
+      refContainer.current.scrollTo({
+        left: 0,
+        behavior: animation,
+      })
+    }
+  }
 
   return (
     <>
       <div className="KCalendar-container">
         <div className="kcalendar-box">
-          <div className="kcalendar-section">
+          <div className="kcalendar-section" ref={refContainer}>
             {calendata?.map((item) => {
               return (
                 <div
                   className={`section-item ${item.startDate == selecttime?.startDate && 'acitve'}`}
                   key={item.goodsPriceId}
+                  ref={item.startDate == selecttime?.startDate ? activeRef : null}
                   onClick={() => {
                     onHandelSelected(item)
                   }}
