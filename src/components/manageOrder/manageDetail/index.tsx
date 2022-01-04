@@ -31,7 +31,6 @@ interface ManageProps {
 }
 const RMB_CON = 100
 const ManageDetailItem: FC<ManageProps> = (props) => {
-  console.log('propsprops :>> ', props)
   const { goodsName, payAmount, orderUserName, orderTime, orderNo, state, promotionalImageUrl } = props
   const [countdowntime, setCountdownTime] = useState<number>(COUNT_DOWN)
 
