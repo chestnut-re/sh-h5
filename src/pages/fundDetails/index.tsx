@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import './index.less'
-import { useDebouncedEffect } from '@/hooks/useDebouncedEffect'
 import triangle from '@/assets/img/successMove/triangle.png'
 import { AccountInfoApi } from '@/service/AccountInfo'
 import { List, Loading, NavBar, PullRefresh } from 'react-vant'
-import { ListInstance } from 'react-vant/es/list/PropsType'
 import { Console } from 'console'
 import MyNavBar from '@/components/myNavBar'
-import { SHBridge } from '@/jsbridge'
 /**
  * 资金明细
  */
@@ -20,23 +17,18 @@ import { SHBridge } from '@/jsbridge'
 // }
 
 const FundDetailsPage: React.FC = () => {
-  const [tabActiveIndex, setTabActiveIndex] = useState(1)
-  const [billDate, setBillDate] = useState()
-  const [billType, setBillType] = useState(1)
   const [detailListY, setDetailListY] = useState<any[]>([])
-  const [detailListN, setDetailListN] = useState<any[]>([])
   const [finished, setFinished] = useState(false)
   //是否在请求状态
   const [isloading, setIsloading] = useState<boolean>(true)
   //当前请求页码
-  const [finished1, setFinished1] = useState(false)
   const [current, setCurrent] = useState(1)
   //是否在请求状态
-  const [isloading1, setIsloading1] = useState<boolean>(true)
 
   const size = 10
   useEffect(() => {
     getAccountList()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [current])
   const getAccountList = () => {
     setIsloading(true)
@@ -47,13 +39,17 @@ const FundDetailsPage: React.FC = () => {
     })
       .then((res: any) => {
         let dataList = []
-        dataList = res['records'].map((item, index) => {
+        dataList = res['records'].map((item) => {
           const timeArr = item['billDate'].split('-')
           const listTitle = timeArr[0] + '年' + timeArr[1] + '月'
           item['listTitle'] = listTitle
           return item
         })
-        setDetailListY((v) => [...v, ...dataList])
+        if (current == 1) {
+          setDetailListY(dataList)
+        } else {
+          setDetailListY((v) => [...v, ...dataList])
+        }
         if (res['records'].length < size) {
           setFinished(true)
         }
@@ -75,7 +71,6 @@ const FundDetailsPage: React.FC = () => {
   const onRefresh = async () => {
     setFinished(false)
     setCurrent(1)
-    setDetailListY([])
   }
   return (
     <div className="FundDetailsPage__root">
@@ -99,34 +94,30 @@ const FundDetailsPage: React.FC = () => {
       <div className="tab-list">
         <PullRefresh onRefresh={onRefresh}>
           <List finished={finished} onLoad={onLoadRefresh} immediateCheck={false} loading={isloading}>
-            {detailListY.length ? (
-              detailListY.map((item, index) => {
-                return (
-                  <div className="item" key={index}>
-                    {index == 0 || detailListY[index]['listTitle'] != detailListY[index - 1]['listTitle'] ? (
-                      <div className="month">
-                        {item['listTitle']} <img className="img" src={triangle} alt="" />
+            {detailListY.length
+              ? detailListY.map((item, index) => {
+                  return (
+                    <div className="item" key={index}>
+                      {index == 0 || detailListY[index]['listTitle'] != detailListY[index - 1]['listTitle'] ? (
+                        <div className="month">
+                          {item['listTitle']} <img className="img" src={triangle} alt="" />
+                        </div>
+                      ) : (
+                        <div></div>
+                      )}
+                      <div className="title">
+                        <div>{item['typeName']}</div>
+                        <div>{(item['amount'] / 100).toFixed(2)}</div>
                       </div>
-                    ) : (
-                      <div></div>
-                    )}
-                    <div className="title">
-                      <div>{item['typeName']}</div>
-                      <div>{(item['amount'] / 100).toFixed(2)}</div>
+                      <div className="counter">
+                        <div>{item['title']}</div>
+                        <div>订单编号{item['orderNo']}</div>
+                      </div>
+                      <div className="time">{item['billDate']}</div>
                     </div>
-                    <div className="counter">
-                      <div>{item['title']}</div>
-                      <div>订单编号{item['orderNo']}</div>
-                    </div>
-                    <div className="time">{item['billDate']}</div>
-                  </div>
-                )
-              })
-            ) : isloading ? (
-              <Loading className="maorder-loading" vertical color="#3AD2C5">
-                加载中...
-              </Loading>
-            ) : null}
+                  )
+                })
+              : null}
           </List>
         </PullRefresh>
       </div>

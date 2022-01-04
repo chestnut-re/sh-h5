@@ -20,11 +20,8 @@ import { SHBridge } from '@/jsbridge'
 // }
 
 const FundDetailsPage: React.FC = () => {
-  const [tabActiveIndex, setTabActiveIndex] = useState(1)
   const [billDate, setBillDate] = useState()
-  const [billType, setBillType] = useState(1)
   const [detailListY, setDetailListY] = useState<any[]>([])
-  const [detailListN, setDetailListN] = useState<any[]>([])
   const [finished, setFinished] = useState(false)
   //是否在请求状态
   const [isloading, setIsloading] = useState<boolean>(true)
@@ -47,13 +44,17 @@ const FundDetailsPage: React.FC = () => {
     })
       .then((res: any) => {
         let dataList = []
-        dataList = res['records'].map((item, index) => {
+        dataList = res['records'].map((item) => {
           const timeArr = item['billDate'].split('-')
           const listTitle = timeArr[0] + '年' + timeArr[1] + '月'
           item['listTitle'] = listTitle
           return item
         })
-        setDetailListY((v) => [...v, ...dataList])
+        if (current == 1) {
+          setDetailListY(dataList)
+        } else {
+          setDetailListY((v) => [...v, ...dataList])
+        }
         if (res['records'].length < size) {
           setFinished(true)
         }
@@ -70,14 +71,11 @@ const FundDetailsPage: React.FC = () => {
     if (finished) return
     if (isloading) return
     setCurrent((v) => v + 1)
-    getAccountList()
   }
 
   const onRefresh = async () => {
     setFinished(false)
     setCurrent(1)
-    setDetailListY([])
-    getAccountList()
   }
   return (
     <div className="OperateDetailsPage__root">
