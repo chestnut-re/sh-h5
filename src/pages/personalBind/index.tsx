@@ -355,7 +355,6 @@ const PersonalBindPage: FC = (props) => {
   }
 
   const onSubmit = () => {
-
     if (rules()) {
       if (!selectProtocol) {
         Toast({
@@ -573,7 +572,7 @@ const PersonalBindPage: FC = (props) => {
         )}
         {subordersList && subordersList.length > 0 && (
           subordersList.map((item, index) => (
-            item.selectedTraveler ? (
+            item['selectedTraveler'] ? (
               <div key={`index${index}`} className="personal-content">
                 <div className="personal-content-header">
                   <ul className="pch-ul">
@@ -653,7 +652,24 @@ const PersonalBindPage: FC = (props) => {
                     </li>
 
                     <li className="pch-ul-li rv-hairline--bottom">
-                      <div className="pul-name">常住地</div>
+                      <div className="pul-name">所在地区</div>
+                      <div className="pul-content">
+                        <Field
+                          isLink
+                          readonly
+                          value={item.habitualResidence}
+                          label=""
+                          errorMessage={errorMessage[index].addrMsg}
+                          placeholder="请选择出行人常住地"
+                          onClick={() => {
+                            setAddrIndex(index)
+                            set({ visible: true })
+                          }}
+                        />
+                      </div>
+                    </li>
+                    <li className="pch-ul-li rv-hairline--bottom">
+                      <div className="pul-name">详细地址</div>
                       <div className="pul-content">
                         <Field
                           isLink

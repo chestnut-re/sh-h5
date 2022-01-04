@@ -6,6 +6,8 @@ import {
   Field,
   hooks
 } from 'react-vant'
+import { isStrNull } from '@/utils'
+
 import addIcon from '@/assets/img/add_icon@3x.png'
 
 import './index.less'
@@ -24,44 +26,79 @@ const actions = [
   { text: '护照', disabled: false },
 ]
 
+const rulesInfo = {
+  certificateErrorMsg: '',
+  validityErrorMsg: '',
+  type: 0
+}
+
+
 const OptionalInfo = (props, ref) => {
   const [showPicker, setShowPicker] = useState(false)
   const [showPickerId, setShowPickerId] = useState()
 
   const [infolist, setInfolist] = useState([] as any[])
+  const [errorInfoList, setErrorInfoList] = useState([] as any[])
   const [newKey, setNewKey] = useState(0)
 
   const { certificate } = props
   useEffect(() => {
     if (certificate && certificate.length > 0) {
+      console.log(certificate)
+
+      const newErrorObj = [] as any
       certificate.map((item, index) => {
         item.type = index
         item.certificateType = item.certificateType == 1 ? '身份证' : '护照'
+        item.validity = item.validity
+        newErrorObj.push({
+          certificateErrorMsg: '',
+          validityErrorMsg: '',
+          type: index
+        })
       })
+      setErrorInfoList(newErrorObj)
       setInfolist([...certificate])
     } else {
       setInfolist([infos])
+      setErrorInfoList([rulesInfo])
     }
-
   }, [certificate])
 
   const addOptionalInfo = () => {
     setNewKey(newKey + 1)
     const activeKey = `new${newKey}`
-    infolist.push({ type: activeKey, certificateNo: '', certificateType: '身份证' })
+    infolist.push({
+      type: activeKey,
+      certificateNo: '',
+      validity: '',
+      certificateType: '身份证'
+    })
+    errorInfoList.push({
+      certificateErrorMsg: '',
+      validityErrorMsg: '',
+      type: activeKey
+    })
     setInfolist(infolist)
+    setErrorInfoList(errorInfoList)
   }
   const deleteHandelOptional = (i) => {
     const newInfolist = infolist.filter((item, index) => {
       return index != i
     })
 
+    const newErrorInfoList = errorInfoList.filter((item, index) => {
+      return index != i
+    })
+
     console.log('i :>> ', i, newInfolist)
     setInfolist([...newInfolist])
+    setErrorInfoList([...newErrorInfoList])
   }
 
   useImperativeHandle(ref, () => ({
     infolist: infolist,
+    rulesPass: rules
   }))
 
   const onFieldChange = (value, type) => {
@@ -110,6 +147,57 @@ const OptionalInfo = (props, ref) => {
     setInfolist(newInfolist)
   }
 
+  const rules = () => {
+    infolist.map((item, index) => {
+      if (props.type != 1) {
+        if (!item.certificateNo || isStrNull(item.certificateNo)) {
+          errorInfoList[index].certificateErrorMsg = '请输入证件号'
+        } else {
+          errorInfoList[index].certificateErrorMsg = ''
+        }
+
+        if (!item.validity || isStrNull(item.validity)) {
+          errorInfoList[index].validityErrorMsg = '请输入证件号有效期'
+        } else {
+          errorInfoList[index].validityErrorMsg = ''
+        }
+      } else {
+        errorInfoList[index].certificateErrorMsg = ''
+        errorInfoList[index].validityErrorMsg = ''
+      }
+    })
+    console.log('errorInfoList', errorInfoList)
+    return judgeListComplete(errorInfoList)
+  }
+
+  const judgeObjectComplete = (ObjectValue) => {
+    let flag = new Boolean()
+    flag = true
+    for (const key in ObjectValue) {
+      ObjectValue.type = ''
+      if (ObjectValue[key] == '') {
+
+      } else {
+        flag = false
+      }
+    }
+    if (!flag) {
+      return false
+    } else {
+      return true
+    }
+  }
+  const judgeListComplete = (list) => {
+    const isNotComplete = list.findIndex(item => {
+      return judgeObjectComplete(item) === false
+    })
+    if (isNotComplete > -1) {
+      return false
+    } else {
+      return true
+    }
+  }
+
   return (
     <div className="optional-info">
       {props.type == 1 && <div className="optional-info-text">儿童选填</div>}
@@ -129,8 +217,9 @@ const OptionalInfo = (props, ref) => {
                 <Field
                   className="oic-input"
                   onChange={(val) => onFieldChange(val, item['type'])}
-                  value={item['certificateNo'] || ''}
+                  value={item['certificateNo']}
                   placeholder="请填写正确的证件号码"
+                  errorMessage={errorInfoList[index].certificateErrorMsg}
                 />
               </div>
             </div>
@@ -140,11 +229,12 @@ const OptionalInfo = (props, ref) => {
                 <Field
                   isLink
                   readonly
-                  value={item['validity'] || ''}
+                  value={item['validity']}
                   onClick={() => {
                     setShowPicker(true)
                     setShowPickerId(item['type'])
                   }}
+                  errorMessage={errorInfoList[index].validityErrorMsg}
                   placeholder="请选择"
                 />
               </div>

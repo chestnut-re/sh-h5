@@ -5,8 +5,9 @@ import activeIcon from '@/assets/img/activeIcon@3x.png'
 import inactiveIcon from '@/assets/img/inactiveIcon@3x.png'
 import OptionalInfo from '@/components/personalDetails/optionalInfo'
 import { Personal } from '@/service/Personal'
-import { getUrlParams, generateUrl } from '@/utils'
+import { getUrlParams, isStrNull } from '@/utils'
 import { SHBridge } from '@/jsbridge'
+import UserProtocolItem from '@/components/personal/userProtocolItem'
 
 import './index.less'
 /**
@@ -41,11 +42,12 @@ const PersonalDetailPage: FC = (props: any) => {
     travelerName: '', //出行人姓名
     phoneNumber: '', //手机号
     addr: '', //出行人住址
-    type: 1, //出行人类型
+    type: 0, //出行人类型
     emerName: '', //紧急联系人姓名
     emerTravelerRelation: '', //紧急联系人出行人与紧急联系人关系
     emerPhoneNumber: '', //紧急联系人手机号
     travelerCertificate: [], //出行人证件信息
+    detailAddress: '', // 出行人详细地址
   })
 
   const [state, set] = hooks.useSetState({
@@ -104,19 +106,21 @@ const PersonalDetailPage: FC = (props: any) => {
    */
 
   const rules = () => {
-    const { infolist } = optionalInfoRef.current
+    const { rulesPass }: any = optionalInfoRef.current;
+
 
     const errorMsg = {}
-    const nameReg = /^[\u4E00-\u9FA5]{2,4}$/
+    const nameReg = /^[\u4E00-\u9FA5]{2,10}$/
     const phoneReg = /(^1[3|4|5|7|8|9]\d{9}$)|(^09\d{8}$)/
     const nameTxt = nameReg.test(submittal.travelerName)
     const phoneTxt = phoneReg.test(submittal.phoneNumber)
     const emerNameTxt = nameReg.test(submittal.emerName)
     const emerPhoneTxt = phoneReg.test(submittal.emerPhoneNumber)
 
-    console.log(infolist)
+    const rulesCertificate = rulesPass()
 
-    if (!nameTxt || !phoneTxt || !emerNameTxt || !emerPhoneTxt || submittal.addr == '') {
+
+    if (!nameTxt || !phoneTxt || !emerNameTxt || !emerPhoneTxt || isStrNull(submittal.addr) || isStrNull(submittal.detailAddress) || !rulesCertificate) {
       if (!nameTxt) {
         errorMsg['nameMsg'] = submittal.travelerName == '' ? '请输入姓名' : '请输入正确的证件姓名'
       }
@@ -129,8 +133,12 @@ const PersonalDetailPage: FC = (props: any) => {
       if (!emerPhoneTxt) {
         errorMsg['emerPhoneMsg'] = submittal.emerPhoneNumber == '' ? '请输入紧急联系人手机号码' : '请输入正确的手机号'
       }
-      if (submittal.addr == '') {
-        errorMsg['addrMsg'] = '请输入用户常住地址'
+      if (isStrNull(submittal.addr)) {
+        errorMsg['addrMsg'] = '请输入常住地址'
+      }
+
+      if (isStrNull(submittal.detailAddress)) {
+        errorMsg['detailAddrMsg'] = '请输入详细地址'
       }
 
       set({
@@ -153,7 +161,6 @@ const PersonalDetailPage: FC = (props: any) => {
   }
 
   const onSubmit = useCallback(() => {
-
     if (rules()) {
       if (!selectProtocol) {
         Toast({
@@ -161,7 +168,6 @@ const PersonalDetailPage: FC = (props: any) => {
         })
         return
       }
-      set({ subBtnDisabled: true })
       submittal.travelerCertificate = prune()
       if (urlParams.id) {
         edit()
@@ -176,6 +182,7 @@ const PersonalDetailPage: FC = (props: any) => {
    */
 
   const add = () => {
+    set({ subBtnDisabled: true })
     Personal.add(submittal).then((res) => {
       set({ subBtnDisabled: false })
       if (res['code'] == '200') {
@@ -188,6 +195,8 @@ const PersonalDetailPage: FC = (props: any) => {
           message: '添加失败',
         })
       }
+    }).catch(() => {
+      set({ subBtnDisabled: false })
     })
   }
 
@@ -196,6 +205,7 @@ const PersonalDetailPage: FC = (props: any) => {
    */
 
   const edit = () => {
+    set({ subBtnDisabled: true })
     submittal['id'] = urlParams.id
     Personal.edit(submittal).then((res) => {
       set({ subBtnDisabled: false })
@@ -209,6 +219,8 @@ const PersonalDetailPage: FC = (props: any) => {
           message: '添加失败',
         })
       }
+    }).catch(() => {
+      set({ subBtnDisabled: false })
     })
   }
 
@@ -217,7 +229,7 @@ const PersonalDetailPage: FC = (props: any) => {
    */
 
   const prune = () => {
-    const { infolist } = optionalInfoRef.current
+    const { infolist }: any = optionalInfoRef.current
     const newInfolist = JSON.parse(
       JSON.stringify(infolist, (key, value) => {
         if (key == 'type') {
@@ -234,14 +246,6 @@ const PersonalDetailPage: FC = (props: any) => {
 
   const onSelectProtocol = () => {
     setSelectProtocol(!selectProtocol)
-  }
-
-  const onService = () => {
-    SHBridge.jump({
-      url: generateUrl('/protocol/personal-information'),
-      newWebView: true,
-      title: '个人信息保护授权协议'
-    })
   }
 
   return (
@@ -305,7 +309,7 @@ const PersonalDetailPage: FC = (props: any) => {
                 </div>
               </li>
               <li className="pch-ul-li rv-hairline--bottom">
-                <div className="pul-name">常住地</div>
+                <div className="pul-name">所在地区</div>
                 <div className="pul-content">
                   <Field
                     isLink
@@ -328,13 +332,33 @@ const PersonalDetailPage: FC = (props: any) => {
                 </div>
               </li>
 
+              <li style={{ alignItems: 'flex-start' }} className="pch-ul-li rv-hairline--bottom">
+                <div style={{ paddingTop: 3 }} className="pul-name">详细地址</div>
+                <div className="pul-content">
+                  <Field
+                    value={submittal.detailAddress}
+                    rows={3}
+                    type="textarea"
+                    errorMessage={state.errorMessage['detailAddrMsg']}
+                    placeholder="街道、小区、门牌号等"
+                    onChange={(val) => {
+                      setSubmitdata({
+                        detailAddress: val
+                      })
+                    }}
+                  />
+                </div>
+              </li>
+
               <li className="pch-ul-li pch-ul-li-bottom">
                 <div className="pul-name">出行人类型</div>
                 <div className="pul-content">
                   <Radio.Group
                     value={submittal.type}
                     onChange={(val) => {
-                      setSubmitdata({ type: val })
+                      setSubmitdata({
+                        type: Number(val)
+                      })
                     }}
                     direction="horizontal"
                     iconSize="3.8vw"
@@ -413,12 +437,10 @@ const PersonalDetailPage: FC = (props: any) => {
             </ul>
           </div>
         </div>
-        <div className="personal-protocol">
-          <div onClick={onSelectProtocol} className='selectProtocol'>
-            <img alt="" className="img-icon" src={selectProtocol ? activeIcon : inactiveIcon} />
-            <span className='text'>点击保存表示同意 <span onClick={onService} className='text-a'>《个人信息保护授权协议》</span></span>
-          </div>
-        </div>
+        <UserProtocolItem
+          isSelect={selectProtocol}
+          onSelect={onSelectProtocol}
+        />
         <div
           onClick={() => {
             !state.subBtnDisabled && onSubmit()
