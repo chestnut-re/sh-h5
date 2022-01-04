@@ -11,11 +11,28 @@ import PreviewTripCard from '@/components/orderDetail/previewTrip'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
 import './index.less'
+interface OrderDoneType{
+  promotionalImageUrl?:string,
+  goodsName?:string,
+  travelStartDate?:string,
+  travelEndDate?:string,
+  adultNum?:string,
+  childNum?:string,
+  tokenAmount?:number,
+  discountAmount?:number,
+  payAmount?:number,
+  orderNo?:string,
+  payType?:number,
+  orderTime?:string,
+  payTime?:string,
+  goodsId?:string,
+  ordersTravel?:any,
+}
 
 /**
  * 订单已完成入口页
  */
-const OrderDonePage: FC = (props:any) => {
+const OrderDonePage: FC<OrderDoneType> = (props) => {
   console.log('object :>> ', props)
   const { search } = useLocation()
   const { orderId } = qs.parse(search.slice(1))

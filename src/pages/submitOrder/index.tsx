@@ -326,6 +326,7 @@ const SubmitOrderPage: FC = () => {
                   break
                 case 2:
                   SHBridge.wxpay(returnPayInfo, (wxres: any) => {
+                    console.log('wxres微信支付回调 :>> ', wxres);
                     const { errorCode } = wxres
                     if (errorCode == 0) {
                       paySuccessLink(orderId)

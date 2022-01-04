@@ -11,7 +11,7 @@ interface GoodsType {
   endDate:string;
   adultNum:string;
   childNum:string;
-  isSubmitOrder:boolean;
+  isSubmitOrder?:boolean;
 }
 
 const GoodsCard: FC<GoodsType> = (props) => {

@@ -1,80 +1,68 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
-import { getUrlParams } from '@/utils'
 import GoodsPreview from '@/components/goodsPreview'
 import MyNavBar from '../../components/myNavBar'
 import qs from 'query-string'
 import { SHBridge } from '@/jsbridge'
 import emptyIcon from '@/assets/img/empty@3x.png'
 import shareIcon from '@/assets/img/share_icon.png'
-import { Image, Empty, Icon } from 'react-vant'
+import { Image, Empty, Icon,Toast } from 'react-vant'
+import { SpecialEventsApi } from '@/service/SpecialEvents'
+import { generateUrl } from '@/utils'
 import './index.less'
 
 /**
  * 专题活动
+ * url 必填项-------
+ *    id :专题活动id
  */
 
-const Goodslist = [
-  {
-    goodsName: '三亚5日跟团游「星4晚连 住」',
-    goodsNickName: '',
-    goodsPriceId: '1231992',
-    personCurrentPrice: 599,
-    promotionalImageUrl: 'http://placeimg.com/640/480/city',
-    sales: '120',
-    stock: '90',
-  },
-  {
-    goodsName: '三亚5日跟团游「星4晚连 住」',
-    goodsNickName: '',
-    goodsPriceId: '1232312',
-    personCurrentPrice: 599,
-    promotionalImageUrl: 'http://placeimg.com/640/480/nature?t=1',
-    sales: '120',
-    stock: '90',
-  },
-  {
-    goodsName: '三亚5日跟团游「星4晚连 住」三亚5日跟团游「星4晚连 住三亚5日跟团游「星4晚连 住',
-    goodsNickName: '',
-    goodsPriceId: '1267312',
-    personCurrentPrice: 599,
-    promotionalImageUrl: 'http://placeimg.com/640/480/nature?t=3',
-    sales: '120',
-    stock: '90',
-  },
-  {
-    goodsName: '三亚5日跟团游「星4晚连 住」',
-    goodsNickName: '',
-    goodsPriceId: '1267367712',
-    personCurrentPrice: 599,
-    promotionalImageUrl: 'http://placeimg.com/640/480/nature?t=3',
-    sales: '120',
-    stock: '90',
-  },{
-    goodsName: '三亚5日跟团游「星4晚连 住」',
-    goodsNickName: '',
-    goodsPriceId: '1267368900',
-    personCurrentPrice: 599,
-    promotionalImageUrl: 'http://placeimg.com/640/480/nature?t=3',
-    sales: '120',
-    stock: '90',
-  },
-]
-
 const SpecialEventsPage: React.FC = () => {
-
+  const { search } = useLocation()
+  const { id } = qs.parse(search.slice(1))
+  const [specialGoodsList, setspecialGoodsList] = useState<any[]>([])
+  const [specialDetail, setspecialDetail] = useState({
+    activityDetailImg: '',
+  })
   useEffect(() => {
     //默认全屏效果
     SHBridge.setFullScreen('1')
-  }, [])
+    SpecialEventsApi.detail({
+      id:id
+    }).then((res:any)=>{
+       const {code,data:{activityDetailImg,goodsList}} = res;
+        console.log('res :>> ', res);
+        if (code === "200") {
+          setspecialDetail({
+            activityDetailImg: activityDetailImg,
+          })
+          setspecialGoodsList(goodsList)
+        }else{
+          Toast("接口异常")
+        }
+    }).catch((err)=>{
+      Toast("服务异常")
+      console.log('res :>> ', err);
+    })
+  }, [id])
 
   //右侧分享按钮点击
   const onClickHandelRight = () => {
-    alert('点击了分享')
+    Toast('点击了分享')
   }
   //左侧回退按钮事件处理
-  const onClickHandelLeft = ()=>{
+  const onClickHandelLeft = () => {
     SHBridge.closePage()
+  }
+  //打开活动商品详情
+  const openActivityGoodsDetail = (item) => {
+    const {id,goodsPriceId} = item;
+    SHBridge.jump({
+      url: generateUrl(`/goods-detail?id=${id}&goodsPriceId=${goodsPriceId}`),
+      newWebView: true,
+      replace: false,
+      title: '商品详情',
+    })
   }
 
   return (
@@ -83,24 +71,30 @@ const SpecialEventsPage: React.FC = () => {
         border={false}
         safeAreaInsetTop={true}
         leftArrow={true}
-        onClickLeft = {onClickHandelLeft}
+        onClickLeft={onClickHandelLeft}
         onClickRight={onClickHandelRight}
         rightText={<Icon name={shareIcon} size={24} />}
       />
       <div className="specialevents-wrap">
         <div className="specialevents-header">
           <div className="specialevents-header-pic">
-            <Image width="100%" height="100%" fit="cover" src="http://placeimg.com/640/480/nature" />
+            <Image width="100%" height="100%" fit="cover" src={specialDetail.activityDetailImg} />
           </div>
         </div>
         <div className="specialevents-content">
           <div className="specialevents-content-body">
-            {Goodslist.length > 0 ? (
+            {specialGoodsList.length > 0 ? (
               <ul className="scb-ul">
-                {Goodslist.map((item) => {
+                {specialGoodsList.map((item) => {
                   return (
-                    <li className="scb-ul-li" key={item.goodsPriceId}>
-                      <GoodsPreview {...item} />
+                    <li
+                      className="scb-ul-li"
+                      key={item.goodsPriceId}
+                      onClick={() => {
+                        openActivityGoodsDetail(item)
+                      }}
+                    >
+                      <GoodsPreview {...item} sales={item.shamSales} stock={item.shamLikes} />
                     </li>
                   )
                 })}

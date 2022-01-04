@@ -13,6 +13,9 @@ import { Toast,Empty } from 'react-vant'
 
 /**
  * 订单详情入口页
+ * url 必填项
+ *    orderId：订单id
+ * -----------------------
  * type 4 已完成（OrderDone）
  * type 2 已失效（OrderFailure）
  * type 3 待核销（OrderConfirma）
@@ -25,17 +28,15 @@ const OrderIndexPage: FC = (props: any) => {
   const [orders,setOrders] = useState({})
   //出行人数据
   const [ordersTravel,setOrdersTravel] = useState([])
-  const {
-    location: { search },
-  } = props
-  const { type,orderId } = qs.parse(search.slice(1))
+  const { search } = useLocation()
+  const { orderId } = qs.parse(search.slice(1))
 
   useEffect(() => {
     SHBridge.setTitle("订单详情")
     OrderApi.orderdetail({
       orderId:orderId
-    }).then((result) => {
-      const {code,data,msg} = result;
+    }).then((result:any) => {
+      const {code,data} = result;
 
       if (code=="200"&&data) {
           setOrderType(data.state)
@@ -51,7 +52,7 @@ const OrderIndexPage: FC = (props: any) => {
 
     OrderApi.suborders({
        orderId:orderId
-    }).then((result) => {
+    }).then((result:any) => {
         const {code,data} = result;
           if (code==="200"&&data) {
               setOrdersTravel(data)
@@ -61,7 +62,7 @@ const OrderIndexPage: FC = (props: any) => {
     });
 
 
-  }, [])
+  }, [orderId])
 
 
   console.log('object :>> ', props)

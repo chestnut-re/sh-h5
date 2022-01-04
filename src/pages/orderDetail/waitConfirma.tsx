@@ -17,7 +17,7 @@ import './index.less'
 /**
  * 订单待确认入口页
  */
-const OrderConfirmaPage: FC = (props: any) => {
+const OrderConfirmaPage: FC = (props:any) => {
   const {
     promotionalImageUrl,
     goodsName,
@@ -34,6 +34,7 @@ const OrderConfirmaPage: FC = (props: any) => {
     payTime,
     ordersTravel,
     goodsId,
+    
   } = props
   const { search } = useLocation()
   const { orderId } = qs.parse(search.slice(1))
