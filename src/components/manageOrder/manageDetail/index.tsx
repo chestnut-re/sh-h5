@@ -65,7 +65,7 @@ const ManageDetailItem: FC<ManageProps> = (props) => {
             <div className="maorder-countdown">
               <ConfigProvider themeVars={themeVars}>
                 {state === 1 && (
-                  <div className="maorder-countdown">
+                  <div>
                     <CountDown time={countdowntime} format="剩 mm:ss" />
                   </div>
                 )}
