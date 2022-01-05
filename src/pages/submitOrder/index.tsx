@@ -1,10 +1,10 @@
-import React, { useState, useEffect, FC } from 'react'
+import React, { useState,useEffect, FC } from 'react'
 import { useLocation } from 'react-router-dom'
 import GoodsCard from '@/components/orderDetail/goodsCard/submitGoods'
 import StepperCard from '@/components/orderDetail/stepperCard'
 import qs from 'query-string'
 import dayjs from 'dayjs';
-import { Toast, Popup } from 'react-vant'
+import { hooks,Toast, Popup } from 'react-vant'
 import PayTypeCard from '@/components/orderDetail/payTypeCard'
 import BackCard from '@/components/orderDetail/backthatCard'
 import FooterCard from '@/components/orderDetail/footerCard'
@@ -29,6 +29,7 @@ const RMB_CON = 100
 
 const SubmitOrderPage: FC = () => {
   let UseToast;
+  const pageVisibility = hooks.usePageVisibility();
   const { search } = useLocation()
   const { id,source } = qs.parse(search.slice(1))
   //提交数据
@@ -69,6 +70,9 @@ const SubmitOrderPage: FC = () => {
 
   //协议是否勾选
   const [isProtocol, setIsProtocol] = useState(false)
+  useEffect(() => {
+    console.log('page visibility页面状态 ', pageVisibility);
+  }, [pageVisibility]);
 
   const [showPrivilege, setShowPrivilege] = useState(false)
   const [submitinfo, setSubmitinfo] = useState({
