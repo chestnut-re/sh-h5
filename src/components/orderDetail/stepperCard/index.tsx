@@ -1,6 +1,6 @@
 import React, { useState, useEffect, FC } from 'react'
 
-import { ConfigProvider, Icon, Stepper } from 'react-vant'
+import { ConfigProvider, Icon,Toast, Stepper } from 'react-vant'
 import integralIcon from '@/assets/img/integral_icon.png'
 import questionIcon from '@/assets/img/question_icon@3x.png'
 import './index.less'
@@ -31,26 +31,34 @@ const StepperCard: FC<StepType> = ({selectTime:{pointsDeduction,stock}, priceSet
 
   //库存数量adultStock成人可选库存量 childStock：儿童可选库存量
   const [stockdata,setStockdata] = useState({
-    adultStock:2,
-    childStock:2,
+    adultStock:0,
+    childStock:0,
   })
-  
+  useEffect(()=>{
+    setStockdata({
+      adultStock:stock,
+      childStock:stock,
+    })
+  },[stock])
   useEffect(()=>{
     setStockdata({
       adultStock:stock-childNum,
       childStock:stock-adultNum,
     })
-  },[stock,childNum,adultNum])
+  },[stock,adultNum,childNum])
+
+  //手动输入失去焦点判断当前值是否大于库存 大于库存设置为最大值
+
 
   const setGrownNumValue = (val) => {
-    setAdultNum(val)
     setStockdata((v)=>{
       return {
         ...v,
-        adultStock:stock-childNum,
-        // childStock:stock-val
+        childStock:stock-v.adultStock,
       }
     })
+    setAdultNum(val)
+   
   }
  
   const setChildrenValue = (val) => {
@@ -59,8 +67,7 @@ const StepperCard: FC<StepType> = ({selectTime:{pointsDeduction,stock}, priceSet
     setStockdata((v)=>{
       return {
         ...v,
-        // adultStock:stock-val,
-        childStock:stock-adultNum
+        adultStock:stock-v.childStock,
       }
     })
   }
@@ -73,9 +80,9 @@ const StepperCard: FC<StepType> = ({selectTime:{pointsDeduction,stock}, priceSet
   }
   //处理用户输入位数过多导致总价显示变形
 const beforeChangeValue = (val)=>{
-  if (val>999999) {
-    return false
-  }
+  // if (val>stock) {
+  //   return false
+  // }
   return true
 }
   useEffect(() => {
@@ -99,11 +106,10 @@ const beforeChangeValue = (val)=>{
                 <Stepper
                   value={adultNum}
                   min="1"
-                  max={stockdata.adultStock}
+                  max={stock-childNum}
                   integer={true}
                   inputWidth="9.6vw"
                   buttonSize="5.6vw"
-                  beforeChange={(val)=>beforeChangeValue(val)}
                   onChange={(val) => setGrownNumValue(val)}
                 />
               </ConfigProvider>
@@ -118,11 +124,10 @@ const beforeChangeValue = (val)=>{
                 <Stepper
                   value={childNum}
                   min="0"
-                  max={stockdata.childStock}
+                  max={stock-adultNum}
                   integer={true}
                   inputWidth="9.6vw"
                   buttonSize="5.6vw"
-                  beforeChange={(val)=>beforeChangeValue(val)}
                   onChange={(val) => setChildrenValue(val)}
                 />
               </ConfigProvider>
