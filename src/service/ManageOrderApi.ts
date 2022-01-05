@@ -9,7 +9,7 @@ export class ManageOrder {
    * 查询订单列表
    */
   static list(params): Promise<AxiosResponse<any>> {
-    return axios.get('/api/b/orders', {
+    return axios.get('/api/multi/orders', {
       params,
     })
   }
@@ -17,13 +17,13 @@ export class ManageOrder {
    * 查询订单详情
    */
   static detail(params): Promise<AxiosResponse<any>> {
-    return axios.get(`/api/b/orders/${params.id}/details`)
+    return axios.get(`/api/multi/orders/${params.id}/details`)
   }
   /**
    * 搜索订单
    */
   static search(params): Promise<AxiosResponse<any>> {
-    return axios.get(`/api/b/orders/searching`, {
+    return axios.get(`/api/multi/orders/searching`, {
       params,
     })
   }
