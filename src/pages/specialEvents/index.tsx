@@ -30,18 +30,19 @@ const SpecialEventsPage: React.FC = () => {
     SpecialEventsApi.detail({
       id:id
     }).then((res:any)=>{
-       const {code,data:{activityDetailImg,goodsList}} = res;
+       const {code,msg,data} = res;
         console.log('res :>> ', res);
-        if (code === "200") {
+        if (code === "200"&&data) {
+          const {activityDetailImg,goodsList} = data;
           setspecialDetail({
             activityDetailImg: activityDetailImg,
           })
           setspecialGoodsList(goodsList)
         }else{
-          Toast("接口异常")
+          Toast(msg?msg:"接口异常")
         }
     }).catch((err)=>{
-      Toast("服务异常")
+      Toast(err.msg)
       console.log('res :>> ', err);
     })
   }, [id])
