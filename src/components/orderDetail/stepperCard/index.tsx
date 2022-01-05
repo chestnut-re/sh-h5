@@ -56,19 +56,21 @@ const StepperCard: FC<StepType> = (props) => {
     console.log('val :>> ', e)
     let inputVal = e.target.value
     if (type == 1) {
-      if (inputVal > stock) {
-        inputVal = stock
-        setAdultNum(stock)
-        Toast(`最多只能买${stock}件`)
+      const aduStock = stock-childNum;
+      if (inputVal > aduStock) {
+        inputVal = aduStock
+        setAdultNum(aduStock)
+        Toast(`最多只能买${aduStock}件`)
       } else if (inputVal <= 0) {
         inputVal = 1
         setAdultNum(1)
       }
     } else if (type == 2) {
-      if (inputVal > stock) {
-        inputVal = stock
-        setChildrenVal(stock)
-        Toast(`最多只能买${stock}件`)
+      const chilStock = stock-adultNum;
+      if (inputVal > chilStock) {
+        inputVal = chilStock
+        setChildrenVal(chilStock)
+        Toast(`最多只能买${chilStock}件`)
       } else if (inputVal < 0) {
         inputVal = 0
         setChildrenVal(0)
@@ -102,7 +104,6 @@ const beforeChangeValue = (val)=>{
     return false
   }
   return true
-  console.log('val :>> ', val);
 }
   useEffect(() => {
     props.handleStepper({
@@ -125,7 +126,7 @@ const beforeChangeValue = (val)=>{
                 <Stepper
                   value={adultNum}
                   min="1"
-                  max={stepselectTime?.stock}
+                  max={stepselectTime?.stock-childNum}
                   integer={true}
                   inputWidth="9.6vw"
                   buttonSize="5.6vw"
@@ -145,7 +146,7 @@ const beforeChangeValue = (val)=>{
                 <Stepper
                   value={childNum}
                   min="0"
-                  max={stepselectTime?.stock}
+                  max={stepselectTime?.stock-adultNum}
                   integer={true}
                   inputWidth="9.6vw"
                   buttonSize="5.6vw"
