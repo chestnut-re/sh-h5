@@ -5,7 +5,7 @@ import { useDebouncedEffect } from '@/hooks/useDebouncedEffect'
 import tip from '@/assets/img/capital/desc.png'
 import jump from '@/assets/img/capital/jump.png'
 import tips from '@/assets/img/capital/tips.png'
-import close from '@/assets/img/successMove/close.png'
+import close from '@/assets/img/capital/close.png'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
 import { AccountInfoApi } from '@/service/AccountInfo'
@@ -92,15 +92,13 @@ const UserCapitalPage: React.FC = () => {
           {/* <img className="pic" src={tips} alt="" /> */}
         </div>
       </div>
-      {/* <div className="btn">
-        <button className="btn" onClick={() => setVisible(true)}>
-          提现
-        </button>
-      </div> */}
-      {/* <div className="footer">
+      <div className="btn" onClick={() => setVisible(true)}>
+        提现
+      </div>
+      <div className="footer">
         <div onClick={toMoneyRecord}>提现记录</div>
         <img className="pic" src={jump} alt="" />
-      </div> */}
+      </div>
       <Dialog visible={show} showConfirmButton={false}>
         <div className="dialog">
           <div className="text">
@@ -108,11 +106,9 @@ const UserCapitalPage: React.FC = () => {
             <div>提现金额</div>
             <div></div>
           </div>
-          <div className="money">¥100.90</div>
-          <div>
-            <button className="btn" onClick={() => wthdrawal(3)}>
-              确认提现
-            </button>
+          <div className="money">¥{value}</div>
+          <div className="btn" onClick={() => wthdrawal(3)}>
+            确认提现
           </div>
         </div>
       </Dialog>
@@ -125,17 +121,19 @@ const UserCapitalPage: React.FC = () => {
               {/* <input value={value} type="" /> */}
               <div className="input">{value}</div>
             </div>
-            <div>可提现金额xxxx元</div>
+            <div>可提现金额{(accountInfo['available'] / 100).toFixed(2)}元</div>
           </div>
-          <NumberKeyboard
-            theme="custom"
-            extraKey="."
-            closeButtonText="提现"
-            visible={true}
-            value={value}
-            onChange={setValue}
-            onClose={openDialog}
-          />
+          <div className={value.length > 0 ? 'numberKey_yes' : 'numberKey_no'}>
+            <NumberKeyboard
+              theme="custom"
+              extraKey="."
+              closeButtonText="提现"
+              visible={true}
+              value={value}
+              onChange={setValue}
+              onClose={openDialog}
+            />
+          </div>
         </div>
       </ActionSheet>
     </div>

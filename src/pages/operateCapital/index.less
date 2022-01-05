@@ -66,9 +66,9 @@
     font-size: 32px;
     font-weight: 400;
     line-height: 44px;
-    button {
+    div {
       color: #fff;
-      background: #32d0c6;
+      background: linear-gradient(90deg, #7193f4, #9fb8fe);
       padding: 18px 78px;
       border: 0;
       border-radius: 50px;
@@ -77,9 +77,9 @@
       line-height: 44px;
     }
     .out {
-      background: #f2fffe;
-      color: #32d0c6;
-      border: 2px solid #32d0c6;
+      background: #fafcff;
+      color: #7193f4;
+      border: 2px solid #d5defb;
       margin-right: 82px;
     }
   }
@@ -126,7 +126,7 @@
         font-weight: 400;
         color: #fff;
         line-height: 40px;
-        background: #32d0c6;
+        background: #7193f4;
         border: 0;
         border-radius: 40px;
         padding: 14px 82px;
@@ -136,33 +136,34 @@
 }
 .rv-action-sheet__content {
   .number-dialog {
-    height: 1100px;
+    height: 986px;
     .box {
       padding: 36px 48px;
       div:first-child {
         font-size: 28px;
         font-weight: 400;
         color: #333;
-        line-height: 40px;
-        padding-bottom: 40px;
       }
       .input-num {
         display: flex;
-        padding-bottom: 10px;
         border-bottom: 2px solid #f1f1f1;
+        margin-top: 42px;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+
+        align-items: flex-end;
         div {
           font-size: 44px;
           font-weight: 600;
           color: #333;
-          line-height: 60px;
           padding-right: 20px;
-          padding-top: 16px;
         }
         .input {
           font-size: 88px;
           font-weight: 600;
           color: #333;
-          line-height: 124px;
+          line-height: 116px;
+          height: 90px;
         }
       }
       div:last-child {
@@ -170,12 +171,18 @@
         font-weight: 400;
         text-align: left;
         color: #999;
-        line-height: 34px;
-        padding-top: 22px;
       }
     }
   }
-  .rv-key--blue {
-    background-color: #32d0c6;
+  .numberKey_yes {
+    .rv-key--blue {
+      background-color: #7193f4;
+    }
+  }
+  .numberKey_no {
+    .rv-key--blue {
+      background-color: #d5defb;
+      color: rgba(255, 255, 255, 0.7);
+    }
   }
 }

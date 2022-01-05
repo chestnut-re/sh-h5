@@ -70,19 +70,20 @@
     }
   }
   .btn {
-    padding-top: 70px;
     display: flex;
     justify-content: center;
-    button {
-      color: #fff;
-      background: #32d0c6;
-      padding: 18px 176px;
-      border: 0;
-      border-radius: 50px;
-      font-size: 32px;
-      font-weight: 400;
-      line-height: 44px;
-    }
+    width: 400px;
+    height: 80px;
+    border-radius: 40px;
+    color: #fff;
+    background: linear-gradient(90deg, #7193f4, #9fb8fe);
+    border: 0;
+    border-radius: 50px;
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 80px;
+    margin: 0 auto;
+    margin-top: 80px;
   }
   .footer {
     position: absolute;
@@ -100,8 +101,7 @@
       padding-right: 12px;
     }
     .pic {
-      width: 14px;
-      height: 26px;
+      width: 8px;
     }
   }
 }
@@ -134,48 +134,50 @@
     div:last-child {
       display: flex;
       justify-content: center;
-      .btn {
-        font-size: 28px;
-        font-weight: 400;
-        color: #fff;
-        line-height: 40px;
-        background: #32d0c6;
-        border: 0;
-        border-radius: 40px;
-        padding: 14px 64px;
-      }
+    }
+    .btn {
+      width: 220px;
+      height: 68px;
+      background: linear-gradient(90deg, #7193f4, #9fb8fe);
+      border-radius: 40px;
+      color: #ffffff;
+      font-size: 28px;
+      line-height: 68px;
+      text-align: center;
+      margin: 0 auto;
     }
   }
 }
 .rv-action-sheet__content {
   .number-dialog {
-    height: 1100px;
+    height: 986px;
     .box {
       padding: 36px 48px;
       div:first-child {
         font-size: 28px;
         font-weight: 400;
         color: #333;
-        line-height: 40px;
-        padding-bottom: 40px;
       }
       .input-num {
         display: flex;
-        padding-bottom: 10px;
         border-bottom: 2px solid #f1f1f1;
+        margin-top: 42px;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+
+        align-items: flex-end;
         div {
           font-size: 44px;
           font-weight: 600;
           color: #333;
-          line-height: 60px;
           padding-right: 20px;
-          padding-top: 16px;
         }
         .input {
           font-size: 88px;
           font-weight: 600;
           color: #333;
-          line-height: 124px;
+          line-height: 116px;
+          height: 90px;
         }
       }
       div:last-child {
@@ -183,12 +185,18 @@
         font-weight: 400;
         text-align: left;
         color: #999;
-        line-height: 34px;
-        padding-top: 22px;
       }
     }
   }
-  .rv-key--blue {
-    background-color: #32d0c6;
+  .numberKey_yes {
+    .rv-key--blue {
+      background-color: #7193f4;
+    }
+  }
+  .numberKey_no {
+    .rv-key--blue {
+      background-color: #d5defb;
+      color: rgba(255, 255, 255, 0.7);
+    }
   }
 }

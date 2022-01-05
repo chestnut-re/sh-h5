@@ -80,18 +80,18 @@ const OperateCapitalPage: React.FC = () => {
           <span>¥</span>
           <span className="num">&nbsp;{(accountInfo['funds'] / 100).toFixed(2)}</span>
         </div>
-        {/* <div className="three">
+        <div className="three">
           <div>使用中&nbsp;&nbsp;激励金额 ¥{accountInfo['funds']}</div>
-        </div> */}
+        </div>
       </div>
-      {/* <div className="btn">
-        <button className="out" onClick={() => selectName('out')}>
+      <div className="btn">
+        <div className="out" onClick={() => selectName('out')}>
           转出
-        </button>
-        <button className="in" onClick={() => selectName('in')}>
+        </div>
+        <div className="in" onClick={() => selectName('in')}>
           转入
-        </button>
-      </div> */}
+        </div>
+      </div>
       <Dialog visible={show} showConfirmButton={false}>
         <div className="dialog">
           <div className="text">
