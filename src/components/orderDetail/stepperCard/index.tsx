@@ -35,9 +35,10 @@ const StepperCard: FC<StepType> = ({
   //积分使用量
   const [inteNum, setInteNum] = useState(0)
   //库存数量
-  const [stockNum, setstockNum] = useState(stock)
+  const [stockNum, setstockNum] = useState(2)
 
   useEffect(()=>{
+    console.log('obje库存改变ct :>> ', stock);
     setstockNum(stock)
   },[stock])
   
