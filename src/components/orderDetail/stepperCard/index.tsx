@@ -34,7 +34,12 @@ const StepperCard: FC<StepType> = ({
   const [childNum, setChildrenVal] = useState(0)
   //积分使用量
   const [inteNum, setInteNum] = useState(0)
+  //库存数量
+  const [stockNum, setstockNum] = useState(stock)
 
+  useEffect(()=>{
+    setstockNum(stock)
+  },[stock])
   
 
   //手动输入失去焦点判断当前值是否大于库存 大于库存设置为最大值
@@ -42,14 +47,14 @@ const StepperCard: FC<StepType> = ({
     console.log('val :>> ', e)
     let inputVal = e.target.value
     if (type == 1) {
-      const MacStockNum = stock - childNum
+      const MacStockNum = stockNum - childNum
       if (inputVal > MacStockNum) {
         inputVal = MacStockNum
         setAdultNum(MacStockNum)
         Toast(`最多只能买${MacStockNum}件`)
       }
     } else if (type == 2) {
-      const MacStockNum = stock - adultNum
+      const MacStockNum = stockNum - adultNum
       if (inputVal > MacStockNum) {
         inputVal = MacStockNum
         setChildrenVal(MacStockNum)
@@ -66,7 +71,7 @@ const StepperCard: FC<StepType> = ({
   }
 
   const setGrownNumValue = (val) => {
-    const AduStock = stock - childNum;
+    const AduStock = stockNum - childNum;
     if (AduStock - val <= 0) {
       Toast(`预定总数最多${AduStock}份`)
       setAdultNum(AduStock)
@@ -76,7 +81,7 @@ const StepperCard: FC<StepType> = ({
   }
 
   const setChildrenValue = (val) => {
-    const ChildAduStock = stock - adultNum;
+    const ChildAduStock = stockNum - adultNum;
     if (ChildAduStock - val <= 0) {
       Toast(`预定总数最多${ChildAduStock}份`)
       setChildrenVal(ChildAduStock)
@@ -93,9 +98,9 @@ const StepperCard: FC<StepType> = ({
   }
   //处理用户输入位数过多导致总价显示变形
   const beforeChangeValue = (val) => {
-    // if (val>stock) {
-    //   return false
-    // }
+    if (val>stockNum) {
+      return false
+    }
     return true
   }
   useEffect(() => {
@@ -119,7 +124,7 @@ const StepperCard: FC<StepType> = ({
                 <Stepper
                   value={adultNum}
                   min="1"
-                  max={stock-childNum}
+                  max={stockNum-childNum}
                   integer={true}
                   inputWidth="9.6vw"
                   buttonSize="5.6vw"
@@ -139,7 +144,7 @@ const StepperCard: FC<StepType> = ({
                 <Stepper
                   value={childNum}
                   min="0"
-                  max={stock-adultNum}
+                  max={stockNum-adultNum}
                   integer={true}
                   inputWidth="9.6vw"
                   buttonSize="5.6vw"

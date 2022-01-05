@@ -40,7 +40,7 @@ const ManageDetailItem: FC<ManageProps> = (props) => {
       const restTime = (dayjs().unix() - dayjs(orderTime).unix()) * 1000
       setCountdownTime(COUNT_DOWN - restTime)
     }
-  }, [state])
+  }, [state,orderTime])
   return (
     <div className="mdetail-item">
       <div className="mdetail-item-goods">
