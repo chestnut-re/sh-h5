@@ -47,6 +47,7 @@ const StepperCard: FC<StepType> = ({selectTime:{pointsDeduction,stock}, priceSet
       adultStock:stock-childNum,
       childStock:stock-adultNum,
     })
+    console.log('object :>> 可选改变');
   },[stock,childNum,adultNum])
 
   const setGrownNumValue = (val) => {
