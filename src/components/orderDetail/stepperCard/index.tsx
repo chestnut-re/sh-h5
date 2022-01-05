@@ -31,32 +31,38 @@ const StepperCard: FC<StepType> = ({selectTime:{pointsDeduction,stock}, priceSet
 
   //库存数量adultStock成人可选库存量 childStock：儿童可选库存量
   const [stockdata,setStockdata] = useState({
-    adultStock:0,
-    childStock:0,
+    adultStock:2,
+    childStock:2,
   })
   
-  useEffect(()=>{
-    setStockdata({
-      adultStock:stock,
-      childStock:stock,
-    })
-  },[stock])
-
   useEffect(()=>{
     setStockdata({
       adultStock:stock-childNum,
       childStock:stock-adultNum,
     })
-    console.log('object :>> 可选改变');
   },[stock,childNum,adultNum])
 
   const setGrownNumValue = (val) => {
     setAdultNum(val)
+    setStockdata((v)=>{
+      return {
+        ...v,
+        adultStock:stock-childNum,
+        // childStock:stock-val
+      }
+    })
   }
  
   const setChildrenValue = (val) => {
     console.log('val :>> ', val)
     setChildrenVal(val)
+    setStockdata((v)=>{
+      return {
+        ...v,
+        // adultStock:stock-val,
+        childStock:stock-adultNum
+      }
+    })
   }
   const setIntegralNumValue = (val) => {
     console.log('val :>> ', val)
