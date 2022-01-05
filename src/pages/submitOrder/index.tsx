@@ -29,7 +29,6 @@ const RMB_CON = 100
 
 const SubmitOrderPage: FC = () => {
   let UseToast;
-  const pageVisibility = hooks.usePageVisibility();
   const { search } = useLocation()
   const { id,source } = qs.parse(search.slice(1))
   //提交数据
@@ -70,9 +69,8 @@ const SubmitOrderPage: FC = () => {
 
   //协议是否勾选
   const [isProtocol, setIsProtocol] = useState(false)
-  useEffect(() => {
-    console.log('page visibility页面状态 ', pageVisibility);
-  }, [pageVisibility]);
+
+  const [tokenAmountNum,setTokenAmountNum] = useState(0);
 
   const [showPrivilege, setShowPrivilege] = useState(false)
   const [submitinfo, setSubmitinfo] = useState({
@@ -86,7 +84,6 @@ const SubmitOrderPage: FC = () => {
     travelMode: 0, //0是固定时间出行，1是约定时间出行
     tokenAmountNum: 0, //金豆数
     deductionNum: 0, //当前可用数量
-    canDeductionNum: 0, //当前可用金豆抵扣数量
   })
 
   const [stepperData, setStepperData] = useState({
@@ -195,12 +192,7 @@ const SubmitOrderPage: FC = () => {
         //判断是否开启积分抵扣开启0 不开启1
         if (isDeduction === 0) {
           getIntegralApi().then((amountNum) => {
-            setSubmitinfo((v) => {
-              return {
-                ...v,
-                tokenAmountNum: amountNum,
-              }
-            })
+            setTokenAmountNum(amountNum)
           })
         }
 
@@ -398,6 +390,7 @@ const SubmitOrderPage: FC = () => {
               submitinfo={submitinfo}
               priceSet={priceSet}
               selectTime={selectTime}
+              tokenAmountNum={tokenAmountNum}
               handleStepper={handlechangeStepper}
               handleDiscounts={handleDiscountsInfo}
             />
