@@ -139,20 +139,17 @@ const StepperCard: FC<StepType> = ({
               成人<span className="name-subtitle">X{adultNum}</span>
             </div>
             <div className="step-content">
-              <ConfigProvider themeVars={themeVars}>
-                {isBlur&&<Stepper
+            {isBlur&&<Stepper
                   value={adultNum}
                   min="1"
                   max={stockNum-childNum}
                   integer={true}
-                  disablePlus={stockNum-childNum<=0?true:false}
                   inputWidth="9.6vw"
                   buttonSize="5.6vw"
                   beforeChange={(val) => beforeChangeValue(val)}
                   onChange={(val) => setGrownNumValue(val)}
                   onBlur={setSdultNumNumBlur}
                 />}
-              </ConfigProvider>
             </div>
           </li>
           <li className="step-boxli">
@@ -160,20 +157,17 @@ const StepperCard: FC<StepType> = ({
               儿童<span className="name-subtitle">X{childNum}</span>
             </div>
             <div className="step-content">
-              <ConfigProvider themeVars={themeVars}>
-                {isBlur&&<Stepper
+            {isBlur&&<Stepper
                   value={childNum}
                   min="0"
                   max={stockNum-adultNum}
                   integer={true}
                   inputWidth="9.6vw"
                   buttonSize="5.6vw"
-                  disablePlus={stockNum-adultNum<=0?true:false}
                   beforeChange={(val) => beforeChangeValue(val)}
                   onChange={(val) => setChildrenValue(val)}
                   onBlur={setChildNumNumBlur}
                 />}
-              </ConfigProvider>
             </div>
           </li>
           {pointsDeduction && tokenAmountNum > 0 ? (
