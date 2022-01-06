@@ -44,7 +44,7 @@ const StepperCard: FC<StepType> = ({
   
 
   //手动输入失去焦点判断当前值是否大于库存 大于库存设置为最大值
-  const setSdultNumNumBlur = (e, type) => {
+  const setSdultNumNumBlur = (e) => {
     console.log('val :>> ', e)
     const inputVal = e.target.value
     const MacStockNum = stockNum - childNum
@@ -55,7 +55,7 @@ const StepperCard: FC<StepType> = ({
           e.target.value = MacStockNum
           return MacStockNum
         })
-        Toast(`最多只能买${MacStockNum}件`)
+        Toast(`最多只能买${MacStockNum}份`)
       }
   }
   const setChildNumNumBlur = (e) => {
@@ -68,7 +68,7 @@ const StepperCard: FC<StepType> = ({
           e.target.value = MacStockNum
           return MacStockNum
         })
-        Toast(`最多只能买${MacStockNum}件`)
+        Toast(`最多只能买${MacStockNum}份`)
       }
   }
 
@@ -76,7 +76,7 @@ const StepperCard: FC<StepType> = ({
   const setGrownNumValue = (val) => {
     const AduStock = stockNum - childNum;
     if (AduStock - val <= 0) {
-      Toast(`预定总数最多${AduStock}份`)
+      // Toast(`预定总数最多${AduStock}份`)
       setAdultNum(AduStock)
     } else {
       setAdultNum(val)
@@ -86,7 +86,7 @@ const StepperCard: FC<StepType> = ({
   const setChildrenValue = (val) => {
     const ChildAduStock = stockNum - adultNum;
     if (ChildAduStock - val <= 0) {
-      Toast(`预定总数最多${ChildAduStock}份`)
+      // Toast(`预定总数最多${ChildAduStock}份`)
       setChildrenVal(ChildAduStock)
     } else {
       setChildrenVal(val)
@@ -133,7 +133,7 @@ const StepperCard: FC<StepType> = ({
                   buttonSize="5.6vw"
                   beforeChange={(val) => beforeChangeValue(val)}
                   onChange={(val) => setGrownNumValue(val)}
-                  onBlur={(val) => setSdultNumNumBlur}
+                  onBlur={setSdultNumNumBlur}
                 />
               </ConfigProvider>
             </div>
@@ -153,7 +153,7 @@ const StepperCard: FC<StepType> = ({
                   buttonSize="5.6vw"
                   beforeChange={(val) => beforeChangeValue(val)}
                   onChange={(val) => setChildrenValue(val)}
-                  onBlur={(val) => setChildNumNumBlur}
+                  onBlur={setChildNumNumBlur}
                 />
               </ConfigProvider>
             </div>
