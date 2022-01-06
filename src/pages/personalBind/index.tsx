@@ -5,11 +5,11 @@ import { Personal } from '@/service/Personal'
 import inactiveIcon from '@/assets/img/inactive_Icon@3x.png'
 import activeIcon from '@/assets/img/active_Icon@3x.png'
 import { areaList } from '@vant/area-data'
-import addIcon from '@/assets/img/add_icon@3x.png'
-import { getUrlParams, generateUrl } from '@/utils'
+import { getUrlParams, generateUrl, isStrNull } from '@/utils'
 import { SHBridge } from '@/jsbridge'
-
 import UserProtocolItem from '@/components/personal/userProtocolItem'
+import OptionalInfo from '@/components/personalDetails/optionalInfo'
+
 import './index.less'
 
 /**
@@ -33,23 +33,20 @@ const actionsCertificate = [
 ]
 
 const PersonalBindPage: FC = (props) => {
-  const [showPicker, setShowPicker] = useState(false)
-  const [showPickerId, setShowPickerId] = useState()
 
   const [travelerList, setTravelerList] = useState([])
   const [showPopup, setShowPopup] = useState(false);
   const [subordersList, setSubordersList] = useState([])
   const [travelerCertificateDtoList, setTravelerCertificateDtoList] = useState([])
-  const [newKey, setNewKey] = useState(1)
 
-  const [timeIndex, setTimeIndex] = useState(0)
   const [addrIndex, setAddrIndex] = useState(0)
 
   const [selectedTraveler, setSelectedTraveler] = useState([])
-  const [errorMessage, setErrorMessage] = useState([])
+  const [errorMessage, setErrorMessage] = useState([] as any)
 
   const [selectProtocol, setSelectProtocol] = useState(false)
-
+  // useRef 初始化为数组
+  const childRefs = useRef<any>([]);
   const [state, set] = hooks.useSetState({
     visible: false,
   })
@@ -76,7 +73,6 @@ const PersonalBindPage: FC = (props) => {
       suborderId: id,
       updateTime: "",
       validity: "",
-      addrMsg: '',
       type: type
     }
     return travelerObj
@@ -91,6 +87,7 @@ const PersonalBindPage: FC = (props) => {
       emerNameMsg: '',
       certificateNoMsg: '',
       addrMsg: '',
+      addressMsg: '',
       index: id
     }
     return errorObj
@@ -101,64 +98,87 @@ const PersonalBindPage: FC = (props) => {
 
   const rules = () => {
     const newErrorMessage = [...errorMessage]
-    const nameReg = /^[\u4E00-\u9FA5]{2,4}$/
-    const phoneReg = /(^1[3|4|5|7|8|9]\d{9}$)|(^09\d{8}$)/
     subordersList.map((item, index) => {
-      const nameTxt = nameReg.test(item['travelerName'])
-      const phoneTxt = phoneReg.test(item['travelerPhoneNumber'])
-      const emerNameTxt = nameReg.test(item['emerName'])
-      const emerPhoneTxt = phoneReg.test(item['emerPhoneNumber'])
-      const habitualResidencetext = item['habitualResidence']
-      const travelerCertificateObj = travelerCertificateDtoList[index][0]
-      const certificateNoText = travelerCertificateObj['certificateNo']
-      const validityText = travelerCertificateObj['validity']
-      if (!item.selectedTraveler) {
-        if (!nameTxt) {
-          newErrorMessage[index].nameMsg = item['travelerName'] == '' ? '请输入姓名' : '请输入正确的证件姓名'
-        } else {
-          newErrorMessage[index].nameMsg = ''
-        }
+      const newErrorObj = newErrorMessage[index] as any
+      if (!item['selectedTraveler']) {
+        newErrorObj['nameMsg'] = travelerNameRules(item['travelerName'])
+        newErrorObj['phoneMsg'] = travelerPhoneRules(item['travelerPhoneNumber'])
 
-        if (!phoneTxt) {
-          newErrorMessage[index].phoneMsg = item['phoneNumber'] == '' ? '请输入手机号码' : '请输入正确的手机号'
-        } else {
-          newErrorMessage[index].phoneMsg = ''
-        }
+        newErrorObj['emerNameMsg'] = travelerNameRules(item['emerName'])
+        newErrorObj['emerPhoneMsg'] = travelerPhoneRules(item['emerPhoneNumber'])
+        newErrorObj['addrMsg'] = noEmptyRules(item['habitualResidence'])
+        newErrorObj['addressMsg'] = noEmptyRules(item['address'])
 
-        if (!emerNameTxt) {
-          newErrorMessage[index].emerNameMsg = item['emerName'] == '' ? '请输入紧急联系人' : '请输入正确联系人姓名'
-        } else {
-          newErrorMessage[index].emerNameMsg = ''
-        }
-
-        if (!emerPhoneTxt) {
-          newErrorMessage[index].emerPhoneMsg = item['emerPhoneNumber'] == '' ? '请输入紧急联系人手机号码' : '请输入正确的手机号'
-        } else {
-          newErrorMessage[index].emerPhoneMsg = ''
-        }
-        if (item['travelerType'] == 1) {
-          if (certificateNoText == '') {
-            newErrorMessage[index].certificateNoMsg = '请输入证件号'
-          } else {
-            newErrorMessage[index].certificateNoMsg = ''
-          }
-          if (validityText == '') {
-            newErrorMessage[index].validityMsg = '请输入证件过期日期'
-          } else {
-            newErrorMessage[index].validityMsg = ''
-          }
-        }
-        if (habitualResidencetext) {
-          newErrorMessage[index].addrMsg = ''
-        } else {
-          newErrorMessage[index].addrMsg = '请输入用户常住地址'
-        }
       } else {
         newErrorMessage[index] = {}
       }
     })
     setErrorMessage(newErrorMessage)
     return judgeListComplete(newErrorMessage)
+  }
+
+  const noEmptyRules = (val, msg = '该字段不能为空') => {
+    let errMsg = ''
+    if (isStrNull(val)) {
+      errMsg = msg
+    } else {
+      errMsg = ''
+    }
+    return errMsg
+  }
+
+  const travelerNameRules = (val) => {
+    let errMsg = ''
+    const nameReg = /^[\u4E00-\u9FA5]{2,20}$/
+    const nameTxt = nameReg.test(val)
+    if (!nameTxt) {
+      errMsg = '请输入正确的证件姓名'
+    } else {
+      errMsg = ''
+    }
+    return errMsg
+  }
+
+  const travelerPhoneRules = (val) => {
+    let errMsg = ''
+    const phoneReg = /(^1[3|4|5|7|8|9]\d{9}$)|(^09\d{8}$)/
+    const phoneTxt = phoneReg.test(val)
+    if (!phoneTxt) {
+      errMsg = '请输入正确的手机号'
+    } else {
+      errMsg = ''
+    }
+    return errMsg
+  }
+
+
+  const travelerRules = (index, val) => {
+    const newErrorMessage = [...errorMessage]
+    const subordersObj = subordersList[index]
+    const newErrorObj = newErrorMessage[index] as any
+    switch (val) {
+      case 'travelerName':
+        newErrorObj['nameMsg'] = travelerNameRules(subordersObj['travelerName'])
+        break;
+      case 'travelerPhone':
+        newErrorObj['phoneMsg'] = travelerPhoneRules(subordersObj['travelerPhoneNumber'])
+        break;
+      case 'addr':
+        newErrorObj['addrMsg'] = noEmptyRules(subordersObj['habitualResidence'])
+        break;
+      case 'address':
+        newErrorObj['addressMsg'] = noEmptyRules(subordersObj['address'])
+        break;
+      case 'emerName':
+        newErrorObj['emerNameMsg'] = travelerNameRules(subordersObj['emerName'])
+        break;
+      case 'emerPhone':
+        newErrorObj['emerPhoneMsg'] = travelerPhoneRules(subordersObj['emerPhoneNumber'])
+        break;
+      default:
+        console.log('不符合条件');
+    }
+    setErrorMessage(newErrorMessage)
   }
 
   const judgeObjectComplete = (ObjectValue) => {
@@ -352,27 +372,31 @@ const PersonalBindPage: FC = (props) => {
     setSubordersList(newSubordersList)
   }
 
+  /**
+   * 紧急联系人详细地址
+   * @returns 
+   */
+
+  const onTravelerAddress = (val, i) => {
+    const newSubordersList = [...subordersList]
+    newSubordersList[i].address = val
+    setSubordersList(newSubordersList)
+  }
+
   const onSubmit = () => {
-    if (rules()) {
+    const isRulesPass = getCertificateRules()
+    if (rules() && isRulesPass) {
       if (!selectProtocol) {
         Toast({
           message: '请先勾选同意后才可提交',
         })
         return
       }
-      const certificate = []
-      travelerCertificateDtoList.map((item, i) => {
-        item.map((itemj, j) => {
-          if (itemj.certificateNo != '') {
-            certificate.push(itemj)
-          }
-        })
-      })
+
       const postData = {
         suborderDtoList: [...subordersList],
-        travelerCertificateDtoList: [...certificate]
+        travelerCertificateDtoList: [...travelerCertificateList()]
       }
-      console.log(postData)
       Personal.addPedestrianInfo(postData).then(res => {
         console.log('paramsparams', res)
 
@@ -394,82 +418,53 @@ const PersonalBindPage: FC = (props) => {
       })
     }
   }
+  /**
+   * 获取证件信息列表
+   * @returns list
+   */
+  const travelerCertificateList = () => {
+    const certificate = [] as any
+    childRefs.current && childRefs.current.forEach((childRef: any) => {
+      childRef.infolist.map((itemj, j) => {
+        if (itemj.certificateNo != '') {
+          certificate.push(itemj)
+        }
+      })
+    });
+    return certificate
+  }
+  /**
+   * 验证证件组件
+   * @returns true
+   */
+  const getCertificateRules = () => {
+    const certificateRules = [] as any
+    childRefs.current && childRefs.current.forEach((childRef: any, index) => {
+      const travelerItem = subordersList[index] as any
+      if (travelerItem.selectedTraveler) {
+        certificateRules.push(true)
+      } else {
+        certificateRules.push(childRef.rulesPass())
+      }
+    });
+
+    const isPass = certificateRules.every((item) => {
+      return item == true
+    })
+    return isPass
+  }
 
   const getActionsText = (type) => {
     const item = actions[type]
     if (!type && type != 0) return '身份关系'
     return item.text
   }
-  /**
-   * 添加多个证件信息
-   * @param val 
-   * @param type 
-   */
-
-  const addOptionalInfo = (index) => {
-    setNewKey(newKey + 1)
-    const activeKey = `new${newKey}`
-    const newObj = [...travelerCertificateDtoList]
-    newObj[index].push(initialTravelerInfo(subordersList[index].id, activeKey))
-    setTravelerCertificateDtoList(newObj)
-  }
-
-  const onSelect = (value, type, index) => {
-    const newObj = [...travelerCertificateDtoList]
-
-    newObj[index].map((item, i) => {
-      if (item.type == type) {
-        item['certificateType'] = value.text == '身份证' ? 1 : 2
-      }
-    })
-    setTravelerCertificateDtoList(newObj)
-  }
-  /**
-   * 证件过期时间
-   */
-  const onTimeChange = (val) => {
-    const d = new Date(val)
-    const datetime =
-      d.getFullYear() +
-      '-' +
-      (d.getMonth() + 1) +
-      '-' +
-      d.getDate() +
-      ' ' +
-      d.getHours() +
-      ':' +
-      d.getMinutes() +
-      ':' +
-      d.getSeconds()
-    const newObj = [...travelerCertificateDtoList]
-
-    newObj[timeIndex].map((item, i) => {
-      if (item['type'] === showPickerId) {
-        item['validity'] = datetime
-      }
-    })
-    setTravelerCertificateDtoList(newObj)
-  }
-  /**
-   * 证件号码
-   */
-  const onFieldChange = (value, type, index) => {
-
-    const newObj = [...travelerCertificateDtoList]
-
-    newObj[index].map((item, i) => {
-      if (item.type == type) {
-        item['certificateNo'] = value
-      }
-    })
-    setTravelerCertificateDtoList(newObj)
-  }
 
   /**
    * 
    */
   const changeAddrVal = (val) => {
-    const newSubordersList = [...subordersList]
+    const newSubordersList = [...subordersList] as any
     const res = val
       .map((obj) => {
         return obj.name
@@ -481,18 +476,10 @@ const PersonalBindPage: FC = (props) => {
       }
     })
     setSubordersList(newSubordersList)
+    travelerRules(addrIndex, 'addr')
     set({ visible: false })
   }
 
-  const deleteHandelOptional = (i, j) => {
-    const list = travelerCertificateDtoList[i]
-
-    const newInfolist = list.filter((item, index) => {
-      return index != j
-    })
-    travelerCertificateDtoList.splice(i, 1, newInfolist)
-    setTravelerCertificateDtoList([...travelerCertificateDtoList])
-  }
   /**
    * 一键清空
    * @param i
@@ -509,6 +496,7 @@ const PersonalBindPage: FC = (props) => {
         item['emerPhoneNumber'] = ''
         item['emerTravelerRelation'] = null
         item['selectedTraveler'] = false
+        item['address'] = ''
       }
     })
 
@@ -616,7 +604,10 @@ const PersonalBindPage: FC = (props) => {
                             <Field
                               value={item['travelerName']}
                               placeholder="与证件姓名一致"
-                              maxlength={10}
+                              maxlength={20}
+                              onBlur={() => {
+                                travelerRules(index, 'travelerName')
+                              }}
                               errorMessage={errorMessage[index].nameMsg}
                               onChange={(val) => {
                                 onTravelerName(val, index)
@@ -642,6 +633,9 @@ const PersonalBindPage: FC = (props) => {
                           placeholder="常用手机号"
                           maxlength={11}
                           errorMessage={errorMessage[index].phoneMsg}
+                          onBlur={() => {
+                            travelerRules(index, 'travelerPhone')
+                          }}
                           onChange={(val) => {
                             onTravelerPhone(val, index)
                           }}
@@ -670,89 +664,31 @@ const PersonalBindPage: FC = (props) => {
                       <div style={{ paddingTop: 3 }} className="pul-name">详细地址</div>
                       <div className="pul-content">
                         <Field
-                          value={''}
+                          value={item.address}
                           rows={3}
                           type="textarea"
-                          // errorMessage={state.errorMessage['detailAddrMsg']}
+                          errorMessage={errorMessage[index].addressMsg}
                           placeholder="街道、小区、门牌号等"
-                        // onChange={(val) => { }}
+                          onBlur={() => {
+                            travelerRules(index, 'address')
+                          }}
+                          onChange={(val) => {
+                            onTravelerAddress(val, index)
+                          }}
                         />
                       </div>
                     </li>
                     <li className="pch-ul-li-box rv-hairline--bottom">
                       <div className="hairline-top"></div>
-                      <div className="optional-info">
-                        {item['travelerType'] == 0 && <div className="optional-info-text">儿童选填</div>}
-                        {travelerCertificateDtoList[index].map((travelerItem, travelerIndex) => {
-                          return (
-                            <div key={travelerIndex} className="optional-info-content">
-                              <div className="oic-item rv-hairline--bottom">
-                                <div className="oic-item-label oic-item-card">
-                                  <Popover
-                                    onSelect={(vals) => onSelect(vals, travelerItem.type, index)}
-                                    actions={actionsCertificate}
-                                    placement="bottom-start"
-                                    reference={<span>{travelerItem['certificateType'] == 1 ? '身份证' : '护照'}</span>}
-                                  />
-                                </div>
-                                <div className="oic-item-content">
-                                  <Field
-                                    className="oic-input"
-                                    onChange={(val) => onFieldChange(val, travelerItem['type'], index)}
-                                    value={travelerItem['certificateNo'] || ''}
-                                    placeholder="请填写正确的证件号码"
-                                    errorMessage={errorMessage[index].certificateNoMsg}
-                                  />
-                                </div>
-                              </div>
-                              <div className="oic-item rv-hairline--bottom">
-                                <div className="oic-item-label oic-label-c">有效期至</div>
-                                <div className="oic-item-content">
-                                  <Field
-                                    isLink
-                                    readonly
-                                    value={travelerItem['validity'] || ''}
-                                    errorMessage={errorMessage[index].validityMsg}
-                                    onClick={() => {
-                                      setTimeIndex(index)
-                                      setShowPicker(true)
-                                      setShowPickerId(travelerItem['type'])
-                                    }}
-                                    placeholder="请选择"
-                                  />
-                                </div>
-                              </div>
-                              {travelerCertificateDtoList[index].length > 1 && (
-                                <div
-                                  className="optional-info-del"
-                                  onClick={() => {
-                                    deleteHandelOptional(index, travelerIndex)
-                                  }}
-                                ></div>
-                              )}
-                              {travelerCertificateDtoList[index].length > 1 && <div className="oic-line"></div>}
-                            </div>
-                          )
-                        })}
-                        {travelerCertificateDtoList[index].length <= 1 && (
-                          <div>
-                            <div className="optional-add  rv-hairline--top">
-                              <div
-                                className="optional-add-btn"
-                                onClick={() => {
-                                  addOptionalInfo(index)
-                                }}
-                              >
-                                <img className='optional-add-img' src={addIcon} />
-                                <div className='optional-add-txt'>添加其他证件</div>
-                              </div>
-                            </div>
-                            <div className="oic-line"></div>
-                          </div>
-                        )}
-
-
-                      </div>
+                      <OptionalInfo
+                        type={0}
+                        certificate={travelerCertificateDtoList[index]}
+                        ref={(ref) => {
+                          if (ref) {
+                            childRefs.current[index] = ref;
+                          }
+                        }}
+                      />
                     </li>
 
                     <li className="pch-ul-li rv-hairline--bottom">
@@ -763,7 +699,10 @@ const PersonalBindPage: FC = (props) => {
                             <Field
                               value={item['emerName']}
                               placeholder="联系人姓名"
-                              maxlength={10}
+                              maxlength={20}
+                              onBlur={() => {
+                                travelerRules(index, 'emerName')
+                              }}
                               errorMessage={errorMessage[index].emerNameMsg}
                               onChange={(val) => {
                                 onEmerTravelerName(val, index)
@@ -789,6 +728,9 @@ const PersonalBindPage: FC = (props) => {
                           placeholder="紧急联系人手机号"
                           maxlength={11}
                           errorMessage={errorMessage[index].emerPhoneMsg}
+                          onBlur={() => {
+                            travelerRules(index, 'emerPhone')
+                          }}
                           onChange={(val) => {
                             onEmerTravelerPhone(val, index)
                           }}
@@ -825,18 +767,6 @@ const PersonalBindPage: FC = (props) => {
           onConfirm={(result) => {
             changeAddrVal(result)
           }}
-        />
-      </Popup>
-      <Popup visible={showPicker} round position="bottom" onClose={() => setShowPicker(false)}>
-        <DatetimePicker
-          onConfirm={(value) => {
-            onTimeChange(value)
-            setShowPicker(false)
-          }}
-          type="date"
-          minDate={new Date(2021, 11, 21)}
-          maxDate={new Date(2221, 1, 1)}
-          value={new Date()}
         />
       </Popup>
       <Popup

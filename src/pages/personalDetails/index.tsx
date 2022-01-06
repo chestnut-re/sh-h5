@@ -385,7 +385,7 @@ const PersonalDetailPage: FC = (props: any) => {
 
               <li className="pch-ul-li-box rv-hairline--bottom">
                 <div className="hairline-top"></div>
-                <OptionalInfo errorMsg={state.errorMessage} type={submittal.type} certificate={submittal.travelerCertificate} ref={optionalInfoRef} />
+                <OptionalInfo type={submittal.type} certificate={submittal.travelerCertificate} ref={optionalInfoRef} />
               </li>
 
               <li className="pch-ul-li rv-hairline--bottom">

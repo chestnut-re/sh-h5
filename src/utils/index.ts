@@ -31,6 +31,7 @@ export const generateUrl = (path: string): string => {
 
 export const isStrNull = (str: string): boolean => {
   if (str == '') return true
+  if (str == null) return true
   const regu = '^[ ]+$'
   const re = new RegExp(regu)
   return re.test(str)
