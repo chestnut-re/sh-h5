@@ -58,11 +58,12 @@ const StepperCard: FC<StepType> = ({
           return MacStockNum
         })
         Toast(`最多只能买${MacStockNum}份`)
+        setBlur(false)
+          setTimeout(()=>{
+            setBlur(true)
+          },30)
       }
-      setBlur(false)
-      setTimeout(()=>{
-        setBlur(true)
-      },30)
+      
   }
   const setChildNumNumBlur = (e) => {
     console.log('val :>> ', e)
@@ -75,11 +76,12 @@ const StepperCard: FC<StepType> = ({
           return MacStockNum
         })
         Toast(`最多只能买${MacStockNum}份`)
+        setBlur(false)
+        setTimeout(()=>{
+          setBlur(true)
+        },30)
       }
-      setBlur(false)
-      setTimeout(()=>{
-        setBlur(true)
-      },30)
+     
   }
 
 
