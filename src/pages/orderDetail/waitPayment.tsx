@@ -102,14 +102,6 @@ const OrderPaymentPage:FC = (props:any) => {
                     }else{
                       Toast(memo)
                     }
-                    // const {
-                    //   alipay_trade_app_pay_response: { code },
-                    // } = JSON.parse(alires.result)
-                    // console.log('支付成功', code, res)
-                    // if (code == '10000') {
-                    //   toast1 && toast1.clear()
-                    //   paySuccessLink(orderId)
-                    // }
                   })
                   break
                 default:

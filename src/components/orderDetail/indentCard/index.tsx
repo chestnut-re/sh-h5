@@ -55,10 +55,10 @@ const IndentCard: FC<IndentProps> = (props) => {
           <div className="indent-li-left">下单时间</div>
           <div className="indent-li-right">{orderTime}</div>
         </li>
-        <li className="indent-li">
+        {payTime&&<li className="indent-li">
           <div className="indent-li-left">支付时间</div>
           <div className="indent-li-right">{payTime}</div>
-        </li>
+        </li>}
       </ul>
     </div>
   )
