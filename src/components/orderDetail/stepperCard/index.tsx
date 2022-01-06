@@ -99,7 +99,7 @@ const StepperCard: FC<StepType> = ({
   }
   //处理用户输入位数过多导致总价显示变形
   const beforeChangeValue = (val) => {
-    if (val>stockNum) {
+    if (val>99999) {
       return false
     }
     return true
