@@ -7,6 +7,10 @@ interface StepperRuiType {
   value: number
   changeValue: (val) => void
 }
+/**
+ * 步进器
+ * 
+ */
 
 const StepperRuiCard: FC<StepperRuiType> = ({ max = 99, min = 0, changeValue, value }) => {
   const [current, setCurrent] = useState(() => value)
