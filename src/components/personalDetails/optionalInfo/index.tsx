@@ -68,12 +68,15 @@ const OptionalInfo = (props, ref) => {
   const addOptionalInfo = () => {
     setNewKey(newKey + 1)
     const activeKey = `new${newKey}`
-    infolist.push({
-      type: activeKey,
-      certificateNo: '',
-      validity: '',
-      certificateType: '身份证'
-    })
+    const pushInfoObj = {} as any
+    pushInfoObj.type = activeKey
+    pushInfoObj.certificateNo = ''
+    pushInfoObj.validity = ''
+    pushInfoObj.certificateType = '身份证'
+    if (infolist[0] && infolist[0].suborderId) {
+      pushInfoObj.suborderId = infolist[0].suborderId
+    }
+    infolist.push(pushInfoObj)
     errorInfoList.push({
       certificateErrorMsg: '',
       validityErrorMsg: '',
@@ -286,5 +289,3 @@ const OptionalInfo = (props, ref) => {
 
 const WrappedForm = forwardRef(OptionalInfo)
 export default WrappedForm
-
-// export default OptionalInfo

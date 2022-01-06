@@ -154,8 +154,8 @@ const GroupShopPage: FC = () => {
             </div>
           </div>
           <div className="smallshop-main">
-            {goodsList.length>0?(<List errorText="请求失败，点击重新加载" immediateCheck finished={finished} onLoad={onLoadGoodsList}>
-              <ul className="smallshop-main-ul">
+            <List errorText="请求失败，点击重新加载" immediateCheck finishedText="" finished={finished} onLoad={onLoadGoodsList}>
+              {goodsList.length>0?(<ul className="smallshop-main-ul">
                 {goodsList.map((item, index) => {
                   return (
                     <li className="smallshop-main-li" key={index} onClick={()=>{
@@ -165,8 +165,8 @@ const GroupShopPage: FC = () => {
                     </li>
                   )
                 })}
-              </ul>
-            </List>):<Empty className="custom-image" image={emptyIcon} description="暂无数据" />}
+              </ul>):<Empty className="custom-image" image={emptyIcon} description="暂无数据" />}
+            </List>
           </div>
         </>
       ) : (
