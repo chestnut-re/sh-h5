@@ -88,14 +88,28 @@ const OrderPaymentPage:FC = (props:any) => {
                   break
                 case 3:
                   SHBridge.alipay(returnPayInfo, (alires: any) => {
-                    const {
-                      alipay_trade_app_pay_response: { code },
-                    } = JSON.parse(alires.result)
-                    console.log('支付成功', code, res)
-                    if (code == '10000') {
-                      toast1 && toast1.clear()
-                      paySuccessLink(orderId)
+                    console.log('支付宝回调', alires)
+                    const {memo,result,resultStatus} = alires;
+                    if (result||resultStatus=="9000") {
+                      const {
+                        alipay_trade_app_pay_response: { code },
+                      } = JSON.parse(result)
+                      console.log('支付成功', code, res)
+                      if (code == '10000') {
+                        toast1 && toast1.clear()
+                        paySuccessLink(orderId)
+                      }
+                    }else{
+                      Toast(memo)
                     }
+                    // const {
+                    //   alipay_trade_app_pay_response: { code },
+                    // } = JSON.parse(alires.result)
+                    // console.log('支付成功', code, res)
+                    // if (code == '10000') {
+                    //   toast1 && toast1.clear()
+                    //   paySuccessLink(orderId)
+                    // }
                   })
                   break
                 default:
