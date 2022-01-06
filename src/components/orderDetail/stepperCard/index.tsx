@@ -87,6 +87,8 @@ const StepperCard: FC<StepType> = ({
 
   const setGrownNumValue = (val) => {
     const AduStock = stockNum - childNum;
+    console.log('儿童库存 :>> ', stockNum-adultNum);
+    console.log('成人库存 :>> ', stockNum-childNum);
     if (AduStock - val <= 0) {
       // Toast(`预定总数最多${AduStock}份`)
       setAdultNum(AduStock)
@@ -97,6 +99,8 @@ const StepperCard: FC<StepType> = ({
 
   const setChildrenValue = (val) => {
     const ChildAduStock = stockNum - adultNum;
+    console.log('儿童库存 :>> ', stockNum-adultNum);
+    console.log('成人库存 :>> ', stockNum-childNum);
     if (ChildAduStock - val <= 0) {
       // Toast(`预定总数最多${ChildAduStock}份`)
       setChildrenVal(ChildAduStock)
