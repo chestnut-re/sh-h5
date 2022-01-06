@@ -46,25 +46,25 @@ const StepperCard: FC<StepType> = ({
   //手动输入失去焦点判断当前值是否大于库存 大于库存设置为最大值
   const setGrownNumBlur = (e, type) => {
     console.log('val :>> ', e)
-    let inputVal = e.target.value
+    const inputVal = e.target.value
     if (type == 1) {
       const MacStockNum = stockNum - childNum
       if (inputVal > MacStockNum) {
-        inputVal = MacStockNum
+        e.target.value = MacStockNum
         setAdultNum(MacStockNum)
         Toast(`最多只能买${MacStockNum}件`)
       }
     } else if (type == 2) {
       const MacStockNum = stockNum - adultNum
       if (inputVal > MacStockNum) {
-        inputVal = MacStockNum
+        e.target.value = MacStockNum
         setChildrenVal(MacStockNum)
         Toast(`最多只能买${MacStockNum}件`)
       }
     } else if (type == 3) {
       //积分数据判断
       if (inputVal > pointsDeduction) {
-        inputVal = pointsDeduction
+        e.target.value = pointsDeduction
         setInteNum(pointsDeduction)
         Toast(`最多只能使用${pointsDeduction}积分`)
       }
