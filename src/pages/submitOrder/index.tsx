@@ -332,16 +332,23 @@ const SubmitOrderPage: FC = () => {
                 case 3:
                   SHBridge.alipay(returnPayInfo, (alires: any) => {
                     console.log('支付宝回调', alires)
-                    const {
-                      alipay_trade_app_pay_response: { code },
-                    } = JSON.parse(alires.result)
-                    console.log('支付成功', code, res)
-                    if (code == '10000') {
-                      paySuccessLink(orderId)
+                    const {memo,result,resultStatus} = alires;
+                    if (result||resultStatus=="9000") {
+                      const {
+                        alipay_trade_app_pay_response: { code },
+                      } = JSON.parse(result)
+                      console.log('支付成功', code, res)
+                      if (code == '10000') {
+                        paySuccessLink(orderId)
+                      }else{
+                        UseToast.clear()
+                        payErrorLink(orderId)
+                      }
                     }else{
-                      UseToast.clear()
+                      Toast(memo)
                       payErrorLink(orderId)
                     }
+                   
                   })
                   break
                 default:

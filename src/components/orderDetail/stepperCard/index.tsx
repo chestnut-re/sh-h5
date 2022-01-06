@@ -3,6 +3,7 @@ import React, { useState, useEffect, FC } from 'react'
 import { ConfigProvider, Icon, Toast, Stepper } from 'react-vant'
 import integralIcon from '@/assets/img/integral_icon.png'
 import questionIcon from '@/assets/img/question_icon@3x.png'
+import StepperRui from '@/components/orderDetail/stepperCard/stepperRui'
 import './index.less'
 
 /**
@@ -37,58 +38,51 @@ const StepperCard: FC<StepType> = ({
   //库存数量
   const [stockNum, setstockNum] = useState(2)
 
-  const [isBlur,setBlur] = useState(true)
-  useEffect(()=>{
-    console.log('obje库存改变ct :>> ', stock);
+  const [isBlur, setBlur] = useState(true)
+  useEffect(() => {
+    console.log('obje库存改变ct :>> ', stock)
     setstockNum(stock)
-  },[stock])
-  
+  }, [stock])
 
   //手动输入失去焦点判断当前值是否大于库存 大于库存设置为最大值
   const setSdultNumNumBlur = (e) => {
     console.log('val :>> ', e)
     const inputVal = e.target.value
     const MacStockNum = stockNum - childNum
-      if (inputVal > MacStockNum) {
-       
-        // e.target.valuenow = MacStockNum
-        e.target.value = MacStockNum
-        setAdultNum(()=>{
-          
-          return MacStockNum
-        })
-        Toast(`最多只能买${MacStockNum}份`)
-        setBlur(false)
-          setTimeout(()=>{
-            setBlur(true)
-          },30)
-      }
-      
+    if (inputVal > MacStockNum) {
+      // e.target.valuenow = MacStockNum
+      e.target.value = MacStockNum
+      setAdultNum(() => {
+        return MacStockNum
+      })
+      Toast(`最多只能买${MacStockNum}份`)
+      setBlur(false)
+      setTimeout(() => {
+        setBlur(true)
+      }, 30)
+    }
   }
   const setChildNumNumBlur = (e) => {
     console.log('val :>> ', e)
     const inputVal = e.target.value
     const MacStockNum = stockNum - adultNum
-      if (inputVal > MacStockNum) {
-        
-        setChildrenVal(()=>{
-          e.target.value = MacStockNum
-          return MacStockNum
-        })
-        Toast(`最多只能买${MacStockNum}份`)
-        setBlur(false)
-        setTimeout(()=>{
-          setBlur(true)
-        },30)
-      }
-     
+    if (inputVal > MacStockNum) {
+      setChildrenVal(() => {
+        e.target.value = MacStockNum
+        return MacStockNum
+      })
+      Toast(`最多只能买${MacStockNum}份`)
+      setBlur(false)
+      setTimeout(() => {
+        setBlur(true)
+      }, 30)
+    }
   }
 
-
   const setGrownNumValue = (val) => {
-    const AduStock = stockNum - childNum;
-    console.log('儿童库存 :>> ', stockNum-adultNum);
-    console.log('成人库存 :>> ', stockNum-childNum);
+    const AduStock = stockNum - childNum
+    console.log('儿童库存 :>> ', stockNum - adultNum)
+    console.log('成人库存 :>> ', stockNum - childNum)
     if (AduStock - val <= 0) {
       // Toast(`预定总数最多${AduStock}份`)
       setAdultNum(AduStock)
@@ -98,9 +92,9 @@ const StepperCard: FC<StepType> = ({
   }
 
   const setChildrenValue = (val) => {
-    const ChildAduStock = stockNum - adultNum;
-    console.log('儿童库存 :>> ', stockNum-adultNum);
-    console.log('成人库存 :>> ', stockNum-childNum);
+    const ChildAduStock = stockNum - adultNum
+    console.log('儿童库存 :>> ', stockNum - adultNum)
+    console.log('成人库存 :>> ', stockNum - childNum)
     if (ChildAduStock - val <= 0) {
       // Toast(`预定总数最多${ChildAduStock}份`)
       setChildrenVal(ChildAduStock)
@@ -117,7 +111,7 @@ const StepperCard: FC<StepType> = ({
   }
   //处理用户输入位数过多导致总价显示变形
   const beforeChangeValue = (val) => {
-    if (val>99999) {
+    if (val > 99999) {
       return false
     }
     return true
@@ -130,6 +124,10 @@ const StepperCard: FC<StepType> = ({
     })
   }, [adultNum, childNum, inteNum])
 
+  const setGrownNumRuiValue = (val)=>{
+      console.log('val :>> ', val);
+  }
+
   return (
     <div className="stepper-content">
       <div className="step-box">
@@ -139,7 +137,8 @@ const StepperCard: FC<StepType> = ({
               成人<span className="name-subtitle">X{adultNum}</span>
             </div>
             <div className="step-content">
-            {isBlur&&<Stepper
+              {/* <StepperRui value={adultNum} min={1} max={100 } changeValue={(val) => setGrownNumRuiValue(val)} /> */}
+              {isBlur&&<Stepper
                   value={adultNum}
                   min="1"
                   max={stockNum-childNum}
@@ -157,17 +156,19 @@ const StepperCard: FC<StepType> = ({
               儿童<span className="name-subtitle">X{childNum}</span>
             </div>
             <div className="step-content">
-            {isBlur&&<Stepper
+              {isBlur && (
+                <Stepper
                   value={childNum}
                   min="0"
-                  max={stockNum-adultNum}
+                  max={stockNum - adultNum}
                   integer={true}
                   inputWidth="9.6vw"
                   buttonSize="5.6vw"
                   beforeChange={(val) => beforeChangeValue(val)}
                   onChange={(val) => setChildrenValue(val)}
                   onBlur={setChildNumNumBlur}
-                />}
+                />
+              )}
             </div>
           </li>
           {pointsDeduction && tokenAmountNum > 0 ? (
