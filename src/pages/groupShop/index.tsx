@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom'
 import qs from 'query-string'
 import clsx from 'clsx'
 import { Image, Empty, Toast, List } from 'react-vant'
+import emptyIcon from '@/assets/img/empty@3x.png'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
 import './index.less'
@@ -17,7 +18,7 @@ const PAGE_SIZE = 10
 const GroupShopPage: FC = () => {
   const { search } = useLocation()
   const { id } = qs.parse(search.slice(1))
-
+  const isToken = SHBridge.getToken()
   const [shopInfo, setShopInfo] = useState({
     isDeleted: 0,
     attentionState:0,
@@ -128,7 +129,7 @@ const GroupShopPage: FC = () => {
             <div className="smallshop-content">
               <div className="smallshop-name">{shopInfo.shopName}</div>
               <div className="smallshop-title">如有疑问 可联系我</div>
-              {SHBridge.getToken()?(<div className="smallshop-action">
+              {isToken?(<div className="smallshop-action">
                 <div
                   onClick={attentionSmaiiShop}
                   className={clsx('smallshop-abtn', { 'smallshop-abtn-on': shopInfo.attentionState != 0 })}
@@ -153,7 +154,7 @@ const GroupShopPage: FC = () => {
             </div>
           </div>
           <div className="smallshop-main">
-            <List errorText="请求失败，点击重新加载" immediateCheck finished={finished} onLoad={onLoadGoodsList}>
+            {goodsList.length>0?(<List errorText="请求失败，点击重新加载" immediateCheck finished={finished} onLoad={onLoadGoodsList}>
               <ul className="smallshop-main-ul">
                 {goodsList.map((item, index) => {
                   return (
@@ -165,7 +166,7 @@ const GroupShopPage: FC = () => {
                   )
                 })}
               </ul>
-            </List>
+            </List>):<Empty className="custom-image" image={emptyIcon} description="暂无数据" />}
           </div>
         </>
       ) : (
