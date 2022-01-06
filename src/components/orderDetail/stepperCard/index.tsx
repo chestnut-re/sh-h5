@@ -38,84 +38,15 @@ const StepperCard: FC<StepType> = ({
   //库存数量
   const [stockNum, setstockNum] = useState(2)
 
-  const [isBlur, setBlur] = useState(true)
   useEffect(() => {
     console.log('obje库存改变ct :>> ', stock)
     setstockNum(stock)
   }, [stock])
 
-  //手动输入失去焦点判断当前值是否大于库存 大于库存设置为最大值
-  const setSdultNumNumBlur = (e) => {
-    console.log('val :>> ', e)
-    const inputVal = e.target.value
-    const MacStockNum = stockNum - childNum
-    if (inputVal > MacStockNum) {
-      // e.target.valuenow = MacStockNum
-      e.target.value = MacStockNum
-      setAdultNum(() => {
-        return MacStockNum
-      })
-      Toast(`最多只能买${MacStockNum}份`)
-      setBlur(false)
-      setTimeout(() => {
-        setBlur(true)
-      }, 30)
-    }
-  }
-  const setChildNumNumBlur = (e) => {
-    console.log('val :>> ', e)
-    const inputVal = e.target.value
-    const MacStockNum = stockNum - adultNum
-    if (inputVal > MacStockNum) {
-      setChildrenVal(() => {
-        e.target.value = MacStockNum
-        return MacStockNum
-      })
-      Toast(`最多只能买${MacStockNum}份`)
-      setBlur(false)
-      setTimeout(() => {
-        setBlur(true)
-      }, 30)
-    }
-  }
-
-  const setGrownNumValue = (val) => {
-    const AduStock = stockNum - childNum
-    console.log('儿童库存 :>> ', stockNum - adultNum)
-    console.log('成人库存 :>> ', stockNum - childNum)
-    if (AduStock - val <= 0) {
-      // Toast(`预定总数最多${AduStock}份`)
-      setAdultNum(AduStock)
-    } else {
-      setAdultNum(val)
-    }
-  }
-
-  const setChildrenValue = (val) => {
-    const ChildAduStock = stockNum - adultNum
-    console.log('儿童库存 :>> ', stockNum - adultNum)
-    console.log('成人库存 :>> ', stockNum - childNum)
-    if (ChildAduStock - val <= 0) {
-      // Toast(`预定总数最多${ChildAduStock}份`)
-      setChildrenVal(ChildAduStock)
-    } else {
-      setChildrenVal(val)
-    }
-  }
-  const setIntegralNumValue = (val) => {
-    console.log('val :>> ', val)
-    setInteNum(val)
-  }
   const getExamine = () => {
     handleDiscounts()
   }
-  //处理用户输入位数过多导致总价显示变形
-  const beforeChangeValue = (val) => {
-    if (val > 99999) {
-      return false
-    }
-    return true
-  }
+
   useEffect(() => {
     handleStepper({
       adultNum: adultNum && adultNum > 0 ? adultNum : 1, //成人数量
@@ -123,9 +54,20 @@ const StepperCard: FC<StepType> = ({
       intNum: inteNum, //积分
     })
   }, [adultNum, childNum, inteNum])
-
-  const setGrownNumRuiValue = (val)=>{
-      console.log('val :>> ', val);
+  //处理成人数量
+  const setGrownNumRuiValue = (val) => {
+    setAdultNum(val)
+    console.log('val :>> ', val)
+  }
+  //处理儿童数量
+  const setChildNumRuiValue = (val) => {
+    setChildrenVal(val)
+    console.log('val :>> ', val)
+  }
+  //处理积分数量
+  const setinteNumRuiValue = (val) => {
+    setInteNum(val)
+    console.log('val :>> ', val)
   }
 
   return (
@@ -137,18 +79,12 @@ const StepperCard: FC<StepType> = ({
               成人<span className="name-subtitle">X{adultNum}</span>
             </div>
             <div className="step-content">
-              {/* <StepperRui value={adultNum} min={1} max={100 } changeValue={(val) => setGrownNumRuiValue(val)} /> */}
-              {isBlur&&<Stepper
-                  value={adultNum}
-                  min="1"
-                  max={stockNum-childNum}
-                  integer={true}
-                  inputWidth="9.6vw"
-                  buttonSize="5.6vw"
-                  beforeChange={(val) => beforeChangeValue(val)}
-                  onChange={(val) => setGrownNumValue(val)}
-                  onBlur={setSdultNumNumBlur}
-                />}
+              <StepperRui
+                value={adultNum}
+                min={1}
+                max={stockNum - childNum}
+                changeValue={(val) => setGrownNumRuiValue(val)}
+              />
             </div>
           </li>
           <li className="step-boxli">
@@ -156,19 +92,12 @@ const StepperCard: FC<StepType> = ({
               儿童<span className="name-subtitle">X{childNum}</span>
             </div>
             <div className="step-content">
-              {isBlur && (
-                <Stepper
-                  value={childNum}
-                  min="0"
-                  max={stockNum - adultNum}
-                  integer={true}
-                  inputWidth="9.6vw"
-                  buttonSize="5.6vw"
-                  beforeChange={(val) => beforeChangeValue(val)}
-                  onChange={(val) => setChildrenValue(val)}
-                  onBlur={setChildNumNumBlur}
-                />
-              )}
+              <StepperRui
+                value={inteNum}
+                min={0}
+                max={stockNum - adultNum}
+                changeValue={(val) => setChildNumRuiValue(val)}
+              />
             </div>
           </li>
           {pointsDeduction && tokenAmountNum > 0 ? (
@@ -180,18 +109,11 @@ const StepperCard: FC<StepType> = ({
               </div>
               <div className="step-content">
                 <ConfigProvider themeVars={themeVars}>
-                  <Stepper
-                    disabled={pointsDeduction / RMB_CON < 1 ? true : false}
-                    value={inteNum}
-                    min="0"
+                  <StepperRui
+                    value={childNum}
+                    min={0}
                     max={pointsDeduction / RMB_CON}
-                    step="1"
-                    longPress={false}
-                    integer={true}
-                    inputWidth="9.6vw"
-                    buttonSize="5.6vw"
-                    beforeChange={(val) => beforeChangeValue(val)}
-                    onChange={(val) => setIntegralNumValue(val)}
+                    changeValue={(val) => setinteNumRuiValue(val)}
                   />
                 </ConfigProvider>
               </div>

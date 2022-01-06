@@ -106,14 +106,33 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    .rui-icon{
+        width: 46px;
+        height: 42px;
+        background: rgba(0,0,0,0.00);
+    }
     .rui-icon-minus{
-        width: 50px;
-        height: 50px;
-        background: chartreuse;
+        background: url("../../../assets/img/minus_icon@3x.png") no-repeat center;
+        background-size: 16px;
+        border-right: 2px solid #ccc;
+    }
+    .rui-stepper-input{
+        width: 72px;
+        text-align: center;
+        font-size: 28px;
+        font-weight: 400;
+        color: #333333;
+        border: none;
     }
     .rui-icon-plus{
-        width: 50px;
-        height: 50px;
-        background:chocolate;
+        background: url("../../../assets/img/plus_icon@3x.png") no-repeat center;
+        background-size: 14px;
+        border-left: 2px solid #ccc;
+    }
+    .rui-plus-disabled{
+        opacity: 0.45;
+        pointer-events:none;
     }
 }
