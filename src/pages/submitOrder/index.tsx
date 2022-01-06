@@ -387,7 +387,6 @@ const SubmitOrderPage: FC = () => {
           </div>
           <div className="puorder-stepper">
             <StepperCard
-              submitinfo={submitinfo}
               priceSet={priceSet}
               selectTime={selectTime}
               tokenAmountNum={tokenAmountNum}
