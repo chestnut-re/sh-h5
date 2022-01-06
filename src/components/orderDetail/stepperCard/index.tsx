@@ -100,7 +100,7 @@ const StepperCard: FC<StepType> = ({
               />
             </div>
           </li>
-          {pointsDeduction && tokenAmountNum > 0 ? (
+          {(pointsDeduction / RMB_CON)>=1 && tokenAmountNum >= 1 ? (
             <li className="step-boxli">
               <div className="step-name hairline--icon">
                 <Icon size="4vw" className="integra-icon" name={integralIcon} />
