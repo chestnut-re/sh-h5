@@ -37,6 +37,7 @@ const StepperCard: FC<StepType> = ({
   //库存数量
   const [stockNum, setstockNum] = useState(2)
 
+  const [isBlur,setBlur] = useState(true)
   useEffect(()=>{
     console.log('obje库存改变ct :>> ', stock);
     setstockNum(stock)
@@ -51,12 +52,17 @@ const StepperCard: FC<StepType> = ({
       if (inputVal > MacStockNum) {
        
         // e.target.valuenow = MacStockNum
+        e.target.value = MacStockNum
         setAdultNum(()=>{
-          e.target.value = MacStockNum
+          
           return MacStockNum
         })
         Toast(`最多只能买${MacStockNum}份`)
       }
+      setBlur(false)
+      setTimeout(()=>{
+        setBlur(true)
+      },50)
   }
   const setChildNumNumBlur = (e) => {
     console.log('val :>> ', e)
@@ -70,6 +76,10 @@ const StepperCard: FC<StepType> = ({
         })
         Toast(`最多只能买${MacStockNum}份`)
       }
+      setBlur(false)
+      setTimeout(()=>{
+        setBlur(true)
+      },50)
   }
 
 
@@ -124,7 +134,7 @@ const StepperCard: FC<StepType> = ({
             </div>
             <div className="step-content">
               <ConfigProvider themeVars={themeVars}>
-                <Stepper
+                {isBlur&&<Stepper
                   value={adultNum}
                   min="1"
                   max={stockNum-childNum}
@@ -134,7 +144,7 @@ const StepperCard: FC<StepType> = ({
                   beforeChange={(val) => beforeChangeValue(val)}
                   onChange={(val) => setGrownNumValue(val)}
                   onBlur={setSdultNumNumBlur}
-                />
+                />}
               </ConfigProvider>
             </div>
           </li>
@@ -144,7 +154,7 @@ const StepperCard: FC<StepType> = ({
             </div>
             <div className="step-content">
               <ConfigProvider themeVars={themeVars}>
-                <Stepper
+                {isBlur&&<Stepper
                   value={childNum}
                   min="0"
                   max={stockNum-adultNum}
@@ -154,7 +164,7 @@ const StepperCard: FC<StepType> = ({
                   beforeChange={(val) => beforeChangeValue(val)}
                   onChange={(val) => setChildrenValue(val)}
                   onBlur={setChildNumNumBlur}
-                />
+                />}
               </ConfigProvider>
             </div>
           </li>
