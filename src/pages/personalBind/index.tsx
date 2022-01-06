@@ -27,11 +27,6 @@ const actions = [
   { text: '姐妹', type: 7 },
 ]
 
-const actionsCertificate = [
-  { text: '身份证', disabled: false },
-  { text: '护照', disabled: false },
-]
-
 const PersonalBindPage: FC = (props) => {
 
   const [travelerList, setTravelerList] = useState([])
@@ -51,9 +46,7 @@ const PersonalBindPage: FC = (props) => {
     visible: false,
   })
 
-
   const urlParams = getUrlParams(window.location.href)
-
 
   useEffect(() => {
     getList()
@@ -681,7 +674,7 @@ const PersonalBindPage: FC = (props) => {
                     <li className="pch-ul-li-box rv-hairline--bottom">
                       <div className="hairline-top"></div>
                       <OptionalInfo
-                        type={0}
+                        type={item['travelerType'] == 1 ? 0 : 1}
                         certificate={travelerCertificateDtoList[index]}
                         ref={(ref) => {
                           if (ref) {
