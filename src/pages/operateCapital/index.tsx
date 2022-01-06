@@ -2,18 +2,18 @@ import React, { useEffect, useState } from 'react'
 import { Dialog, Toast, ActionSheet, NumberKeyboard, NavBar } from 'react-vant'
 import './index.less'
 import { useDebouncedEffect } from '@/hooks/useDebouncedEffect'
-import close from '@/assets/img/successMove/close.png'
 import { url } from 'inspector'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
 import { AccountInfoApi } from '@/service/AccountInfo'
 import MyNavBar from '@/components/myNavBar'
+import close from '@/assets/img/capital/close.png'
 
 /**
  * 运营资金
  */
 const OperateCapitalPage: React.FC = () => {
-  const [selectText, setSelectText] = useState('')
+  const [selectType, setSelectType] = useState('')
   const [show, setShow] = useState(false)
   const [visible, setVisible] = useState(false)
   const [value, setValue] = useState('')
@@ -32,24 +32,57 @@ const OperateCapitalPage: React.FC = () => {
 
   const selectName = (text) => {
     setVisible(true)
-    text == 'in' ? setSelectText('转入') : setSelectText('转出')
+    setSelectType(text)
   }
   const wthdrawal = (type) => {
-    return new Promise((res) => {
-      setTimeout(() => {
-        setShow(false)
-        res(true)
-        Toast.success({ message: '确认' + selectText + '成功' })
-        // window.location.href = `/success-move?type=${type}`
-        SHBridge.jump({ url: generateUrl(`/success-move?type=${type}`), newWebView: true, title: `${selectText}成功` })
-      }, 3000)
-    })
+    if (type == 'out') {
+      outApi()
+    } else {
+      inApi()
+    }
   }
 
+  const outApi = async () => {
+    const res = await AccountInfoApi.fundsOut({ amount: Number(value) * 100 })
+    if (res.code == '200') {
+      setShow(false)
+      SHBridge.jump({
+        url: generateUrl(`/userdrawal?money=${value}&dec=成功转出¥${value}到资金账户`),
+      })
+    } else {
+      SHBridge.showToast(res.msg)
+    }
+  }
+  const inApi = async () => {
+    const res = await AccountInfoApi.fundsIn({ amount: Number(value) * 100 })
+    if (res.code == '200') {
+      setShow(false)
+      SHBridge.jump({
+        url: generateUrl(`/userdrawal?money=${value}&dec=成功转入¥${value}到运营账户`),
+      })
+    } else {
+      SHBridge.showToast(res.msg)
+    }
+  }
   const toFundDetails = () => {
     SHBridge.jump({ url: generateUrl('/operate-details') })
   }
   const openDialog = () => {
+    if (isNaN(Number(value))) {
+      SHBridge.showToast('请输入正确的金额')
+      return
+    }
+    if (selectType == 'out') {
+      if (Number(value) > Number((accountInfo['funds'] / 100).toFixed(2))) {
+        SHBridge.showToast('转出金额超过可转资金')
+        return
+      }
+    } else {
+      if (Number(value) > Number((accountInfo['available'] / 100).toFixed(2))) {
+        SHBridge.showToast('转入金额超过可转资金')
+        return
+      }
+    }
     setVisible(false)
     setShow(true)
   }
@@ -61,6 +94,11 @@ const OperateCapitalPage: React.FC = () => {
     console.log('object :>> 关闭')
     SHBridge.closePage()
   }
+  const closeActionSheet = () => {
+    setVisible(false)
+    setValue('0')
+  }
+
   return (
     <div className="OperateCapitalPage__root">
       <MyNavBar
@@ -78,11 +116,11 @@ const OperateCapitalPage: React.FC = () => {
         </div>
         <div className="two">
           <span>¥</span>
-          <span className="num">&nbsp;{(accountInfo['funds'] / 100).toFixed(2)}</span>
+          <span className="num">&nbsp;{((accountInfo['funds'] || 0) / 100).toFixed(2)}</span>
         </div>
-        <div className="three">
+        {/* <div className="three">
           <div>使用中&nbsp;&nbsp;激励金额 ¥{accountInfo['funds']}</div>
-        </div>
+        </div> */}
       </div>
       <div className="btn">
         <div className="out" onClick={() => selectName('out')}>
@@ -96,38 +134,46 @@ const OperateCapitalPage: React.FC = () => {
         <div className="dialog">
           <div className="text">
             <img className="img" src={close} alt="" onClick={giveUp} />
-            <div>{selectText}金额</div>
+            <div>{selectType == 'out' ? '转出金额' : '转入金额'}</div>
             <div></div>
           </div>
-          <div className="money">¥100.90</div>
-          <div className="in-out">{selectText == '转出' ? '转出到 账户资金' : '转入到 运营资金'}</div>
+          <div className="money">¥{value}</div>
+          <div className="in-out">{selectType == 'out' ? '转出到 账户资金' : '转入到 运营资金'}</div>
           <div>
-            <button className="btn" onClick={() => wthdrawal(selectText)}>
+            <button className="btn" onClick={() => wthdrawal(selectType)}>
               确认
             </button>
           </div>
         </div>
       </Dialog>
-      <ActionSheet visible={visible} onClickOverlay={() => setVisible(false)}>
+      <ActionSheet visible={visible} onClickOverlay={closeActionSheet}>
         <div className="number-dialog">
           <div className="box">
-            <div>{selectText}运营资金金额（元）</div>
+            <div>{selectType == 'out' ? '转出到 账户资金金额（元）' : '转入到 运营资金金额（元）'}</div>
             <div className="input-num">
               <div>¥</div>
               {/* <input value={value} type="" /> */}
               <div className="input">{value}</div>
             </div>
-            <div>可{selectText}&nbsp;¥23999元</div>
+            <div>
+              可
+              {selectType == 'out'
+                ? `转出¥${(accountInfo['funds'] / 100).toFixed(2)}元`
+                : `转入${(accountInfo['available'] / 100).toFixed(2)}`}
+              &nbsp;
+            </div>
           </div>
-          <NumberKeyboard
-            theme="custom"
-            extraKey="."
-            closeButtonText={selectText}
-            visible={true}
-            value={value}
-            onChange={setValue}
-            onClose={openDialog}
-          />
+          <div className={value.length > 0 ? 'numberKey_yes' : 'numberKey_no'}>
+            <NumberKeyboard
+              theme="custom"
+              extraKey="."
+              closeButtonText={selectType == 'out' ? '转出' : '转入'}
+              visible={true}
+              value={value}
+              onChange={setValue}
+              onClose={openDialog}
+            />
+          </div>
         </div>
       </ActionSheet>
     </div>

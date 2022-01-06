@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import './index.less'
-import { useDebouncedEffect } from '@/hooks/useDebouncedEffect'
 import triangle from '@/assets/img/successMove/triangle.png'
 import { AccountInfoApi } from '@/service/AccountInfo'
-import { List, Loading, NavBar, PullRefresh } from 'react-vant'
-import { ListInstance } from 'react-vant/es/list/PropsType'
-import { Console } from 'console'
-import MyNavBar from '@/components/myNavBar'
-import { SHBridge } from '@/jsbridge'
+import { DatetimePicker, List, Loading, NavBar, Popup, PullRefresh } from 'react-vant'
+import arr from '@/assets/img/capital/time_arr.png'
+import dayjs from 'dayjs'
 /**
  * 资金明细
  */
@@ -19,57 +16,77 @@ import { SHBridge } from '@/jsbridge'
 //   typeName: string | undefined;
 // }
 
-const FundDetailsPage: React.FC = () => {
-  const [billDate, setBillDate] = useState()
+const OperateDetailsPage: React.FC = () => {
   const [detailListY, setDetailListY] = useState<any[]>([])
   const [finished, setFinished] = useState(false)
   //是否在请求状态
   const [isloading, setIsloading] = useState<boolean>(true)
-
-  const [current, setCurrent] = useState(1)
   //当前请求页码
+  const [current, setCurrent] = useState(1)
+  //是否在请求状态
+  const [isShowTime, setShowTime] = useState(false)
+  const [showTimeText, setShowTimeText] = useState('')
+  const [time, setTime] = useState(new Date())
 
   const size = 10
+
+  useEffect(() => {
+    setShowTimeText(getNowTime(Date.now()))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   useEffect(() => {
     getAccountList()
-  }, [current])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [current, time])
   const getAccountList = () => {
     setIsloading(true)
     AccountInfoApi.accountList({
       current: current,
       size: size,
-      billDate: billDate,
-      billType: 1,
       walletType: 2,
-    })
-      .then((res: any) => {
-        let dataList = []
-        dataList = res['records'].map((item) => {
-          const timeArr = item['billDate'].split('-')
-          const listTitle = timeArr[0] + '年' + timeArr[1] + '月'
-          item['listTitle'] = listTitle
-          return item
-        })
-        if (current == 1) {
-          setDetailListY(dataList)
-        } else {
-          setDetailListY((v) => [...v, ...dataList])
-        }
-        if (res['records'].length < size) {
-          setFinished(true)
-        }
+      billDate: getTimeApi(time),
+    }).then((res: any) => {
+      let dataList = []
+      dataList = res['records'].map((item) => {
+        const timeArr = item['billDate'].split('-')
+        const listTitle = timeArr[0] + '年' + timeArr[1] + '月'
+        item['listTitle'] = listTitle
+        return item
       })
-      .catch(() => {
+      if (current == 1) {
+        setDetailListY(dataList)
+      } else {
+        setDetailListY((v) => [...v, ...dataList])
+      }
+      if (res['records'].length < size) {
         setFinished(true)
-      })
-      .finally(() => {
-        setIsloading(false)
-      })
+      }
+      setIsloading(false)
+    })
   }
 
+  const getNowTime = (val) => {
+    return dayjs(val).format('YYYY年MM月')
+  }
+  const getTimeApi = (val) => {
+    return dayjs(val).format('YYYY-MM')
+  }
+  const getTime = (val) => {
+    setShowTime(false)
+    setShowTimeText(getNowTime(val))
+    setFinished(false)
+    setDetailListY([])
+    setTime(val)
+    setCurrent(1)
+  }
+  const setShow = () => {
+    setShowTime(true)
+  }
+  const closePop = () => {
+    setShowTime(false)
+  }
   const onLoadRefresh = async () => {
-    if (finished) return
-    if (isloading) return
+    console.log('more')
     setCurrent((v) => v + 1)
   }
 
@@ -79,87 +96,79 @@ const FundDetailsPage: React.FC = () => {
   }
   return (
     <div className="OperateDetailsPage__root">
-      <MyNavBar title="运营资金" safeAreaInsetTop={true} leftArrow border={false} onClickLeft={() => history.back()} />
-      {/* <div className="tab">
-        <div className={`${tabActiveIndex === 1 ? 'active' : ''}`} onClick={() => setTabActiveIndex(1)}>
-          总资金
+      {/* <MyNavBar
+        title="账户资金明细"
+        safeAreaInsetTop={true}
+        leftArrow
+        onClickLeft={() => history.back()}
+        // onClickRight={toFundDetails}
+        rightText={'账户资金明细'}
+        border={false}
+      /> */}
+      <div className="content">
+        <div className="search_time" onClick={setShow}>
+          {showTimeText}
+          <img src={arr}></img>
         </div>
-        <div className={`${tabActiveIndex === 2 ? 'active' : ''}`} onClick={() => setTabActiveIndex(2)}>
-          使用中
-        </div>
-      </div> */}
-      <div className="tab-list">
-        <PullRefresh onRefresh={onRefresh}>
-          <List finished={finished} onLoad={onLoadRefresh} immediateCheck={false} loading={isloading}>
-            {detailListY.length ? (
-              detailListY.map((item, index) => {
-                return (
-                  <div className="item" key={index}>
-                    {index == 0 || detailListY[index]['listTitle'] != detailListY[index - 1]['listTitle'] ? (
-                      <div className="month">
-                        {item['listTitle']} <img className="img" src={triangle} alt="" />
+        <div className="bank"></div>
+        <div className="tab-list">
+          <PullRefresh onRefresh={onRefresh}>
+            <List
+              finished={finished}
+              onLoad={onLoadRefresh}
+              immediateCheck={false}
+              loading={isloading}
+              autoCheck={false}
+            >
+              {detailListY.length
+                ? detailListY.map((item, index) => {
+                    return (
+                      <div className="item" key={index}>
+                        {index == 0 || detailListY[index]['listTitle'] != detailListY[index - 1]['listTitle'] ? (
+                          <div className="month">
+                            {item['listTitle']} <img className="img" src={triangle} alt="" />
+                          </div>
+                        ) : (
+                          <div></div>
+                        )}
+                        <div className="title">
+                          <div>{item['typeName']}</div>
+                          <div>{item['amount']}</div>
+                        </div>
+                        <div className="counter">
+                          <div>{item['title']}</div>
+                          <div> {!item['subOrderNo'] ? '' : `订单编号${item['subOrderNo']}`} </div>
+                        </div>
+                        <div className="time">{item['billDate']}</div>
                       </div>
-                    ) : (
-                      <div></div>
-                    )}
-                    {/* <div className="counter">
-                      <div>{item['billDate']}</div>
-                      <div>{item['amount']}</div>
-                    </div>
-                    <div className="text">{item['typeName']}</div> */}
-
-                    <div className="title">
-                      <div>{item['typeName']}</div>
-                      <div>{(item['amount'] / 100).toFixed(2)}</div>
-                    </div>
-                    <div className="counter">
-                      <div>{item['title']}</div>
-                      <div>订单编号{item['orderNo']}</div>
-                    </div>
-                    <div className="time">{item['billDate']}</div>
-                  </div>
-                )
-              })
-            ) : isloading ? (
-              <Loading className="maorder-loading" vertical color="#3AD2C5">
-                加载中...
-              </Loading>
-            ) : null}
-          </List>
-        </PullRefresh>
+                    )
+                  })
+                : null}
+            </List>
+          </PullRefresh>
+        </div>
       </div>
-      {/* <div className={'tab-list tab-view' + `${tabActiveIndex === 2 ? 'active' : ''}`}>
-        <PullRefresh onRefresh={onRefresh}>
-          <List finished={finished1} onLoad={onLoadRefresh} immediateCheck={false} loading={isloading1}>
-            {detailListN.length ? (
-              detailListN.map((item, index) => {
-                return (
-                  <div className="item" key={index}>
-                    {index == 0 || detailListN[index]['listTitle'] != detailListN[index - 1]['listTitle'] ? (
-                      <div className="month">
-                        {item['listTitle']} <img className="img" src={triangle} alt="" />
-                      </div>
-                    ) : (
-                      <div></div>
-                    )}
-                    <div className="counter">
-                      <div>{item['billDate']}</div>
-                      <div>{item['amount']}</div>
-                    </div>
-                    <div className="text">{item['typeName']}</div>
-                  </div>
-                )
-              })
-            ) : isloading1 ? (
-              <Loading className="maorder-loading" vertical color="#3AD2C5">
-                加载中...
-              </Loading>
-            ) : null}
-          </List>
-        </PullRefresh>
-      </div> */}
+      <Popup visible={isShowTime} position="bottom">
+        <DatetimePicker
+          type="year-month"
+          minDate={new Date(2020, 0, 1)}
+          maxDate={new Date()}
+          value={time}
+          onConfirm={getTime}
+          onCancel={closePop}
+          formatter={(type: string, val: string) => {
+            if (type === 'year') {
+              return `${val}年`
+            }
+            if (type === 'month') {
+              return `${val}月`
+            }
+            return val
+          }}
+        />
+      </Popup>
     </div>
   )
 }
 
-export default FundDetailsPage
+export default OperateDetailsPage

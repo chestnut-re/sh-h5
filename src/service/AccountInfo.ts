@@ -18,5 +18,25 @@ export class AccountInfoApi {
       params,
     })
   }
+  /**
+   * 提现
+   */
+  static cash(data: Record<string, any>): any {
+    return axios.post('api/wallet/b/cash', data)
+  }
+  /**
+   * 运营资金转入
+   */
+  static fundsIn(data: Record<string, any>): any {
+    return axios.post('api/wallet/b/funds/in', data)
+  }
+
+  /**
+   * 运营资金转出
+   */
+  static fundsOut(data: Record<string, any>): any {
+    return axios.post('api/wallet/b/funds/out', data)
+  }
+
   // data: Record<string, any>
 }

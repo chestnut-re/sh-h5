@@ -1,10 +1,42 @@
 .FundDetailsPage__root {
-  padding: 20px;
-  background: #fff;
   height: 100vh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  .content {
+    margin-top: 20px;
+    background: #fff;
+    flex: 1;
+    overflow: auto;
+  }
+  .search_time {
+    margin: 0 auto;
+    margin-top: 20px;
+    width: 168px;
+    height: 44px;
+    background: #f3f4f4;
+    border-radius: 4px;
+    font-size: 22px;
+    font-family: PingFangSC, PingFangSC-Regular;
+    font-weight: 400;
+    text-align: center;
+    color: #111423;
+    line-height: 44px;
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    img {
+      width: 12px;
+      vertical-align: middle;
+      transform: translateY(-2px);
+      margin-left: 10px;
+    }
+  }
+  .bank {
+    width: 168px;
+    height: 44px;
+  }
   .rv-nav-bar__title {
     color: #111423;
   }
@@ -45,7 +77,6 @@
   .tab-list {
     padding: 32px 22px;
     flex: 1;
-    overflow: auto;
 
     .item {
       border-bottom: 2px solid #f1f1f1;

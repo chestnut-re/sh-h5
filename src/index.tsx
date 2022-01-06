@@ -144,6 +144,12 @@ const ProductAnalysisPage = loadable(
 )
 /**支付成功 */
 const PaymentSuccessPage = loadable(() => import(/* webpackChunkName: 'PaymentSuccessPage'*/ './pages/paymentSuccess'))
+
+/**提现，转入转出成功 */
+const WithdrawSuccessPage = loadable(
+  () => import(/* webpackChunkName: 'WithdrawSuccessPage'*/ './pages/userCapital/withdrawalSuccess')
+)
+
 /**消息-员工数据板 */
 const EmployeeDataPage = loadable(() => import(/* webpackChunkName: 'EmployeeDataPage'*/ './pages/employeeData'))
 
@@ -244,7 +250,7 @@ const App = () => (
       <Route path="/order-travel" exact component={TravelList}></Route>
       <Route path="/order-refundins" exact component={RefundChangeIns}></Route>
       <Route path="/special-events" exact component={SpecialEvents}></Route>
-      
+      <Route path="/userdrawal" exact component={WithdrawSuccessPage}></Route>
     </BrowserRouter>
   </Suspense>
 )

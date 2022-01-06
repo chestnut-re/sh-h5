@@ -34,17 +34,26 @@ const UserCapitalPage: React.FC = () => {
     })
   }, [])
 
-  const wthdrawal = (type) => {
-    return new Promise((res) => {
-      setTimeout(() => {
-        setShow(false)
-        res(true)
-        Toast.success({ message: '确认提现成功' })
-        SHBridge.jump({ url: generateUrl(`/success-move?type=${type}`), newWebView: true, title: '提现成功' })
-      }, 3000)
-    })
+  const wthdrawal = async () => {
+    const res = await AccountInfoApi.cash({ amount: Number(value) * 100 })
+    if (res.code == '200') {
+      setShow(false)
+      SHBridge.jump({
+        url: generateUrl(`/userdrawal?money=${value}&dec=提现成功`),
+      })
+    } else {
+      SHBridge.showToast(res.msg)
+    }
   }
   const openDialog = () => {
+    if (isNaN(Number(value))) {
+      SHBridge.showToast('请输入正确的金额')
+      return
+    }
+    if (Number(value) > Number((accountInfo['available'] / 100).toFixed(2))) {
+      SHBridge.showToast('提现金额不能超过可用金额')
+      return
+    }
     setVisible(false)
     setShow(true)
   }
@@ -54,10 +63,10 @@ const UserCapitalPage: React.FC = () => {
   }
 
   const toFundDetails = () => {
-    SHBridge.jump({ url: generateUrl('/fund-details') })
+    SHBridge.jump({ url: generateUrl('/fund-details?isFullScreen=0'), newWebView: true, title: '账户资金明细' })
   }
   const toMoneyRecord = () => {
-    SHBridge.jump({ url: generateUrl('/money-record'), newWebView: false, title: '提现记录' })
+    SHBridge.jump({ url: generateUrl('/money-record?isFullScreen=0'), newWebView: true, title: '提现记录' })
   }
   const closeSearchPage = () => {
     console.log('object :>> 关闭')
@@ -85,7 +94,7 @@ const UserCapitalPage: React.FC = () => {
         </div>
         <div className="two">
           <span>¥</span>
-          <span className="num">&nbsp;{(accountInfo['available'] / 100).toFixed(2)}</span>
+          <span className="num">&nbsp;{(accountInfo['available'] / 100 || 0).toFixed(2)}</span>
         </div>
         <div className="three">
           <div>锁定金额 ¥{(accountInfo['frozen'] / 100).toFixed(2)}</div>
@@ -107,7 +116,7 @@ const UserCapitalPage: React.FC = () => {
             <div></div>
           </div>
           <div className="money">¥{value}</div>
-          <div className="btn" onClick={() => wthdrawal(3)}>
+          <div className="btn" onClick={() => wthdrawal()}>
             确认提现
           </div>
         </div>
@@ -121,7 +130,7 @@ const UserCapitalPage: React.FC = () => {
               {/* <input value={value} type="" /> */}
               <div className="input">{value}</div>
             </div>
-            <div>可提现金额{(accountInfo['available'] / 100).toFixed(2)}元</div>
+            <div>可提现金额{(accountInfo['available'] / 100).toFixed(2) || ''}元</div>
           </div>
           <div className={value.length > 0 ? 'numberKey_yes' : 'numberKey_no'}>
             <NumberKeyboard
