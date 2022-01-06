@@ -122,7 +122,7 @@ const StepperCard: FC<StepType> = ({
         </ul>
       </div>
 
-      {pointsDeduction && tokenAmountNum > 0 ? (
+      {(pointsDeduction / RMB_CON)>=1 && tokenAmountNum >= 1 ? (
         <div className="info-integral rv-hairline--bottom">
           <div className="integral-instruction">
             此订单最多可用{pointsDeduction / RMB_CON}金豆抵<span>¥{pointsDeduction / RMB_CON}</span>
