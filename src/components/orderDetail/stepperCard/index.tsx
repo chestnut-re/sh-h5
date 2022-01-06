@@ -85,22 +85,12 @@ const StepperCard: FC<StepType> = ({
 
   const setGrownNumValue = (val) => {
     const AduStock = stockNum - childNum;
-    if (AduStock - val <= 0) {
-      // Toast(`预定总数最多${AduStock}份`)
-      setAdultNum(AduStock)
-    } else {
-      setAdultNum(val)
-    }
+    setAdultNum(val)
   }
 
   const setChildrenValue = (val) => {
     const ChildAduStock = stockNum - adultNum;
-    if (ChildAduStock - val <= 0) {
-      // Toast(`预定总数最多${ChildAduStock}份`)
-      setChildrenVal(ChildAduStock)
-    } else {
-      setChildrenVal(val)
-    }
+    setChildrenVal(val)
   }
   const setIntegralNumValue = (val) => {
     console.log('val :>> ', val)
