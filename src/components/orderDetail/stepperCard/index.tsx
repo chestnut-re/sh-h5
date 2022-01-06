@@ -145,6 +145,7 @@ const StepperCard: FC<StepType> = ({
                   min="1"
                   max={stockNum-childNum}
                   integer={true}
+                  disablePlus={stockNum-childNum<=0?true:false}
                   inputWidth="9.6vw"
                   buttonSize="5.6vw"
                   beforeChange={(val) => beforeChangeValue(val)}
@@ -167,6 +168,7 @@ const StepperCard: FC<StepType> = ({
                   integer={true}
                   inputWidth="9.6vw"
                   buttonSize="5.6vw"
+                  disablePlus={stockNum-adultNum<=0?true:false}
                   beforeChange={(val) => beforeChangeValue(val)}
                   onChange={(val) => setChildrenValue(val)}
                   onBlur={setChildNumNumBlur}
