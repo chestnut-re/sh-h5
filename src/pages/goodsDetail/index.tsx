@@ -27,11 +27,16 @@ const GoodsDetailPage: React.FC = () => {
   useEffect(() => {
     const params = getUrlParams(window.location.href)
     pageRef.current.id = params['id']
+    pageRef.current.shopId = params['shopId']
     pageRef.current.goodsPriceId = params['goodsPriceId']
     GoodsDetailService.get({ id: pageRef.current.id, goodsPriceId: pageRef.current.goodsPriceId }).then((res) => {
       console.log(res.data)
       setData(res.data)
     })
+
+    if (SHBridge.isLogin()) {
+      GoodsDetailService.viewGood({ goodsId: pageRef.current.id, shopId: pageRef.current.shopId })
+    }
   }, [])
 
   /**分享 */

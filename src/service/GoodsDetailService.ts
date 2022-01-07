@@ -13,4 +13,11 @@ export class GoodsDetailService {
       params,
     })
   }
+
+  /**
+   * 游览商品
+   */
+  static viewGood(data): Promise<AxiosResponse<any>> {
+    return axios.post('/api/operation/goodsLikeView/view', data)
+  }
 }

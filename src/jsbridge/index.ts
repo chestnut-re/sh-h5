@@ -17,6 +17,14 @@ export class SHBridge {
   static init(): void {}
 
   /**
+   * 是否已经登录
+   */
+  static isLogin(): boolean {
+    const params = getUrlParams(window.location.href)
+    return !!params['t']
+  }
+
+  /**
    * 获取 token
    */
   static getToken(): string | undefined {
