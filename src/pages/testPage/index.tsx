@@ -6,6 +6,7 @@ import { SHBridge } from '@/jsbridge'
 import { isApp, isMini } from '@/jsbridge/env'
 import { FileService } from '@/service/FileService'
 import { generateUrl } from '@/utils'
+import TravelCodeCard from '@/components/orderDetail/travelCodeCard'
 
 /**
  * H5 设置页
@@ -227,6 +228,11 @@ const TestPage = () => {
           }}
         />
       </Cell.Group>
+
+      <TravelCodeCard {...{travelerName:"测试码",
+        id:"213123123123",
+        orderId:"88812381283",
+        state:3}}/>
     </div>
   )
 }
