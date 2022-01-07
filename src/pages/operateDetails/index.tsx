@@ -28,7 +28,7 @@ const OperateDetailsPage: React.FC = () => {
   const [showTimeText, setShowTimeText] = useState('')
   const [time, setTime] = useState(new Date())
 
-  const size = 10
+  const size = 20
 
   useEffect(() => {
     setShowTimeText(getNowTime(Date.now()))
@@ -124,13 +124,6 @@ const OperateDetailsPage: React.FC = () => {
                 ? detailListY.map((item, index) => {
                     return (
                       <div className="item" key={index}>
-                        {index == 0 || detailListY[index]['listTitle'] != detailListY[index - 1]['listTitle'] ? (
-                          <div className="month">
-                            {item['listTitle']} <img className="img" src={triangle} alt="" />
-                          </div>
-                        ) : (
-                          <div></div>
-                        )}
                         <div className="title">
                           <div>{item['typeName']}</div>
                           <div>{item['amount']}</div>

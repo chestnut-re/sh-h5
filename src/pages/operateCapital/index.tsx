@@ -65,7 +65,7 @@ const OperateCapitalPage: React.FC = () => {
     }
   }
   const toFundDetails = () => {
-    SHBridge.jump({ url: generateUrl('/operate-details') })
+    SHBridge.jump({ url: generateUrl('/operate-details?isFullScreen=0'), newWebView: true, title: '运营资金明细' })
   }
   const openDialog = () => {
     if (isNaN(Number(value)) || Number(value) == 0) {
