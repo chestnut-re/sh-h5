@@ -2,7 +2,9 @@ import { SHBridge } from '@/jsbridge'
 
 // 自定义请求头
 export const createHeader = () => {
-  return {
-    Authorization: SHBridge.getToken(),
+  const ret = {}
+  if (SHBridge.getToken()) {
+    ret['Authorization'] = SHBridge.getToken()
   }
+  return ret
 }

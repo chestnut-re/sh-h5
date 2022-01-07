@@ -19,7 +19,7 @@ export class SHBridge {
   /**
    * 获取 token
    */
-  static getToken(): void {
+  static getToken(): string | undefined {
     const params = getUrlParams(window.location.href)
     return params['t']
   }
@@ -147,10 +147,10 @@ export class SHBridge {
   /**
    * 小程序支付
    */
-  static minipay(data: string, amount: number,orderId:string): void {
+  static minipay(data: string, amount: number, orderId: string): void {
     isMini().then((res) => {
       if (res) {
-        MiniAppBridge.minipay(data, amount,orderId)
+        MiniAppBridge.minipay(data, amount, orderId)
       }
     })
   }
