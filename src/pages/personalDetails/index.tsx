@@ -42,7 +42,7 @@ const PersonalDetailPage: FC = (props: any) => {
     travelerName: '', //出行人姓名
     phoneNumber: '', //手机号
     addr: '', //出行人住址
-    type: 0, //出行人类型
+    type: 1, //出行人类型
     emerName: '', //紧急联系人姓名
     emerTravelerRelation: '', //紧急联系人出行人与紧急联系人关系
     emerPhoneNumber: '', //紧急联系人手机号
@@ -364,7 +364,7 @@ const PersonalDetailPage: FC = (props: any) => {
                     iconSize="3.8vw"
                   >
                     <Radio
-                      name={0}
+                      name={1}
                       iconRender={({ checked: isActive }) => (
                         <img alt="" className="img-icon" src={isActive ? activeIcon : inactiveIcon} />
                       )}
@@ -372,7 +372,7 @@ const PersonalDetailPage: FC = (props: any) => {
                       成人
                     </Radio>
                     <Radio
-                      name={1}
+                      name={0}
                       iconRender={({ checked: isActive }) => (
                         <img alt="" className="img-icon" src={isActive ? activeIcon : inactiveIcon} />
                       )}

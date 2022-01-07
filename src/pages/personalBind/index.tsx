@@ -32,7 +32,7 @@ const PersonalBindPage: FC = (props) => {
   const [travelerList, setTravelerList] = useState([])
   const [showPopup, setShowPopup] = useState(false);
   const [subordersList, setSubordersList] = useState([])
-  const [travelerCertificateDtoList, setTravelerCertificateDtoList] = useState([])
+  const [travelerCertificateDtoList, setTravelerCertificateDtoList] = useState([] as any)
 
   const [addrIndex, setAddrIndex] = useState(0)
 
@@ -207,7 +207,7 @@ const PersonalBindPage: FC = (props) => {
    */
   const getOrderInfo = () => {
     Personal.getOrder(urlParams.id).then(res => {
-      const travelerArr = []
+      const travelerArr = [] as any
       const errorMsg = []
       res.data.map((item, index) => {
         travelerArr.push([initialTravelerInfo(item.id)])
@@ -217,6 +217,12 @@ const PersonalBindPage: FC = (props) => {
       setTravelerCertificateDtoList(travelerArr)
       setSubordersList(res.data)
     })
+  }
+  /**
+   * 判断填充模板添加
+   */
+  const filling = () => {
+
   }
   /**
    * 获取出行人列表
@@ -235,6 +241,21 @@ const PersonalBindPage: FC = (props) => {
    * 选择出行人模板
    * @param obj 
    */
+
+  // const onSelectItem = (obj) => {
+  //   const newSubordersList = [...subordersList] as any
+
+  //   newSubordersList.filter((item, index, array) => {
+  //     if (obj.type == item['travelerType'] && !item['travelerName']) {
+
+  //       array.length = 0;
+  //     }
+  //   })
+
+
+  //   console.log('newSubordersList', newSubordersList)
+
+  // }
   const onSelectItem = (obj) => {
     const newSelectedTraveler = [...selectedTraveler]
     const newSubordersList = [...subordersList] as any
@@ -248,19 +269,24 @@ const PersonalBindPage: FC = (props) => {
         })
       }
       if (!item['travelerName']) {
-        fillingArr.push({ index: i })
+        fillingArr.push({ index: i, type: item.travelerType })
       }
     })
 
-    const newTravelerList = [...travelerList]
+    if (fillingArr.length <= 0) {
+      Toast({
+        message: `不能继续添加行程人了`,
+      })
+      return
+    }
+
+    const newTravelerList = [...travelerList] as any
     newTravelerList.map(item => {
-      console.log('fillingArr.length', fillingArr.length)
       if (obj.id == item['id']) {
-        if (fillingArr.length > 0) {
-          item['select'] = !item['select']
-          for (let i = 0; i < newSubordersList.length; i++) {
-            if (!newSubordersList[i].travelerName && !newSubordersList[i].selectedTraveler) {
-              console.log('obj.travelerId', obj.id)
+        for (let i = 0; i < newSubordersList.length; i++) {
+          if (!newSubordersList[i].travelerName && !newSubordersList[i].selectedTraveler) {
+            if (obj.type == newSubordersList[i].travelerType) {
+              item['select'] = !item['select']
               newSubordersList[i].selectedTraveler = true
               newSubordersList[i].travelerName = obj.travelerName
               newSubordersList[i].travelerPhoneNumber = obj.phoneNumber
@@ -274,12 +300,8 @@ const PersonalBindPage: FC = (props) => {
               break;
             }
           }
-          newSelectedTraveler.push(obj)
-        } else {
-          Toast({
-            message: `不能继续添加行程人了`,
-          })
         }
+        newSelectedTraveler.push(obj)
       }
     })
     setSubordersList(newSubordersList)
@@ -537,7 +559,7 @@ const PersonalBindPage: FC = (props) => {
                 index < 3 && (
                   <div onClick={() => onSelectItem(item)} key={`index${index}`} className={`bind-item ${item['select'] && 'bind-item-select'}`}>
                     <div className='text'>{item['travelerName']}</div>
-                    <div className='hint'>{getRelationText(item['userTravelerRelation'])}</div>
+                    <div className='hint'>{item['type'] == 0 ? '儿童' : '成人'}</div>
                     {item['select'] && <div className='tag'>✓</div>}
                   </div>
                 )
@@ -674,7 +696,7 @@ const PersonalBindPage: FC = (props) => {
                     <li className="pch-ul-li-box rv-hairline--bottom">
                       <div className="hairline-top"></div>
                       <OptionalInfo
-                        type={item['travelerType'] == 1 ? 0 : 1}
+                        type={item['travelerType']}
                         certificate={travelerCertificateDtoList[index]}
                         ref={(ref) => {
                           if (ref) {
@@ -807,7 +829,7 @@ const PersonalBindPage: FC = (props) => {
               </div>
             ))}
           </div>
-          <div className='popupViewBtn'>
+          <div onClick={() => setShowPopup(false)} className='popupViewBtn'>
             <div className='text'>确定</div>
           </div>
         </div>
