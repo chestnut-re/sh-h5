@@ -222,6 +222,7 @@ const OptionalInfo = (props, ref) => {
                   onChange={(val) => onFieldChange(val, item['type'])}
                   value={item['certificateNo']}
                   placeholder="请填写正确的证件号码"
+                  maxlength={18}
                   errorMessage={errorInfoList[index].certificateErrorMsg}
                 />
               </div>
