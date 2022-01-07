@@ -68,10 +68,12 @@ const OperateCapitalPage: React.FC = () => {
     SHBridge.jump({ url: generateUrl('/operate-details') })
   }
   const openDialog = () => {
-    if (isNaN(Number(value))) {
+    if (isNaN(Number(value)) || Number(value) == 0) {
       SHBridge.showToast('请输入正确的金额')
       return
     }
+
+    setValue(Number(value).toString())
     if (selectType == 'out') {
       if (Number(value) > Number((accountInfo['funds'] / 100).toFixed(2))) {
         SHBridge.showToast('转出金额超过可转资金')
@@ -96,7 +98,7 @@ const OperateCapitalPage: React.FC = () => {
   }
   const closeActionSheet = () => {
     setVisible(false)
-    setValue('0')
+    setValue('')
   }
 
   return (
@@ -112,15 +114,15 @@ const OperateCapitalPage: React.FC = () => {
       />
       <div className="top">
         <div className="one">
-          <div>总资金</div>
+          <div>可用资金</div>
         </div>
         <div className="two">
           <span>¥</span>
           <span className="num">&nbsp;{((accountInfo['funds'] || 0) / 100).toFixed(2)}</span>
         </div>
-        {/* <div className="three">
-          <div>使用中&nbsp;&nbsp;激励金额 ¥{accountInfo['funds']}</div>
-        </div> */}
+        <div className="three">
+          <div>冻结金额 ¥{((accountInfo['fundsFrozen'] || 0) / 100).toFixed(2)}</div>
+        </div>
       </div>
       <div className="btn">
         <div className="out" onClick={() => selectName('out')}>
@@ -163,7 +165,7 @@ const OperateCapitalPage: React.FC = () => {
               &nbsp;
             </div>
           </div>
-          <div className={value.length > 0 ? 'numberKey_yes' : 'numberKey_no'}>
+          <div className={Number(value) > 0 ? 'numberKey_yes' : 'numberKey_no'}>
             <NumberKeyboard
               theme="custom"
               extraKey="."

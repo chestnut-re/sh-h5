@@ -20,7 +20,8 @@ const UserCapitalPage: React.FC = () => {
   const [visible, setVisible] = useState(false)
   const [value, setValue] = useState('')
   const [accountInfo, setAccountInfo] = useState({})
-
+  const [isCanDraw, setIsCanDraw] = useState(false)
+  const canDrawMoney = 10000
   useEffect(() => {
     SHBridge.setTitleAction([{ value: '账户资金明细', type: 'text' }], () => {
       // console.log(index);
@@ -30,6 +31,11 @@ const UserCapitalPage: React.FC = () => {
       const { code } = res
       if (code == '200') {
         setAccountInfo(res.data)
+        if (res.data.available >= canDrawMoney) {
+          setIsCanDraw(true)
+        } else {
+          setIsCanDraw(false)
+        }
       }
     })
   }, [])
@@ -46,10 +52,16 @@ const UserCapitalPage: React.FC = () => {
     }
   }
   const openDialog = () => {
+    if (value == '') return
     if (isNaN(Number(value))) {
       SHBridge.showToast('请输入正确的金额')
       return
     }
+    if (Number(value) < canDrawMoney / 100) {
+      SHBridge.showToast(`提现金额不能小于${canDrawMoney / 100}`)
+      return
+    }
+    setValue(Number(value).toString())
     if (Number(value) > Number((accountInfo['available'] / 100).toFixed(2))) {
       SHBridge.showToast('提现金额不能超过可用金额')
       return
@@ -59,6 +71,19 @@ const UserCapitalPage: React.FC = () => {
   }
   const giveUp = () => {
     setShow(false)
+    setVisible(true)
+  }
+
+  const closeActionSheet = () => {
+    setVisible(false)
+    setValue('')
+  }
+
+  const showPop = () => {
+    if (!isCanDraw) {
+      SHBridge.showToast(`您的可用余额小于${canDrawMoney / 100}，暂不可提现`)
+      return
+    }
     setVisible(true)
   }
 
@@ -101,7 +126,7 @@ const UserCapitalPage: React.FC = () => {
           {/* <img className="pic" src={tips} alt="" /> */}
         </div>
       </div>
-      <div className="btn" onClick={() => setVisible(true)}>
+      <div className={isCanDraw ? 'btn' : 'no_btn'} onClick={showPop}>
         提现
       </div>
       <div className="footer">
@@ -121,7 +146,7 @@ const UserCapitalPage: React.FC = () => {
           </div>
         </div>
       </Dialog>
-      <ActionSheet visible={visible} onClickOverlay={() => setVisible(false)}>
+      <ActionSheet visible={visible} onClickOverlay={closeActionSheet}>
         <div className="number-dialog">
           <div className="box">
             <div>提现金额</div>
@@ -132,7 +157,7 @@ const UserCapitalPage: React.FC = () => {
             </div>
             <div>可提现金额{(accountInfo['available'] / 100).toFixed(2) || ''}元</div>
           </div>
-          <div className={value.length > 0 ? 'numberKey_yes' : 'numberKey_no'}>
+          <div className={Number(value) >= canDrawMoney / 100 ? 'numberKey_yes' : 'numberKey_no'}>
             <NumberKeyboard
               theme="custom"
               extraKey="."
