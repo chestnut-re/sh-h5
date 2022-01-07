@@ -243,13 +243,6 @@ const PersonalBindPage: FC = (props) => {
     const newSubordersList = [...subordersList] as any
     const fillingArr = [] as any
     newSubordersList.map((item, i) => {
-      if (obj.select) {
-        newSubordersList.map((item, iList) => {
-          if (item.travelerId == obj.id) {
-            onEmpty(iList)
-          }
-        })
-      }
       if (!item['travelerName']) {
         fillingArr.push({ index: i, type: item.travelerType })
       }
@@ -258,6 +251,13 @@ const PersonalBindPage: FC = (props) => {
     if (fillingArr.length <= 0) {
       Toast({
         message: `不能继续添加行程人了`,
+      })
+      return
+    }
+    const type = fillingArr.some((val) => val.type == obj.type)
+    if (!type) {
+      Toast({
+        message: `不能继续添加${obj.type == 1 ? '成人' : '儿童'}`,
       })
       return
     }
@@ -389,8 +389,6 @@ const PersonalBindPage: FC = (props) => {
         })
         return
       }
-
-
       const postData = {
         suborderDtoList: [...subordersList],
         travelerCertificateDtoList: [...travelerCertificateList(childRefs.current), ...selectTravelerCertificate(travelerCertificateDtoList)]
@@ -789,7 +787,6 @@ const PersonalBindPage: FC = (props) => {
         visible={showPopup}
         closeable
         title='选择出行人'
-        style={{ height: '60%' }}
         position="bottom"
         onClickCloseIcon={() => {
           setShowPopup(false)
