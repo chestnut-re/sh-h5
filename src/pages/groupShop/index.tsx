@@ -105,10 +105,10 @@ const GroupShopPage: FC = () => {
 
   //打开小店商品详情
   const openDoodsDetailLink = (item)=>{
-    const {id , goodsPriceId} = item;
+    const {goodsPriceId} = item;
     console.log('item :>> ', item);
     SHBridge.jump({
-      url: generateUrl(`/goods-detail?id=${id}&goodsPriceId=${goodsPriceId}`),
+      url: generateUrl(`/goods-detail?id=${item.id}&goodsPriceId=${goodsPriceId}&shopId=${id}`),
       newWebView: true,
       title: '商品详情',
     })
