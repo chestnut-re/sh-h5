@@ -1,4 +1,3 @@
-import MyNavBar from '@/components/myNavBar'
 import { SHBridge } from '@/jsbridge'
 import { GoodsDetailService } from '@/service/GoodsDetailService'
 import { generateUrl, getUrlParams } from '@/utils'
@@ -22,24 +21,22 @@ import './index.less'
  */
 const GoodsDetailPage: React.FC = () => {
   const pageRef = useRef<any>({})
-  const swipeRef = useRef<any>()
-  const [total, setTotal] = useState<any>()
-  const [current, setCurrent] = useState<any>()
   const [data, setData] = useState<any>({})
   const [controlledSwiper, setControlledSwiper] = useState<any>(null)
 
   useEffect(() => {
     const params = getUrlParams(window.location.href)
     pageRef.current.id = params['id']
+    pageRef.current.shopId = params['shopId']
     pageRef.current.goodsPriceId = params['goodsPriceId']
-    //TODO: test
-    pageRef.current.id = pageRef.current.id
-    pageRef.current.goodsPriceId = pageRef.current.goodsPriceId
-    //end
     GoodsDetailService.get({ id: pageRef.current.id, goodsPriceId: pageRef.current.goodsPriceId }).then((res) => {
       console.log(res.data)
       setData(res.data)
     })
+
+    if (SHBridge.isLogin()) {
+      GoodsDetailService.viewGood({ goodsId: pageRef.current.id, shopId: pageRef.current.shopId })
+    }
   }, [])
 
   /**分享 */
@@ -127,7 +124,7 @@ const GoodsDetailPage: React.FC = () => {
         </Swiper>
       )}
 
-      <Panel swipe={controlledSwiper} total={total} current={current} />
+      <Panel />
       <div className="nav">
         {/* <MyNavBar
           fixed

@@ -11,6 +11,7 @@ import UserProtocolItem from '@/components/personal/userProtocolItem'
 import OptionalInfo from '@/components/personalDetails/optionalInfo'
 
 import './index.less'
+import { runMain } from 'module'
 
 /**
  * 绑定出行人信息
@@ -218,12 +219,7 @@ const PersonalBindPage: FC = (props) => {
       setSubordersList(res.data)
     })
   }
-  /**
-   * 判断填充模板添加
-   */
-  const filling = () => {
 
-  }
   /**
    * 获取出行人列表
    */
@@ -242,32 +238,11 @@ const PersonalBindPage: FC = (props) => {
    * @param obj 
    */
 
-  // const onSelectItem = (obj) => {
-  //   const newSubordersList = [...subordersList] as any
-
-  //   newSubordersList.filter((item, index, array) => {
-  //     if (obj.type == item['travelerType'] && !item['travelerName']) {
-
-  //       array.length = 0;
-  //     }
-  //   })
-
-
-  //   console.log('newSubordersList', newSubordersList)
-
-  // }
   const onSelectItem = (obj) => {
     const newSelectedTraveler = [...selectedTraveler]
     const newSubordersList = [...subordersList] as any
     const fillingArr = [] as any
     newSubordersList.map((item, i) => {
-      if (obj.select) {
-        newSubordersList.map((item, iList) => {
-          if (item.travelerId == obj.id) {
-            onEmpty(iList)
-          }
-        })
-      }
       if (!item['travelerName']) {
         fillingArr.push({ index: i, type: item.travelerType })
       }
@@ -276,6 +251,13 @@ const PersonalBindPage: FC = (props) => {
     if (fillingArr.length <= 0) {
       Toast({
         message: `不能继续添加行程人了`,
+      })
+      return
+    }
+    const type = fillingArr.some((val) => val.type == obj.type)
+    if (!type) {
+      Toast({
+        message: `不能继续添加${obj.type == 1 ? '成人' : '儿童'}`,
       })
       return
     }
@@ -407,11 +389,12 @@ const PersonalBindPage: FC = (props) => {
         })
         return
       }
-
       const postData = {
         suborderDtoList: [...subordersList],
-        travelerCertificateDtoList: [...travelerCertificateList()]
+        travelerCertificateDtoList: [...travelerCertificateList(childRefs.current), ...selectTravelerCertificate(travelerCertificateDtoList)]
       }
+      console.log('travelerCertificateDtoList', postData)
+
       Personal.addPedestrianInfo(postData).then(res => {
         console.log('paramsparams', res)
 
@@ -437,9 +420,9 @@ const PersonalBindPage: FC = (props) => {
    * 获取证件信息列表
    * @returns list
    */
-  const travelerCertificateList = () => {
+  const travelerCertificateList = (list) => {
     const certificate = [] as any
-    childRefs.current && childRefs.current.forEach((childRef: any) => {
+    list.length > 0 && list.forEach((childRef: any) => {
       childRef.infolist.map((itemj, j) => {
         if (itemj.certificateNo != '') {
           certificate.push(itemj)
@@ -448,6 +431,22 @@ const PersonalBindPage: FC = (props) => {
     });
     return certificate
   }
+
+  const selectTravelerCertificate = (list) => {
+    const certificate = [] as any
+    list.length > 0 && list.forEach((item: any, index) => {
+      if (subordersList[index].selectedTraveler) {
+        item.forEach(element => {
+          element.suborderId = subordersList[index].id
+
+          certificate.push(element)
+        });
+      }
+
+    })
+    return certificate
+  }
+
   /**
    * 验证证件组件
    * @returns true
@@ -788,7 +787,6 @@ const PersonalBindPage: FC = (props) => {
         visible={showPopup}
         closeable
         title='选择出行人'
-        style={{ height: '60%' }}
         position="bottom"
         onClickCloseIcon={() => {
           setShowPopup(false)
