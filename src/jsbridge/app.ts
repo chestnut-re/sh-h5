@@ -185,7 +185,7 @@ export class AppBridge {
     const msg = {
       method: 'shareDetail',
       data: {
-        title: authStr,
+        shareDetail: authStr,
         // backFn: _callMethod(backFn),
       },
     }
