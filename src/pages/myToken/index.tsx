@@ -1,94 +1,105 @@
 import React, { useEffect, useState } from 'react'
 import { useDebouncedEffect } from '@/hooks/useDebouncedEffect'
-import token from '@/assets/img/token/22token.png'
+import { Overlay } from 'react-vant';
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
 import { MyTokenService } from '../../service/MyTokenService'
+import ToDoList from '@/components/myToken/toDoList'
 import './index.less'
 /**
  * w我的代币
  */
 const MyTokenPage: React.FC = () => {
   const [totalAmount, setTotalAmount] = useState(0)
-  const list = [
-    {
-      walletName: '三亚5日自由行(5钻)·直减300『高星4晚三亚5日自由 连住日自由行(5钻)』',
-      type: '成人',
-      title1: '可解锁',
-      title2: '已领取 800，确认订单后可提现或抵现',
-      btn: '分享 领取200',
-    },
-    {
-      walletName: '三亚5日自由行(5钻)·直减300『高星4晚连住』',
-      type: '成人',
-      title1: '可解锁',
-      title2: '已领取 800，确认订单后可提现或抵现',
-      num1: '4600',
-      num2: '2600',
-      btn: '分享 领取200',
-    },
-    {
-      walletName: '三亚5日自由行(5钻)·直减300『高星4晚连住』',
-      type: '儿童',
-      title1: '确认订单 即解锁',
-      title2: '已领取',
-      num1: '4600',
-      num2: '4600',
-      btn: '分享 领取200',
-    },
-    {
-      walletName: '三亚5日自由行(5钻)·直减300『高星4晚连住』',
-      type: '儿童',
-      title1: '可解锁',
-      title2: '已领取',
-      num1: '4600',
-      num2: '2000',
-      btn: '邀好友 领取2000',
-    },
-  ]
+ 
+  const [showEmbedded, setShowEmbedded] = useState(false);
   useEffect(() => {
-    MyTokenService.getMyWallet().then((res) => {
-      console.log(res)
-      setTotalAmount(res.data.totalAmount)
+    MyTokenService.getMyWallet().then((res:any) => {
+      const {code,data:{totalAmount}} = res;
+      if (code==="200"&&totalAmount) {
+        setTotalAmount(totalAmount)  
+      }
     })
+
+    MyTokenService.rebateTask()
+      .then((res) => {
+        console.log('res任务列表 :>> ', res)
+      })
+      .catch((err) => {
+        console.log('请求失败任务列表 :>> ', err)
+      })
   }, [])
 
-  // useDebouncedEffect(
-  //   () => {
-  //    setSelectedIndex2(selectedIndex)
-  //   },
-  //   [selectedIndex],
-  //   200
-  // )
+  //去提现
   const toWithDraw = () => {
     SHBridge.jump({ url: generateUrl('/with-draw'), newWebView: true, title: '申请提现' })
   }
+  //打开明细
+  const myTokenDetailHandle = () => {
+    SHBridge.jump({ url: generateUrl('/detailed'), newWebView: true, title: '收支明细' })
+  }
+  //显示说明
+  const setHandleShowEmbedded = () => {
+    setShowEmbedded(true)
+  }
   return (
     <div className="MyTokenPage__root">
-      <div className="header">
-        <div>
-          <text>{totalAmount}</text>
-          <img className="img" src={token} />
-        </div>
-        <div onClick={toWithDraw}>提现</div>
-      </div>
-      <div>
-        <div className="card">
-          <div>边玩边省 开心玩 实在省</div>
-          <div>购买实在省线路并确认订单，可解锁享礼权益完成权益对应任务，可将所获好礼直接提现或购物抵现</div>
+      
+      <div className='mtkon-box'>
+        <div className='mtkon-box-header'>
+            <div className='mtkon-header-balance'>
+            乐豆余额
+            </div>
+            <div className='mtkon-header-with'>
+              <div className='mhw-left'>
+              {totalAmount}
+              </div>
+              <div className='mhw-right'>
+                <div className='mhw-right-btn' onClick={toWithDraw}>提现</div>
+              </div>
+            </div>
+            <div className='mtkon-header-foot'>
+                <div className='mhf-detail' onClick={myTokenDetailHandle}>
+                  收支明细
+                </div>
+            </div>
         </div>
         <div className="task">
           <div className="task-name">
-            <div className="left">权益任务</div>
-            <div className="right">确认订单后 解锁享礼权益</div>
+            <div className="task-name-left">
+              <span></span>
+            </div>
+            <div className="task-name-center">我的任务</div>
+            <div className="task-name-right">
+              <span></span>
+            </div>
           </div>
-          {/* {list?.map(item,index) => {
-          return (<div>
-           {item.title1}
+          <div className='task-list'>
+            {[1,2,3].map((item)=>{
+              return (<div className='task-list-item' key={item}>
+              <ToDoList onToviewHandle={setHandleShowEmbedded} />
+          </div>)
+            })}
+          
           </div>
-        }} */}
+          
         </div>
       </div>
+
+      <Overlay zIndex={999} visible={showEmbedded} onClick={() => setShowEmbedded(false)}>
+          <div className="task-wrapper">
+            <div className="task-content">
+                <div className='task-content-header'>任务说明</div>
+                <div className='task-content-body'>
+                <p>1、分享线路给好友可完权益任务； </p>
+                <p>2、需累计分享10次，每次分享间隔时间24小时；</p> 
+                <p>3、每次分享任务需满足10个不同的好友进行访问； </p>
+                <p>4、如有问题，请联系专属业务员进行处理。</p>
+                </div>
+            </div>
+            <div className="task-close" onClick={() => setShowEmbedded(false)}></div>
+          </div>
+        </Overlay>
     </div>
   )
 }

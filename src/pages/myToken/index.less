@@ -6,67 +6,131 @@
   background-repeat: no-repeat;
   background-size: 100% 100%;
   padding: 50px 24px;
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 28px 30px;
-    div:first-child {
-      display: flex;
-      align-items: center;
-      text {
-        font-size: 58px;
-        font-weight: 500;
-        color: #333;
-        line-height: 84px;
-        padding-right: 19px;
+  .mtkon-box {
+    position: relative;
+    .mtkon-box-header {
+      margin: 10px 52px 0;
+      height: 195px;
+      padding: 32px 38px;
+      background: url(../../assets/img/token/my_tokenbg@3x.png) no-repeat top center;
+      background-size: 100%;
+      border-radius: 30px 30px 0 0;
+      overflow: hidden;
+      .mtkon-header-balance {
+        font-size: 26px;
+        text-align: left;
+        color: #a9fffa;
+        line-height: 28px;
+        background: url(../../assets/img/token/explain_icon@3x.png) no-repeat 23% center;
+        background-size: 28px 28px;
       }
-      .img {
-        width: 44px;
-        height: 44px;
+      .mtkon-header-with {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 12px;
+        .mhw-left {
+          font-size: 60px;
+          font-weight: 500;
+          color: #fff;
+          padding-right: 56px;
+          background: url(../../assets/img/token/22token.png) no-repeat right center;
+          background-size: 44px;
+        }
+        .mhw-right {
+          flex: 1;
+          .mhw-right-btn {
+            margin: 0 0 0 auto;
+            width: 154px;
+            text-align: center;
+            padding: 12px 0;
+            background: #bdfffa;
+            border-radius: 35px;
+            overflow: hidden;
+            box-shadow: 0px 4px 8px 0px #55d5cc;
+            font-size: 28px;
+            line-height: 1;
+            font-family: PingFangSC, PingFangSC-Regular;
+            font-weight: 400;
+            text-align: center;
+            color: #4dcfc5;
+          }
+        }
       }
-    }
-    div:last-child {
-      font-size: 28px;
-      display: inline-table;
-      font-weight: 500;
-      color: #4dcfc5;
-      background: #fff;
-      border-radius: 50px;
-      padding: 8px 62px;
+      .mtkon-header-foot {
+        position: inherit;
+        margin-top: 6px;
+        .mhf-detail {
+          height: 32px;
+          font-size: 22px;
+          font-family: PingFangSC, PingFangSC-Regular;
+          font-weight: 400;
+          text-align: left;
+          color: #359c95;
+          line-height: 32px;
+          background: url(../../assets/img/token/arrow_right.png) no-repeat 17.5% center;
+          background-size: 26px auto;
+        }
+      }
     }
   }
-  .card {
-    background-image: url(../../assets/img/token/card.png);
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    margin: 0 28px;
-    padding: 62px 50px 106px 52px;
-    div:first-child {
-      font-size: 36px;
-      font-weight: 500;
-      color: #fff;
-      padding-bottom: 16px;
-    }
-    div:last-child {
-      font-size: 24px;
-      font-weight: 400;
-      color: #fff;
-    }
-  }
+
   .task {
-    height: 600px;
+    min-height: 80vh;
     background: #fff;
-    border-radius: 20px 20px 0 0;
-    padding: 26px 24px 0;
+    border-radius: 20px;
+    padding: 26px 24px 20px;
     box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0);
+    z-index: 2;
     .task-name {
       display: flex;
-      .left {
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0 22px;
+      .task-name-left {
+        position: relative;
+        flex: 1;
+        height: 8px;
+        margin-right: 16px;
+        background: url('../../assets/img/line_l@3x.png') no-repeat left center;
+        span {
+          position: absolute;
+          right: -16px;
+          top: 50%;
+          display: inline-block;
+          width: 8px;
+          height: 8px;
+          margin-top: -4px;
+          background: linear-gradient(180deg, #84e9e4, #4dcfc5);
+          border-radius: 50%;
+        }
+      }
+      .task-name-center {
         font-size: 32px;
-        font-weight: 400;
-        color: #333;
-        line-height: 84px;
+        font-family: PingFangSC, PingFangSC-Semibold;
+        font-weight: 600;
+        text-align: center;
+        color: #333333;
+        line-height: 44px;
+        padding: 0 42px;
+      }
+      .task-name-right {
+        position: relative;
+        flex: 1;
+        height: 8px;
+        top: 50%;
+        margin-top: -4px;
+        margin-left: 16px;
+        background: url('../../assets/img/line_r@3x.png') no-repeat right center;
+        span {
+          position: absolute;
+          left: -16px;
+          display: inline-block;
+          width: 8px;
+          height: 8px;
+          background: linear-gradient(180deg, #84e9e4, #4dcfc5);
+          border-radius: 50%;
+        }
       }
       .right {
         padding-left: 26px;
@@ -76,5 +140,50 @@
         line-height: 84px;
       }
     }
+    .task-list {
+      position: inherit;
+      .task-list-item {
+        padding-bottom: 30px;
+      }
+    }
+  }
+}
+
+.task-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+  z-index: 999;
+  .task-content {
+    width: 544px;
+    height: 448px;
+    background: url(../../assets/img/token/overlay_bg@3x.png) no-repeat center;
+    background-size: 100%;
+    padding: 38px 40px;
+    .task-content-header {
+      font-size: 32px;
+      font-family: PingFang SC, PingFang SC-Medium;
+      font-weight: 500;
+      text-align: center;
+      color: #333333;
+    }
+    .task-content-body {
+      padding-top: 22px;
+      font-size: 28px;
+      font-family: PingFang SC, PingFang SC-Regular;
+      font-weight: 400;
+      text-align: left;
+      color: #666666;
+      line-height: 44px;
+    }
+  }
+  .task-close {
+    margin-top: 29px;
+    width: 58px;
+    height: 58px;
+    background: url(../../assets/img/token/overlay_close@3x.png) no-repeat center;
+    background-size: 100%;
   }
 }

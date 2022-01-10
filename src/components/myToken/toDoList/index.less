@@ -1,0 +1,213 @@
+.Todo-container {
+  position: relative;
+  background: #f8f8f8;
+  border-radius: 20px;
+  padding: 20px;
+  .todo-box {
+    position: relative;
+    .todo-box-name {
+      max-width: 485px;
+      padding-left: 32px;
+      background: url('../../../assets/img/tag_icon@3x.png') no-repeat left center;
+      background-size: 20px 30px;
+      font-size: 28px;
+      font-family: PingFangSC, PingFangSC-Regular;
+      font-weight: 400;
+      text-align: left;
+      color: #333333;
+      line-height: 40px;
+    }
+    .todo-box-ins {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 24px;
+      font-weight: 400;
+      color: #ababab;
+      line-height: 34px;
+      padding-top: 12px;
+      .todo-box-ins-l {
+        text-align: left;
+      }
+      .todo-box-ins-r {
+        text-align: right;
+        padding-right: 22px;
+        background: url('../../../assets/img/arrow@3x.png') no-repeat right center;
+        background-size: 12px 20px;
+      }
+    }
+    .todo-box-content {
+      position: relative;
+      .todo-box-content-ul {
+          position: relative;
+        .tbcu-li {
+            position: relative;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          background: #fff;
+          border-radius: 20px;
+          padding: 6px 20px 0 2px;
+          margin-top: 20px;
+          .tbcu-li-name {
+              position: relative;
+              text-align: center;
+              width: 28px;
+              display: flex;
+              align-items: flex-start;
+            .tbcu-li-name-t{
+                padding: 16px 2px 12px;
+                font-size: 36px;
+                 font-weight: 400;
+                color: #ababab;
+                line-height: 36px;
+                transform: scale(0.5);
+                border-radius: 28px;
+                background: linear-gradient(180deg, #f4f5f5, rgba(238, 238, 238, 0.3) 99%);
+            }
+            
+          }
+          .tbcu-li-content {
+            flex: 1;
+            padding-left: 10px;
+            .tbcu-li-content-top {
+              display: inline-flex;
+              justify-content: flex-start;
+              align-items: center;
+              .tlct-left {
+                .tlct-left-name {
+                  font-size: 22px;
+                  font-family: PingFangSC, PingFangSC-Regular;
+                  font-weight: 400;
+                  text-align: right;
+                  color: #333333;
+                  line-height: 32px;
+                }
+                .tlct-left-num {
+                  font-size: 32px;
+                  font-family: PingFangSC, PingFangSC-Semibold;
+                  font-weight: 600;
+                  text-align: right;
+                  color: #ffc35d;
+                  margin-left: 8px;
+                  padding-right: 20px;
+                  background: url("../../../assets/img/coin_icon@3x.png") no-repeat right 65%;
+                  background-size: 16px 16px;
+                }
+              }
+              .tlct-right{
+                font-size: 22px;
+                font-family: PingFangSC, PingFangSC-Regular;
+                font-weight: 400;
+                text-align: right;
+                color: #4dcfc5;
+                line-height: 32px; 
+                margin-left: 8px;
+                padding: 6px 12px 6px 30px;
+                background: url("../../../assets/img/bubbles_icon@3x.png") no-repeat left center;
+                background-size: contain;
+                border-radius: 20px 20px 20px 20px;
+                overflow: hidden;
+            }
+            }
+            .tbcu-li-content-bottom {
+              display: flex;
+              justify-content: space-between;
+              align-items: flex-end;
+              .progress-container {
+                width: 260px;
+                position: relative;
+                height: 16px;
+                margin: 32px 0 10px;
+                background: #f4f5f5;
+                border-radius: 8px;
+                overflow: hidden;
+                .progress__portion {
+                  position: absolute;
+                  left: 0;
+                  width: 100%;
+                  height: 100%;
+                  z-index: 2;
+                  background: #4dcfc5;
+                  border-radius: inherit;
+                  transform-origin: 0;
+                  transition: all 1s ease 1s;
+                }
+                .progress__header {
+                  position: absolute;
+                  left: 0;
+                  z-index: 3;
+                  width: 16px;
+                  height: 16px;
+                  border-radius: 50%;
+                  background: #4dcfc5;
+                  border: 6px solid #fff;
+                  box-shadow: 0px 4px 8px 0px rgba(221, 221, 221, 0.5);
+                }
+              }
+              .progress-text {
+                flex: 1;
+                font-size: 22px;
+                font-family: PingFangSC, PingFangSC-Regular;
+                font-weight: 400;
+                text-align: left;
+                color: #999999;
+                line-height: 32px;
+                padding-left: 8px;
+              }
+            }
+          }
+          .tbcu-li-share {
+            position: relative;
+            .tbcu-li-share-btn {
+              font-size: 22px;
+              font-family: PingFangSC, PingFangSC-Regular;
+              font-weight: 400;
+              text-align: center;
+              color: #4dcfc5;
+              line-height: 32px;
+              padding: 8px 32px;
+              border: 1px solid #4dcfc5;
+              border-radius: 52px;
+            }
+          }
+        }
+      }
+    }
+    .todo-box-more {
+      position: relative;
+      width: 180px;
+      height: 26px;
+      margin: 30px auto 0;
+        line-height: 1;
+      .todo-box-more-btn {
+        font-size: 36px;
+        font-family: PingFangSC, PingFangSC-Regular;
+        font-weight: 400;
+        text-align: left;
+        color: #999999;
+        transform: scale(0.5);
+        padding-right: 24px;
+
+      }
+      
+    }
+    .todo-box-more-btn-l {
+        background: url('../../../assets/img/arrow@3x.png') no-repeat 72% 85%;
+        background-size: 10px auto;
+      }
+      .todo-box-more-btn-b {
+        background: url('../../../assets/img/down_icon@3x.png') no-repeat 75% 75%;
+        background-size: 14px auto;
+      }
+    .todo-box-stamp{
+        position: absolute;
+        top: -26px;
+        right: -30px;
+        .stamp-icon{
+            width: 108px;
+            height: auto;
+        }
+    }
+  }
+}

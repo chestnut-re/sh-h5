@@ -32,4 +32,11 @@ export class MyTokenService {
   static getWalletPage(): Promise<AxiosResponse<any>> {
     return axios.get('/api/wallet/c/page')
   }
+
+  /**
+   * 我的任务
+   */
+   static rebateTask(): Promise<AxiosResponse<any>> {
+    return axios.get('/api/market/rebate/rebateTask')
+  }
 }
