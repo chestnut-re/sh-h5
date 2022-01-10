@@ -52,6 +52,7 @@ const GoodsDetailPage: React.FC = () => {
       url: generateUrl(`/submit-order?id=${pageRef.current.id}&goodsPriceId=${pageRef.current.goodsPriceId}`),
       newWebView: true,
       title: '下单',
+      needLogin: true,
     })
   }
 

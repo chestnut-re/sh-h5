@@ -1,15 +1,15 @@
+import { getCookie } from './../utils/cookie'
 import { MiniAppBridge } from './miniapp'
 import { isMini } from '@/jsbridge/env'
 import { AppBridge } from './app'
-/**
- * h5 和 MiniApp/App 交互js
- */
-
 import { Toast } from 'react-vant'
 import { isApp } from './env'
 import { getUrlParams } from './utils'
 import { JumpParams } from './types'
 
+/**
+ * h5 和 MiniApp/App 交互js
+ */
 export class SHBridge {
   /**
    * 初始化
@@ -20,16 +20,24 @@ export class SHBridge {
    * 是否已经登录
    */
   static isLogin(): boolean {
-    const params = getUrlParams(window.location.href)
-    return !!params['t']
+    return !!SHBridge.getToken()
   }
 
   /**
    * 获取 token
+   * 优先级：
+   * 1. url 参数 t
+   * 2. cookie 参数 t
    */
   static getToken(): string | undefined {
     const params = getUrlParams(window.location.href)
-    return params['t']
+    if (params['t']) {
+      return params['t']
+    }
+    if (getCookie('t')) {
+      return getCookie('t')
+    }
+    return undefined
   }
 
   /**
@@ -107,6 +115,15 @@ export class SHBridge {
   }
 
   /**
+   * 去登录
+   */
+  static login(): void {
+    if (isApp()) {
+      AppBridge.login()
+    }
+  }
+
+  /**
    * 关闭 WebView
    */
   static closePage(): void {
@@ -124,6 +141,7 @@ export class SHBridge {
       AppBridge.setFullScreen(type)
     }
   }
+
   /**
    * 获取app信息
    * 1全屏 0
