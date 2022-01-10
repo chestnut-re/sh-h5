@@ -11,6 +11,7 @@ import { Toast } from 'react-vant'
 import './index.less'
 
 interface Props {
+  data: any
   isLike: string
   myLikes: string
   shares: string
@@ -19,7 +20,7 @@ interface Props {
 }
 
 /**面板 */
-const Panel: React.FC<Props> = ({ isLike, myLikes, shares, goodsPriceId, shopId }) => {
+const Panel: React.FC<Props> = ({ data, isLike, myLikes, shares, goodsPriceId, shopId }) => {
   const [love, setLove] = useState(isLike ? true : false)
   const giveThumbs = () => {
     setLove(!love)
@@ -36,7 +37,7 @@ const Panel: React.FC<Props> = ({ isLike, myLikes, shares, goodsPriceId, shopId 
   const giveShare = () => {
     if (SHBridge.isLogin()) {
       Toast('已登陆')
-      SHBridge.shareDetail(goodsPriceId)
+      SHBridge.shareDetail(data)
       return
       GoodsDetailService.thumbsUp({ goodsId: goodsPriceId, shopId: shopId, type: 1, state: love ? 0 : 1 }).then(
         (res) => {
