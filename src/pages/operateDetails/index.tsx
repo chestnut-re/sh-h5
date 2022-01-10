@@ -38,10 +38,10 @@ const OperateDetailsPage: React.FC = () => {
     getAccountList()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [current, time])
-  const getAccountList = () => {
+  const getAccountList = (index = 0) => {
     setIsloading(true)
     AccountInfoApi.accountList({
-      current: current,
+      current: index || current,
       size: size,
       walletType: 2,
       billDate: getTimeApi(time),
@@ -93,6 +93,9 @@ const OperateDetailsPage: React.FC = () => {
   const onRefresh = async () => {
     setFinished(false)
     setCurrent(1)
+    if (current == 1) {
+      getAccountList(1)
+    }
   }
   return (
     <div className="OperateDetailsPage__root">
@@ -124,15 +127,16 @@ const OperateDetailsPage: React.FC = () => {
                 ? detailListY.map((item, index) => {
                     return (
                       <div className="item" key={index}>
-                        <div className="title">
-                          <div>{item['typeName']}</div>
-                          <div>{item['amount']}</div>
+                        <div className="left">
+                          <div className="type_name">{item['typeName']}</div>
+                          <div className="title">{item['title']}</div>
+                          <div className="time">{item['billDate']}</div>
                         </div>
-                        <div className="counter">
-                          <div>{item['title']}</div>
-                          <div> {!item['subOrderNo'] ? '' : `订单编号${item['subOrderNo']}`} </div>
+                        <div className="right">
+                          <div className={'amount' + ' ' + (item['sts'] != 2 ? 'grey' : 'black')}>{item['amount']}</div>
+                          <div className="order_no"> {!item['subOrderNo'] ? '' : `订单编号${item['subOrderNo']}`} </div>
+                          <div className="state">{item['stsName']}</div>
                         </div>
-                        <div className="time">{item['billDate']}</div>
                       </div>
                     )
                   })

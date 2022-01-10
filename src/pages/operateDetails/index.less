@@ -65,12 +65,7 @@
       color: #32d0c6;
     }
   }
-  .title {
-    font-size: 28px;
-    color: #111423;
-    display: flex;
-    justify-content: space-between;
-  }
+
   .tab-view {
     display: none;
   }
@@ -81,6 +76,8 @@
     .item {
       border-bottom: 2px solid #f1f1f1;
       margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
       .month {
         font-size: 32px;
         font-weight: 500;
@@ -92,26 +89,52 @@
           height: 10px;
         }
       }
-      .counter {
-        display: flex;
-        justify-content: space-between;
+      .left {
+        .type_name {
+          font-size: 28px;
+          color: #111423;
+        }
+        .title {
+          margin-top: 16px;
+          font-size: 24px;
+          font-family: PingFangSC, PingFangSC-Regular;
+          font-weight: 400;
+          text-align: left;
+          color: #c1c1c1;
+          line-height: 24px;
+        }
+        .time {
+          margin-top: 16px;
+          font-size: 24px;
+          color: #c1c1c1;
+          margin-bottom: 32px;
+        }
+      }
+
+      .right {
         font-size: 24px;
         color: #c1c1c1;
         margin-top: 16px;
-        div:first-child {
+        .amount {
           font-weight: 400;
-          line-height: 34px;
+          line-height: 28px;
         }
-        div:last-child {
-          text-align: right;
-          line-height: 40px;
+        .order_no {
+          margin-top: 16px;
+          line-height: 24px;
+        }
+        .state {
+          margin-top: 16px;
+          line-height: 24px;
+        }
+        .grey {
+          color: #c1c1c1;
+        }
+        .black {
+          color: #333333;
         }
       }
-      .time {
-        font-size: 24px;
-        color: #c1c1c1;
-        margin-bottom: 16px;
-      }
+
       .text {
         padding-bottom: 26px;
         font-size: 28px;

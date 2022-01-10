@@ -141,10 +141,8 @@ const OperateCapitalPage: React.FC = () => {
           </div>
           <div className="money">¥{value}</div>
           <div className="in-out">{selectType == 'out' ? '转出到 账户资金' : '转入到 运营资金'}</div>
-          <div>
-            <button className="btn" onClick={() => wthdrawal(selectType)}>
-              确认
-            </button>
+          <div className="btn" onClick={() => wthdrawal(selectType)}>
+            确认
           </div>
         </div>
       </Dialog>
