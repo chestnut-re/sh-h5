@@ -128,6 +128,7 @@ const GoodsDetailPage: React.FC = () => {
       )}
 
       <Panel
+        data={data?.goodsDetailPage}
         isLike={data?.isLike}
         myLikes={data?.shamLikes}
         shares={data?.shamShares}
