@@ -189,4 +189,12 @@ export class SHBridge {
       AppBridge.shareDetail(authStr)
     }
   }
+  /**
+   * 商品分享（测试）
+   */
+  static shareTest(authStr: string): void {
+    if (isApp()) {
+      AppBridge.shareTest(authStr)
+    }
+  }
 }

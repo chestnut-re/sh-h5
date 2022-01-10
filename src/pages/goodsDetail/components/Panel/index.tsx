@@ -36,7 +36,7 @@ const Panel: React.FC<Props> = ({ isLike, myLikes, shares, goodsPriceId, shopId 
   const giveShare = () => {
     if (SHBridge.isLogin()) {
       Toast('已登陆')
-      SHBridge.shareDetail(goodsPriceId)
+      SHBridge.shareTest(goodsPriceId)
       return
       GoodsDetailService.thumbsUp({ goodsId: goodsPriceId, shopId: shopId, type: 1, state: love ? 0 : 1 }).then(
         (res) => {

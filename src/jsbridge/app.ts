@@ -1,3 +1,4 @@
+import { title } from 'process'
 import { ActionType, JumpParams, UiType } from './types'
 import _callMethod from './bridge'
 
@@ -184,7 +185,20 @@ export class AppBridge {
     const msg = {
       method: 'shareDetail',
       data: {
-        authStr: authStr,
+        title: authStr,
+        // backFn: _callMethod(backFn),
+      },
+    }
+    SHApp.postMessage(JSON.stringify(msg))
+  }
+  /**
+   * 商品分享(测试)
+   */
+  static shareTest(authStr: string): void {
+    const msg = {
+      method: 'shareTest',
+      data: {
+        shareTest: authStr,
         // backFn: _callMethod(backFn),
       },
     }
