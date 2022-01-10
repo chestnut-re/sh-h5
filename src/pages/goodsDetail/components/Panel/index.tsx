@@ -23,8 +23,6 @@ const Panel: React.FC<Props> = ({ isLike, myLikes, shares, goodsPriceId, shopId 
   const [love, setLove] = useState(isLike ? true : false)
   const giveThumbs = () => {
     setLove(!love)
-    console.log('giveThumbs')
-    // return
     if (SHBridge.isLogin()) {
       GoodsDetailService.thumbsUp({ goodsId: goodsPriceId, shopId: shopId, type: 1, state: love ? 0 : 1 }).then(
         (res) => {
@@ -33,6 +31,20 @@ const Panel: React.FC<Props> = ({ isLike, myLikes, shares, goodsPriceId, shopId 
       )
     } else {
       Toast('还未登陆，请登陆后点赞')
+    }
+  }
+  const giveShare = () => {
+    if (SHBridge.isLogin()) {
+      Toast('已登陆')
+      SHBridge.shareDetail(goodsPriceId)
+      return
+      GoodsDetailService.thumbsUp({ goodsId: goodsPriceId, shopId: shopId, type: 1, state: love ? 0 : 1 }).then(
+        (res) => {
+          console.log(res.data)
+        }
+      )
+    } else {
+      Toast('还未登陆，请登陆后分享')
     }
   }
   return (
@@ -47,7 +59,7 @@ const Panel: React.FC<Props> = ({ isLike, myLikes, shares, goodsPriceId, shopId 
         <img src={love ? isLikes : likes} alt="" />
         <p>{myLikes}</p>
       </div>
-      <div>
+      <div onClick={giveShare}>
         <img src={share} alt="" />
         <p>{shares}</p>
       </div>

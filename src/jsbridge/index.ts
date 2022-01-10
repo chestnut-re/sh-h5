@@ -162,4 +162,13 @@ export class SHBridge {
       }
     })
   }
+
+  /**
+   * 商品分享
+   */
+  static shareDetail(authStr: string): void {
+    if (isApp()) {
+      AppBridge.shareDetail(authStr)
+    }
+  }
 }
