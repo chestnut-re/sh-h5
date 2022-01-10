@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react'
 import share from '@/assets/img/tinified/share.png'
 import likes from '@/assets/img/tinified/likes.png'
+import isLikes from '@/assets/img/tinified/isLike.png'
 import ask from '@/assets/img/tinified/ask.png'
 import up from '@/assets/img/tinified/up.png'
 import down from '@/assets/img/tinified/down.png'
@@ -10,6 +11,7 @@ import { Toast } from 'react-vant'
 import './index.less'
 
 interface Props {
+  isLike: string
   myLikes: string
   shares: string
   goodsPriceId: string
@@ -17,15 +19,13 @@ interface Props {
 }
 
 /**面板 */
-const Panel: React.FC<Props> = ({ myLikes, shares, goodsPriceId, shopId }) => {
-  const [love, setLove] = useState(false)
+const Panel: React.FC<Props> = ({ isLike, myLikes, shares, goodsPriceId, shopId }) => {
+  const [love, setLove] = useState(isLike ? true : false)
   const giveThumbs = () => {
     setLove(!love)
     console.log('giveThumbs')
     // return
     if (SHBridge.isLogin()) {
-      Toast('已登陆')
-      // let s =
       GoodsDetailService.thumbsUp({ goodsId: goodsPriceId, shopId: shopId, type: 1, state: love ? 0 : 1 }).then(
         (res) => {
           console.log(res.data)
@@ -44,7 +44,7 @@ const Panel: React.FC<Props> = ({ myLikes, shares, goodsPriceId, shopId }) => {
         <img src={down} alt="" />
       </div>
       <div onClick={giveThumbs}>
-        <img src={love ? ask : likes} alt="" />
+        <img src={love ? isLikes : likes} alt="" />
         <p>{myLikes}</p>
       </div>
       <div>
