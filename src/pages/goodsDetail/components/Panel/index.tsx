@@ -32,7 +32,7 @@ const Panel: React.FC<Props> = ({ myLikes, shares, goodsPriceId, shopId }) => {
         }
       )
     } else {
-      Toast('还未登陆，请登陆后点赞')
+      SHBridge.login()
     }
   }
   return (
