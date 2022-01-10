@@ -102,6 +102,17 @@ export class AppBridge {
   }
 
   /**
+   * 去登录
+   */
+  static login(): void {
+    const msg = {
+      method: 'login',
+      data: {},
+    }
+    SHApp.postMessage(JSON.stringify(msg))
+  }
+
+  /**
    * 关闭页面
    */
   static closePage(): void {

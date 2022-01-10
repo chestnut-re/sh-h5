@@ -30,7 +30,7 @@ const Panel: React.FC<Props> = ({ isLike, myLikes, shares, goodsPriceId, shopId 
         }
       )
     } else {
-      Toast('还未登陆，请登陆后点赞')
+      SHBridge.login()
     }
   }
   const giveShare = () => {
