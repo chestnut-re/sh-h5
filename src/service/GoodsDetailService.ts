@@ -20,4 +20,10 @@ export class GoodsDetailService {
   static viewGood(data): Promise<AxiosResponse<any>> {
     return axios.post('/api/operation/goodsLikeView/view', data)
   }
+  /**
+   * 点赞
+   */
+  static thumbsUp(data): Promise<AxiosResponse<any>> {
+    return axios.post('/api/operation/goodsLikeView/like', data)
+  }
 }

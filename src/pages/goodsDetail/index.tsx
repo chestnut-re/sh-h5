@@ -35,7 +35,9 @@ const GoodsDetailPage: React.FC = () => {
     })
 
     if (SHBridge.isLogin()) {
-      GoodsDetailService.viewGood({ goodsId: pageRef.current.id, shopId: pageRef.current.shopId })
+      GoodsDetailService.viewGood({ goodsId: pageRef.current.id, shopId: pageRef.current.shopId }).then((res) => {
+        console.log(res.data)
+      })
     }
   }, [])
 
@@ -124,7 +126,12 @@ const GoodsDetailPage: React.FC = () => {
         </Swiper>
       )}
 
-      <Panel />
+      <Panel
+        myLikes={data?.shamLikes}
+        shares={data?.shamShares}
+        goodsPriceId={pageRef.current.goodsPriceId}
+        shopId={pageRef.current.shopId}
+      />
       <div className="nav">
         {/* <MyNavBar
           fixed
