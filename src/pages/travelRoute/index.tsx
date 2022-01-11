@@ -31,30 +31,6 @@ const TravelRoutePage: React.FC = () => {
       window.removeEventListener('scroll', onScroll)
     }
   }, [])
-  const tabList = [
-    {
-      tabName: '第一天',
-      id: 1,
-    },
-  ]
-  const list = [
-    {
-      day: '第1天',
-      date: '10/22',
-      time1: '09:30',
-      time2: '13:30',
-      time3: '13:30',
-      time4: '15:30',
-      time5: '17:30',
-      time6: '18:00',
-      point1: '天津 飞 三亚',
-      point2: '到达亚特兰蒂斯酒店 办理豪华海景房入住',
-      point3: '酒店自助午餐',
-      point4: '游艇出海（含深潜、海钓、香蕉船、午餐等）',
-      point5: '返回亚特兰蒂斯酒店',
-      point6: '酒店自助晚餐，餐后自由安排',
-    },
-  ]
 
   useDebouncedEffect(
     () => {
@@ -141,7 +117,7 @@ const TravelRoutePage: React.FC = () => {
     <div className="TravelRoute__root">
       <div className="tabBox">
         <ul className="tab">
-          {days.map((item, index) => {
+          {days?.map((item, index) => {
             const isSelected = selectedIndex2 === index
             return (
               <li
@@ -158,14 +134,14 @@ const TravelRoutePage: React.FC = () => {
         </ul>
       </div>
       <div className="list" id="list" onScroll={onScroll}>
-        {days.map((item, index) => {
+        {days?.map((item, index) => {
           return (
             <div id={`title${index}`} className="itemList" key={index}>
               <div className="itemHeader">
                 <span className="itemDay">{item.whatDay}</span>
                 <span>{item.date ?? ''}</span>
               </div>
-              {item.travelDetails.map((it) => {
+              {item.travelDetails?.map((it) => {
                 return (
                   // eslint-disable-next-line react/jsx-key
                   <div className="itemPoint">
