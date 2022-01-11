@@ -60,4 +60,10 @@ export class OrderApi {
   formData.append('orderId', data.orderId)
   return axios.post(`/api/orders/toPay`,formData)
 }
+ /**
+   * 限购
+   */
+  static purchase(data): Promise<AxiosResponse<any>> {
+    return axios.post('/api/orders/restrictedPurchase', data)
+  }
 }

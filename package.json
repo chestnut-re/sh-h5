@@ -93,6 +93,7 @@
     "react-router-dom": "^5.2.0",
     "react-vant": "^1.4.11",
     "swiper": "^7.4.1",
+    "vconsole": "^3.9.4",
     "weixin-js-sdk": "^1.6.0"
   },
   "lint-staged": {

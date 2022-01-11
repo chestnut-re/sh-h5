@@ -15,9 +15,9 @@ const MyTokenPage: React.FC = () => {
   const [showEmbedded, setShowEmbedded] = useState(false);
   useEffect(() => {
     MyTokenService.getMyWallet().then((res:any) => {
-      const {code,data:{totalAmount}} = res;
-      if (code==="200"&&totalAmount) {
-        setTotalAmount(totalAmount)  
+      const {code,data} = res;
+      if (code==="200"&&data) {
+        setTotalAmount(data.totalAmount)  
       }
     })
 
