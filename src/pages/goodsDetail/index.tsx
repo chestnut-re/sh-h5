@@ -7,6 +7,7 @@ import Panel from './components/Panel'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Controller } from 'swiper'
 import { Navigation, EffectFade, EffectCoverflow } from 'swiper'
+import ShareView from './components/shareView'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/effect-fade'
@@ -23,6 +24,7 @@ const GoodsDetailPage: React.FC = () => {
   const pageRef = useRef<any>({})
   const [data, setData] = useState<any>({})
   const [controlledSwiper, setControlledSwiper] = useState<any>(null)
+  const [shareVisible, setShareVisible] = useState(false)
 
   useEffect(() => {
     const params = getUrlParams(window.location.href)
@@ -43,6 +45,7 @@ const GoodsDetailPage: React.FC = () => {
 
   /**分享 */
   const _share = () => {
+    // setShareVisible(!shareVisible)
     // this.$refs.swiper.swipeNext()
   }
 
@@ -134,6 +137,7 @@ const GoodsDetailPage: React.FC = () => {
         shares={data?.shamShares}
         goodsPriceId={pageRef.current.goodsPriceId}
         shopId={pageRef.current.shopId}
+        onShare={_share}
       />
       <div className="nav">
         {/* <MyNavBar
@@ -151,6 +155,12 @@ const GoodsDetailPage: React.FC = () => {
           参考行程
         </div>
       </div>
+      <ShareView
+        onClose={() => {
+          setShareVisible(false)
+        }}
+        visible={shareVisible}
+      />
     </div>
   )
 }

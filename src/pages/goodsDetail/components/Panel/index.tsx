@@ -16,11 +16,12 @@ interface Props {
   myLikes: string
   shares: string
   goodsPriceId: string
-  shopId: string
+  shopId: string,
+  onShare: () => void
 }
 
 /**面板 */
-const Panel: React.FC<Props> = ({ data, isLike, myLikes, shares, goodsPriceId, shopId }) => {
+const Panel: React.FC<Props> = ({ data, isLike, myLikes, shares, goodsPriceId, shopId, onShare }) => {
   const [love, setLove] = useState(isLike ? true : false)
   const giveThumbs = () => {
     setLove(!love)
@@ -35,6 +36,7 @@ const Panel: React.FC<Props> = ({ data, isLike, myLikes, shares, goodsPriceId, s
     }
   }
   const giveShare = () => {
+    onShare()
     if (SHBridge.isLogin()) {
       SHBridge.shareDetail(data)
     } else {
