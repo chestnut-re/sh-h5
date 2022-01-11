@@ -144,7 +144,7 @@ const StepperCard: FC<StepType> = ({
           <div className="discounts-instruction">
             <div className="instruction-l">
               已优惠<b>¥</b>
-              <span>{priceSet?.preferPrice}</span>
+              <span>{priceSet?.preferPrice / RMB_CON}</span>
             </div>
           </div>
         </div>
