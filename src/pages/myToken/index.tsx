@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDebouncedEffect } from '@/hooks/useDebouncedEffect'
-import { Overlay } from 'react-vant';
+import { Overlay, Empty} from 'react-vant'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
 import { MyTokenService } from '../../service/MyTokenService'
@@ -10,19 +10,28 @@ import './index.less'
  * w我的代币
  */
 const MyTokenPage: React.FC = () => {
+  //代币数量
   const [totalAmount, setTotalAmount] = useState(0)
- 
-  const [showEmbedded, setShowEmbedded] = useState(false);
+  //显隐任务说明
+  const [showEmbedded, setShowEmbedded] = useState(false)
+  //任务列表
+  const [rebateTaskList, setRebateTaskList] = useState<any[]>([])
+
   useEffect(() => {
-    MyTokenService.getMyWallet().then((res:any) => {
-      const {code,data} = res;
-      if (code==="200"&&data) {
-        setTotalAmount(data.totalAmount)  
+    MyTokenService.getMyWallet().then((res: any) => {
+      const { code, data } = res
+      if (code === '200' && data) {
+        setTotalAmount(data.totalAmount)
       }
     })
 
     MyTokenService.rebateTask()
-      .then((res) => {
+      .then((res: any) => {
+        const { code, data } = res
+        if (code === '200' && data) {
+          setRebateTaskList(data)
+        } else {
+        }
         console.log('res任务列表 :>> ', res)
       })
       .catch((err) => {
@@ -42,27 +51,33 @@ const MyTokenPage: React.FC = () => {
   const setHandleShowEmbedded = () => {
     setShowEmbedded(true)
   }
+
+  const shareTask = (taskId)=>{
+    MyTokenService.shareParam({taskId}).then((res) => {
+        console.log('object :>> ', res);
+    }).catch((err) => {
+        console.log('err :>> ', err);
+    });
+  }
+
   return (
     <div className="MyTokenPage__root">
-      
-      <div className='mtkon-box'>
-        <div className='mtkon-box-header'>
-            <div className='mtkon-header-balance'>
-            乐豆余额
-            </div>
-            <div className='mtkon-header-with'>
-              <div className='mhw-left'>
-              {totalAmount}
-              </div>
-              <div className='mhw-right'>
-                <div className='mhw-right-btn' onClick={toWithDraw}>提现</div>
+      <div className="mtkon-box">
+        <div className="mtkon-box-header">
+          <div className="mtkon-header-balance">乐豆余额</div>
+          <div className="mtkon-header-with">
+            <div className="mhw-left">{totalAmount}</div>
+            <div className="mhw-right">
+              <div className="mhw-right-btn" onClick={toWithDraw}>
+                提现
               </div>
             </div>
-            <div className='mtkon-header-foot'>
-                <div className='mhf-detail' onClick={myTokenDetailHandle}>
-                  收支明细
-                </div>
+          </div>
+          <div className="mtkon-header-foot">
+            <div className="mhf-detail" onClick={myTokenDetailHandle}>
+              收支明细
             </div>
+          </div>
         </div>
         <div className="task">
           <div className="task-name">
@@ -74,32 +89,38 @@ const MyTokenPage: React.FC = () => {
               <span></span>
             </div>
           </div>
-          <div className='task-list'>
-            {[1,2,3].map((item)=>{
-              return (<div className='task-list-item' key={item}>
-              <ToDoList onToviewHandle={setHandleShowEmbedded} />
-          </div>)
-            })}
-          
+          <div className="task-list">
+            {rebateTaskList.length > 0
+              ? rebateTaskList.map((item,index) => {
+                  return (
+                    <div className="task-list-item" key={index}>
+                      <ToDoList {...item} shareTask={shareTask} onToviewHandle={setHandleShowEmbedded} />
+                    </div>
+                  )
+                })
+              : <Empty
+              className="custom-image"
+              image="https://img.yzcdn.cn/vant/custom-empty-image.png"
+              description="购买返利商品开启更多任务，快去逛逛吧！"
+            />}
           </div>
-          
         </div>
       </div>
 
       <Overlay zIndex={999} visible={showEmbedded} onClick={() => setShowEmbedded(false)}>
-          <div className="task-wrapper">
-            <div className="task-content">
-                <div className='task-content-header'>任务说明</div>
-                <div className='task-content-body'>
-                <p>1、分享线路给好友可完权益任务； </p>
-                <p>2、需累计分享10次，每次分享间隔时间24小时；</p> 
-                <p>3、每次分享任务需满足10个不同的好友进行访问； </p>
-                <p>4、如有问题，请联系专属业务员进行处理。</p>
-                </div>
+        <div className="task-wrapper">
+          <div className="task-content">
+            <div className="task-content-header">任务说明</div>
+            <div className="task-content-body">
+              <p>1、分享线路给好友可完权益任务； </p>
+              <p>2、需累计分享10次，每次分享间隔时间24小时；</p>
+              <p>3、每次分享任务需满足10个不同的好友进行访问； </p>
+              <p>4、如有问题，请联系专属业务员进行处理。</p>
             </div>
-            <div className="task-close" onClick={() => setShowEmbedded(false)}></div>
           </div>
-        </Overlay>
+          <div className="task-close" onClick={() => setShowEmbedded(false)}></div>
+        </div>
+      </Overlay>
     </div>
   )
 }

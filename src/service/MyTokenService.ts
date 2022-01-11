@@ -39,4 +39,11 @@ export class MyTokenService {
    static rebateTask(): Promise<AxiosResponse<any>> {
     return axios.get('/api/market/rebate/rebateTask')
   }
+/**
+   * 我的任务-获取分享数据
+   */
+ static shareParam(params): Promise<AxiosResponse<any>> {
+  return axios.get('/api/market/rebate/getShareParam',{params})
+}
+  
 }
