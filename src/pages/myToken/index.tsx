@@ -5,6 +5,7 @@ import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
 import { MyTokenService } from '../../service/MyTokenService'
 import ToDoList from '@/components/myToken/toDoList'
+import emptyIcon from '@/assets/img/empty_b@3x.png'
 import './index.less'
 /**
  * w我的代币
@@ -100,7 +101,7 @@ const MyTokenPage: React.FC = () => {
                 })
               : <Empty
               className="custom-image"
-              image="https://img.yzcdn.cn/vant/custom-empty-image.png"
+              image={emptyIcon}
               description="购买返利商品开启更多任务，快去逛逛吧！"
             />}
           </div>
