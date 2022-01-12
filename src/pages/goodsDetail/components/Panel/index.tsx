@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import share from '@/assets/img/tinified/share.png'
 import likes from '@/assets/img/tinified/likes.png'
 import isLikes from '@/assets/img/tinified/isLike.png'
@@ -9,6 +9,7 @@ import { SHBridge } from '@/jsbridge'
 import { GoodsDetailService } from '@/service/GoodsDetailService'
 import { Toast } from 'react-vant'
 import './index.less'
+import { isMini } from '@/jsbridge/env'
 
 interface Props {
   data: any
@@ -23,6 +24,14 @@ interface Props {
 /**面板 */
 const Panel: React.FC<Props> = ({ data, isLike, myLikes, shares, goodsPriceId, shopId, onShare }) => {
   const [love, setLove] = useState(isLike ? true : false)
+  const [isWeapp, setIsWeapp] = useState(false)
+  useEffect(() => {
+    isMini().then((res) => {
+      if (res) {
+        setIsWeapp(true)
+      }
+    })
+  }, [])
   const giveThumbs = () => {
     setLove(!love)
     if (SHBridge.isLogin()) {
@@ -36,7 +45,7 @@ const Panel: React.FC<Props> = ({ data, isLike, myLikes, shares, goodsPriceId, s
     }
   }
   const giveShare = () => {
-    onShare()
+    // onShare()
     if (SHBridge.isLogin()) {
       SHBridge.shareDetail(data)
     } else {
@@ -55,10 +64,13 @@ const Panel: React.FC<Props> = ({ data, isLike, myLikes, shares, goodsPriceId, s
         <img src={love ? isLikes : likes} alt="" />
         <p>{myLikes}</p>
       </div>
-      <div onClick={giveShare}>
-        <img src={share} alt="" />
-        <p>{shares}</p>
-      </div>
+      {!isWeapp && (
+        <div onClick={giveShare}>
+          <img src={share} alt="" />
+          <p>{shares}</p>
+        </div>
+      )}
+
       <div>
         <img src={ask} alt="" />
         <p>咨询</p>
