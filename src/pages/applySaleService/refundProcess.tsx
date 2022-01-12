@@ -1,4 +1,4 @@
-import React, { useState, FC } from 'react'
+import React, { useState,useEffect, FC } from 'react'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
 import GoodsCard from '@/components/orderDetail/goodsCard'
@@ -6,6 +6,9 @@ import RefuIndentCard from '@/components/applySale/refuIndentCard'
 import BackCard from '@/components/orderDetail/backthatCard'
 import RefundProcessCard from '@/components/applySale/refundProcess'
 import CompleteFooter from '@/components/submitBars/completeFooter'
+import {RefundApis} from '@/service/RefundApply';
+
+
 import './index.less'
 /**
  * 退款失败入口
@@ -16,6 +19,7 @@ interface IndexRefundType {
   orderInfo: any
 }
 const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
+
   const {
     goodsName,
     id,
@@ -29,6 +33,26 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
     discountAmount,
     payAmount,
   } = orderInfo
+
+  const [refundList,setRefundList] = useState({
+    "adultNum": 0,
+			"amount": 0,
+			"applyTime": "0000-00-00",
+			"auditState": 0,
+			"childNum": 0,
+			"credentialImageUrl": "",
+			"id": 0,
+			"orderId": 0,
+			"reason": "",
+			"refundNo": "",
+			"refundState": 1,
+			"refundType": 0,
+			"remarks": "",
+			"ruleId": 0,
+			"tokenAmount": 0,
+			"updateTime": ""
+  })
+
   const BarsConfig = {
     btnGroups:[{name:"咨询",key:"ZX"},{name:"再次购买",key:"ZCGM"},{name:"撤销申请",key:"CXSQ"}],
     leftBtnGroups:[{text:"修改申请",key:'XGSQ'}],
@@ -61,13 +85,41 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
       }
     },
     onPopoverAction:(item)=>{
+
+      SHBridge.jump({
+        url: generateUrl(`/apply-sales?id=${id}&type=1&refundId=${refundList.id}`),
+        newWebView: true,
+        replace: false,
+        title: '修改申请',
+      })
       console.log('item :>> ', item);
     }
   }
+
+  useEffect(() => {
+    if (id) {
+      getRefundApis()
+    }
+  }, [id])
+
+  //获取退款单信息
+  const getRefundApis = ()=>{
+    RefundApis.RefundList(id).then((res)=>{
+      console.log('res :>> ', res);
+      const {code,data} = res;
+      if (code === "200") {
+        setRefundList(data[0])
+      }
+
+    }).catch((err)=>{
+      console.log('err :>> ', err);
+    })
+  }
+
   return (
     <div className="refund-container">
       <div className="refund-main">
-        <RefundProcessCard />
+        <RefundProcessCard {...refundList} />
         <div className="refund-card">
           <GoodsCard
             goodsName={goodsName}
@@ -77,7 +129,7 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
             childNum={childNum}
             promotionalImageUrl={promotionalImageUrl}
           />
-          <RefuIndentCard />
+          <RefuIndentCard  {...refundList} />
         </div>
         <BackCard />
       </div>

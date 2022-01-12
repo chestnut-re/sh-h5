@@ -18,6 +18,8 @@ import './index.less'
 /**
  * 申请退款入口
  * type 1 申请退款
+ * orderId 订单id
+ * refundId：退款单id 用于修改
  */
 
 interface IndexRefundType {
@@ -25,7 +27,7 @@ interface IndexRefundType {
 }
 const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
   const { search } = useLocation()
-  const { type, orderId } = qs.parse(search.slice(1))
+  const { type, orderId,refundId } = qs.parse(search.slice(1))
   const {
     goodsName,
     id,
@@ -68,12 +70,21 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
       .catch((err) => {
         console.log('err :>> ', err)
       })
+
+      if (refundId) {
+        RefundApis.detail(refundId).then((res)=>{
+            console.log('res :>> ', res);
+        }).catch((err)=>{
+          console.log('err :>> ', err);
+        })
+      }
+
   }, [])
 
   //提交退款申请
   const submitApplyRefund = () => {
     console.log('subData :>> ', subData)
-    const { reason, remarks, adultNum } = subData
+    const { reason, remarks, adultNum,credentialImageUrl } = subData
     if (!reason) {
       Toast('请选择退款原因')
       return
@@ -90,8 +101,23 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
     }
 
     console.log('resubDatasubDatasubData :>> ', subData);
-   
-    RefundApis.submit(subData)
+      //refundId存在是编辑状态 否者是新增
+
+    if (refundId) {
+      RefundApis.edit({
+        "credentialImageUrl": credentialImageUrl,
+        "orderRefundId": refundId,
+        "reason": reason,
+        "remarks": remarks
+      }).then((res)=>{
+              console.log('res修改退款说明 :>> ', res);
+      }).catch((err)=>{
+        console.log('res修改退款说明err :>> ', err);
+      })
+
+
+    }else{
+      RefundApis.submit(subData)
       .then((res) => {
         const { code, data } = res
 
@@ -109,7 +135,11 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
       .catch((err) => {
         console.log('err :>> ', err)
       })
-    console.log('object提交 :>> ')
+
+      console.log('object提交 :>> ')
+    }
+
+    
   }
   //处理人员数据改变
   const changeRefundNumHandle = (val) => {
