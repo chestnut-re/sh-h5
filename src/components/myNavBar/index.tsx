@@ -80,7 +80,7 @@ const MyNavBar: FC<NavBarProps> = (props: NavBarProps) => {
     >
       <NavBar
         title={props.title}
-        safeAreaInsetTop={props.safeAreaInsetTop}
+        safeAreaInsetTop={isApp() ? false : props.safeAreaInsetTop}
         leftArrow={props.leftArrow}
         border={props.border}
         rightText={props.rightText}
