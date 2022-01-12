@@ -1,18 +1,29 @@
-import React, { useState,FC } from 'react'
+import React, { useState, FC } from 'react'
 
-import { Icon } from 'react-vant';
 import './index.less'
 /**
  * 退改说明卡片
  */
+interface RefundAmountType{
+  refundTokenAmount:number;
+  refundAmount:number
+}
 
-const RefundAmountCard:FC = (props) => {
+const RefundAmountCard: FC<RefundAmountType> = ({ refundTokenAmount, refundAmount }) => {
   return (
-    <div className="refuamount-card">
-      <div className="refuamount-name">退款金额</div>
-      <div className="refuamount-r">
-      ¥<span>3610</span>
+    <div className='refuamount-container'>
+      <div className="refuamount-card">
+        <div className="refuamount-name">退款金额</div>
+        <div className="refuamount-r">
+          ¥<span>{refundAmount/100}</span>
+        </div>
       </div>
+      {refundTokenAmount>0?<div className="refuamount-card">
+        <div className="refuamount-name">退回积分</div>
+        <div className="refuamount-r">
+          <span>{refundTokenAmount}</span>
+        </div>
+      </div>:null}
     </div>
   )
 }

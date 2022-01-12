@@ -1,4 +1,4 @@
-import React, { useState, FC } from 'react'
+import React, { useState,useEffect, FC } from 'react'
 
 import './index.less'
 
@@ -6,7 +6,19 @@ import './index.less'
  * 取消出行人
  *
  */
-const CancelTripCard: FC = (props) => {
+interface CancelTripType{
+  adultRefundList:any[],
+  childRefundList:any[];
+  onchangeCancelTrip:()=>void
+}
+
+const CancelTripCard: FC<CancelTripType> = ({adultRefundList,childRefundList,onchangeCancelTrip}) => {
+  const [tripList,setTripList] = useState([])
+
+  useEffect(()=>{
+    setTripList([...adultRefundList,...childRefundList])
+  },[adultRefundList,childRefundList])
+
   return (
     <div className="canceltrip-card rv-hairline--top-bottom">
       <div className="canceltrip-name">取消出行人</div>

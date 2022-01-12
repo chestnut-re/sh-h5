@@ -105,7 +105,7 @@ const StepperCard: FC<StepType> = ({
               <div className="step-name hairline--icon">
                 <Icon size="4vw" className="integra-icon" name={integralIcon} />
                 <span>金豆</span>
-                <span className="name-subtitle">共{tokenAmountNum / RMB_CON}</span>
+                <span className="name-subtitle">共{tokenAmountNum}</span>
               </div>
               <div className="step-content">
                 <ConfigProvider themeVars={themeVars}>

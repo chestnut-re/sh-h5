@@ -11,13 +11,26 @@ import './index.less'
  * 退款失败入口
  * type 3 退款失败（refundFailure）
  */
-const RefundFailure: FC = (props: any) => {
+
+ interface IndexRefundType{
+  orderInfo:any
+}
+const RefundFailure: FC<IndexRefundType> = ({orderInfo}) => {
+  const {goodsName,id,travelStartDate,travelEndDate,adultNum,childNum,promotionalImageUrl,tokenAmount,discountAmount,payAmount} = orderInfo
+ 
   return (
     <div className="refund-container">
       <div className="refund-main">
         <RefundProcessCard />
         <div className="refund-card">
-          <GoodsCard />
+        <GoodsCard
+            goodsName={goodsName}
+            startDate={travelStartDate}
+            endDate={travelEndDate}
+            adultNum={adultNum}
+            childNum={childNum}
+            promotionalImageUrl={promotionalImageUrl}
+          />
           <RefuIndentCard />
         </div>
         <BackCard />

@@ -127,6 +127,7 @@ const SubmitOrderPage: FC = () => {
 
   //成人数量限购
   const getrestrictedPurchase = (goodsId)=>{
+    return
     OrderApi.purchase({goodsId}).then((res)=>{
         console.log('res :>> ', res);
     }).catch((err)=>{
