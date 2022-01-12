@@ -8,33 +8,39 @@ import './index.less'
  * 底部订单完成卡片包含 左侧申请售后 右侧 再次购买 分享给ta按钮
  */
 
-const CompleteFootCard: FC<FooterProps> = (props) => {
-  const { showLeftLinkBtn, LeftLinkActions, barLeftTitle, barRightTitle, showRightLinkBtn, RightLinkTitle } = props
+const CompleteFootCard: FC<FooterProps> = ({leftBtnGroups,btnGroups,onPopoverAction,onSelect}) => {
 
   const onLinkSelect = (item) => {
-    console.log('props :>> ', item)
-    onClickAction('LeftLinkTitle', item)
+    onPopoverAction&&onPopoverAction(item)
   }
 
-  const onClickAction = (type, item) => {
-    props.onSelect?.(type, item ?? { text: props[type] })
+  const onClickAction = (item) => {
+    onSelect&&onSelect(item)
   }
 
   return (
     <div className="complete-footer">
       <div className="complete-footmain">
-        {showLeftLinkBtn && (
+        {leftBtnGroups&&leftBtnGroups.length && (
           <div className="complete-btnLeft">
             <Popover
               placement="top-start"
-              actions={LeftLinkActions}
+              actions={leftBtnGroups}
               onSelect={onLinkSelect}
               reference={<Icon name={applyRefundIcon} size="4.8vw" />}
             />
           </div>
         )}
         <div className="complete-btnRight">
-          {barLeftTitle && (
+        <div className="complete-r">
+
+              {btnGroups?.map((item,index)=>{
+                  return (item.name?<div className="btn-pay complete-foot-btn" key={index} onClick={() => onClickAction(item, null)}>
+                  {item.name}
+                </div>:null)
+              })}
+            </div>
+          {/* {barLeftTitle && (
             <div className="complete-l">
               {barLeftTitle && barLeftTitle && (
                 <div className="complete-dis complete-foot-btn" onClick={() => onClickAction('barLeftTitle', null)}>
@@ -52,6 +58,13 @@ const CompleteFootCard: FC<FooterProps> = (props) => {
               )}
             </div>
           )}
+          {CenterLinkTitle && (
+            <div className="complete-r">
+              <div className="btn-pay complete-foot-btn" onClick={() => onClickAction('CenterLinkTitle', null)}>
+                  {CenterLinkTitle}
+                </div>
+            </div>
+          )}
           {showRightLinkBtn && RightLinkTitle && (
             <div className="complete-r">
               <div
@@ -61,18 +74,11 @@ const CompleteFootCard: FC<FooterProps> = (props) => {
                 {RightLinkTitle}
               </div>
             </div>
-          )}
+          )} */}
         </div>
       </div>
     </div>
   )
 }
-CompleteFootCard.defaultProps = {
-  barLeftTitle: '', //左侧按钮文案
-  barRightTitle: '', //右侧按钮文案
-  showLeftLinkBtn: false, //是否显示最左侧按钮
-  LeftLinkActions: [{ text: '申请售后' }], //左侧按钮文案
-  showRightLinkBtn: false, //是否显示最右侧按钮
-  RightLinkTitle: 'xxx',
-}
+
 export default CompleteFootCard

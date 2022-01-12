@@ -51,9 +51,9 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
     orderId: orderId,
     reason: '',
     remarks: '',
-    ruleId: "",
-    refundTokenAmount:0,
-    refundAmount:0,
+    ruleId: '',
+    refundTokenAmount: 0,
+    refundAmount: 0,
     suborderIds: [],
   })
 
@@ -73,59 +73,65 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
   //提交退款申请
   const submitApplyRefund = () => {
     console.log('subData :>> ', subData)
-    const {reason,remarks,adultNum} = subData;
+    const { reason, remarks, adultNum } = subData
     if (!reason) {
-      Toast("请选择退款原因")
+      Toast('请选择退款原因')
       return
     }
 
-    if (adultNum<1) {
-      Toast("请选择退款件数")
+    if (adultNum <= 0&&childNum<=0) {
+      Toast('请选择退款件数')
       return
     }
 
     if (!remarks) {
-      Toast("请填写退款说明")
+      Toast('请填写退款说明')
       return
     }
-    
-    
-    RefundApis.submit(subData).then((res)=>{
 
-      const {code,data} = res;
+    console.log('resubDatasubDatasubData :>> ', subData);
+   
+    RefundApis.submit(subData)
+      .then((res) => {
+        const { code, data } = res
 
-      if (code==="200"&&data) {
-        SHBridge.jump({
-          url: generateUrl(`/apply-sales?orderId=${orderId}&type=2`),
-          newWebView: false,
-          replace: true,
-          title: '申请退款',
-        })
-      }
+        if (code === '200' && data) {
+          SHBridge.jump({
+            url: generateUrl(`/apply-sales?orderId=${orderId}&type=2`),
+            newWebView: false,
+            replace: true,
+            title: '申请退款',
+          })
+        }
 
-      console.log('res 提交申请:>> ', res);
-    }).catch((err)=>{
-      console.log('err :>> ', err);
-    })
+        console.log('res 提交申请:>> ', res)
+      })
+      .catch((err) => {
+        console.log('err :>> ', err)
+      })
     console.log('object提交 :>> ')
   }
   //处理人员数据改变
   const changeRefundNumHandle = (val) => {
     const { adultRefundList, childRefundList } = suborderInfo
     let adultRefundList_options = []
-    let refundAmount = 0;
-    let refundTokenAmount = 0;
+    let refundAmount = 0
+    let refundTokenAmount = 0
 
-    console.log('adultRefund>>>>>>>>List :>> ', adultRefundList);
+    console.log('adultRefund>>>>>>>>List :>> ', adultRefundList)
 
-    const adultRefund = adultRefundList?adultRefundList.slice(0, val.adultNum):[]
-    const childRefund = childRefundList?childRefundList.slice(0, val.childNum):[]
-    const aduChilList = [...adultRefund,...childRefund]
+    const adultRefund = adultRefundList ? adultRefundList.slice(0, val.adultNum) : []
+    const childRefund = childRefundList ? childRefundList.slice(0, val.childNum) : []
+    const aduChilList = [...adultRefund, ...childRefund]
 
     adultRefundList_options = aduChilList.map((item) => item.id)
-    refundAmount = aduChilList.reduce((sum, w) => { return w.payAmount + sum },0)
-    refundTokenAmount = aduChilList.reduce((sum, w) => { return w.tokenAmount + sum },0)
-  
+    refundAmount = aduChilList.reduce((sum, w) => {
+      return w.payAmount + sum
+    }, 0)
+    refundTokenAmount = aduChilList.reduce((sum, w) => {
+      return w.tokenAmount + sum
+    }, 0)
+
     setSubData((v) => {
       return {
         ...v,
@@ -147,8 +153,40 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
     })
   }
   //退款原因
-  const onchangeReasonHandle = (item)=>{
+  const onchangeReasonHandle = (item) => {
     refundInsChangeHandle(item)
+  }
+  //
+  const onchangeCancelTripHandle = (item) => {
+    const { aduList, childList } = item;
+    const newArr = [...aduList,...childList]
+    const Fh = newArr.map((item)=>{
+      return item.id
+    })
+
+    const refundAmount = newArr.reduce((sum, w) => {
+      return w.payAmount + sum
+    }, 0)
+    const refundTokenAmount = newArr.reduce((sum, w) => {
+      return w.tokenAmount + sum
+    }, 0)
+
+    console.log('Fh :>> ', Fh);
+    // return
+
+    setSubData((v) => {
+      return {
+        ...v,
+        adultNum: aduList.length, //成人数量
+        childNum: childList.length, //儿童数量
+        suborderIds: Fh,
+        refundAmount,
+        refundTokenAmount
+      }
+    })
+
+
+    console.log('item :>> ', item)
   }
 
   return (
@@ -168,7 +206,9 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
         <RefundReasonCard onchangeReason={onchangeReasonHandle} />
 
         {updateType === 0 && <RefundPieceCard suborderInfo={suborderInfo} changeRefundNum={changeRefundNumHandle} />}
-        {updateType === 1 && <CancelTripCard suborderInfo={suborderInfo} />}
+        {updateType === 1 && (
+          <CancelTripCard suborderInfo={suborderInfo} onchangeCancelTrip={onchangeCancelTripHandle} />
+        )}
         <RefundAmountCard {...subData} />
         <RefundInstrucCard refundInsChange={refundInsChangeHandle} />
         <div className="refund-btn">
