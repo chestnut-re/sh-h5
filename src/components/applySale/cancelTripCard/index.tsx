@@ -16,7 +16,7 @@ const CancelTripCard: FC<CancelTripType> = ({adultRefundList,childRefundList,onc
   const [tripList,setTripList] = useState([])
 
   useEffect(()=>{
-    setTripList([...adultRefundList,...childRefundList])
+    // setTripList([...adultRefundList,...childRefundList])
   },[adultRefundList,childRefundList])
 
   return (
