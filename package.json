@@ -80,6 +80,7 @@
     "clipboard": "^2.0.8",
     "clsx": "^1.1.1",
     "dayjs": "^1.10.7",
+    "dom-to-image": "^2.6.0",
     "echarts": "^5.2.2",
     "echarts-for-react": "^3.0.2",
     "js-cookie": "^3.0.1",
@@ -93,6 +94,7 @@
     "react-router-dom": "^5.2.0",
     "react-vant": "^1.4.11",
     "swiper": "^7.4.1",
+    "vconsole": "^3.11.0",
     "weixin-js-sdk": "^1.6.0"
   },
   "lint-staged": {

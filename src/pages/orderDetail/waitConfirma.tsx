@@ -42,8 +42,8 @@ const OrderConfirmaPage: FC = (props:any) => {
   const [qrCodedata, setQrCodedata] = useState()
   console.log('object :>> ', props)
   const BarsConfig = {
-    showLeftLinkBtn: false,
-    LeftLinkActions: [],
+    showLeftLinkBtn: true,
+    LeftLinkActions: [{ text: '申请售后'}],
     barLeftTitle: '再次购买',
     barRightTitle: qrCodedata?'':'填写出行人信息',
     onSelect: (type, item) => {
@@ -59,6 +59,15 @@ const OrderConfirmaPage: FC = (props:any) => {
           break
         case 'barRightTitle':
           FillTraveHandelfun()
+          break
+        case 'LeftLinkTitle':
+          //打开售后
+          SHBridge.jump({
+            url: generateUrl(`/apply-sales?orderId=${orderId}&type=0`),
+            newWebView: true,
+            replace: false,
+            title: '申请售后',
+          })
           break
         default:
           break

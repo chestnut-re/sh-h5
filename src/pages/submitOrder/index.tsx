@@ -4,7 +4,7 @@ import GoodsCard from '@/components/orderDetail/goodsCard/submitGoods'
 import StepperCard from '@/components/orderDetail/stepperCard'
 import qs from 'query-string'
 import dayjs from 'dayjs';
-import { hooks,Toast, Popup } from 'react-vant'
+import { Toast, Popup } from 'react-vant'
 import PayTypeCard from '@/components/orderDetail/payTypeCard'
 import BackCard from '@/components/orderDetail/backthatCard'
 import FooterCard from '@/components/orderDetail/footerCard'
@@ -125,6 +125,15 @@ const SubmitOrderPage: FC = () => {
     })
   }, [selectTime, stepperData])
 
+  //成人数量限购
+  const getrestrictedPurchase = (goodsId)=>{
+    OrderApi.purchase({goodsId}).then((res)=>{
+        console.log('res :>> ', res);
+    }).catch((err)=>{
+        console.log('err :>> ', err);
+    })
+  }
+
   const getGoodsDetail = (id) => {
     return new Promise((resolve, reject) => {
       OrderApi.detail({
@@ -208,10 +217,16 @@ const SubmitOrderPage: FC = () => {
             },
           }
         })
+
+        //是否开启限购字段未知后期添加
+        getrestrictedPurchase(id)
+
       })
       .catch((err) => {
         console.log(' :>>接口异常 ')
       })
+
+
   }, [id])
 
   //获取成人数量
@@ -227,18 +242,15 @@ const SubmitOrderPage: FC = () => {
   const handlePayType = (item) => {
     const { value } = item
     setpayType(value)
-    console.log('itemz支付方式 :>> ', item)
   }
 
   //协议状态处理
   const handleProtocolStatus = (status) => {
-    console.log('status :>> ', status)
     setIsProtocol(status)
   }
 
   //处理日历数据
   const selectedCalendHandel = (item) => {
-    console.log('item执行 :>> ', item)
     setSelectTime(item)
   }
   //支付成功跳转
