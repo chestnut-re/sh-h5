@@ -44,7 +44,7 @@ const OrderConfirmaPage: FC = (props:any) => {
   const BarsConfig = {
     btnGroups:[{name:"再次购买",key:"ZCGM"},{name:qrCodedata?'':'填写出行人信息',key:"TXCXR"}],
     leftBtnGroups:[{text:"申请售后",key:'SQSH'}],
-    onSelect: (type, item) => {
+    onSelect: (item) => {
       const {key} = item;
       switch (key) {
         case 'ZCGM':

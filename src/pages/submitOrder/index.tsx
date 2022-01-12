@@ -22,6 +22,7 @@ import './index.less'
  * url 必填入参
  * id : 商品id
  * source：下单途径:1 自然获客、2 分享任务链接、3 分享普通链接、4 线下扫码
+ * isRebate 是否返利商品：0否1是
  */
 
 const RMB_CON = 100
@@ -30,7 +31,7 @@ const RMB_CON = 100
 const SubmitOrderPage: FC = () => {
   let UseToast;
   const { search } = useLocation()
-  const { id,source } = qs.parse(search.slice(1))
+  const { id,source,isRebate } = qs.parse(search.slice(1))
   //提交数据
   const [submitData, setSubmitData] = useState({
     childCurrentPrice: 0, //儿童现售价单价
@@ -214,6 +215,7 @@ const SubmitOrderPage: FC = () => {
               ...v.orderDto,
               goodsName,
               goodsId: id,
+              isRebate:isRebate!="1"?0:1,
               promotionalImageUrl,
             },
           }
