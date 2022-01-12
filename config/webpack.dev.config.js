@@ -26,6 +26,8 @@ const webpackConfigDev = {
       // '/api/third': 'http://192.168.10.61:9000',
       // '/api': 'https://devapi.mountainseas.cn',
       '/api': 'https://testapi.mountainseas.cn',
+      '/napi': 'https://napi.mountainseas.cn',
+      // '/napi': 'http://0.0.0.0:7001',
     },
   },
 }
