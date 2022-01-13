@@ -425,6 +425,12 @@ const SubmitOrderPage: FC = () => {
     setPopvermode(2)
     setShowPrivilege(true)
   }
+  //分享
+  const sharePurchase = ()=>{
+    SHBridge.shareDetail({
+      
+    })
+  }
   return (
     <div className="puorder-container">
       <div className="puorder-main">
@@ -494,7 +500,7 @@ const SubmitOrderPage: FC = () => {
               {submitinfo.purchaseConfig.purchaseNum}】张成人票，分享商品，好友【下单付款】后可提升【
               {submitinfo.purchaseConfig.addNum}】个限购名额。
             </div>
-            <div className="purch-ins-btn" onClick={()=>{Toast("开发中")}}>分享好友</div>
+            <div className="purch-ins-btn" onClick={()=>{sharePurchase}}>分享好友</div>
           </div>
         ) : (
           <div className="privilege-box">
