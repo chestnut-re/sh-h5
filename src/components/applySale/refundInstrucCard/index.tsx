@@ -71,9 +71,9 @@ const RefundInstrucCard: FC<RefundInstrucType> = ({ refundInsChange }) => {
   const setDemo2 = (v) => {
     console.log('v :>> ', v)
   }
-  const detailDemo = (info) => {
+  const detailDemo = (index) => {
     const newFilelist = [...imgFileList]
-    newFilelist.splice(info.index, 1)
+    newFilelist.splice(index, 1)
 
     setImgFileList(newFilelist)
   }
