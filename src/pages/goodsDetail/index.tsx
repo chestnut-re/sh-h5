@@ -14,6 +14,7 @@ import 'swiper/css/effect-fade'
 import 'swiper/css/effect-coverflow'
 import 'swiper/css/pagination'
 import './index.less'
+import Cookies from 'js-cookie'
 
 // {"code":"200","msg":"成功","data":{"id":1473837487611928576,"goodsPriceId":1473837487616122880,"goodsName":"欧洲11国双日游","goodsNickName":"跑断腿","personCurrentPrice":1,"personCostPrice":1,"personMarkPrice":1,"childCurrentPrice":1,"childCostPrice":1,"childMarkPrice":1,"stock":99,"days":7,"goodsDetailStart":{"pageTemplate":"首尾页模板","backgroundImage":null,"backgroundImgs":["https://s1.ax1x.com/2021/12/10/o5hkUs.png"],"sellingTag":[],"submitOrderImg":null},"goodsDetailPage":[{"pageTemplate":"详情页1模板","detailTitle":"详情1","detailDesc":"详情1简介","backgroundImage":null,"backgroundImgs":["https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg9.51tietu.net%2Fpic%2F2019-091106%2F1eqn3t2og0k1eqn3t2og0k.jpg&refer=http%3A%2F%2Fimg9.51tietu.net&app=2002&size=f9999","https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg9.51tietu.net%2Fpic%2F2019-091116%2Fzwk1xx25efgzwk1xx25efg.jpg&refer=http%3A%2F%2Fimg9.51tietu.net&app=2002&size=f9999"],"price":9999,"priceColour":"#000000","submitOrderImg":"提交订单图片url"}],"goodsDetailEnd":{"pageTemplate":"首尾页模板","backgroundImage":null,"backgroundImgs":["https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg9.51tietu.net%2Fpic%2F2019-091106%2F1eqn3t2og0k1eqn3t2og0k.jpg&refer=http%3A%2F%2Fimg9.51tietu.net&app=2002&size=f9999","https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg9.51tietu.net%2Fpic%2F2019-091116%2Fzwk1xx25efgzwk1xx25efg.jpg&refer=http%3A%2F%2Fimg9.51tietu.net&app=2002&size=f9999"],"sellingTag":[],"currentPriceColour":"#fff","markPriceColour":"#999","currentPriceTextColour":null,"markPriceTextColour":null,"submitOrderImg":null}}}
 
@@ -25,6 +26,8 @@ const GoodsDetailPage: React.FC = () => {
   const [data, setData] = useState<any>({})
   const [controlledSwiper, setControlledSwiper] = useState<any>(null)
   const [shareVisible, setShareVisible] = useState(false)
+
+  const appSource = Cookies.get('app_source')
 
   useEffect(() => {
     const params = getUrlParams(window.location.href)
@@ -159,9 +162,11 @@ const GoodsDetailPage: React.FC = () => {
             </div>
           }
         /> */}
-        <div className="ref-route1" onClick={_toTravelRoute}>
-          参考行程
-        </div>
+        {appSource == 'biz' ? (
+          <div className="ref-route1" onClick={_toTravelRoute}>
+            参考行程
+          </div>
+        ) : null}
         <div className="ref-route1" onClick={_toDescRoute}>
           限购｜下单赢乐豆
         </div>
