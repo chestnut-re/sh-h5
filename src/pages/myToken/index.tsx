@@ -64,12 +64,15 @@ const MyTokenPage: React.FC = () => {
         console.log('err :>> ', err);
     });
   }
+  const openHappyCoins =  () => {
+    SHBridge.jump({ url: generateUrl('/happy-coin'), newWebView: true, title: '乐豆说明' })
+  }
 
   return (
     <div className="MyTokenPage__root">
       <div className="mtkon-box">
         <div className="mtkon-box-header">
-          <div className="mtkon-header-balance">乐豆余额</div>
+          <div className="mtkon-header-balance" onClick={()=>{openHappyCoins}}>乐豆余额</div>
           <div className="mtkon-header-with">
             <div className="mhw-left">{totalAmount}</div>
             <div className="mhw-right">

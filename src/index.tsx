@@ -180,7 +180,9 @@ const RefundChangeIns = loadable(() => import(/* webpackChunkName: 'MassPage' */
 const SpecialEvents = loadable(() => import(/* webpackChunkName: 'MassPage' */ './pages/specialEvents'))
 
 /**商品分享图 */
-const GoodPng = loadable(() => import(/* webpackChunkName: 'GoodPng' */ './pages/GoodPng'))
+const GoodPng = loadable(() => import(/* webpackChunkName: 'GoodPng' */ './pages/goodPng'))
+/**乐币说明 */
+const HappyCoinIns = loadable(() => import(/* webpackChunkName: 'GoodPng' */ './pages/happyCoinIns'))
 
 const env = process.env.NODE_ENV
 console.log(env)
@@ -267,6 +269,7 @@ const App = () => (
       <Route path="/userdrawal" exact component={WithdrawSuccessPage}></Route>
 
       <Route path="/goodpng" exact component={GoodPng}></Route>
+      <Route path="/happy-coin" exact component={HappyCoinIns}></Route>
     </BrowserRouter>
   </Suspense>
 )
