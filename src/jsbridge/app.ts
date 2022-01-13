@@ -192,6 +192,20 @@ export class AppBridge {
     SHApp.postMessage(JSON.stringify(msg))
   }
   /**
+   * 分享活动
+   * @param authStr
+   */
+  static shareActivity(authStr: string): void {
+    const msg = {
+      method: 'shareActivity',
+      data: {
+        shareActivity: authStr,
+        // backFn: _callMethod(backFn),
+      },
+    }
+    SHApp.postMessage(JSON.stringify(msg))
+  }
+  /**
    * 商品分享(测试)
    */
   static shareTest(authStr: string): void {

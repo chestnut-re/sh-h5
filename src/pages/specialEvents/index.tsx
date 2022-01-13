@@ -58,7 +58,7 @@ const SpecialEventsPage: React.FC = () => {
   //右侧分享按钮点击
   const onClickHandelRight = () => {
     if (SHBridge.isLogin()) {
-      SHBridge.shareDetail(specialDetail)
+      SHBridge.shareActivity(specialDetail)
     } else {
       Toast('还未登陆，请登陆后分享')
     }

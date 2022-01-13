@@ -190,6 +190,15 @@ export class SHBridge {
     }
   }
   /**
+   * 活动分享
+   * @param authStr
+   */
+  static shareActivity(authStr: string): void {
+    if (isApp()) {
+      AppBridge.shareActivity(authStr)
+    }
+  }
+  /**
    * 商品分享（测试）
    */
   static shareTest(authStr: string): void {
