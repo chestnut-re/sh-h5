@@ -17,6 +17,11 @@ const AppBizPage = loadable(() => import(/* webpackChunkName: 'AppBizPage'*/ './
 /**商品详情页 */
 const GoodsDetailPage = loadable(() => import(/* webpackChunkName: 'GoodsDetailPage'*/ './pages/goodsDetail'))
 
+/**商品详情页 */
+const ActiviteDescPage = loadable(
+  () => import(/* webpackChunkName: 'GoodsDetailPage'*/ './pages/goodsDetail/ActiviteDesc')
+)
+
 /**参考行程 */
 const TravelRoutePage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/travelRoute'))
 /**我的行程 */
@@ -189,6 +194,7 @@ const App = () => (
       <Route path="/appbiz" exact component={AppBizPage}></Route>
 
       <Route path="/goods-detail" exact component={GoodsDetailPage}></Route>
+      <Route path="/goods-desc" exact component={ActiviteDescPage}></Route>
 
       <Route path="/travel/route" exact component={TravelRoutePage}></Route>
       <Route path="/my-travel" exact component={MyTravelPage}></Route>
@@ -217,7 +223,7 @@ const App = () => (
 
       <Route path="/test/page" exact component={TestPage}></Route>
       <Route path="/test/wxpage" exact component={TestWXPage}></Route>
-      
+
       <Route path="/test/chart" exact component={TestChartPage}></Route>
 
       <Route path="/order-detail" exact component={OrderDetailPage}></Route>
@@ -261,7 +267,6 @@ const App = () => (
       <Route path="/userdrawal" exact component={WithdrawSuccessPage}></Route>
 
       <Route path="/goodpng" exact component={GoodPng}></Route>
-      
     </BrowserRouter>
   </Suspense>
 )

@@ -67,6 +67,14 @@ const GoodsDetailPage: React.FC = () => {
     })
   }
 
+  const _toDescRoute = () => {
+    SHBridge.jump({
+      url: generateUrl(`/goods-desc`),
+      newWebView: true,
+      title: '商品活动内容',
+    })
+  }
+
   return (
     <div className="GoodsDetailPage__root">
       {/* <div className="tips">提示：此商品最多三单</div> */}
@@ -153,6 +161,9 @@ const GoodsDetailPage: React.FC = () => {
         /> */}
         <div className="ref-route1" onClick={_toTravelRoute}>
           参考行程
+        </div>
+        <div className="ref-route1" onClick={_toDescRoute}>
+          限购｜下单赢乐豆
         </div>
       </div>
       <ShareView
