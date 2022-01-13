@@ -35,9 +35,9 @@ const Panel: React.FC<Props> = ({ data, isLike, myLikes, shares, goodsPriceId, s
   const giveThumbs = () => {
     setLove(!love)
     if (SHBridge.isLogin()) {
-      GoodsDetailService.thumbsUp({ goodsId: goodsPriceId, shopId: shopId, type: 1, state: love ? 0 : 1 }).then(
+      GoodsDetailService.thumbsUp({ goodsId: goodsPriceId, shopId: shopId, state: love ? 0 : 1 }).then(
         (res) => {
-          console.log(res.data)
+          console.log('123', res)
         }
       )
     } else {

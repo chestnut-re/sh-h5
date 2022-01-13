@@ -135,7 +135,7 @@ const GoodsDetailPage: React.FC = () => {
         isLike={data?.isLike}
         myLikes={data?.shamLikes}
         shares={data?.shamShares}
-        goodsPriceId={pageRef.current.goodsPriceId}
+        goodsPriceId={pageRef.current.id}
         shopId={pageRef.current.shopId}
         onShare={_share}
       />

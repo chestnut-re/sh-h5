@@ -6,7 +6,7 @@ import qs from 'query-string'
 import { SHBridge } from '@/jsbridge'
 import emptyIcon from '@/assets/img/empty@3x.png'
 import shareIcon from '@/assets/img/share_icon.png'
-import { Image, Empty, Icon,Toast } from 'react-vant'
+import { Image, Empty, Icon, Toast } from 'react-vant'
 import { SpecialEventsApi } from '@/service/SpecialEvents'
 import { generateUrl } from '@/utils'
 import './index.less'
@@ -23,25 +23,33 @@ const SpecialEventsPage: React.FC = () => {
   const [specialGoodsList, setspecialGoodsList] = useState<any[]>([])
   const [specialDetail, setspecialDetail] = useState({
     activityDetailImg: '',
+    activitySubtitle: '',
+    activityImg: '',
+    activityTitle: '',
+    id: '',
   })
   useEffect(() => {
     //默认全屏效果
     SHBridge.setFullScreen('1')
     SpecialEventsApi.detail({
-      id:id
-    }).then((res:any)=>{
-       const {code,msg,data} = res;
-        console.log('res :>> ', res);
-        if (code === "200"&&data) {
-          const {activityDetailImg,goodsList} = data;
-          setspecialDetail({
-            activityDetailImg: activityDetailImg,
-          })
-          setspecialGoodsList(goodsList)
-        }else{
-          Toast(msg?msg:"接口异常")
-        }
-    }).catch((err)=>{
+      id: id
+    }).then((res: any) => {
+      const { code, msg, data } = res;
+      console.log('res :>> ', res);
+      if (code === "200" && data) {
+        const { activityDetailImg, goodsList, activityImg, activitySubtitle, activityTitle, id } = data;
+        setspecialDetail({
+          activityDetailImg: activityDetailImg,
+          activityImg: activityImg,
+          activitySubtitle: activitySubtitle,
+          activityTitle: activityTitle,
+          id: id
+        })
+        setspecialGoodsList(goodsList)
+      } else {
+        Toast(msg ? msg : "接口异常")
+      }
+    }).catch((err) => {
       Toast(err.msg)
       console.log('res :>> ', err);
     })
@@ -49,7 +57,11 @@ const SpecialEventsPage: React.FC = () => {
 
   //右侧分享按钮点击
   const onClickHandelRight = () => {
-    Toast('点击了分享')
+    if (SHBridge.isLogin()) {
+      SHBridge.shareDetail(specialDetail)
+    } else {
+      Toast('还未登陆，请登陆后分享')
+    }
   }
   //左侧回退按钮事件处理
   const onClickHandelLeft = () => {
@@ -57,7 +69,7 @@ const SpecialEventsPage: React.FC = () => {
   }
   //打开活动商品详情
   const openActivityGoodsDetail = (item) => {
-    const {id,goodsPriceId} = item;
+    const { id, goodsPriceId } = item;
     SHBridge.jump({
       url: generateUrl(`/goods-detail?id=${id}&goodsPriceId=${goodsPriceId}`),
       newWebView: true,
