@@ -4,6 +4,8 @@ import GoodsCard from '@/components/orderDetail/goodsCard'
 import PreferCard from '@/components/orderDetail/preferCard'
 import BackCard from '@/components/orderDetail/backthatCard'
 import ApplyRefundCard from '@/components/applySale/applyRefundCard'
+import { SHBridge } from '@/jsbridge'
+import { generateUrl } from '@/utils'
 
 import './index.less'
 
@@ -16,27 +18,37 @@ interface IndexRefundType{
  * type 1 申请退款
  */
 const IndexRefund: FC<IndexRefundType> = ({orderInfo}) => {
-  
+  const {goodsName,id,travelStartDate,travelEndDate,adultNum,childNum,promotionalImageUrl,tokenAmount,discountAmount,payAmount} = orderInfo
   useEffect(() => {
     // const {goodsName} = orderInfo
     console.log('objectpropspropspropsprops :>> ', orderInfo);
   }, [])
-  // const {goodsName,travelStartDate,travelEndDate,adultNum,childNum,promotionalImageUrl} = props.orderInfo
+
+  const changeApplyHandle = ()=>{
+    SHBridge.jump({
+      url: generateUrl(`/apply-sales?orderId=${id}&type=1`),
+      newWebView: false,
+      replace: true,
+      title: '申请退款',
+    })
+    console.log('object :>> ');
+  }
+    // 
   return (
     <div className="refund-container">
       <div className="refund-main">
         <div className="refund-card">
-          {/* <GoodsCard
+          <GoodsCard
             goodsName={goodsName}
             startDate={travelStartDate}
             endDate={travelEndDate}
             adultNum={adultNum}
             childNum={childNum}
             promotionalImageUrl={promotionalImageUrl}
-          /> */}
-          <PreferCard />
+          />
+          <PreferCard tokenAmount={tokenAmount} discountAmount={discountAmount} payAmount={payAmount} />
         </div>
-        <ApplyRefundCard />
+        <ApplyRefundCard changeApply={changeApplyHandle} />
         <BackCard />
       </div>
     </div>

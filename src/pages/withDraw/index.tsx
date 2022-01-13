@@ -23,14 +23,13 @@ const WithDrawPage: React.FC = () => {
         } else {
           setDollar(res.data.maxCashAmount)
         }
-        Toast({
-          message: res['msg'],
-        })
       } else {
         Toast({
           message: res['msg'],
         })
       }
+    }).catch((err)=>{
+       Toast("系统异常")
     })
   }, [])
 

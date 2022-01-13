@@ -21,10 +21,26 @@ interface TravelProps{
         id:string;
         orderId:string;
         state:number;
+        refundState:number;
 }
 
 const TravelCard:FC<TravelProps> = (props) => {
-  const {travelerName,id,orderId,state} = props;
+  const {travelerName,id,orderId,state,refundState} = props;
+  
+  const [newstate,setNewstate] = useState(state)
+
+  useEffect(()=>{
+        if(refundState){
+                if(refundState===1){
+                        setNewstate(5)  
+                }else if(refundState===2){
+                        setNewstate(6)    
+                }else if(refundState===3){
+                        setNewstate(7)    
+                }
+        }
+  },[refundState])
+
 const [qrCodeVal,setQrCodeVal] = useState("");
         useEffect(() => {
                 const Stringval = `shtravel://app?data=${encodeURIComponent(JSON.stringify({"orderId":orderId,"suborderId":id,type:"verifications"}))}`
@@ -37,15 +53,15 @@ const [qrCodeVal,setQrCodeVal] = useState("");
                 出行确认码
         </div>
         <div className="trave-title">
-                {StateMap[state].qrName}
+                {StateMap[newstate].qrName}
         </div>
         <div className="qrcode-content">
         <QRCode 
             value={qrCodeVal}
-            fgColor={state!=3?"rgba(0,0,0,0.1)":'#000'}
+            fgColor={newstate!=3?"rgba(0,0,0,0.1)":'#000'}
             size={100}/>
-            {state!=3?(<div className={`qrcode-state ${StateMap[state].cName}`}>
-                    {StateMap[state].name}
+            {newstate!=3?(<div className={`qrcode-state ${StateMap[newstate].cName}`}>
+                    {StateMap[newstate].name}
             </div>):null}
         </div>
         <div  className="trave-name">

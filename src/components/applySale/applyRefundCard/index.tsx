@@ -5,10 +5,12 @@ import './index.less'
 /**
  * 申请退款卡片
  */
-
-const ApplyRefundCard:FC = (props) => {
+interface ApplyRefundType{
+  changeApply:()=>void
+}
+const ApplyRefundCard:FC<ApplyRefundType> = ({changeApply}) => {
   return (
-    <div className="backthat_card">
+    <div className="backthat_card" onClick={changeApply}>
       <div className="backthat-name">申请退款</div>
       <div className="backthat-select">
         <Icon color="#999999" name="arrow" />

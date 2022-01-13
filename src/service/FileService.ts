@@ -14,4 +14,14 @@ export class FileService {
     formData.append('file', file, file.name)
     return axios.post('/api/third/oss/uploadFile', formData)
   }
+
+  /**
+   * 上传图片
+   */
+  static uploadImgNApi(file: File): Promise<AxiosResponse<any>> {
+    const formData = new FormData()
+    formData.append('img', file, file.name)
+    formData.append('compress', 'true')
+    return axios.post('/napi/img-upload/uploadOSS', formData)
+  }
 }

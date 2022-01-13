@@ -1,4 +1,4 @@
-import React, { useState,FC } from 'react'
+import React, { useState,useEffect,FC } from 'react'
 
 import { Icon, ActionSheet, Cell, Radio } from 'react-vant'
 import './index.less'
@@ -16,7 +16,7 @@ const actions = [
   { name: '选项三', id: '008' },
 ]
 
-const RefundReasonCard:FC = (props) => {
+const RefundReasonCard:FC = ({onchangeReason}) => {
   const [visible, setHandelVisible] = useState(false)
   const [actionvalue, setHandelActionvalue] = useState({name:"",id:""})
   const setVisible = (b) => {
@@ -27,6 +27,12 @@ const RefundReasonCard:FC = (props) => {
     setHandelActionvalue(item)
     setVisible(false)
   }
+
+  useEffect(() => {
+    onchangeReason({
+      reason:actionvalue.name
+    })
+  }, [actionvalue])
 
   return (
     <div className="refundreason-card">

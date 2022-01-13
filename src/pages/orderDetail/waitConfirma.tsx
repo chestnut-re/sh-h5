@@ -42,13 +42,12 @@ const OrderConfirmaPage: FC = (props:any) => {
   const [qrCodedata, setQrCodedata] = useState()
   console.log('object :>> ', props)
   const BarsConfig = {
-    showLeftLinkBtn: true,
-    LeftLinkActions: [{ text: '申请售后'}],
-    barLeftTitle: '再次购买',
-    barRightTitle: qrCodedata?'':'填写出行人信息',
-    onSelect: (type, item) => {
-      switch (type) {
-        case 'barLeftTitle':
+    btnGroups:[{name:"再次购买",key:"ZCGM"},{name:qrCodedata?'':'填写出行人信息',key:"TXCXR"}],
+    leftBtnGroups:[{text:"申请售后",key:'SQSH'}],
+    onSelect: (item) => {
+      const {key} = item;
+      switch (key) {
+        case 'ZCGM':
           //再次购买处理
           SHBridge.jump({
             url: generateUrl(`/submit-order?id=${goodsId}`),
@@ -57,22 +56,21 @@ const OrderConfirmaPage: FC = (props:any) => {
             title: '提交订单',
           })
           break
-        case 'barRightTitle':
+        case 'TXCXR':
           FillTraveHandelfun()
-          break
-        case 'LeftLinkTitle':
-          //打开售后
-          SHBridge.jump({
-            url: generateUrl(`/apply-sales?orderId=${orderId}&type=0`),
-            newWebView: true,
-            replace: false,
-            title: '申请售后',
-          })
           break
         default:
           break
       }
     },
+    onPopoverAction:(item)=>{
+      SHBridge.jump({
+        url: generateUrl(`/apply-sales?orderId=${orderId}&type=0`),
+        newWebView: true,
+        replace: false,
+        title: '申请售后',
+      })
+    }
   }
 
   useEffect(() => {

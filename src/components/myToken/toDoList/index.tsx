@@ -19,7 +19,7 @@ interface ToDoListType {
 
 const ToDoListCard: FC<ToDoListType> = ({ goodsName, goodsId, rebateId, onToviewHandle, rebateList,shareTask }) => {
   //查看更多
-  const [isMore, setIsMore] = useState(true)
+  const [isMore, setIsMore] = useState(false)
   //是否完成
   const [taskstate, setTaskstate] = useState(false)
 

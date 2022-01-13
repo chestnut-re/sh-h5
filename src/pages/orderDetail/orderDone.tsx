@@ -54,11 +54,12 @@ const OrderDonePage: FC<OrderDoneType> = (props) => {
     ordersTravel
   } = props
   const BarsConfig = {
-    barLeftTitle: '再次购买',
-    barRightTitle: '',
-    onSelect: (type, item) => {
-      switch (type) {
-        case 'barLeftTitle':
+    btnGroups:[{name:"再次购买",key:"ZCGM"}],
+    leftBtnGroups:[],
+    onSelect: (item) => {
+      const {key} = item;
+      switch (key) {
+        case 'ZCGM':
           //再次购买处理
           SHBridge.jump({
             url: generateUrl(`/submit-order?id=${goodsId}`),
@@ -75,6 +76,9 @@ const OrderDonePage: FC<OrderDoneType> = (props) => {
           break
       }
     },
+    onPopoverAction:(item)=>{
+      console.log('item :>> ', item);
+    }
   }
 
   const openTripLinkHandelFun = ()=>{

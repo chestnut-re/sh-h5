@@ -26,6 +26,15 @@ const TestPage = () => {
     })
   }
 
+  const _handleImgInputChangeNApi = (event) => {
+    console.log(event)
+    const file = event.target.files[0]
+    FileService.uploadImgNApi(file).then((res) => {
+      console.log(res)
+      // {"code":"200","msg":"成功","data":{"ossServerUrl":"https://shanhai-shoping.oss-cn-beijing.aliyuncs.com/","fileUrl":"img/user/pic34c43201aad3457da85f00dd7defd06f.jpg"}}
+    })
+  }
+
   return (
     <div className="Mine">
       <Cell.Group title="数据">
@@ -177,6 +186,9 @@ const TestPage = () => {
         <Cell title="图片上传-纯H5">
           <input type="file" name="image" accept="image/*" onChange={_handleImgInputChange} />
         </Cell>
+        <Cell title="图片上传-napi">
+          <input type="file" name="image" accept="image/*" onChange={_handleImgInputChangeNApi} />
+        </Cell>
       </Cell.Group>
 
       <Cell.Group title="支付">
@@ -224,15 +236,12 @@ const TestPage = () => {
               signType: 'MD5',
               paySign: '955D0ED896A76143F1A13CA3B7F4FDE7',
             }
-            SHBridge.minipay(JSON.stringify(data), 1,"1495909405900 ")
+            SHBridge.minipay(JSON.stringify(data), 1, '1495909405900 ')
           }}
         />
       </Cell.Group>
 
-      <TravelCodeCard {...{travelerName:"测试码",
-        id:"213123123123",
-        orderId:"88812381283",
-        state:3}}/>
+      <TravelCodeCard {...{ travelerName: '测试码', id: '213123123123', orderId: '88812381283', state: 3 }} />
     </div>
   )
 }

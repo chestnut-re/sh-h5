@@ -33,14 +33,26 @@ const refundStatus = [
       }
 ]
 
+interface RefundProcessType{
+  refundState:string | number;
+  applyTime:string;
+  amount:string | number;
+  tokenAmount:string | number;
+}
 
-const RefundProcessCard:FC = (props) => {
+const RefundProcessCard:FC<RefundProcessType> = ({
+  refundState,
+  applyTime,
+  amount,
+  tokenAmount
+}) => {
   const [refinfo,setRefinfo] = useState<any>({})
 
   useEffect(()=>{
-    setRefinfo(refundStatus[1]);
+    const refundStateItem = refundStatus.find(item => { return item.type == refundState })
+    setRefinfo(refundStateItem);
    
-  },[])
+  },[refundState])
 
   return (
     <div className="refuaproce-card">
@@ -49,7 +61,7 @@ const RefundProcessCard:FC = (props) => {
         <span className="refuaproce-text">{refinfo.descTitle}</span>
       </div>
       <div className="refuaproce-r">
-      {refinfo.descContent}
+      {refundState==1?refinfo.descContent:applyTime}
       </div>
       {refinfo.type!=1 && <div className="refuaproce-binfo rv-hairline--top">
             {refinfo.type==3 &&<div className="refuaproce-fail">
@@ -63,7 +75,7 @@ const RefundProcessCard:FC = (props) => {
                           <div>退款总金额</div>
                         </div>
                         <div className="refuaproce-liR">
-                        ¥ <span>11156</span>
+                        ¥ <span>{amount/100}</span>
                         </div>
                       </div>
                       <div className="refuaproce-liBop">
@@ -71,7 +83,7 @@ const RefundProcessCard:FC = (props) => {
                           <div>退回积分</div>
                         </div>
                         <div className="refuaproce-titleliR">
-                          <span>11156</span>
+                          <span>{tokenAmount}</span>
                         </div>
                       </div>
                   </li>

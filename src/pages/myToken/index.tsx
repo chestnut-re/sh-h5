@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import { useDebouncedEffect } from '@/hooks/useDebouncedEffect'
-import { Overlay, Empty} from 'react-vant'
+import { Overlay,ConfigProvider, Empty} from 'react-vant'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
 import { MyTokenService } from '../../service/MyTokenService'
 import ToDoList from '@/components/myToken/toDoList'
-import emptyIcon from '@/assets/img/empty_b@3x.png'
+import emptyIcon from '@/assets/img/token/token_empty@3x.png'
 import './index.less'
 /**
  * w我的代币
  */
+const themeVars = {
+    '--rv-empty-description-font-size':"3.46667vw",
+    '--rv-empty-description-color':"#666666",
+    '--rv-empty-description-padding':0
+}
 const MyTokenPage: React.FC = () => {
   //代币数量
   const [totalAmount, setTotalAmount] = useState(0)
@@ -90,6 +94,7 @@ const MyTokenPage: React.FC = () => {
               <span></span>
             </div>
           </div>
+          <ConfigProvider themeVars={themeVars}>
           <div className="task-list">
             {rebateTaskList.length > 0
               ? rebateTaskList.map((item,index) => {
@@ -105,6 +110,7 @@ const MyTokenPage: React.FC = () => {
               description="购买返利商品开启更多任务，快去逛逛吧！"
             />}
           </div>
+          </ConfigProvider>
         </div>
       </div>
 

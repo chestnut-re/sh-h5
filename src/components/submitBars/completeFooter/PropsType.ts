@@ -12,18 +12,11 @@ export type PopoverAction = {
 }
 
 export interface FooterProps {
-  //是否显示左侧折叠按钮
-  showLeftLinkBtn: boolean
-  //折叠按钮打开选项列表内容
-  LeftLinkActions?: PopoverAction[]
-  //左边第一个按钮文案
-  barLeftTitle?: string
-  //右侧按钮文案
-  barRightTitle?: string
-  //是否显示最右侧按钮
-  showRightLinkBtn?: boolean
-  //右侧按钮文案
-  RightLinkTitle?: string
+  
+  CenterLinkTitle?:string
   //点击选项时触发
-  onSelect: (type?: string, item?: PopoverAction) => void
+  onSelect?: (val) => void;
+  leftBtnGroups?:any[];
+  btnGroups?: any[];
+  onPopoverAction?: (val) => void;
 }
