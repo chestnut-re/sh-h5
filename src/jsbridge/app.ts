@@ -204,4 +204,17 @@ export class AppBridge {
     }
     SHApp.postMessage(JSON.stringify(msg))
   }
+
+  /**
+   * 选择照片或者拍照
+   */
+  static getImage(backFn: (data: Record<string, any>) => void): void {
+    const msg = {
+      method: 'getImage',
+      data: {
+        backFn: _callMethod(backFn),
+      },
+    }
+    SHApp.postMessage(JSON.stringify(msg))
+  }
 }

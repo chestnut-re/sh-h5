@@ -7,6 +7,7 @@ import { isApp, isMini } from '@/jsbridge/env'
 import { FileService } from '@/service/FileService'
 import { generateUrl } from '@/utils'
 import TravelCodeCard from '@/components/orderDetail/travelCodeCard'
+import { JSONStringify } from 'lib/tool'
 
 /**
  * H5 设置页
@@ -16,6 +17,7 @@ const TestPage = () => {
     console.log('load data')
   }, [])
   const [appInfo, setAppInfo] = useState({})
+  const [url, setUrl] = useState({})
   /**图片上传 */
   const _handleImgInputChange = (event) => {
     console.log(event)
@@ -183,6 +185,16 @@ const TestPage = () => {
         />
       </Cell.Group>
       <Cell.Group title="文件上传">
+        <Cell
+          title="app_图片选择或拍照"
+          onClick={() => {
+            SHBridge.getImage((url) => {
+              setUrl(url)
+            })
+          }}
+        >
+          {JSON.stringify(url)}
+        </Cell>
         <Cell title="图片上传-纯H5">
           <input type="file" name="image" accept="image/*" onChange={_handleImgInputChange} />
         </Cell>

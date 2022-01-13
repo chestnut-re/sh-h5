@@ -197,4 +197,13 @@ export class SHBridge {
       AppBridge.shareTest(authStr)
     }
   }
+
+  /**
+   * 选择照片或者拍照
+   */
+  static getImage(backFn: (dataStr: Record<string, any>) => void): void {
+    if (isApp()) {
+      AppBridge.getImage(backFn)
+    }
+  }
 }
