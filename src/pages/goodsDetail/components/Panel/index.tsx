@@ -13,7 +13,7 @@ import { isMini } from '@/jsbridge/env'
 
 interface Props {
   data: any
-  isLike: string
+  isLike: number
   myLikes: string
   shares: string
   goodsPriceId: string
@@ -23,19 +23,21 @@ interface Props {
 
 /**面板 */
 const Panel: React.FC<Props> = ({ data, isLike, myLikes, shares, goodsPriceId, shopId, onShare }) => {
-  const [love, setLove] = useState(isLike ? true : false)
+  const [love, setLove] = useState(null) as any
   const [isWeapp, setIsWeapp] = useState(false)
+
   useEffect(() => {
+    setLove(isLike == 1)
     isMini().then((res) => {
       if (res) {
         setIsWeapp(true)
       }
     })
-  }, [])
+  }, [isLike])
   const giveThumbs = () => {
     setLove(!love)
     if (SHBridge.isLogin()) {
-      GoodsDetailService.thumbsUp({ goodsId: goodsPriceId, shopId: shopId, state: love ? 0 : 1 }).then(
+      GoodsDetailService.thumbsUp({ goodsId: goodsPriceId, shopId: shopId, type: 1, state: love ? 0 : 1 }).then(
         (res) => {
           console.log('123', res)
         }
