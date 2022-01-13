@@ -427,9 +427,7 @@ const SubmitOrderPage: FC = () => {
   }
   //分享
   const sharePurchase = ()=>{
-    SHBridge.shareDetail({
-      
-    })
+      Toast("开发中")
   }
   return (
     <div className="puorder-container">
