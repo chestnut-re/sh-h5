@@ -72,7 +72,7 @@ const MyTokenPage: React.FC = () => {
     <div className="MyTokenPage__root">
       <div className="mtkon-box">
         <div className="mtkon-box-header">
-          <div className="mtkon-header-balance" onClick={()=>{openHappyCoins}}>乐豆余额</div>
+          <div className="mtkon-header-balance" onClick={openHappyCoins}>乐豆余额</div>
           <div className="mtkon-header-with">
             <div className="mhw-left">{totalAmount}</div>
             <div className="mhw-right">
