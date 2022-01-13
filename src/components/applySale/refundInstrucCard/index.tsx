@@ -4,7 +4,6 @@ import { Field, ConfigProvider,Flex,Image, Uploader } from 'react-vant'
 import photographIcon from '@/assets/img/photograph_icon@3x.png'
 import { FileService } from '@/service/FileService'
 import { SHBridge } from '@/jsbridge'
-import { generateUrl } from '@/utils'
 import './index.less'
 /**
  * 退款说明/凭证卡片

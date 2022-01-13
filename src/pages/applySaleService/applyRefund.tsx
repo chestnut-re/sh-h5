@@ -26,11 +26,13 @@ interface IndexRefundType {
   orderInfo: any
 }
 const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
+  console.log('orderIorderInfoorderInfoorderInfoorderInfonfo :>> ', orderInfo);
   const { search } = useLocation()
   const { type, orderId,refundId } = qs.parse(search.slice(1))
   const {
     goodsName,
     id,
+    goodsId,
     updateType,
     travelStartDate,
     travelEndDate,
@@ -40,6 +42,7 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
     tokenAmount,
     discountAmount,
     payAmount,
+    travelId
   } = orderInfo
 
   const [showEmbedded, setShowEmbedded] = useState(false)
@@ -230,8 +233,19 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
             adultNum={adultNum}
             childNum={childNum}
             promotionalImageUrl={promotionalImageUrl}
+            travelId={travelId}
+            goodsId={goodsId}
+            payAmount={payAmount}
+            tokenAmount={tokenAmount}
+            discountAmount={discountAmount}
           />
-          <PreferCard tokenAmount={tokenAmount} discountAmount={discountAmount} payAmount={payAmount} />
+          {/* <PreferCard tokenAmount={tokenAmount}
+            adultNum={adultNum}
+            goodsId={goodsId}
+            childNum={childNum}
+            travelId={travelId}
+            discountAmount={discountAmount}
+            payAmount={payAmount} /> */}
         </div>
         <RefundReasonCard onchangeReason={onchangeReasonHandle} />
 

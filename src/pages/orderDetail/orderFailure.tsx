@@ -35,6 +35,7 @@ const OrderFailurePage: FC<OrderFailureType> = ({
   orderTime,
   payTime,
   goodsId,
+  tokenAmount
 }) => {
   const tabBarsList = {
     btnGroups: [{ name: '再次购买', key: 'ZCGM' }],
@@ -74,6 +75,8 @@ const OrderFailurePage: FC<OrderFailureType> = ({
             adultNum={adultNum}
             childNum={childNum}
             promotionalImageUrl={promotionalImageUrl}
+            goodsId={goodsId}
+            tokenAmount={tokenAmount}
           />
         </div>
         <IndentCard orderNo={orderNo} payType={payType} orderTime={orderTime} payTime={payTime} />
