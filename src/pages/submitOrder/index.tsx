@@ -1,10 +1,10 @@
-import React, { useState,useEffect, FC } from 'react'
+import React, { useState,useEffect,useRef, FC } from 'react'
 import { useLocation } from 'react-router-dom'
 import GoodsCard from '@/components/orderDetail/goodsCard/submitGoods'
 import StepperCard from '@/components/orderDetail/stepperCard'
 import qs from 'query-string'
 import dayjs from 'dayjs';
-import { Toast, Popup } from 'react-vant'
+import { hooks,Toast, Popup } from 'react-vant'
 import PayTypeCard from '@/components/orderDetail/payTypeCard'
 import BackCard from '@/components/orderDetail/backthatCard'
 import FooterCard from '@/components/orderDetail/footerCard'
@@ -29,8 +29,10 @@ const RMB_CON = 100
 //mock数据
 
 const SubmitOrderPage: FC = () => {
+  const activeRef = useRef(null)
   let UseToast;
   const { search } = useLocation()
+  const { width, height } = hooks.useWindowSize();
   const { id,source,isRebate } = qs.parse(search.slice(1))
   //提交数据
   const [submitData, setSubmitData] = useState({
@@ -67,7 +69,7 @@ const SubmitOrderPage: FC = () => {
   })
   //支付方式
   const [payType, setpayType] = useState(2)
-
+  const [mainHeight, setmainHeight] = useState(500)
   //协议是否勾选
   const [isProtocol, setIsProtocol] = useState(false)
 
@@ -128,7 +130,6 @@ const SubmitOrderPage: FC = () => {
 
   //成人数量限购
   const getrestrictedPurchase = (goodsId)=>{
-    return
     OrderApi.purchase({goodsId}).then((res)=>{
         console.log('res :>> ', res);
     }).catch((err)=>{
@@ -232,6 +233,17 @@ const SubmitOrderPage: FC = () => {
 
   }, [id])
 
+  useEffect(()=>{
+    if (activeRef.current) {
+      
+
+      const {clientWidth, clientHeight} = activeRef.current;
+      setmainHeight(height-clientHeight)
+    console.log('activeRef.current :>> ', clientWidth, clientHeight);
+    }
+    
+  },[])
+
   //获取成人数量
   const handlechangeStepper = (info) => {
     console.log('成人儿童数量改变 :>> ', info)
@@ -282,7 +294,7 @@ const SubmitOrderPage: FC = () => {
     const { adultNum, childNum, intNum } = stepperData
     const { priceNum, preferPrice } = priceSet;
 
-    const endDate = dayjs(startDate).add(days, 'day').format("YYYY-MM-DD")
+    const endDate = dayjs(startDate).add(days-1, 'day').format("YYYY-MM-DD")
 
     const subInfo = {
       ...submitData,
@@ -385,8 +397,8 @@ const SubmitOrderPage: FC = () => {
     }
   }
   return (
-    <div className="puorder-container">
-      <div className="puorder-main">
+    <div className="puorder-container" style={{height:height}}>
+      <div className="puorder-main" style={{minHeight:mainHeight}}>
         <div className="puorder-fluid">
           <div className="puorder-card">
             <GoodsCard
@@ -422,8 +434,13 @@ const SubmitOrderPage: FC = () => {
           <ProtocolCard changeProtocolStatus={handleProtocolStatus} />
         </div>
       </div>
-      <FooterCard priceSetData={priceSet} submitHandleOrder={submitHandle} />
-
+      <div className='puorder-submit' ref={activeRef}>
+          <div className='puorder-purchasing'>
+              <div className='puorder-purchasing-left'>限180天内，成人2份</div>
+              <div className='puorder-purchasing-right'>增加份额</div>
+          </div>
+         <FooterCard priceSetData={priceSet} submitHandleOrder={submitHandle} />
+      </div>
       <Popup
         title="优惠信息"
         visible={showPrivilege}
