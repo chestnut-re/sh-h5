@@ -17,7 +17,7 @@ import './index.less'
 /**
  * 订单待确认入口页
  */
-const OrderConfirmaPage: FC = (props:any) => {
+const OrderConfirmaPage: FC = (props: any) => {
   const {
     promotionalImageUrl,
     goodsName,
@@ -34,7 +34,7 @@ const OrderConfirmaPage: FC = (props:any) => {
     payTime,
     ordersTravel,
     goodsId,
-    
+    travelId
   } = props
   const { search } = useLocation()
   const { orderId } = qs.parse(search.slice(1))
@@ -42,10 +42,13 @@ const OrderConfirmaPage: FC = (props:any) => {
   const [qrCodedata, setQrCodedata] = useState()
   console.log('object :>> ', props)
   const BarsConfig = {
-    btnGroups:[{name:"再次购买",key:"ZCGM"},{name:qrCodedata?'':'填写出行人信息',key:"TXCXR"}],
-    leftBtnGroups:[{text:"申请售后",key:'SQSH'}],
+    btnGroups: [
+      { name: '再次购买', key: 'ZCGM' },
+      { name: qrCodedata ? '' : '填写出行人信息', key: 'TXCXR' },
+    ],
+    leftBtnGroups: [{ text: '申请售后', key: 'SQSH' }],
     onSelect: (item) => {
-      const {key} = item;
+      const { key } = item
       switch (key) {
         case 'ZCGM':
           //再次购买处理
@@ -63,14 +66,14 @@ const OrderConfirmaPage: FC = (props:any) => {
           break
       }
     },
-    onPopoverAction:(item)=>{
+    onPopoverAction: (item) => {
       SHBridge.jump({
         url: generateUrl(`/apply-sales?orderId=${orderId}&type=0`),
         newWebView: true,
         replace: false,
         title: '申请售后',
       })
-    }
+    },
   }
 
   useEffect(() => {
@@ -93,9 +96,9 @@ const OrderConfirmaPage: FC = (props:any) => {
   }
   //处理出行人列表数据根据不同子订单状态跳转不同订单详情
   const openTravelListItem = (item) => {
-    console.log('item :>> ', item);
-    const {state} = item;
-    if (state!=3) {
+    console.log('item :>> ', item)
+    const { state } = item
+    if (state != 3) {
       SHBridge.jump({
         url: generateUrl(`/order-detail?orderId=${orderId}`),
         newWebView: true,
@@ -103,7 +106,7 @@ const OrderConfirmaPage: FC = (props:any) => {
         title: '订单详情',
       })
     }
-   
+
     console.log('dakia :>> ')
   }
   //点击填写出行人逻辑
@@ -129,8 +132,21 @@ const OrderConfirmaPage: FC = (props:any) => {
             adultNum={adultNum}
             childNum={childNum}
             promotionalImageUrl={promotionalImageUrl}
+            goodsId={goodsId}
+            travelId={travelId}
+            discountAmount={discountAmount}
+            payAmount={payAmount}
+            tokenAmount={tokenAmount}
           />
-          <PreferCard tokenAmount={tokenAmount} discountAmount={discountAmount} payAmount={payAmount} />
+          {/* <PreferCard
+            tokenAmount={tokenAmount}
+            adultNum={adultNum}
+            goodsId={goodsId}
+            childNum={childNum}
+            travelId={travelId}
+            discountAmount={discountAmount}
+            payAmount={payAmount}
+          /> */}
         </div>
 
         {qrCodedata ? (
@@ -146,7 +162,9 @@ const OrderConfirmaPage: FC = (props:any) => {
         <IndentCard orderNo={orderNo} payType={payType} orderTime={orderTime} payTime={payTime} />
         <BackCard />
         {ordersTravel.map((item, index) => {
-          return item.travelerName ? <TripPeopleCard openTravelClick={openTravelListItem} {...item} key={index} /> : null
+          return item.travelerName ? (
+            <TripPeopleCard openTravelClick={openTravelListItem} {...item} key={index} />
+          ) : null
         })}
       </div>
       <CompleteFooter {...BarsConfig} />

@@ -63,7 +63,7 @@ const MoneyRecordPage: React.FC = () => {
                 <div className="item" key={index}>
                   <div className="item_left">
                     <div className="item_left_1">
-                      {item.typeName} {item.state}
+                      {item.typeName} {item.stsName}
                     </div>
                     <div className="item_left_2">{item.billDate}</div>
                   </div>

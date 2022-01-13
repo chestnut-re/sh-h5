@@ -1,6 +1,9 @@
 
 .order-action{
-    position: relative;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
     z-index: 999;
     padding: 0 20px;
     padding-bottom: constant(safe-area-inset-bottom);
@@ -53,3 +56,8 @@
     }
 }
 
+.puorder-submit{
+    .order-action{
+        position: relative;
+    }
+}

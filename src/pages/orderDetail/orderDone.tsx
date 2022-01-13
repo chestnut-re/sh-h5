@@ -11,22 +11,23 @@ import PreviewTripCard from '@/components/orderDetail/previewTrip'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
 import './index.less'
-interface OrderDoneType{
-  promotionalImageUrl?:string,
-  goodsName?:string,
-  travelStartDate?:string,
-  travelEndDate?:string,
-  adultNum?:string,
-  childNum?:string,
-  tokenAmount?:number,
-  discountAmount?:number,
-  payAmount?:number,
-  orderNo?:string,
-  payType?:number,
-  orderTime?:string,
-  payTime?:string,
-  goodsId?:string,
-  ordersTravel?:any,
+interface OrderDoneType {
+  promotionalImageUrl?: string;
+  goodsName?: string;
+  travelStartDate?: string;
+  travelEndDate?: string;
+  adultNum?: string;
+  childNum?: string;
+  tokenAmount?: number;
+  discountAmount?: number;
+  payAmount?: number;
+  orderNo?: string;
+  payType?: number;
+  orderTime?: string;
+  payTime?: string;
+  goodsId?: string;
+  ordersTravel?: any;
+  travelId:string;
 }
 
 /**
@@ -51,13 +52,14 @@ const OrderDonePage: FC<OrderDoneType> = (props) => {
     orderTime,
     payTime,
     goodsId,
-    ordersTravel
+    ordersTravel,
+    travelId
   } = props
   const BarsConfig = {
-    btnGroups:[{name:"再次购买",key:"ZCGM"}],
-    leftBtnGroups:[],
+    btnGroups: [{ name: '再次购买', key: 'ZCGM' }],
+    leftBtnGroups: [],
     onSelect: (item) => {
-      const {key} = item;
+      const { key } = item
       switch (key) {
         case 'ZCGM':
           //再次购买处理
@@ -76,12 +78,12 @@ const OrderDonePage: FC<OrderDoneType> = (props) => {
           break
       }
     },
-    onPopoverAction:(item)=>{
-      console.log('item :>> ', item);
-    }
+    onPopoverAction: (item) => {
+      console.log('item :>> ', item)
+    },
   }
 
-  const openTripLinkHandelFun = ()=>{
+  const openTripLinkHandelFun = () => {
     SHBridge.jump({
       url: generateUrl(`/order-travel?id=${orderId}`),
       newWebView: true,
@@ -89,7 +91,7 @@ const OrderDonePage: FC<OrderDoneType> = (props) => {
       title: '出行确认码',
     })
 
-      console.log("chuli")
+    console.log('chuli')
   }
   return (
     <div className="Order-container">
@@ -103,11 +105,24 @@ const OrderDonePage: FC<OrderDoneType> = (props) => {
             adultNum={adultNum}
             childNum={childNum}
             promotionalImageUrl={promotionalImageUrl}
+            travelId={travelId}
+            payAmount={payAmount}
+            discountAmount={discountAmount}
+            goodsId={goodsId}
+            tokenAmount={tokenAmount}
           />
-          <PreferCard tokenAmount={tokenAmount} discountAmount={discountAmount} payAmount={payAmount} />
+          {/* <PreferCard
+            tokenAmount={tokenAmount}
+            adultNum={adultNum}
+            goodsId={goodsId}
+            childNum={childNum}
+            travelId={travelId}
+            discountAmount={discountAmount}
+            payAmount={payAmount}
+          /> */}
         </div>
         <PreviewTripCard ordersTravel={ordersTravel} openTripLinkHandel={openTripLinkHandelFun} />
-        <IndentCard orderNo={orderNo}  payType={payType} orderTime={orderTime} payTime={payTime} />
+        <IndentCard orderNo={orderNo} payType={payType} orderTime={orderTime} payTime={payTime} />
         <BackCard />
       </div>
       <CompleteFooter {...BarsConfig} />

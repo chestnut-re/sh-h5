@@ -128,6 +128,10 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
             adultNum={adultNum}
             childNum={childNum}
             promotionalImageUrl={promotionalImageUrl}
+            discountAmount={discountAmount}
+            tokenAmount={tokenAmount}
+            goodsId={goodsId}
+            payAmount={payAmount}
           />
           <RefuIndentCard  {...refundList} />
         </div>

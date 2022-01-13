@@ -84,8 +84,8 @@ const ManageItem: FC<ManageItemProps> = (props) => {
                 {oitem.goodsName}
                 </div>
                 <div className='micr-tags'>
-                    <span>成人x{oitem.adultNum ?? 0}</span>
-                    <span>儿童x{oitem.childNum ?? 0}</span>
+                    {oitem.adultNum?<span>成人x{oitem.adultNum}</span>:null}
+                    {oitem.childNum?<span>儿童x{oitem.childNum}</span>:null}
                 </div>
                 {oitem?.payAmount&&(<div className='micr-price'>
                   {oitem.state==5||oitem.state==6||oitem.state==7?<span className='micr-price-text'>退款金额</span>:null}
