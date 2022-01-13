@@ -73,6 +73,9 @@ const SubmitOrderPage: FC = () => {
   //协议是否勾选
   const [isProtocol, setIsProtocol] = useState(false)
 
+  //协议是否勾选
+  const [popvermode, setPopvermode] = useState(1)
+
   const [tokenAmountNum,setTokenAmountNum] = useState(0);
 
   const [showPrivilege, setShowPrivilege] = useState(false)
@@ -235,8 +238,6 @@ const SubmitOrderPage: FC = () => {
 
   useEffect(()=>{
     if (activeRef.current) {
-      
-
       const {clientWidth, clientHeight} = activeRef.current;
       setmainHeight(height-clientHeight)
     console.log('activeRef.current :>> ', clientWidth, clientHeight);
@@ -251,6 +252,7 @@ const SubmitOrderPage: FC = () => {
   }
   //处理优惠说明
   const handleDiscountsInfo = () => {
+    setPopvermode(1)
     setShowPrivilege(true)
   }
   //处理支付方式
@@ -396,6 +398,12 @@ const SubmitOrderPage: FC = () => {
       Toast('请勾选相关协议')
     }
   }
+
+  //增加限购数
+  const addPurchasingNum = ()=>{
+    setPopvermode(2);
+    setShowPrivilege(true)
+  }
   return (
     <div className="puorder-container" style={{height:height}}>
       <div className="puorder-main" style={{minHeight:mainHeight}}>
@@ -437,12 +445,12 @@ const SubmitOrderPage: FC = () => {
       <div className='puorder-submit' ref={activeRef}>
           <div className='puorder-purchasing'>
               <div className='puorder-purchasing-left'>限180天内，成人2份</div>
-              <div className='puorder-purchasing-right'>增加份额</div>
+              <div className='puorder-purchasing-right' onClick={addPurchasingNum}>增加份额</div>
           </div>
          <FooterCard priceSetData={priceSet} submitHandleOrder={submitHandle} />
       </div>
       <Popup
-        title="优惠信息"
+        title={popvermode===1?"优惠信息":"限购说明"}
         visible={showPrivilege}
         position="bottom"
         destroyOnClose={true}
@@ -452,9 +460,16 @@ const SubmitOrderPage: FC = () => {
         closeIcon="close"
         onClose={() => setShowPrivilege(false)}
       >
-        <div className="privilege-box">
+        {popvermode===2?<div className='purch-ins'>
+              <div className='purch-ins-content'>
+              当前商品同一账号【n】天内最多可购买【n】张成人票，分享商品，好友【下单付款】后可提升【n】个限购名额。
+              </div>
+              <div className='purch-ins-btn'>
+              分享好友
+              </div>
+        </div>:<div className="privilege-box">
           <Privilege goodsPriceId={selectTime['goodsPriceId']} stepperData={stepperData}  id={id} />
-        </div>
+        </div>}
       </Popup>
     </div>
   )
