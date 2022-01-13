@@ -405,8 +405,8 @@ const SubmitOrderPage: FC = () => {
     setShowPrivilege(true)
   }
   return (
-    <div className="puorder-container" style={{height:height}}>
-      <div className="puorder-main" style={{minHeight:mainHeight}}>
+    <div className="puorder-container">
+      <div className="puorder-main">
         <div className="puorder-fluid">
           <div className="puorder-card">
             <GoodsCard
