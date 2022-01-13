@@ -1,6 +1,6 @@
 import React, { useState, useEffect, FC } from 'react'
 
-import { Field, ConfigProvider, Uploader } from 'react-vant'
+import { Field, ConfigProvider,Flex,Image, Uploader } from 'react-vant'
 import photographIcon from '@/assets/img/photograph_icon@3x.png'
 import { FileService } from '@/service/FileService'
 import { SHBridge } from '@/jsbridge'
@@ -29,6 +29,7 @@ const RefundInstrucCard: FC<RefundInstrucType> = ({ refundInsChange }) => {
     newValue[index] = file
     setImgFileList(newValue)
     SHBridge.getImage((data) => {
+      console.log('data文件上传 :>> ', data);
       if (data) {
         const { ossServerUrl, fileUrl } = data
         const imgUrl = `${ossServerUrl}${fileUrl}`
@@ -70,7 +71,7 @@ const RefundInstrucCard: FC<RefundInstrucType> = ({ refundInsChange }) => {
   const setDemo2 = (v) => {
     console.log('v :>> ', v)
   }
-  const detailDemo = (v, info) => {
+  const detailDemo = (info) => {
     const newFilelist = [...imgFileList]
     newFilelist.splice(info.index, 1)
 
@@ -96,7 +97,25 @@ const RefundInstrucCard: FC<RefundInstrucType> = ({ refundInsChange }) => {
           </ConfigProvider>
         </div>
         <div className="refuinstruc-files">
-          <Uploader
+        <Flex wrap="wrap" justify="start">
+          {imgFileList.map((item,index)=>{
+              return (<Flex.Item span={8} key={index}>
+                <div className='files-box'>
+                  <Image width="100%" height="100%" errorIcon={<div>上传失败</div>} fit="cover" src={item.content} />
+                  <div className='files-close' onClick={()=>{detailDemo(index)}}></div>
+                </div>
+            </Flex.Item>)
+          })}
+          {imgFileList.length<=6?<Flex.Item span={8}>
+          <div className="files-box rv-hairline--surround" onClick={()=>{afterRead(imgFileList.length)}}>
+              <img className="photograph" src={photographIcon} />
+              <p className="update-name">上传图片</p>
+            </div>
+          </Flex.Item>:null}
+        </Flex>
+            
+
+          {/* <Uploader
             maxCount={6}
             value={imgFileList}
             onDelete={(v, index) => detailDemo(v, index)}
@@ -106,7 +125,7 @@ const RefundInstrucCard: FC<RefundInstrucType> = ({ refundInsChange }) => {
               <img className="photograph" src={photographIcon} />
               <p className="update-name">上传图片</p>
             </div>
-          </Uploader>
+          </Uploader> */}
         </div>
       </div>
     </div>
