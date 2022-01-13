@@ -25,9 +25,9 @@ const RefundInstrucCard: FC<RefundInstrucType> = ({ refundInsChange }) => {
       status: 'uploading',
       message: '上传中...'
     };
-    const newValue = [...imgFileList]
-    newValue[index] = file
-    setImgFileList(newValue)
+    // const newValue = [...imgFileList]
+    // newValue[index] = file
+    // setImgFileList(newValue)
     SHBridge.getImage((data) => {
       console.log('data文件上传 :>> ', data);
       if (data) {
