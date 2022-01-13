@@ -1,10 +1,10 @@
-import React, { useState,useEffect,useRef, FC } from 'react'
+import React, { useState, useEffect, useRef, FC } from 'react'
 import { useLocation } from 'react-router-dom'
 import GoodsCard from '@/components/orderDetail/goodsCard/submitGoods'
 import StepperCard from '@/components/orderDetail/stepperCard'
 import qs from 'query-string'
-import dayjs from 'dayjs';
-import { hooks,Toast, Popup } from 'react-vant'
+import dayjs from 'dayjs'
+import { hooks, Toast, Popup } from 'react-vant'
 import PayTypeCard from '@/components/orderDetail/payTypeCard'
 import BackCard from '@/components/orderDetail/backthatCard'
 import FooterCard from '@/components/orderDetail/footerCard'
@@ -30,10 +30,14 @@ const RMB_CON = 100
 
 const SubmitOrderPage: FC = () => {
   const activeRef = useRef(null)
-  let UseToast;
+  let UseToast
   const { search } = useLocation()
-  const { width, height } = hooks.useWindowSize();
-  const { id,source,isRebate } = qs.parse(search.slice(1))
+  const { width, height } = hooks.useWindowSize()
+  const { id, source, isRebate } = qs.parse(search.slice(1))
+  //是否是限购商品
+  const [isPurchase, setisPurchase] = useState(false)
+  //限购数量
+  const [purchaseNum, setPurchaseNum] = useState(0)
   //提交数据
   const [submitData, setSubmitData] = useState({
     childCurrentPrice: 0, //儿童现售价单价
@@ -76,7 +80,7 @@ const SubmitOrderPage: FC = () => {
   //协议是否勾选
   const [popvermode, setPopvermode] = useState(1)
 
-  const [tokenAmountNum,setTokenAmountNum] = useState(0);
+  const [tokenAmountNum, setTokenAmountNum] = useState(0)
 
   const [showPrivilege, setShowPrivilege] = useState(false)
   const [submitinfo, setSubmitinfo] = useState({
@@ -108,7 +112,7 @@ const SubmitOrderPage: FC = () => {
     childMarkPrice: 0,
     stock: 0,
     days: 0,
-    startDate:"",
+    startDate: '',
   })
   const [priceSet, setPriceSet] = useState({
     priceNum: 0, //总价格
@@ -131,15 +135,7 @@ const SubmitOrderPage: FC = () => {
     })
   }, [selectTime, stepperData])
 
-  //成人数量限购
-  const getrestrictedPurchase = (goodsId)=>{
-    OrderApi.purchase({goodsId}).then((res)=>{
-        console.log('res :>> ', res);
-    }).catch((err)=>{
-        console.log('err :>> ', err);
-    })
-  }
-
+  
   const getGoodsDetail = (id) => {
     return new Promise((resolve, reject) => {
       OrderApi.detail({
@@ -148,7 +144,7 @@ const SubmitOrderPage: FC = () => {
         .then((res: any) => {
           const { code, data } = res
           if (code === '200' && data) {
-               resolve(data)
+            resolve(data)
           } else {
             reject()
           }
@@ -190,12 +186,11 @@ const SubmitOrderPage: FC = () => {
   }, [selectTime])
 
   useEffect(() => {
-
-    SHBridge.setTitle("提交订单")
+    SHBridge.setTitle('提交订单')
 
     getGoodsDetail(id)
       .then((res: any) => {
-        const { departureCityAdcode, goodsName, promotionalImageUrl, id, isDeduction } = res
+        const { departureCityAdcode, goodsName, promotionalImageUrl, id, isDeduction, isPurchase } = res
         setSubmitinfo(res)
         setSelectTime(res['goodsPrices'][0])
         setPriceSet((v) => {
@@ -210,6 +205,10 @@ const SubmitOrderPage: FC = () => {
             setTokenAmountNum(amountNum)
           })
         }
+        //是否是限购商品
+        if (isPurchase) {
+          setisPurchase(true)
+        }
 
         setSubmitData((v) => {
           return {
@@ -219,36 +218,50 @@ const SubmitOrderPage: FC = () => {
               ...v.orderDto,
               goodsName,
               goodsId: id,
-              isRebate:isRebate!="1"?0:1,
+              isRebate: isRebate != '1' ? 0 : 1,
               promotionalImageUrl,
             },
           }
         })
 
         //是否开启限购字段未知后期添加
-        getrestrictedPurchase(id)
-
+        // getrestrictedPurchase(id)
       })
       .catch((err) => {
         console.log(' :>>接口异常 ')
       })
-
-
   }, [id])
 
-  useEffect(()=>{
+  useEffect(() => {
     if (activeRef.current) {
-      const {clientWidth, clientHeight} = activeRef.current;
-      setmainHeight(height-clientHeight)
-    console.log('activeRef.current :>> ', clientWidth, clientHeight);
+      const { clientWidth, clientHeight } = activeRef.current
+      setmainHeight(height - clientHeight)
+      console.log('activeRef.current :>> ', clientWidth, clientHeight)
     }
-    
-  },[])
+  }, [])
 
   //获取成人数量
   const handlechangeStepper = (info) => {
     console.log('成人儿童数量改变 :>> ', info)
+    const { adultNum } = info
     setStepperData(info)
+
+    OrderApi.purchase({ goodsId: id })
+      .then((res) => {
+        console.log('res :>> ', res)
+        const { code, data } = res
+        if (code === '200' && data) {
+          const { limitPurchaseNum } = data
+          setPurchaseNum(limitPurchaseNum)
+          if (adultNum > limitPurchaseNum) {
+            Toast('超过最大限购数')
+            return
+          }
+        }
+      })
+      .catch((err) => {
+        console.log('err :>> ', err)
+      })
   }
   //处理优惠说明
   const handleDiscountsInfo = () => {
@@ -280,7 +293,7 @@ const SubmitOrderPage: FC = () => {
       title: '支付成功',
     })
   }
-  const payErrorLink =  (orderId) => {
+  const payErrorLink = (orderId) => {
     UseToast && UseToast.clear()
     SHBridge.jump({
       url: generateUrl(`/order-detail?orderId=${orderId}`),
@@ -292,11 +305,14 @@ const SubmitOrderPage: FC = () => {
 
   //提交订单
   const submitHandle = () => {
-    const { childCurrentPrice, childMarkPrice, personCurrentPrice, personMarkPrice, goodsPriceId,startDate,days } = selectTime
+    const { childCurrentPrice, childMarkPrice, personCurrentPrice, personMarkPrice, goodsPriceId, startDate, days } =
+      selectTime
     const { adultNum, childNum, intNum } = stepperData
-    const { priceNum, preferPrice } = priceSet;
+    const { priceNum, preferPrice } = priceSet
 
-    const endDate = dayjs(startDate).add(days-1, 'day').format("YYYY-MM-DD")
+    const endDate = dayjs(startDate)
+      .add(days - 1, 'day')
+      .format('YYYY-MM-DD')
 
     const subInfo = {
       ...submitData,
@@ -316,15 +332,21 @@ const SubmitOrderPage: FC = () => {
         originPrice: personCurrentPrice * adultNum + childCurrentPrice * childNum * RMB_CON,
         payAmount: priceNum,
         payType: payType,
-        source: source?source:1,
+        source: source ? source : 1,
         state: 1,
         travelId: goodsPriceId,
         discountAmount: preferPrice,
         tokenAmount: intNum,
-        travelStartDate:startDate,
-        travelEndDate:endDate
+        travelStartDate: startDate,
+        travelEndDate: endDate,
       },
     }
+
+    if (isPurchase&&adultNum>purchaseNum) {
+        Toast("超过最大限购量，请修改订单！")
+        return
+    }
+
     if (isProtocol) {
       UseToast = Toast.loading({
         message: '订单生成中...',
@@ -342,11 +364,11 @@ const SubmitOrderPage: FC = () => {
               switch (payType) {
                 case 1:
                   UseToast.clear()
-                  SHBridge.minipay(JSON.stringify(returnPayInfo), priceNum,orderId)
+                  SHBridge.minipay(JSON.stringify(returnPayInfo), priceNum, orderId)
                   break
                 case 2:
                   SHBridge.wxpay(returnPayInfo, (wxres: any) => {
-                    console.log('wxres微信支付回调 :>> ', wxres);
+                    console.log('wxres微信支付回调 :>> ', wxres)
                     const { errorCode } = wxres
                     if (errorCode == 0) {
                       paySuccessLink(orderId)
@@ -361,23 +383,22 @@ const SubmitOrderPage: FC = () => {
                 case 3:
                   SHBridge.alipay(returnPayInfo, (alires: any) => {
                     console.log('支付宝回调', alires)
-                    const {memo,result,resultStatus} = alires;
-                    if (result||resultStatus=="9000") {
+                    const { memo, result, resultStatus } = alires
+                    if (result || resultStatus == '9000') {
                       const {
                         alipay_trade_app_pay_response: { code },
                       } = JSON.parse(result)
                       console.log('支付成功', code, res)
                       if (code == '10000') {
                         paySuccessLink(orderId)
-                      }else{
+                      } else {
                         UseToast.clear()
                         payErrorLink(orderId)
                       }
-                    }else{
+                    } else {
                       Toast(memo)
                       payErrorLink(orderId)
                     }
-                   
                   })
                   break
                 default:
@@ -400,8 +421,8 @@ const SubmitOrderPage: FC = () => {
   }
 
   //增加限购数
-  const addPurchasingNum = ()=>{
-    setPopvermode(2);
+  const addPurchasingNum = () => {
+    setPopvermode(2)
     setShowPrivilege(true)
   }
   return (
@@ -442,15 +463,21 @@ const SubmitOrderPage: FC = () => {
           <ProtocolCard changeProtocolStatus={handleProtocolStatus} />
         </div>
       </div>
-      <div className='puorder-submit' ref={activeRef}>
-          <div className='puorder-purchasing'>
-              <div className='puorder-purchasing-left'>限180天内，成人2份</div>
-              <div className='puorder-purchasing-right' onClick={addPurchasingNum}>增加份额</div>
+      <div className="puorder-submit" ref={activeRef}>
+        {isPurchase && submitinfo ? (
+          <div className="puorder-purchasing">
+            <div className="puorder-purchasing-left">
+              限{submitinfo.purchaseConfig.purchaseDay}天内，成人{submitinfo.purchaseConfig.purchaseNum}份
+            </div>
+            <div className="puorder-purchasing-right" onClick={addPurchasingNum}>
+              增加份额
+            </div>
           </div>
-         <FooterCard priceSetData={priceSet} submitHandleOrder={submitHandle} />
+        ) : null}
+        <FooterCard priceSetData={priceSet} submitHandleOrder={submitHandle} />
       </div>
       <Popup
-        title={popvermode===1?"优惠信息":"限购说明"}
+        title={popvermode === 1 ? '优惠信息' : '限购说明'}
         visible={showPrivilege}
         position="bottom"
         destroyOnClose={true}
@@ -460,16 +487,20 @@ const SubmitOrderPage: FC = () => {
         closeIcon="close"
         onClose={() => setShowPrivilege(false)}
       >
-        {popvermode===2?<div className='purch-ins'>
-              <div className='purch-ins-content'>
-              当前商品同一账号【n】天内最多可购买【n】张成人票，分享商品，好友【下单付款】后可提升【n】个限购名额。
-              </div>
-              <div className='purch-ins-btn'>
-              分享好友
-              </div>
-        </div>:<div className="privilege-box">
-          <Privilege goodsPriceId={selectTime['goodsPriceId']} stepperData={stepperData}  id={id} />
-        </div>}
+        {popvermode === 2 ? (
+          <div className="purch-ins">
+            <div className="purch-ins-content">
+              当前商品同一账号【{submitinfo.purchaseConfig.purchaseDay}】天内最多可购买【
+              {submitinfo.purchaseConfig.purchaseNum}】张成人票，分享商品，好友【下单付款】后可提升【
+              {submitinfo.purchaseConfig.addNum}】个限购名额。
+            </div>
+            <div className="purch-ins-btn" onClick={()=>{Toast("开发中")}}>分享好友</div>
+          </div>
+        ) : (
+          <div className="privilege-box">
+            <Privilege goodsPriceId={selectTime['goodsPriceId']} stepperData={stepperData} id={id} />
+          </div>
+        )}
       </Popup>
     </div>
   )
