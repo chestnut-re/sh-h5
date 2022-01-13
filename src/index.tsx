@@ -2,7 +2,7 @@ import React, { lazy, Suspense } from 'react'
 import loadable from '@loadable/component'
 import ReactDOM from 'react-dom'
 import { BrowserRouter, Route } from 'react-router-dom'
-import './utils/vconsole';
+import './utils/vconsole'
 import 'normalize.css'
 import './assets/css/base.css'
 import '@/assets/css/base-tmp.less'
@@ -172,6 +172,9 @@ const RefundChangeIns = loadable(() => import(/* webpackChunkName: 'MassPage' */
 //活动专题
 const SpecialEvents = loadable(() => import(/* webpackChunkName: 'MassPage' */ './pages/specialEvents'))
 
+/**商品分享图 */
+const GoodPng = loadable(() => import(/* webpackChunkName: 'GoodPng' */ './pages/GoodPng'))
+
 const env = process.env.NODE_ENV
 console.log(env)
 
@@ -252,6 +255,9 @@ const App = () => (
       <Route path="/order-refundins" exact component={RefundChangeIns}></Route>
       <Route path="/special-events" exact component={SpecialEvents}></Route>
       <Route path="/userdrawal" exact component={WithdrawSuccessPage}></Route>
+
+      <Route path="/goodpng" exact component={GoodPng}></Route>
+      
     </BrowserRouter>
   </Suspense>
 )
