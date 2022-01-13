@@ -33,7 +33,6 @@ const MyNavBar: FC<NavBarProps> = (props: NavBarProps) => {
   const getAppAreaTop = () => {
     const flutterWidth = Cookies.get('app_clientWidth')
     const safeAreaTop = Cookies.get('safeAreaTop')
-    AppBridge.showToast(flutterWidth || '')
     const width = document.body.clientWidth
     setSafeAreaTopValue(Number(safeAreaTop) / (Number(flutterWidth) / width))
   }
