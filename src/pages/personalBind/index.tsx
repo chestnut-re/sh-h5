@@ -425,6 +425,7 @@ const PersonalBindPage: FC = (props) => {
     list.length > 0 && list.forEach((childRef: any) => {
       childRef.infolist.map((itemj, j) => {
         if (itemj.certificateNo != '') {
+          itemj.certificateType = itemj.certificateType == '身份证' ? 1 : 2
           certificate.push(itemj)
         }
       })
