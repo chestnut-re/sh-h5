@@ -42,14 +42,14 @@ const RefundInstrucCard: FC<RefundInstrucType> = ({ refundInsChange }) => {
           return nv
         })
       } else {
-        file.status = 'failed'
-        file.message = '上传失败'
-        file.content = ''
-        setImgFileList((v) => {
-          const nv = [...v]
-          nv[index] = file
-          return nv
-        })
+        // file.status = 'failed'
+        // file.message = '上传失败'
+        // file.content = ''
+        // setImgFileList((v) => {
+        //   const nv = [...v]
+        //   nv[index] = file
+        //   return nv
+        // })
       }
     })
   }
