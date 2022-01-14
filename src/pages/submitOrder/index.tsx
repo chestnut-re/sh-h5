@@ -232,7 +232,7 @@ const SubmitOrderPage: FC = () => {
               ...v.orderDto,
               goodsName,
               goodsId: id,
-              activityId:activityId != '1' ? 0 : 1,
+              activityId:activityId,
               isRebate: activityId != '1' ? 0 : 1,
               promotionalImageUrl,
             },

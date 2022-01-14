@@ -21,7 +21,7 @@ const CompleteFootCard: FC<FooterProps> = ({leftBtnGroups,btnGroups,onPopoverAct
   return (
     <div className="complete-footer">
       <div className="complete-footmain">
-        {leftBtnGroups&&leftBtnGroups.length && (
+        {leftBtnGroups&&leftBtnGroups.length ? (
           <div className="complete-btnLeft">
             <Popover
               placement="top-start"
@@ -30,7 +30,7 @@ const CompleteFootCard: FC<FooterProps> = ({leftBtnGroups,btnGroups,onPopoverAct
               reference={<Icon name={applyRefundIcon} size="4.8vw" />}
             />
           </div>
-        )}
+        ):null}
         <div className="complete-btnRight">
         <div className="complete-r">
 
