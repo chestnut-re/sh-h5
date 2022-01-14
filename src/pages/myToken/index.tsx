@@ -97,21 +97,7 @@ const MyTokenPage: React.FC = () => {
             <div className="task-name-left">
               <span></span>
             </div>
-            <div
-              className="task-name-center"
-              onClick={() => {
-                Toast("123")
-                SHBridge.shareActivity({
-                  activityDetailImg: '',
-                  activitySubtitle: '',
-                  activityImg: '',
-                  activityTitle: '',
-                  id: '',
-                })
-              }}
-            >
-              我的任务
-            </div>
+            <div className="task-name-center">我的任务</div>
             <div className="task-name-right">
               <span></span>
             </div>
