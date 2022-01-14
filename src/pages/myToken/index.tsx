@@ -58,6 +58,7 @@ const MyTokenPage: React.FC = () => {
   }
 
   const shareTask = (taskId)=>{
+    // SHBridge.shareActivity(specialDetail)
     MyTokenService.shareParam({taskId}).then((res) => {
         console.log('object :>> ', res);
     }).catch((err) => {
