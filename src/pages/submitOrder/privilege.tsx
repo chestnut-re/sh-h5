@@ -28,7 +28,7 @@ const PrivilegePage: FC<PrivType> = (props) => {
     }).then((res:any) => {
       const { code, data } = res
       const privilegeMap = new Map()
-      if (code === '200' && data) {
+      if (code === '200' && data&&data.length>0) {
         data.forEach((element) => {
           const isHas = privilegeMap.has(element.travelType)
           if (isHas) {
@@ -63,6 +63,8 @@ const PrivilegePage: FC<PrivType> = (props) => {
           )
         })
         setPrivilegeList(elements)
+      }else{
+        setPrivilegeList(<div className="privilege-nomore">暂无优惠</div>)
       }
 
       // obj.set("hello", 'Hello ES6!')
@@ -81,7 +83,6 @@ const PrivilegePage: FC<PrivType> = (props) => {
       <div className="privilege-main">
         <div className="privilege-fluid">
           {privilegeList}
-          <div className="privilege-nomore">没有了</div>
         </div>
       </div>
     </div>
