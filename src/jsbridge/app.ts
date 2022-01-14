@@ -179,18 +179,18 @@ export class AppBridge {
   }
 
   /**
-   * 商品分享
+   * 分享
    */
-  static shareDetail(authStr: string): void {
+  static shareDetail(data: any): void {
     const msg = {
       method: 'shareDetail',
       data: {
-        shareDetail: authStr,
-        // backFn: _callMethod(backFn),
+        ...data,
       },
     }
     SHApp.postMessage(JSON.stringify(msg))
   }
+
   /**
    * 分享活动
    * @param authStr

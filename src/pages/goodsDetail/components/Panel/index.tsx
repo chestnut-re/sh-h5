@@ -10,19 +10,21 @@ import { GoodsDetailService } from '@/service/GoodsDetailService'
 import { Toast } from 'react-vant'
 import './index.less'
 import { isMini } from '@/jsbridge/env'
+import { getCookie } from '@/utils/cookie'
 
 interface Props {
+  dataAll: any
   data: any
   isLike: number
   myLikes: string
   shares: string
   goodsPriceId: string
-  shopId: string,
+  shopId: string
   onShare: () => void
 }
 
 /**面板 */
-const Panel: React.FC<Props> = ({ data, isLike, myLikes, shares, goodsPriceId, shopId, onShare }) => {
+const Panel: React.FC<Props> = ({ data, dataAll, isLike, myLikes, shares, goodsPriceId, shopId, onShare }) => {
   const [love, setLove] = useState(null) as any
   const [isWeapp, setIsWeapp] = useState(false)
 
@@ -47,9 +49,19 @@ const Panel: React.FC<Props> = ({ data, isLike, myLikes, shares, goodsPriceId, s
     }
   }
   const giveShare = () => {
-    // onShare()
     if (SHBridge.isLogin()) {
-      SHBridge.shareDetail(data)
+      const litterUrl = `${window.location.origin}${window.location.pathname}?id=${dataAll?.id}&goodsPriceId=${
+        dataAll?.goodsPriceId
+      }&userId=${getCookie('userId')}&isRebate=${dataAll?.isRebate}&isPurchase=${dataAll?.isPurchase}&isPurchaseAdd=${
+        dataAll?.isPurchaseAdd
+      }`
+      SHBridge.shareDetail({
+        type: 'goods',
+        title: dataAll.goodsName,
+        description: dataAll.goodsNickName,
+        headUrl: dataAll.promotionalImageUrl,
+        littleUrl: litterUrl,
+      })
     } else {
       Toast('还未登陆，请登陆后分享')
     }
