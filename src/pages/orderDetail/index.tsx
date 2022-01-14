@@ -38,6 +38,11 @@ const OrderIndexPage: FC = (props: any) => {
   }, [orderId])
 
   const getOrderDetail = ()=>{
+    const Toa = Toast.loading({
+      message: '加载中...',
+      forbidClick: true,
+      duration:0
+    });
     OrderApi.orderdetail({
       orderId:orderId
     }).then((result:any) => {
@@ -53,6 +58,8 @@ const OrderIndexPage: FC = (props: any) => {
         console.log('result :>> ', result);
     }).catch((err) => {
         Toast("服务异常")
+    }).finally(()=>{
+      Toa.clear();
     });
 
     OrderApi.suborders({
