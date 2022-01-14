@@ -70,6 +70,13 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
     suborderIds: [],
   })
 
+  useEffect(()=>{
+    //非编辑状态下 判断订单是否享受优惠有优惠弹框阻止 
+    if (discountAmount>0) {
+      setShowEmbedded(true)
+    }
+  },[discountAmount])
+
   useEffect(() => {
     if (refundId) {
       //根据退款单Id获取退款人员信息
@@ -295,6 +302,16 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
     console.log('item :>> ', item)
   }
 
+  //考虑一下
+  const backConsider = ()=>{
+    SHBridge.jump({
+      url: generateUrl(`/order-detail?orderId=${orderId}`),
+      newWebView: false,
+      replace: true,
+      title: '订单详情',
+    })
+  }
+
   return (
     <div className="refund-container">
       <div className="refund-main">
@@ -341,7 +358,7 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
           </div>
         </div>
       </div>
-      <Overlay visible={showEmbedded}>
+      <Overlay visible={showEmbedded&&!defaultValueInfo.isedit}>
         <div className="refund-wrapper">
           <div className="refund-block">
             <div className="block-text">当前线路已享优惠购买，申请退款将错过本期优惠</div>
@@ -349,7 +366,7 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
               <div className="block-left btn-item" onClick={() => setShowEmbedded(false)}>
                 放弃优惠
               </div>
-              <div className="block-right btn-item">再考虑一下</div>
+              <div className="block-right btn-item" onClick={backConsider}>再考虑一下</div>
             </div>
           </div>
         </div>
