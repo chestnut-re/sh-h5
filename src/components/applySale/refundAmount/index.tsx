@@ -1,4 +1,4 @@
-import React, { useState, FC } from 'react'
+import React, { useState,useEffect, FC } from 'react'
 
 import './index.less'
 /**
@@ -10,6 +10,15 @@ interface RefundAmountType{
 }
 
 const RefundAmountCard: FC<RefundAmountType> = ({ refundTokenAmount, refundAmount }) => {
+
+
+//   useEffect(()=>{
+//     if (defaultValue) {
+//         const {amount,tokenAmount} = defaultValue;
+//         setRemarks(remarks)
+        
+//     }
+// },[defaultValue])
   return (
     <div className='refuamount-container'>
       <div className="refuamount-card">

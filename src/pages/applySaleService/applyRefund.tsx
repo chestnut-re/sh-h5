@@ -14,6 +14,7 @@ import qs from 'query-string'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
 import './index.less'
+import clsx from 'clsx'
 
 /**
  * 申请退款入口
@@ -26,9 +27,9 @@ interface IndexRefundType {
   orderInfo: any
 }
 const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
-  console.log('orderIorderInfoorderInfoorderInfoorderInfonfo :>> ', orderInfo);
+  console.log('orderIorderInfoorderInfoorderInfoorderInfonfo :>> ', orderInfo)
   const { search } = useLocation()
-  const { type, orderId,refundId } = qs.parse(search.slice(1))
+  const { type, orderId, refundId } = qs.parse(search.slice(1))
   const {
     goodsName,
     id,
@@ -42,13 +43,20 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
     tokenAmount,
     discountAmount,
     payAmount,
-    travelId
+    travelId,
   } = orderInfo
 
   const [showEmbedded, setShowEmbedded] = useState(false)
   //可退款数据
   const [suborderInfo, setSuborderInfo] = useState<any>({})
-
+  //编辑默认值
+  const [defaultValueInfo, setDefaultValueInfo] = useState<any>({
+    isedit: false, //是否编辑
+    adultNum: 0, //成人数量
+    childNum: 0, //儿童数量
+  })
+  //退款回显数据
+  const [refundInfo, setRefundInfo] = useState<any>()
   const [subData, setSubData] = useState({
     adultNum: 0, //成人数量
     childNum: 0, //儿童数量
@@ -63,87 +71,151 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
   })
 
   useEffect(() => {
-    RefundApis.suborder(orderId)
-      .then((res) => {
-        const { code, data } = res
-        if (code === '200' && data) {
-          setSuborderInfo(data)
-        }
-      })
-      .catch((err) => {
-        console.log('err :>> ', err)
-      })
+    if (refundId) {
+      //根据退款单Id获取退款人员信息
+      RefundApis.detail(refundId)
+        .then((res) => {
+          console.log('res :>> ', res)
+          const { code, data } = res
+          if (code === '200' && data) {
+            const adultList = data.filter((item) => {
+              return item.travelerType == 1
+            })
+            const childList = data.filter((item) => {
+              return item.travelerType == 0
+            })
 
-      if (refundId) {
-        RefundApis.detail(refundId).then((res)=>{
-            console.log('res :>> ', res);
-        }).catch((err)=>{
-          console.log('err :>> ', err);
+            setSuborderInfo({
+              adultNum: adultList.length,
+              adultRefundList: [...adultList],
+              childNum: childList.length,
+              childRefundList: [...childList],
+            })
+
+            // setSubData((v) => {
+            //   return {
+            //     ...v,
+            //     adultNum: adultList.length,
+            //     childNum: childList.length,
+            //   }
+            // })
+            setDefaultValueInfo({
+              isedit: true,
+              adultNum: adultList.length,
+              childNum: childList.length,
+            })
+          }
         })
-      }
+        .catch((err) => {
+          console.log('err :>> ', err)
+        })
 
+        //获取退款单信息
+        RefundApis.RefundList(orderId)
+            .then((res) => {
+              console.log('res :>> ', res)
+              const { code, data } = res
+              if (code === '200') {
+                  const itemData = data.find(item => { return item.id == refundId })
+                    console.log('itemData<><<<<<<<<<<<<<<<<<<<< :>> ', itemData);
+                    setSubData(itemData)
+                    setRefundInfo(itemData)
+                // setRefundList(itemData)
+              }
+            })
+            .catch((err) => {
+              console.log('err :>> ', err)
+            })
+
+
+    } else {
+      RefundApis.suborder(orderId)
+        .then((res) => {
+          console.log('data满足条件人员 :>> ', res)
+          const { code, data } = res
+          if (code === '200' && data) {
+            setSuborderInfo(data)
+          }
+        })
+        .catch((err) => {
+          console.log('err :>> ', err)
+        })
+    }
   }, [])
 
   //提交退款申请
   const submitApplyRefund = () => {
     console.log('subData :>> ', subData)
-    const { reason, remarks, adultNum,credentialImageUrl } = subData
+    const { reason, remarks, adultNum, credentialImageUrl, childNum } = subData
     if (!reason) {
       Toast('请选择退款原因')
       return
     }
-
-    if (adultNum <= 0&&childNum<=0) {
-      Toast('请选择退款件数')
-      return
+    if (!refundId) {
+      if (adultNum <= 0 && childNum <= 0) {
+        Toast('请选择退款件数')
+        return
+      }
     }
+   
 
     if (!remarks) {
       Toast('请填写退款说明')
       return
     }
 
-    console.log('resubDatasubDatasubData :>> ', subData);
-      //refundId存在是编辑状态 否者是新增
+    console.log('resubDatasubDatasubData :>> ', subData)
+    //refundId存在是编辑状态 否者是新增
 
     if (refundId) {
       RefundApis.edit({
-        "credentialImageUrl": credentialImageUrl,
-        "orderRefundId": refundId,
-        "reason": reason,
-        "remarks": remarks
-      }).then((res)=>{
-              console.log('res修改退款说明 :>> ', res);
-      }).catch((err)=>{
-        console.log('res修改退款说明err :>> ', err);
+        credentialImageUrl: credentialImageUrl,
+        orderRefundId: refundId,
+        reason: reason,
+        remarks: remarks,
       })
-
-
-    }else{
+        .then((res) => {
+          const { code, data } = res
+          console.log('res 提交申请:>> ', res)
+          //  return
+          if (code === '200' && data) {
+            const { id } = data
+            SHBridge.jump({
+              url: generateUrl(`/apply-sales?orderId=${orderId}&type=2&refundId=${refundId}`),
+              newWebView: false,
+              replace: true,
+              title: '申请退款',
+            })
+          }else{
+            Toast("修改失败")
+          }
+        })
+        .catch((err) => {
+          Toast("服务异常")
+          console.log('res修改退款说明err :>> ', err)
+        })
+    } else {
       RefundApis.submit(subData)
-      .then((res) => {
-        const { code, data } = res
-
-        if (code === '200' && data) {
-          const {id} = data;
-          SHBridge.jump({
-            url: generateUrl(`/apply-sales?orderId=${orderId}&type=2&refundId=${id}`),
-            newWebView: false,
-            replace: true,
-            title: '申请退款',
-          })
-        }
-
-        console.log('res 提交申请:>> ', res)
-      })
-      .catch((err) => {
-        console.log('err :>> ', err)
-      })
+        .then((res) => {
+          const { code, data } = res
+          console.log('res 提交申请:>> ', res)
+          //  return
+          if (code === '200' && data) {
+            const { id } = data
+            SHBridge.jump({
+              url: generateUrl(`/apply-sales?orderId=${orderId}&type=2&refundId=${id}`),
+              newWebView: false,
+              replace: true,
+              title: '申请退款',
+            })
+          }
+        })
+        .catch((err) => {
+          console.log('err :>> ', err)
+        })
 
       console.log('object提交 :>> ')
     }
-
-    
   }
   //处理人员数据改变
   const changeRefundNumHandle = (val) => {
@@ -192,9 +264,10 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
   }
   //
   const onchangeCancelTripHandle = (item) => {
-    const { aduList, childList } = item;
-    const newArr = [...aduList,...childList]
-    const Fh = newArr.map((item)=>{
+    console.log('itemitemitemitem已选人员 :>> ', item)
+    const { aduList, childList } = item
+    const newArr = [...aduList, ...childList]
+    const Fh = newArr.map((item) => {
       return item.id
     })
 
@@ -205,7 +278,7 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
       return w.tokenAmount + sum
     }, 0)
 
-    console.log('Fh :>> ', Fh);
+    console.log('Fh :>> ', Fh)
     // return
 
     setSubData((v) => {
@@ -215,10 +288,9 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
         childNum: childList.length, //儿童数量
         suborderIds: Fh,
         refundAmount,
-        refundTokenAmount
+        refundTokenAmount,
       }
     })
-
 
     console.log('item :>> ', item)
   }
@@ -248,14 +320,21 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
             discountAmount={discountAmount}
             payAmount={payAmount} /> */}
         </div>
-        <RefundReasonCard onchangeReason={onchangeReasonHandle} />
-
-        {updateType === 0 && <RefundPieceCard suborderInfo={suborderInfo} changeRefundNum={changeRefundNumHandle} />}
-        {updateType === 1 && (
-          <CancelTripCard suborderInfo={suborderInfo} onchangeCancelTrip={onchangeCancelTripHandle} />
-        )}
-        <RefundAmountCard {...subData} />
-        <RefundInstrucCard refundInsChange={refundInsChangeHandle} />
+        <RefundReasonCard onchangeReason={onchangeReasonHandle}  defaultValue={refundInfo} />
+        <div className={clsx(defaultValueInfo.isedit&&"refund-dis")}>
+          {updateType === 0 && (
+            <RefundPieceCard
+              defaultValue={defaultValueInfo}
+              suborderInfo={suborderInfo}
+              changeRefundNum={changeRefundNumHandle}
+            />
+          )}
+          {updateType === 1 && (
+            <CancelTripCard suborderInfo={suborderInfo} onchangeCancelTrip={onchangeCancelTripHandle} />
+          )}
+        </div>
+        <RefundAmountCard {...subData} defaultValue={refundInfo} />
+        <RefundInstrucCard refundInsChange={refundInsChangeHandle} defaultValue={refundInfo} />
         <div className="refund-btn">
           <div className="refund-btnitem" onClick={submitApplyRefund}>
             申请退款

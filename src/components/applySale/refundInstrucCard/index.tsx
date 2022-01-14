@@ -13,12 +13,32 @@ const themeVars = {
   '--rv-field-word-limit-color': '#cccccc',
 }
 interface RefundInstrucType {
-  refundInsChange: (val) => void
+  refundInsChange: (val) => void;
+  defaultValue:any
 }
-const RefundInstrucCard: FC<RefundInstrucType> = ({ refundInsChange }) => {
+const RefundInstrucCard: FC<RefundInstrucType> = ({ refundInsChange,defaultValue }) => {
   const [remarks, setRemarks] = useState('')
 
   const [imgFileList, setImgFileList] = useState([])
+
+    useEffect(()=>{
+        if (defaultValue) {
+            const {remarks,credentialImageUrl} = defaultValue;
+            setRemarks(remarks)
+            if (credentialImageUrl) {
+              const newArr = credentialImageUrl.split(",").map((item)=>{
+                return {
+                  status : 'success',
+                  message : '上传成功',
+                  content:item
+                }
+              });
+              setImgFileList(newArr)
+            }
+        }
+    },[defaultValue])
+
+
   const afterRead = (index) => {
     const file = {
       status: 'uploading',

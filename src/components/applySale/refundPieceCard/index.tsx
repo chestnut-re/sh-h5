@@ -13,10 +13,11 @@ const themeVars = {
 }
 interface RefupieceType{
     suborderInfo:any;
+    defaultValue?:any;
     changeRefundNum:(val)=>void
 }
 
-const RefupieceCard: FC<RefupieceType> = ({suborderInfo,changeRefundNum}) => {
+const RefupieceCard: FC<RefupieceType> = ({suborderInfo,changeRefundNum,defaultValue}) => {
 
  const {adultNum,childNum} = suborderInfo;
 
@@ -33,7 +34,17 @@ const RefupieceCard: FC<RefupieceType> = ({suborderInfo,changeRefundNum}) => {
     })
   }, [adultNums,childNums])
 
+  useEffect(() => {
+      const {isedit,adultNum,childNum} = defaultValue;
+      if (isedit) {
+        console.log('zhxiing :>> >>>????',isedit,adultNum,childNum);
+        setAdultNums(adultNum)
+          setChildNums(childNum)
+       
+      }
+  }, [defaultValue])
 
+ 
   return (
     <div className="refupiece-card rv-hairline--top-bottom">
       <div className="refupiece-name">退款件数</div>

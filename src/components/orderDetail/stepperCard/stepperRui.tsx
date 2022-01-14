@@ -21,6 +21,10 @@ const StepperRuiCard: FC<StepperRuiType> = ({ max = 99, min = 0, changeValue, va
     changeValue(value)
     setCurrent(value)
   }
+  useEffect(()=>{
+    setCurrent(value)
+  },[value])
+
   // 获取输入值的操作
   const getValue = (e) => {
     console.log('e :>> ', e)

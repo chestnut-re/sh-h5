@@ -16,12 +16,23 @@ const actions = [
   { name: '选项三', id: '008' },
 ]
 
-const RefundReasonCard:FC = ({onchangeReason}) => {
+const RefundReasonCard:FC = ({onchangeReason,defaultValue}) => {
   const [visible, setHandelVisible] = useState(false)
   const [actionvalue, setHandelActionvalue] = useState({name:"",id:""})
   const setVisible = (b) => {
     setHandelVisible(b)
   }
+
+  useEffect(()=>{
+      if (!actionvalue.name&&defaultValue) {
+          const isactions = actions.find((item)=>{
+              return item.name = defaultValue.reason
+          })
+          setHandelActionvalue(isactions)
+      }
+  },[defaultValue])
+
+
   const setCellHandel = (item) => {
     console.log('item :>> ', item);
     setHandelActionvalue(item)

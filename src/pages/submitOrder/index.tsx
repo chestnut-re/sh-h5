@@ -223,9 +223,6 @@ const SubmitOrderPage: FC = () => {
             },
           }
         })
-
-        //是否开启限购字段未知后期添加
-        // getrestrictedPurchase(id)
       })
       .catch((err) => {
         console.log(' :>>接口异常 ')
@@ -263,6 +260,9 @@ const SubmitOrderPage: FC = () => {
         console.log('err :>> ', err)
       })
   }
+
+
+  
   //处理优惠说明
   const handleDiscountsInfo = () => {
     setPopvermode(1)
@@ -498,7 +498,7 @@ const SubmitOrderPage: FC = () => {
               {submitinfo.purchaseConfig.purchaseNum}】张成人票，分享商品，好友【下单付款】后可提升【
               {submitinfo.purchaseConfig.addNum}】个限购名额。
             </div>
-            <div className="purch-ins-btn" onClick={()=>{sharePurchase}}>分享好友</div>
+            <div className="purch-ins-btn" onClick={sharePurchase}>分享好友</div>
           </div>
         ) : (
           <div className="privilege-box">
