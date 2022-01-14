@@ -162,14 +162,15 @@ const GoodsDetailPage: React.FC = () => {
             </div>
           }
         /> */}
+
+        <div className="ref-route1" onClick={_toTravelRoute}>
+          参考行程
+        </div>
         {appSource == 'biz' ? (
-          <div className="ref-route1" onClick={_toTravelRoute}>
-            参考行程
+          <div className="ref-route1" onClick={_toDescRoute}>
+            限购｜下单赢乐豆
           </div>
         ) : null}
-        <div className="ref-route1" onClick={_toDescRoute}>
-          限购｜下单赢乐豆
-        </div>
       </div>
       <ShareView
         onClose={() => {
