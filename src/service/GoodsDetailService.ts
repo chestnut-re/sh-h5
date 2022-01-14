@@ -26,4 +26,11 @@ export class GoodsDetailService {
   static thumbsUp(data): Promise<AxiosResponse<any>> {
     return axios.post('/api/operation/goodsLikeView/like', data)
   }
+
+  /**
+   * 完成分享任务
+   */
+  static unLockBean(data): Promise<AxiosResponse<any>> {
+    return axios.post('/api/market/rebate/unLockBean', data)
+  }
 }

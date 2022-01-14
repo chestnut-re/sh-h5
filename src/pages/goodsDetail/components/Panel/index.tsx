@@ -11,6 +11,7 @@ import { Toast } from 'react-vant'
 import './index.less'
 import { isMini } from '@/jsbridge/env'
 import { getCookie } from '@/utils/cookie'
+import { getUrlParams } from '@/utils'
 
 interface Props {
   dataAll: any

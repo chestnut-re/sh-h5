@@ -43,6 +43,14 @@ const GoodsDetailPage: React.FC = () => {
       GoodsDetailService.viewGood({ goodsId: pageRef.current.id, shopId: pageRef.current.shopId }).then((res) => {
         console.log(res.data)
       })
+
+      // 如果是分享人，完成分享任务
+      // url 中有 taskId，表示是分享的链接，如果用户
+      pageRef.current.taskId = params['taskId']
+      if (pageRef.current.taskId) {
+        GoodsDetailService.unLockBean({ taskId: pageRef.current.taskId })
+      }
+      //
     }
   }, [])
 
