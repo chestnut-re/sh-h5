@@ -28,12 +28,12 @@ const SpecialEventsPage: React.FC = () => {
     activityTitle: '',
     id: '',
   })
-  useEffect(()=>{
-     //默认全屏效果
-     SHBridge.setFullScreen('1')
-  },[])
   useEffect(() => {
-   
+    //默认全屏效果
+    SHBridge.setFullScreen('1')
+  }, [])
+  useEffect(() => {
+
     SpecialEventsApi.detail({
       id: id
     }).then((res: any) => {
@@ -63,7 +63,7 @@ const SpecialEventsPage: React.FC = () => {
     if (SHBridge.isLogin()) {
       SHBridge.shareActivity(specialDetail)
     } else {
-      Toast('还未登陆，请登陆后分享')
+      Toast('还未登录，请登录后分享')
     }
   }
   //左侧回退按钮事件处理

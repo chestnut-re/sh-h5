@@ -51,11 +51,9 @@ const Panel: React.FC<Props> = ({ data, dataAll, isLike, myLikes, shares, goodsP
   }
   const giveShare = () => {
     if (SHBridge.isLogin()) {
-      const litterUrl = `${window.location.origin}${window.location.pathname}?id=${dataAll?.id}&goodsPriceId=${
-        dataAll?.goodsPriceId
-      }&userId=${getCookie('userId')}&isRebate=${dataAll?.isRebate}&isPurchase=${dataAll?.isPurchase}&isPurchaseAdd=${
-        dataAll?.isPurchaseAdd
-      }`
+      const litterUrl = `${window.location.origin}${window.location.pathname}?id=${dataAll?.id}&goodsPriceId=${dataAll?.goodsPriceId
+        }&userId=${getCookie('userId')}&isRebate=${dataAll?.isRebate}&isPurchase=${dataAll?.isPurchase}&isPurchaseAdd=${dataAll?.isPurchaseAdd
+        }`
       SHBridge.shareDetail({
         type: 'goods',
         title: dataAll.goodsName,
@@ -64,7 +62,7 @@ const Panel: React.FC<Props> = ({ data, dataAll, isLike, myLikes, shares, goodsP
         littleUrl: litterUrl,
       })
     } else {
-      Toast('还未登陆，请登陆后分享')
+      Toast('还未登录，请登录后分享')
     }
   }
   return (
