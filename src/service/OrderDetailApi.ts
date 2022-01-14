@@ -66,4 +66,11 @@ export class OrderApi {
   static purchase(data): Promise<AxiosResponse<any>> {
     return axios.post('/api/orders/restrictedPurchase', data)
   }
+
+  /**
+   * 获取最近推荐人
+   */
+   static getReferees(): Promise<AxiosResponse<any>> {
+    return axios.get('/api/users/customer/recommendUser/get')
+  }
 }
