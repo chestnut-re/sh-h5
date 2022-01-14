@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Overlay,ConfigProvider, Empty} from 'react-vant'
+import { Overlay, ConfigProvider, Empty, Toast } from 'react-vant'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
 import { MyTokenService } from '../../service/MyTokenService'
@@ -10,9 +10,9 @@ import './index.less'
  * w我的代币
  */
 const themeVars = {
-    '--rv-empty-description-font-size':"3.46667vw",
-    '--rv-empty-description-color':"#666666",
-    '--rv-empty-description-padding':0
+  '--rv-empty-description-font-size': '3.46667vw',
+  '--rv-empty-description-color': '#666666',
+  '--rv-empty-description-padding': 0,
 }
 const MyTokenPage: React.FC = () => {
   //代币数量
@@ -57,14 +57,17 @@ const MyTokenPage: React.FC = () => {
     setShowEmbedded(true)
   }
 
-  const shareTask = (taskId)=>{
-    MyTokenService.shareParam({taskId}).then((res) => {
-        console.log('object :>> ', res);
-    }).catch((err) => {
-        console.log('err :>> ', err);
-    });
+  const shareTask = (taskId) => {
+    // SHBridge.shareActivity(specialDetail)
+    MyTokenService.shareParam({ taskId })
+      .then((res) => {
+        console.log('object :>> ', res)
+      })
+      .catch((err) => {
+        console.log('err :>> ', err)
+      })
   }
-  const openHappyCoins =  () => {
+  const openHappyCoins = () => {
     SHBridge.jump({ url: generateUrl('/happy-coin'), newWebView: true, title: '乐豆说明' })
   }
 
@@ -72,7 +75,9 @@ const MyTokenPage: React.FC = () => {
     <div className="MyTokenPage__root">
       <div className="mtkon-box">
         <div className="mtkon-box-header">
-          <div className="mtkon-header-balance" onClick={openHappyCoins}>乐豆余额</div>
+          <div className="mtkon-header-balance" onClick={openHappyCoins}>
+            乐豆余额
+          </div>
           <div className="mtkon-header-with">
             <div className="mhw-left">{totalAmount}</div>
             <div className="mhw-right">
@@ -98,21 +103,23 @@ const MyTokenPage: React.FC = () => {
             </div>
           </div>
           <ConfigProvider themeVars={themeVars}>
-          <div className="task-list">
-            {rebateTaskList.length > 0
-              ? rebateTaskList.map((item,index) => {
+            <div className="task-list">
+              {rebateTaskList.length > 0 ? (
+                rebateTaskList.map((item, index) => {
                   return (
                     <div className="task-list-item" key={index}>
                       <ToDoList {...item} shareTask={shareTask} onToviewHandle={setHandleShowEmbedded} />
                     </div>
                   )
                 })
-              : <Empty
-              className="custom-image"
-              image={emptyIcon}
-              description="购买返利商品开启更多任务，快去逛逛吧！"
-            />}
-          </div>
+              ) : (
+                <Empty
+                  className="custom-image"
+                  image={emptyIcon}
+                  description="购买返利商品开启更多任务，快去逛逛吧！"
+                />
+              )}
+            </div>
           </ConfigProvider>
         </div>
       </div>

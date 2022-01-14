@@ -182,13 +182,14 @@ export class SHBridge {
   }
 
   /**
-   * 商品分享
+   * 分享
    */
-  static shareDetail(authStr: string): void {
+  static shareDetail(data: any): void {
     if (isApp()) {
-      AppBridge.shareDetail(authStr)
+      AppBridge.shareDetail(data)
     }
   }
+
   /**
    * 活动分享
    * @param authStr

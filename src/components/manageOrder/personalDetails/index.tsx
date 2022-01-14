@@ -21,7 +21,7 @@ const MaStatusMap = {
   3: { text: '【待核销】', bgName: 'BGdaiqr', cName: 'C7193f4', type: 3 },
   4: { text: '【已完成】', bgName: 'BGyiwc', cName: 'C666666', type: 4 },
   5: { text: '【退款中】', bgName: 'BGtuikz', cName: 'CF5B572', type: 5 },
-  6: { text: '【已退款】', bgName: 'BGyitk', cName: 'C666666', type: 6 },
+  6: { text: '【退款成功】', bgName: 'BGyitk', cName: 'C666666', type: 6 },
   7: { text: '【退款失败】', bgName: 'BGyitk', cName: 'C999999', type: 7 },
   '': { text: '未知', bgName: 'BGyisx', cName: '', type: '' },
 }

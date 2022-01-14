@@ -28,9 +28,12 @@ const SpecialEventsPage: React.FC = () => {
     activityTitle: '',
     id: '',
   })
+  useEffect(()=>{
+     //默认全屏效果
+     SHBridge.setFullScreen('1')
+  },[])
   useEffect(() => {
-    //默认全屏效果
-    SHBridge.setFullScreen('1')
+   
     SpecialEventsApi.detail({
       id: id
     }).then((res: any) => {

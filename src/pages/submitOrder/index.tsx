@@ -83,6 +83,9 @@ const SubmitOrderPage: FC = () => {
   const [tokenAmountNum, setTokenAmountNum] = useState(0)
 
   const [showPrivilege, setShowPrivilege] = useState(false)
+  //最近推荐人
+  const [referees, setReferees] = useState("")
+
   const [submitinfo, setSubmitinfo] = useState({
     id: '', //商品id
     goodsName: '', //商品标题
@@ -135,6 +138,17 @@ const SubmitOrderPage: FC = () => {
     })
   }, [selectTime, stepperData])
 
+  const getRefereesApi = ()=>{
+      OrderApi.getReferees().then((res)=>{
+        const {code,data} = res;
+          if (code==="200"&&data) {
+            setReferees(data)
+          }
+          console.log('res推荐人 :>> ', res);
+      }).catch((err)=>{
+          console.log('err :>> ', err);
+      })
+  }
   
   const getGoodsDetail = (id) => {
     return new Promise((resolve, reject) => {
@@ -235,6 +249,7 @@ const SubmitOrderPage: FC = () => {
       setmainHeight(height - clientHeight)
       console.log('activeRef.current :>> ', clientWidth, clientHeight)
     }
+    getRefereesApi()
   }, [])
 
   //获取成人数量
@@ -339,6 +354,7 @@ const SubmitOrderPage: FC = () => {
         tokenAmount: intNum,
         travelStartDate: startDate,
         travelEndDate: endDate,
+        referrerUserId:referees?referees:""
       },
     }
 

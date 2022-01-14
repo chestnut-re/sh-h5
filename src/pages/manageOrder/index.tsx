@@ -48,13 +48,13 @@ const ManageOrderPage: FC = () => {
         current: current,
       })
         .then((res: any) => {
-          const { code } = res
+          const { code,msg } = res
           if (code == '200') {
             
-            // setCurrent((v) => v + 1)
             current++;
             resolve(res)
           } else {
+            Toast(msg)
             reject(new Error('error'))
           }
         })
@@ -85,17 +85,6 @@ const ManageOrderPage: FC = () => {
       }
       return newList;
     })
-
-    // if (activeState == '') {
-    //   const setPayList = listData.filter((item) => {
-    //     return item.state == 1
-    //   })
-    //   setPaymentNum(setPayList.length)
-    // }
-
-    // if (PAGE_SIZE > records.length) {
-    //   setFinished(true)
-    // }
   }
 
   const onLoadRefresh = async ()=>{
@@ -133,7 +122,7 @@ const ManageOrderPage: FC = () => {
         })
       }
     )
-  })
+  },[])
   const tabHandelClick = (info) => {
     const { name } = info;
     if (isloading) {

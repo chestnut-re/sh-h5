@@ -104,7 +104,7 @@ const StepperCard: FC<StepType> = ({
             <li className="step-boxli">
               <div className="step-name hairline--icon">
                 <Icon size="4vw" className="integra-icon" name={integralIcon} />
-                <span>金豆</span>
+                <span className='hellp-icon'>乐豆</span>
                 <span className="name-subtitle">共{tokenAmountNum}</span>
               </div>
               <div className="step-content">
@@ -117,6 +117,7 @@ const StepperCard: FC<StepType> = ({
                   />
                 </ConfigProvider>
               </div>
+              <div className='hellp-icon-l'></div>
             </li>
           ) : null}
         </ul>
@@ -125,7 +126,7 @@ const StepperCard: FC<StepType> = ({
       {(pointsDeduction / RMB_CON)>=1 && tokenAmountNum >= 1 ? (
         <div className="info-integral rv-hairline--bottom">
           <div className="integral-instruction">
-            此订单最多可用{pointsDeduction / RMB_CON}金豆抵<span>¥{pointsDeduction / RMB_CON}</span>
+            此订单最多可用{pointsDeduction / RMB_CON}.00金豆抵<span>¥{pointsDeduction / RMB_CON}.00</span>
           </div>
         </div>
       ) : null}
