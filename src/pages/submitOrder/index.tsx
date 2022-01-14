@@ -204,7 +204,7 @@ const SubmitOrderPage: FC = () => {
 
     getGoodsDetail(id)
       .then((res: any) => {
-        const { departureCityAdcode, goodsName, promotionalImageUrl, id, isDeduction, isPurchase } = res
+        const { departureCityAdcode, goodsName, promotionalImageUrl, id, isDeduction, isPurchase,activityId } = res
         setSubmitinfo(res)
         setSelectTime(res['goodsPrices'][0])
         setPriceSet((v) => {
@@ -232,7 +232,8 @@ const SubmitOrderPage: FC = () => {
               ...v.orderDto,
               goodsName,
               goodsId: id,
-              isRebate: isRebate != '1' ? 0 : 1,
+              activityId:activityId != '1' ? 0 : 1,
+              isRebate: activityId != '1' ? 0 : 1,
               promotionalImageUrl,
             },
           }

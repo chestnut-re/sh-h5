@@ -39,7 +39,7 @@ const OrderFailurePage: FC<OrderFailureType> = ({
 }) => {
   const tabBarsList = {
     btnGroups: [{ name: '再次购买', key: 'ZCGM' }],
-    leftBtnGroups: [{ text: '修改申请', key: 'XGSQ' }],
+    leftBtnGroups: [],
     onSelect: (item) => {
       const { key } = item
       switch (key) {

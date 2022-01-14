@@ -15,29 +15,46 @@ import './index.less'
 /**
  * 订单待付款入口页
  */
-const COUNT_DOWN = 60 * 30 * 1000;
-let reloadNum = 0;
-
-const OrderPaymentPage: FC = (props: any) => {
-  const {
-    promotionalImageUrl,
-    goodsName,
-    travelStartDate,
-    travelEndDate,
-    adultNum,
-    childNum,
-    tokenAmount,
-    discountAmount,
-    payAmount,
-    orderNo,
-    payType,
-    orderTime,
-    payTime,
-    id,
-    goodsId,
-    travelId,
-  } = props
-  console.log('objectidididid :>> ', props)
+const COUNT_DOWN = 60 * 30 * 1000
+let reloadNum = 0
+interface OrderPaymentType {
+  promotionalImageUrl: string
+  goodsName: string
+  travelStartDate: string
+  travelEndDate: string
+  adultNum: number
+  childNum: number
+  tokenAmount: number
+  discountAmount: number
+  payAmount: number
+  orderNo: string
+  payType: string
+  orderTime: string
+  payTime: string
+  id: string
+  goodsId: string
+  travelId: string
+  reloadOrder: () => void
+}
+const OrderPaymentPage: FC<OrderPaymentType> = ({
+  promotionalImageUrl,
+  goodsName,
+  travelStartDate,
+  travelEndDate,
+  adultNum,
+  childNum,
+  tokenAmount,
+  discountAmount,
+  payAmount,
+  orderNo,
+  payType,
+  orderTime,
+  payTime,
+  id,
+  goodsId,
+  travelId,
+  reloadOrder,
+}) => {
   const [countdowntime, setCountdownTime] = useState<number>(COUNT_DOWN)
 
   useEffect(() => {
@@ -47,10 +64,12 @@ const OrderPaymentPage: FC = (props: any) => {
     }
   }, [orderTime])
 
-  const countDownStop = ()=>{
-        // if (reloadNum) {
-          
-        // }
+  const countDownStops = () => {
+    if (reloadNum <= 1) {
+      console.log('object 倒计时结束:>> ')
+      reloadNum++
+      reloadOrder()
+    }
   }
 
   //支付成功跳转
@@ -131,7 +150,13 @@ const OrderPaymentPage: FC = (props: any) => {
   return (
     <div className="Order-container">
       <div className="order-count">
-        <CountDown time={countdowntime} onFinish={countDownStop} format="剩 mm:ss" />
+        <CountDown
+          time={countdowntime}
+          onFinish={() => {
+            countDownStops()
+          }}
+          format="剩 mm:ss"
+        />
       </div>
       <div className="order-main">
         {/* <ContactWcharCard/> */}

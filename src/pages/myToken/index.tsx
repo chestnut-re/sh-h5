@@ -5,6 +5,7 @@ import { generateUrl } from '@/utils'
 import { MyTokenService } from '../../service/MyTokenService'
 import ToDoList from '@/components/myToken/toDoList'
 import emptyIcon from '@/assets/img/token/token_empty@3x.png'
+import ModalOverlay from './overlay';
 import './index.less'
 /**
  * w我的代币
@@ -138,6 +139,7 @@ const MyTokenPage: React.FC = () => {
           <div className="task-close" onClick={() => setShowEmbedded(false)}></div>
         </div>
       </Overlay>
+        {/* <ModalOverlay ishow={true} /> */}
     </div>
   )
 }

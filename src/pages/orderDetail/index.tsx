@@ -33,6 +33,11 @@ const OrderIndexPage: FC = (props: any) => {
 
   useEffect(() => {
     SHBridge.setTitle("订单详情")
+    getOrderDetail()
+
+  }, [orderId])
+
+  const getOrderDetail = ()=>{
     OrderApi.orderdetail({
       orderId:orderId
     }).then((result:any) => {
@@ -60,10 +65,7 @@ const OrderIndexPage: FC = (props: any) => {
     }).catch((err) => {
         console.log('err :>> ', err);
     });
-
-
-  }, [orderId])
-
+  }
 
   console.log('object :>> ', props)
   
@@ -72,7 +74,7 @@ const OrderIndexPage: FC = (props: any) => {
       {orderType == '4' && <OrderDone {...orders} ordersTravel={ordersTravel} />}
       {orderType == '2' && <OrderFailure {...orders} />}
       {orderType == '3' && <OrderConfirma  {...orders} ordersTravel={ordersTravel} />}
-      {orderType == '1' && <OrderPayment {...orders} />}
+      {orderType == '1' && <OrderPayment {...orders} reloadOrder={getOrderDetail} />}
       {orderType == '-1' &&<Empty className="custom-image" image={emptyIcon} description="暂无数据" />}
     </div>
   )
