@@ -6,41 +6,27 @@ import PersonalDetails from '@/components/manageOrder/personalDetails'
 import { ManageOrder } from '@/service/ManageOrderApi'
 import { SHBridge } from '@/jsbridge'
 import './index.less'
+import { Toast } from 'react-vant'
 /**
  * 订单管理详情入口页面
  * 全部 待付款 待确认 已完成 退款_售后
  */
 
-//测试数据
-const Des = [
-  {
-    id: '12312312',
-    suborderNo: '1345 99839 0000',
-    state: 1,
-    travelerId: '2131312',
-    travelerName: '李康',
-    travelerType: 0,
-    travelerRelation: 0,
-    travelerPhoneAreaCode: '+86',
-    travelerPhoneNumber: '135675567766',
-    travelerCertificateType: '',
-    travelerCertificateNo: '',
-    emerName: 'asdas',
-  }
-]
-
 //子订单分类
-const CategoryArr = (list)=>{
-
-  let flag = 0;
-  const data = [];
+const CategoryArr = (list) => {
+  let flag = 0
+  const data = []
   for (let i = 0; i < list.length; i++) {
     let az = 0
     for (let j = 0; j < data.length; j++) {
-      if (data[j][0].state == list[i].state) {
-        flag = 1
-        az = j
-        break
+      const stateS = data[j][0].state;
+      //退款中 退款成功 退款失败 卡片拼接
+      if (stateS == 5 || stateS == 6 || stateS == 7) {
+        if (data[j][0].state == list[i].state) {
+          flag = 1
+          az = j
+          break
+        }
       }
     }
     if (flag == 1) {
@@ -52,11 +38,9 @@ const CategoryArr = (list)=>{
       data.push(wdy)
     }
   }
-  console.log("datadatadata",data)
+  console.log('datadatadata', data)
   return data
 }
-
-
 
 const getMaorderDetail = async (id) => {
   return new Promise<any>((resolve, reject) => {
@@ -69,10 +53,12 @@ const getMaorderDetail = async (id) => {
           resolve(data)
         } else {
           reject(data)
+          Toast('系统异常')
         }
       })
       .catch((err) => {
         new Error(err)
+        Toast('系统异常')
       })
   })
 }
@@ -93,9 +79,9 @@ const MaorderDetailPage: FC = () => {
 
   useEffect(() => {
     onLoadMaorderDetail()
-    SHBridge.setNavBgColor('#7495ee');
+    SHBridge.setNavBgColor('#7495ee')
     SHBridge.setTitleColor('#fff')
-  }, [])// eslint-disable-line
+  }, []) // eslint-disable-line
 
   return (
     <div className="MaorderDetail-container">
@@ -103,7 +89,7 @@ const MaorderDetailPage: FC = () => {
         <ManageDetail {...details.order} />
         {details?.suborders.length ? (
           <div className="maorder-list">
-            {details.suborders.map((item,index) => {
+            {details.suborders.map((item, index) => {
               return (
                 <div className="maorder-list-item" key={index}>
                   <PersonalDetails subordersitem={item} />
