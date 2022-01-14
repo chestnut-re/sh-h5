@@ -215,4 +215,12 @@ export class SHBridge {
       AppBridge.getImage(backFn)
     }
   }
+  /**
+   * 发起聊天
+   */
+  static toChat(id: string): void {
+    if (isApp()) {
+      AppBridge.toChat(id)
+    }
+  }
 }

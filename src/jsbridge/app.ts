@@ -226,7 +226,21 @@ export class AppBridge {
     const msg = {
       method: 'getImage',
       data: {
-        backFn: _callMethod(backFn),
+        backFn: _callMethod(backFn, true),
+      },
+    }
+    SHApp.postMessage(JSON.stringify(msg))
+  }
+
+  /**
+   * 发起聊天
+   * @param id 用户userId
+   */
+  static toChat(id: string): void {
+    const msg = {
+      method: 'toChat',
+      data: {
+        id: id,
       },
     }
     SHApp.postMessage(JSON.stringify(msg))

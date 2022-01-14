@@ -183,6 +183,14 @@ const TestPage = () => {
           }}
         />
       </Cell.Group>
+      <Cell.Group title="发起聊天">
+        <Cell
+          title="和B端测试账号聊天"
+          onClick={() => {
+            SHBridge.toChat('1466343298036797440')
+          }}
+        />
+      </Cell.Group>
       <Cell.Group title="文件上传">
         <Cell
           title="app_图片选择或拍照"
