@@ -15,7 +15,8 @@ import './index.less'
 /**
  * 订单待付款入口页
  */
-const COUNT_DOWN = 60 * 30 * 1000
+const COUNT_DOWN = 60 * 30 * 1000;
+let reloadNum = 0;
 
 const OrderPaymentPage: FC = (props: any) => {
   const {
@@ -45,6 +46,12 @@ const OrderPaymentPage: FC = (props: any) => {
       setCountdownTime(COUNT_DOWN - restTime)
     }
   }, [orderTime])
+
+  const countDownStop = ()=>{
+        // if (reloadNum) {
+          
+        // }
+  }
 
   //支付成功跳转
   const paySuccessLink = (orderId) => {
@@ -124,7 +131,7 @@ const OrderPaymentPage: FC = (props: any) => {
   return (
     <div className="Order-container">
       <div className="order-count">
-        <CountDown time={countdowntime} format="剩 mm:ss" />
+        <CountDown time={countdowntime} onFinish={countDownStop} format="剩 mm:ss" />
       </div>
       <div className="order-main">
         {/* <ContactWcharCard/> */}

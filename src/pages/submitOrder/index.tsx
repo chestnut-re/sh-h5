@@ -258,7 +258,8 @@ const SubmitOrderPage: FC = () => {
     const { adultNum } = info
     setStepperData(info)
 
-    OrderApi.purchase({ goodsId: id })
+    if (isPurchase) {
+      OrderApi.purchase({ goodsId: id })
       .then((res) => {
         console.log('res :>> ', res)
         const { code, data } = res
@@ -274,6 +275,8 @@ const SubmitOrderPage: FC = () => {
       .catch((err) => {
         console.log('err :>> ', err)
       })
+    }
+    
   }
 
 
