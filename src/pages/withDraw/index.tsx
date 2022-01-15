@@ -41,7 +41,7 @@ const WithDrawPage: React.FC = () => {
   // )
 
   const toDetailed = () => {
-    SHBridge.jump({ url: generateUrl('/detailed'), newWebView: true, title: '收支明细' })
+    SHBridge.jump({ url: generateUrl('/detailed'), newWebView: false, title: '收支明细' })
     // window.location.href = '/detailed'
   }
   const toExamine = () => {
