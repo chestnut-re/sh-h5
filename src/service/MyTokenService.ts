@@ -29,8 +29,8 @@ export class MyTokenService {
   /**
    * 账单列表
    */
-  static getWalletPage(): Promise<AxiosResponse<any>> {
-    return axios.get('/api/wallet/c/page')
+  static getWalletPage(params): Promise<AxiosResponse<any>> {
+    return axios.get('/api/wallet/c/page',{params})
   }
 
   /**

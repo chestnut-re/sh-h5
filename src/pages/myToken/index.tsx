@@ -70,9 +70,12 @@ const MyTokenPage: React.FC = () => {
         if (code === '200' && data) {
           setShareData(data)
           setisshareCard(true)
+        }else{
+          Toast("服务异常")
         }
       })
       .catch((err) => {
+        Toast("系统错误")
         console.log('err :>> ', err)
       })
   }

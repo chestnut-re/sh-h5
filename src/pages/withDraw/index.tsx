@@ -10,7 +10,7 @@ import './index.less'
  * 我的代币提现
  */
 const WithDrawPage: React.FC = () => {
-  const [myK, setMyK] = useState('')
+  const [myK, setMyK] = useState(0)
   const [visible, setVisible] = useState(false)
   const [dollar, setDollar] = useState()
   useEffect(() => {
@@ -58,7 +58,7 @@ const WithDrawPage: React.FC = () => {
     } else if (Number(myK) > Number(dollar)) {
       Toast('已超过单次最大提现金额')
     } else {
-      MyTokenService.askForWithDraw({ amount: myK }).then((res) => {
+      MyTokenService.askForWithDraw({ amount: myK*100 }).then((res) => {
         console.log(res)
         if (res['code'] == '200') {
           Toast({
