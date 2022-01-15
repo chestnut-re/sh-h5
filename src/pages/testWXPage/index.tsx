@@ -16,20 +16,17 @@ import { WXService } from '@/service/WXService'
 const TestWXPage = () => {
   const openMiniApp = useRef<any>(null)
 
-  useEffect(() => {
-    const ready = (res) => {
-      console.log('openMiniApp ready', res)
-    }
-    const launch = (res) => {
-      console.log('openMiniApp launch', res)
-    }
-    const error = (res) => {
-      console.log('openMiniApp error', res)
-    }
-    openMiniApp.current.addEventListener('ready', ready)
-    openMiniApp.current.addEventListener('launch', launch)
-    openMiniApp.current.addEventListener('error', error)
+  const ready = (res) => {
+    console.log('openMiniApp ready', res)
+  }
+  const launch = (res) => {
+    console.log('openMiniApp launch', res)
+  }
+  const error = (res) => {
+    console.log('openMiniApp error', res)
+  }
 
+  useEffect(() => {
     initWX()
     return () => {
       openMiniApp.current.removeEventListener('ready', ready)
@@ -41,6 +38,10 @@ const TestWXPage = () => {
   const initWX = () => {
     window['wx'].ready(function () {
       console.log('wx ready')
+
+      openMiniApp.current.addEventListener('ready', ready)
+      openMiniApp.current.addEventListener('launch', launch)
+      openMiniApp.current.addEventListener('error', error)
     })
 
     WXService.getSignature(`${window.location.origin}${window.location.pathname}`).then((res) => {
@@ -68,7 +69,7 @@ const TestWXPage = () => {
         <wx-open-launch-weapp
           id="launch-btn"
           ref={openMiniApp}
-          username="gh_0a0abf8e5843"
+          username="gh_0a0abf8e5843" //小程序原始ID
           path="pages/index/index.html"
           style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: '#ffff00' }}
         >
@@ -115,7 +116,7 @@ const TestWXPage = () => {
             sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
             sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
             success: function (res) {
-              console.log(res);
+              console.log(res)
             },
           })
         }}
