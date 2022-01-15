@@ -99,7 +99,7 @@ const TestWXPage = () => {
           <div >
             <wx-open-launch-weapp
               id="launch-btn"
-              username="gh_0a0abf8e5843" //小程序原始ID
+              username="gh_0a0abf8e5843"
               path="pages/index/index.html"
             >
                 <button class="btn">
