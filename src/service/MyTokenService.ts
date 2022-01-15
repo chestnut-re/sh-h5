@@ -45,5 +45,10 @@ export class MyTokenService {
  static shareParam(params): Promise<AxiosResponse<any>> {
   return axios.get('/api/market/rebate/getShareParam',{params})
 }
-  
+  /**
+   * 我的任务-分享解锁乐豆
+   */
+ static unLockBean(data): Promise<AxiosResponse<any>> {
+  return axios.post('/api/market/rebate/unLockBean',data)
+}
 }

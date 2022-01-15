@@ -82,15 +82,7 @@ const MyTokenPage: React.FC = () => {
 
   const onshareChangeHandle = (item) => {
     console.log('item :>> ', item)
-    // return
-    //     goodsId: 1480805944324751400
-    // goodsName: "欧洲十日游"
-    // id: 1481956912219259000
-    // orderId: 1481956866808725500
-    // promotionalImageUrl: null
-    // rebateType: 2
-    // userId: 1473949418221961200
-    const { goodsId, userId, goodsName, promotionalImageUrl } = item;
+    const { goodsId, userId, goodsName,id, promotionalImageUrl } = item;
     oncloseModal()
     if (SHBridge.isLogin()) {
       const litterUrl = `${window.location.origin}/goods-detail?id=${goodsId}&userId=${userId}`
@@ -103,6 +95,12 @@ const MyTokenPage: React.FC = () => {
         littleUrl: litterUrl,
       })
       oncloseModal()
+      MyTokenService.unLockBean({taskId:id}).then((res)=>{
+          const {code,data} = res;
+          if (code === "200"&&data) {
+            Toast('分享成功')
+          }
+      })
     } else {
       Toast('还未登录，请登录后分享')
     }
