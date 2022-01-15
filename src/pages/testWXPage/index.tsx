@@ -60,10 +60,9 @@ const TestWXPage = () => {
   return (
     <div className="Mine">
       <div style={{ position: 'relative', height: '100px', width: '100px', background: '#cccccc' }}>
-        <div style={{ height: '100px', width: '100px' }}>
-          {/* 这里写页面内容 */}
+        {/* <div style={{ height: '100px', width: '100px' }}>
           跳转小程序
-        </div>
+        </div> */}
         {/* @ts-ignore */}
         <wx-open-launch-weapp
           id="launch-btn"
@@ -74,7 +73,7 @@ const TestWXPage = () => {
         >
           <script type="text/wxtag-template">
             {/* 这里唤起小程序的点按区域 */}
-            <div
+            {/* <div
               style={{
                 position: 'absolute',
                 top: 0,
@@ -83,7 +82,10 @@ const TestWXPage = () => {
                 height: '100%',
                 opacity: 0,
               }}
-            ></div>
+            ></div> */}
+            <button className="btn" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
+              打开小程序
+            </button>
           </script>
           {/* @ts-ignore */}
         </wx-open-launch-weapp>
