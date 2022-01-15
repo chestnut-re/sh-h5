@@ -112,7 +112,7 @@ const ToDoListCard: FC<ToDoListType> = ({ goodsName, goodsId, rebateId, onToview
                           ></span>
                         </div>
                         <div className="progress-text">
-                          {unlockBean ?? 0}/{totalBean ?? 0}
+                          {unlockBean/100 ?? 0}/{totalBean/100 ?? 0}
                         </div>
                       </div>
                     </div>
