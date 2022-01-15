@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { clearAllCookie, printCookie } from '@/utils/cookie'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './index.less'
 import { Button, Cell, Toast } from 'react-vant'
 import { SHBridge } from '@/jsbridge'
@@ -14,8 +14,30 @@ import { WXService } from '@/service/WXService'
  * H5 微信环境测试
  */
 const TestWXPage = () => {
+  const openMiniApp = useRef<any>(null)
+
   useEffect(() => {
     console.log('load data')
+  }, [])
+
+  useEffect(() => {
+    const ready = (res) => {
+      console.log('openMiniApp ready', res)
+    }
+    const launch = (res) => {
+      console.log('openMiniApp launch', res)
+    }
+    const error = (res) => {
+      console.log('openMiniApp error', res)
+    }
+    openMiniApp.current.addEventListener('ready', ready)
+    openMiniApp.current.addEventListener('launch', launch)
+    openMiniApp.current.addEventListener('error', error)
+    return () => {
+      openMiniApp.current.removeEventListener('ready', ready)
+      openMiniApp.current.removeEventListener('launch', launch)
+      openMiniApp.current.removeEventListener('error', error)
+    }
   }, [])
 
   return (
@@ -24,6 +46,7 @@ const TestWXPage = () => {
         <div style={{ height: '100px', width: '100px' }}>{/* 这里写页面内容 */}</div>
         {/* @ts-ignore */}
         <wx-open-launch-weapp
+          ref={openMiniApp}
           username="gh_0a0abf8e5843"
           path="pages/index/index.html"
           style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: '#ffff00' }}
@@ -68,6 +91,17 @@ const TestWXPage = () => {
                 jsApiList: ['checkJsApi', 'chooseImage', 'scanQRCode'], // 必填，需要使用的JS接口列表
                 openTagList: ['wx-open-launch-weapp'],
               })
+            })
+          }}
+        />
+        <Cell
+          title="checkJsApi"
+          onClick={() => {
+            window['wx'].checkJsApi({
+              jsApiList: ['chooseImage', 'scanQRCode'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+              success: function (res) {
+                console.log(res)
+              },
             })
           }}
         />
