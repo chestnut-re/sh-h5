@@ -6,7 +6,7 @@ import review from '@/assets/img/token/review.png'
 /**
  * 审核中
  */
-const ExaminePage: React.FC = (props) => {
+const ExaminePage: React.FC = () => {
   
   const backHome = ()=>{
     SHBridge.jump({ url: generateUrl('/my-token'), replace: true, title: '我的乐豆' })
