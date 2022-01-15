@@ -55,7 +55,7 @@ const ToDoListCard: FC<ToDoListType> = ({ goodsName, goodsId, rebateId, onToview
         Toast("任务未达到分享时间")
         return
       }else{
-        Toast("分享功能开发中")
+        // Toast("分享功能开发中")
         shareTask(id)
       }
   }

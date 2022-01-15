@@ -8,17 +8,20 @@ import './index.less'
  * 分享卡片
  */
 interface OvType{
-  isShow:boolean
+  isShow:boolean;
+  shareData:any;
+  onshareChange:(val)=>void;
 }
 
-const OverlayPage: React.FC<OvType> = ({isShow}) => {
- const [showEmbedded, setShowEmbedded] = useState(false)
+const OverlayPage: React.FC<OvType> = ({isShow,shareData,onshareChange}) => {
+ const [showEmbedded, setShowEmbedded] = useState(false);
+//  const {} = shareData;
  useEffect(()=>{
   setShowEmbedded(isShow)
  },[isShow])
 
   return (
-    <Overlay zIndex={999} visible={showEmbedded} onClick={() => setShowEmbedded(false)}>
+    <Overlay zIndex={999} visible={showEmbedded}>
         <div className="share-wrapper">
         <div className="share-close" onClick={() => setShowEmbedded(false)}></div>
           <div className="share-content">
@@ -29,7 +32,9 @@ const OverlayPage: React.FC<OvType> = ({isShow}) => {
             <div className="share-content-body">
                 <Image width="100%" height="100%" fit="cover"  src="https://img.yzcdn.cn/vant/cat.jpeg" />
             </div>
-            <div className='share-content-btn'></div>
+            <div className='share-content-btn'>
+              <div className='share-btn-item' onClick={()=>{onshareChange(shareData)}}>立即分享</div>
+            </div>
           </div>
          
         </div>

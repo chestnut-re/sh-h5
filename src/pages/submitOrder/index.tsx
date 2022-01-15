@@ -34,7 +34,7 @@ const SubmitOrderPage: FC = () => {
   let UseToast
   const { search } = useLocation()
   const { width, height } = hooks.useWindowSize()
-  const { id, source } = qs.parse(search.slice(1))
+  const { id, source,userId } = qs.parse(search.slice(1))
   //是否是限购商品
   const [isPurchase, setisPurchase] = useState(false)
   
@@ -230,6 +230,7 @@ const SubmitOrderPage: FC = () => {
           return {
             ...v,
             departureCity: departureCityAdcode,
+            salesmanId:userId?userId:"",
             orderDto: {
               ...v.orderDto,
               goodsName,
@@ -502,9 +503,9 @@ const SubmitOrderPage: FC = () => {
         {popvermode === 2 ? (
           <div className="purch-ins">
             <div className="purch-ins-content">
-              当前商品同一账号【{submitinfo.purchaseConfig.purchaseDay}】天内最多可购买【
-              {submitinfo.purchaseConfig.purchaseNum}】张成人票，分享商品，好友【下单付款】后可提升【
-              {submitinfo.purchaseConfig.addNum}】个限购名额。
+              当前商品同一账号{submitinfo.purchaseConfig.purchaseDay}天内最多可购买
+              {submitinfo.purchaseConfig.purchaseNum}张成人票，分享商品，好友【下单付款】后可提升
+              {submitinfo.purchaseConfig.addNum}个限购名额。
             </div>
             <div className="purch-ins-btn" onClick={sharePurchase}>
               分享好友
