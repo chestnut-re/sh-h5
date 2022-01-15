@@ -222,7 +222,7 @@ const SubmitOrderPage: FC = () => {
           })
         }
         //是否是限购商品
-        if (activityId) {
+        if (isPurchase) {
           setisPurchase(true)
         }
 

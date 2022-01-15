@@ -1,34 +1,37 @@
 import React, { useEffect, useState } from 'react'
-import { Overlay,Toast } from 'react-vant'
+import { Overlay,Image } from 'react-vant'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
+import Slogan from '@/assets/img/token/share_slogo@3x.png';
 import './index.less'
 /**
  * 分享卡片
  */
 interface OvType{
-  ishow:boolean
+  isShow:boolean
 }
 
-const OverlayPage: React.FC<OvType> = ({isshow}) => {
+const OverlayPage: React.FC<OvType> = ({isShow}) => {
  const [showEmbedded, setShowEmbedded] = useState(false)
  useEffect(()=>{
-  setShowEmbedded(isshow)
- },[isshow])
+  setShowEmbedded(isShow)
+ },[isShow])
 
   return (
     <Overlay zIndex={999} visible={showEmbedded} onClick={() => setShowEmbedded(false)}>
-        <div className="task-wrapper">
-          <div className="task-content">
-            <div className="task-content-header">任务说明</div>
-            <div className="task-content-body">
-              <p>1、分享线路给好友可完权益任务； </p>
-              <p>2、需累计分享10次，每次分享间隔时间24小时；</p>
-              <p>3、每次分享任务需满足10个不同的好友进行访问； </p>
-              <p>4、如有问题，请联系专属业务员进行处理。</p>
+        <div className="share-wrapper">
+        <div className="share-close" onClick={() => setShowEmbedded(false)}></div>
+          <div className="share-content">
+            <div className="share-content-header">分享线路给好友</div>
+            <div className='share-content-slogan'>
+              <img src={Slogan} />
             </div>
+            <div className="share-content-body">
+                <Image width="100%" height="100%" fit="cover"  src="https://img.yzcdn.cn/vant/cat.jpeg" />
+            </div>
+            <div className='share-content-btn'></div>
           </div>
-          <div className="task-close" onClick={() => setShowEmbedded(false)}></div>
+         
         </div>
       </Overlay>
   )

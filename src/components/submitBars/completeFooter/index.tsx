@@ -40,41 +40,6 @@ const CompleteFootCard: FC<FooterProps> = ({leftBtnGroups,btnGroups,onPopoverAct
                 </div>:null)
               })}
             </div>
-          {/* {barLeftTitle && (
-            <div className="complete-l">
-              {barLeftTitle && barLeftTitle && (
-                <div className="complete-dis complete-foot-btn" onClick={() => onClickAction('barLeftTitle', null)}>
-                  {barLeftTitle}
-                </div>
-              )}
-            </div>
-          )}
-          {RightLinkTitle && (
-            <div className="complete-r">
-              {barRightTitle && barRightTitle && (
-                <div className="btn-pay complete-foot-btn" onClick={() => onClickAction('barRightTitle', null)}>
-                  {barRightTitle}
-                </div>
-              )}
-            </div>
-          )}
-          {CenterLinkTitle && (
-            <div className="complete-r">
-              <div className="btn-pay complete-foot-btn" onClick={() => onClickAction('CenterLinkTitle', null)}>
-                  {CenterLinkTitle}
-                </div>
-            </div>
-          )}
-          {showRightLinkBtn && RightLinkTitle && (
-            <div className="complete-r">
-              <div
-                className="btn-pay complete-foot-btn complete-travel"
-                onClick={() => onClickAction('RightLinkTitle', null)}
-              >
-                {RightLinkTitle}
-              </div>
-            </div>
-          )} */}
         </div>
       </div>
     </div>

@@ -139,7 +139,7 @@ const MyTokenPage: React.FC = () => {
           <div className="task-close" onClick={() => setShowEmbedded(false)}></div>
         </div>
       </Overlay>
-        {/* <ModalOverlay ishow={true} /> */}
+        {/* <ModalOverlay isShow={true} /> */}
     </div>
   )
 }
