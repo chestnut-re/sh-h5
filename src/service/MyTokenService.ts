@@ -48,7 +48,7 @@ export class MyTokenService {
   /**
    * 我的任务-分享解锁乐豆
    */
- static unLockBean(data): Promise<AxiosResponse<any>> {
-  return axios.post('/api/market/rebate/unLockBean',data)
+ static unLockBean(params): Promise<AxiosResponse<any>> {
+  return axios.get('/api/market/rebate/unLockBean',{params})
 }
 }
