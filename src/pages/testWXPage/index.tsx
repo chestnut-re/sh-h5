@@ -60,7 +60,10 @@ const TestWXPage = () => {
   return (
     <div className="Mine">
       <div style={{ position: 'relative', height: '100px', width: '100px', background: '#cccccc' }}>
-        <div style={{ height: '100px', width: '100px' }}>{/* 这里写页面内容 */}</div>
+        <div style={{ height: '100px', width: '100px' }}>
+          {/* 这里写页面内容 */}
+          跳转小程序
+        </div>
         {/* @ts-ignore */}
         <wx-open-launch-weapp
           ref={openMiniApp}
