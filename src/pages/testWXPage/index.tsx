@@ -2,12 +2,7 @@
 import { clearAllCookie, printCookie } from '@/utils/cookie'
 import React, { useEffect, useRef, useState } from 'react'
 import './index.less'
-import { Button, Cell, Toast } from 'react-vant'
-import { SHBridge } from '@/jsbridge'
-import { isApp, isMini } from '@/jsbridge/env'
-import { FileService } from '@/service/FileService'
-import { generateUrl } from '@/utils'
-import { JSONStringify } from 'lib/tool'
+import { Cell } from 'react-vant'
 import { WXService } from '@/service/WXService'
 
 /**
@@ -39,9 +34,13 @@ const TestWXPage = () => {
     window['wx'].ready(function () {
       console.log('wx ready')
 
+      console.log('openMiniApp', openMiniApp)
       openMiniApp.current.addEventListener('ready', ready)
       openMiniApp.current.addEventListener('launch', launch)
       openMiniApp.current.addEventListener('error', error)
+    })
+    window['wx'].error(function (res) {
+      console.log('wx error', res)
     })
 
     WXService.getSignature(`${window.location.origin}${window.location.pathname}`).then((res) => {
@@ -71,7 +70,7 @@ const TestWXPage = () => {
           ref={openMiniApp}
           username="gh_0a0abf8e5843" //小程序原始ID
           path="pages/index/index.html"
-          style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: '#ffff00' }}
+          style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
         >
           <script type="text/wxtag-template">
             {/* 这里唤起小程序的点按区域 */}
@@ -84,7 +83,7 @@ const TestWXPage = () => {
                 height: '100%',
                 opacity: 0,
               }}
-            />
+            ></div>
           </script>
           {/* @ts-ignore */}
         </wx-open-launch-weapp>
