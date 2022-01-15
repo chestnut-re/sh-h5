@@ -10,7 +10,7 @@ import './index.less'
  * 我的代币提现
  */
 const WithDrawPage: React.FC = () => {
-  const [myK, setMyK] = useState(0)
+  const [myK, setMyK] = useState("")
   const [visible, setVisible] = useState(false)
   const [dollar, setDollar] = useState()
   useEffect(() => {
