@@ -5,7 +5,7 @@ import { generateUrl } from '@/utils'
 import { MyTokenService } from '../../service/MyTokenService'
 import ToDoList from '@/components/myToken/toDoList'
 import emptyIcon from '@/assets/img/token/token_empty@3x.png'
-import ModalOverlay from './overlay';
+import ModalOverlay from './overlay'
 import { getCookie } from '@/utils/cookie'
 import './index.less'
 /**
@@ -23,9 +23,9 @@ const MyTokenPage: React.FC = () => {
   const [showEmbedded, setShowEmbedded] = useState(false)
   //任务列表
   const [rebateTaskList, setRebateTaskList] = useState<any[]>([])
- //分享数据
- const [shareData, setShareData] = useState<any>()
-const [isshareCard,setisshareCard] = useState(false);
+  //分享数据
+  const [shareData, setShareData] = useState<any>()
+  const [isshareCard, setisshareCard] = useState(false)
 
   useEffect(() => {
     MyTokenService.getMyWallet().then((res: any) => {
@@ -66,10 +66,10 @@ const [isshareCard,setisshareCard] = useState(false);
     // SHBridge.shareActivity(specialDetail)
     MyTokenService.shareParam({ taskId })
       .then((res) => {
-        const {code,data} = res;
-        if (code==="200"&&data) {
+        const { code, data } = res
+        if (code === '200' && data) {
           setShareData(data)
-          setisshareCard(true);
+          setisshareCard(true)
         }
       })
       .catch((err) => {
@@ -80,29 +80,37 @@ const [isshareCard,setisshareCard] = useState(false);
     SHBridge.jump({ url: generateUrl('/happy-coin'), newWebView: true, title: '乐豆说明' })
   }
 
-  const onshareChangeHandle = (item)=>{
-//     goodsId: 1480805944324751400
-// goodsName: "欧洲十日游"
-// id: 1481956912219259000
-// orderId: 1481956866808725500
-// promotionalImageUrl: null
-// rebateType: 2
-// userId: 1473949418221961200
-      const {goodsId,userId} = item;
+  const onshareChangeHandle = (item) => {
+    console.log('item :>> ', item)
+    // return
+    //     goodsId: 1480805944324751400
+    // goodsName: "欧洲十日游"
+    // id: 1481956912219259000
+    // orderId: 1481956866808725500
+    // promotionalImageUrl: null
+    // rebateType: 2
+    // userId: 1473949418221961200
+    const { goodsId, userId, goodsName, promotionalImageUrl } = item;
+    oncloseModal()
     if (SHBridge.isLogin()) {
-      const litterUrl = `${window.location.origin}/goods-detail?id=${goodsId}&goodsPriceId=${dataAll?.goodsPriceId
-        }&userId=${userId}`
+      const litterUrl = `${window.location.origin}/goods-detail?id=${goodsId}&userId=${userId}`
+      console.log('litterUrl :>> ', litterUrl);
       SHBridge.shareDetail({
         type: 'goods',
-        title: dataAll.goodsName,
-        description: dataAll.goodsNickName,
-        headUrl: dataAll.promotionalImageUrl,
+        title: goodsName,
+        description: goodsName,
+        headUrl: promotionalImageUrl,
         littleUrl: litterUrl,
       })
+      oncloseModal()
     } else {
       Toast('还未登录，请登录后分享')
     }
-      console.log('item :>> ', item);
+    console.log('item :>> ', item)
+  }
+
+  const oncloseModal = ()=>{
+    setisshareCard(false)
   }
 
   return (
@@ -172,7 +180,7 @@ const [isshareCard,setisshareCard] = useState(false);
           <div className="task-close" onClick={() => setShowEmbedded(false)}></div>
         </div>
       </Overlay>
-        {/* <ModalOverlay shareData={shareData} onshareChange={onshareChangeHandle} isShow={isshareCard} /> */}
+      <ModalOverlay shareData={shareData} onclose={oncloseModal} onshareChange={onshareChangeHandle} isShow={isshareCard} />
     </div>
   )
 }
