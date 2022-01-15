@@ -47,7 +47,7 @@ const DetailedPage: React.FC = () => {
           <List finished={finished} finishedText="没有了" errorText="请求失败，点击重试" onLoad={onLoadList}>
           {details.map((item, index) => {
             return (
-              <div className="item" key={index}>
+              <div className="item rv-hairline--bottom" key={index}>
                 <div className="counter">
                   <div className="text">{item.typeName}</div>
                   <div className="money">
