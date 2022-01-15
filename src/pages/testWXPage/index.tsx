@@ -17,10 +17,6 @@ const TestWXPage = () => {
   const openMiniApp = useRef<any>(null)
 
   useEffect(() => {
-    console.log('load data')
-  }, [])
-
-  useEffect(() => {
     const ready = (res) => {
       console.log('openMiniApp ready', res)
     }
@@ -33,12 +29,33 @@ const TestWXPage = () => {
     openMiniApp.current.addEventListener('ready', ready)
     openMiniApp.current.addEventListener('launch', launch)
     openMiniApp.current.addEventListener('error', error)
+
+    initWX()
     return () => {
       openMiniApp.current.removeEventListener('ready', ready)
       openMiniApp.current.removeEventListener('launch', launch)
       openMiniApp.current.removeEventListener('error', error)
     }
   }, [])
+
+  const initWX = () => {
+    window['wx'].ready(function () {
+      console.log('wx ready')
+    })
+
+    WXService.getSignature(`${window.location.origin}${window.location.pathname}`).then((res) => {
+      console.log(res)
+      window['wx'].config({
+        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: res.data.appID, // 必填，公众号的唯一标识
+        timestamp: res.data.timestamp, // 必填，生成签名的时间戳
+        nonceStr: res.data.noncestr, // 必填，生成签名的随机串
+        signature: res.data.signature, // 必填，签名
+        jsApiList: ['checkJsApi', 'chooseImage', 'scanQRCode'], // 必填，需要使用的JS接口列表
+        openTagList: ['wx-open-launch-weapp'],
+      })
+    })
+  }
 
   return (
     <div className="Mine">
@@ -71,29 +88,8 @@ const TestWXPage = () => {
       <Cell.Group title="数据">
         <Cell title="cookie">{document.cookie}</Cell>
         <Cell title="ua">{navigator.userAgent}</Cell>
-
         <Cell title="是否是微信环境" onClick={() => {}} />
-        <Cell
-          title="初始化 JSSDK"
-          onClick={() => {
-            window['wx'].ready(function () {
-              console.log('wx ready')
-            })
 
-            WXService.getSignature(`${window.location.origin}${window.location.pathname}`).then((res) => {
-              console.log(res)
-              window['wx'].config({
-                debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-                appId: res.data.appID, // 必填，公众号的唯一标识
-                timestamp: res.data.timestamp, // 必填，生成签名的时间戳
-                nonceStr: res.data.noncestr, // 必填，生成签名的随机串
-                signature: res.data.signature, // 必填，签名
-                jsApiList: ['checkJsApi', 'chooseImage', 'scanQRCode'], // 必填，需要使用的JS接口列表
-                openTagList: ['wx-open-launch-weapp'],
-              })
-            })
-          }}
-        />
         <Cell
           title="checkJsApi"
           onClick={() => {
