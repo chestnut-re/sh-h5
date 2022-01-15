@@ -66,6 +66,7 @@ const TestWXPage = () => {
         </div>
         {/* @ts-ignore */}
         <wx-open-launch-weapp
+          id="launch-btn"
           ref={openMiniApp}
           username="gh_0a0abf8e5843"
           path="pages/index/index.html"
