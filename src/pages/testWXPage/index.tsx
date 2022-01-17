@@ -59,63 +59,58 @@ const TestWXPage = () => {
 
   return (
     <div className="Mine">
-   {`
-      <div style={{ position: 'relative', height: '100px', width: '100px', background: '#cccccc' }}>
-      {/* <div style={{ height: '100px', width: '100px' }}>
-        跳转小程序
-      </div> */}
-      {/* @ts-ignore */}
-      <wx-open-launch-weapp
-        id="launch-btn"
-        ref={openMiniApp}
-        username="gh_0a0abf8e5843" //小程序原始ID
-        path="pages/index/index.html"
-        style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-      >
-        <script type="text/wxtag-template">
-          {/* 这里唤起小程序的点按区域 */}
-          {/* <div
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-              opacity: 0,
-            }}
-          ></div> */}
-          <button className="btn" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
-            打开小程序
-          </button>
-        </script>
+      {`    <div>
         {/* @ts-ignore */}
-      </wx-open-launch-weapp>
-    </div>`}
+        <wx-open-launch-weapp
+          id="launch-btn"
+          ref={openMiniApp}
+          username="gh_0a0abf8e5843" //小程序原始ID
+          path="pages/index/index.html"
+        >
+          <script type="text/wxtag-template">
+            <button className="btn">打开小程序</button>
+          </script>
+          {/* @ts-ignore */}
+        </wx-open-launch-weapp>
+      </div>`}
 
-
-      <div
-        dangerouslySetInnerHTML={{
-          __html: `
-          <div>
-            <wx-open-launch-weapp
-              id="launch-btn"
-              username="gh_0a0abf8e5843"
-              path="pages/index/index.html"
-            >
-                <button class="btn">
-                  打开小程序
-                </button>
-            </wx-open-launch-weapp>
-          </div>`,
-        }}
-      ></div>
+      <div style={{ position: 'relative', height: '100px', width: '100px', background: '#cccccc' }}>
+        <div style={{ height: '100px', width: '100px' }}>跳转小程序</div>
+        {/* @ts-ignore */}
+        <wx-open-launch-weapp
+          id="launch-btn"
+          ref={openMiniApp}
+          username="gh_0a0abf8e5843" //小程序原始ID
+          path="pages/index/index.html"
+          style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+        >
+          {/* @ts-ignore */}
+          <script type="text/wxtag-template">
+            {/* 这里唤起小程序的点按区域 */}
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                opacity: 0,
+              }}
+            ></div>
+          </script>
+          {/* @ts-ignore */}
+        </wx-open-launch-weapp>
+      </div>
 
       <Cell.Group title="数据">
         <Cell title="cookie">{document.cookie}</Cell>
         <Cell title="ua">{navigator.userAgent}</Cell>
-        <Cell title="是否是微信环境" onClick={() => {
-          console.log('1');
-        }} />
+        <Cell
+          title="是否是微信环境"
+          onClick={() => {
+            console.log('1')
+          }}
+        />
 
         <Cell
           title="checkJsApi"
