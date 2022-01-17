@@ -247,12 +247,13 @@ const SubmitOrderPage: FC = () => {
         }
 
         setSubmitData((v) => {
+          const neworderDto  = {...v.orderDto}
           return {
             ...v,
             departureCity: departureCityAdcode,
             salesmanId: userId ? userId : '',
             orderDto: {
-              ...v.orderDto,
+              ...neworderDto,
               goodsName,
               goodsId: id,
               activityId: activityId,
@@ -261,7 +262,7 @@ const SubmitOrderPage: FC = () => {
             },
           }
         })
-        //是否是限购商品
+        //是否是限购商品是限购
         if (isPurchase) {
           setisPurchase(true)
 
@@ -398,7 +399,7 @@ const SubmitOrderPage: FC = () => {
         if (code === '200' && data) {
           const { maxNum } = data
           if (adultNum > maxNum) {
-            Toast('超过最大限购量，请修改订单！')
+            Toast('超出最大限购量，请修改订单！')
             return
           }
         }

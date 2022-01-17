@@ -45,12 +45,27 @@ export class OrderApi {
  static orderdetail(params): Promise<AxiosResponse<any>> {
   return axios.get(`/api/orders/${params.orderId}`)
 }
+
+/**
+   * 订单详情查询包含订单过期时间
+   */
+ static findOrderdetail(params): Promise<AxiosResponse<any>> {
+  return axios.get(`/api/orders/findOrderInfoAndEndTimeById/${params.orderId}`)
+}
 /**
    * 子订单查询
    */
  static suborders(params): Promise<AxiosResponse<any>> {
   return axios.get(`/api/orders/${params.orderId}/suborders`)
 }
+
+/**
+   * 子订单查询包含退款单
+   */
+ static orderRefund(params): Promise<AxiosResponse<any>> {
+  return axios.get(`/api/orders/refund/orderRefundByOrderId/${params.orderId}`)
+}
+
   /**
    * 待支付订单去付款
    */

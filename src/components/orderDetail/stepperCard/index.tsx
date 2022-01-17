@@ -87,6 +87,7 @@ const StepperCard: FC<StepType> = ({
                 value={adultNum}
                 min={1}
                 max={stockNum - childNum}
+                isdisabled={false}
                 changeValue={(val) => setGrownNumRuiValue(val)}
               />
             </div>

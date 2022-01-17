@@ -55,7 +55,7 @@ const StepperRuiCard: FC<StepperRuiType> = ({ max = 99, min = 0, changeValue, va
       ></span>
       <input className="rui-stepper-input" type="tel" value={current} onChange={getChangeValue} onBlur={getValue}></input>
       <span
-        className={clsx('rui-icon rui-icon-plus', { 'rui-plus-disabled': max <= current&&!isdisabled })}
+        className={clsx('rui-icon rui-icon-plus', { 'rui-plus-disabled': max <= current&&isdisabled })}
         onClick={() => {
           handleStep(current, '+')
         }}
