@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { NumberKeyboard, Popover, Toast } from 'react-vant'
 import { useDebouncedEffect } from '@/hooks/useDebouncedEffect'
 import ask from '@/assets/img/token/ask.png'
-import { number } from 'echarts'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
 import { MyTokenService } from '@/service/MyTokenService'
@@ -11,7 +10,7 @@ import './index.less'
  * 我的代币提现
  */
 const WithDrawPage: React.FC = () => {
-  const [myK, setMyK] = useState('')
+  const [myK, setMyK] = useState("")
   const [visible, setVisible] = useState(false)
   const [dollar, setDollar] = useState()
   useEffect(() => {
@@ -42,7 +41,7 @@ const WithDrawPage: React.FC = () => {
   // )
 
   const toDetailed = () => {
-    SHBridge.jump({ url: generateUrl('/detailed'), newWebView: true, title: '收支明细' })
+    SHBridge.jump({ url: generateUrl('/detailed'), newWebView: false, title: '收支明细' })
     // window.location.href = '/detailed'
   }
   const toExamine = () => {
@@ -59,7 +58,7 @@ const WithDrawPage: React.FC = () => {
     } else if (Number(myK) > Number(dollar)) {
       Toast('已超过单次最大提现金额')
     } else {
-      MyTokenService.askForWithDraw({ amount: myK }).then((res) => {
+      MyTokenService.askForWithDraw({ amount: myK*100 }).then((res) => {
         console.log(res)
         if (res['code'] == '200') {
           Toast({

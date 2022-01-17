@@ -34,12 +34,18 @@ const OrderConfirmaPage: FC = (props: any) => {
     payTime,
     ordersTravel,
     goodsId,
-    travelId
+    travelId,
   } = props
   const { search } = useLocation()
   const { orderId } = qs.parse(search.slice(1))
   //满足生成二维码条件数据
   const [qrCodedata, setQrCodedata] = useState()
+
+useEffect(()=>{
+  SHBridge.setTitle("订单待核销")
+},[])
+  //退款失败的人员列表
+  const [refundList, setRefundList] = useState()
   console.log('object :>> ', props)
   const BarsConfig = {
     btnGroups: [
@@ -75,11 +81,14 @@ const OrderConfirmaPage: FC = (props: any) => {
       })
     },
   }
-
+  
   useEffect(() => {
     const conformData = ordersTravel.find((item) => {
       return item.travelerName
     })
+
+
+
     console.log('conformData :>> ', conformData)
     setQrCodedata(conformData)
   }, [ordersTravel])
@@ -152,9 +161,11 @@ const OrderConfirmaPage: FC = (props: any) => {
         {qrCodedata ? (
           <div className="order-qrbox">
             <TravelCodeCard {...qrCodedata} />
-            <div className="order-more-icon" onClick={openTravelList}>
-              展开
-            </div>
+            {ordersTravel.length > 1 ? (
+              <div className="order-more-icon" onClick={openTravelList}>
+                展开
+              </div>
+            ) : null}
           </div>
         ) : (
           <FillTravelCodeCard FillTraveHandel={FillTraveHandelfun} />

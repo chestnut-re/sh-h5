@@ -5,6 +5,8 @@ import { generateUrl } from '@/utils'
 import { MyTokenService } from '../../service/MyTokenService'
 import ToDoList from '@/components/myToken/toDoList'
 import emptyIcon from '@/assets/img/token/token_empty@3x.png'
+import ModalOverlay from './overlay'
+import { getCookie } from '@/utils/cookie'
 import './index.less'
 /**
  * w我的代币
@@ -21,6 +23,9 @@ const MyTokenPage: React.FC = () => {
   const [showEmbedded, setShowEmbedded] = useState(false)
   //任务列表
   const [rebateTaskList, setRebateTaskList] = useState<any[]>([])
+  //分享数据
+  const [shareData, setShareData] = useState<any>()
+  const [isshareCard, setisshareCard] = useState(false)
 
   useEffect(() => {
     MyTokenService.getMyWallet().then((res: any) => {
@@ -61,14 +66,52 @@ const MyTokenPage: React.FC = () => {
     // SHBridge.shareActivity(specialDetail)
     MyTokenService.shareParam({ taskId })
       .then((res) => {
-        console.log('object :>> ', res)
+        const { code, data } = res
+        if (code === '200' && data) {
+          setShareData(data)
+          setisshareCard(true)
+        }else{
+          Toast("服务异常")
+        }
       })
       .catch((err) => {
+        Toast("系统错误")
         console.log('err :>> ', err)
       })
   }
   const openHappyCoins = () => {
     SHBridge.jump({ url: generateUrl('/happy-coin'), newWebView: true, title: '乐豆说明' })
+  }
+
+  const onshareChangeHandle = (item) => {
+    console.log('item :>> ', item)
+    const { goodsId, userId, goodsName,id, promotionalImageUrl } = item;
+    oncloseModal()
+    if (SHBridge.isLogin()) {
+      const litterUrl = `${window.location.origin}/goods-detail?id=${goodsId}&userId=${userId}`
+      console.log('litterUrl :>> ', litterUrl);
+      SHBridge.shareDetail({
+        type: 'goods',
+        title: goodsName,
+        description: goodsName,
+        headUrl: promotionalImageUrl,
+        littleUrl: litterUrl,
+      })
+      oncloseModal()
+      MyTokenService.unLockBean({taskId:id}).then((res)=>{
+          const {code,data} = res;
+          if (code === "200"&&data) {
+            Toast('分享成功')
+          }
+      })
+    } else {
+      Toast('还未登录，请登录后分享')
+    }
+    console.log('item :>> ', item)
+  }
+
+  const oncloseModal = ()=>{
+    setisshareCard(false)
   }
 
   return (
@@ -79,7 +122,7 @@ const MyTokenPage: React.FC = () => {
             乐豆余额
           </div>
           <div className="mtkon-header-with">
-            <div className="mhw-left">{totalAmount}</div>
+            <div className="mhw-left">{totalAmount/100}</div>
             <div className="mhw-right">
               <div className="mhw-right-btn" onClick={toWithDraw}>
                 提现
@@ -138,6 +181,7 @@ const MyTokenPage: React.FC = () => {
           <div className="task-close" onClick={() => setShowEmbedded(false)}></div>
         </div>
       </Overlay>
+      <ModalOverlay shareData={shareData} onclose={oncloseModal} onshareChange={onshareChangeHandle} isShow={isshareCard} />
     </div>
   )
 }

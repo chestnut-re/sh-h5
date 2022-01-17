@@ -19,10 +19,11 @@ import './index.less'
 
 /**
  * 提交订单页面
+ * activityId：活动id 判断是不是返利商品
  * url 必填入参
  * id : 商品id
  * source：下单途径:1 自然获客、2 分享任务链接、3 分享普通链接、4 线下扫码
- * isRebate 是否返利商品：0否1是
+ * isRebate 是否返利商品：0否1是 已弃用
  */
 
 const RMB_CON = 100
@@ -33,11 +34,10 @@ const SubmitOrderPage: FC = () => {
   let UseToast
   const { search } = useLocation()
   const { width, height } = hooks.useWindowSize()
-  const { id, source, isRebate } = qs.parse(search.slice(1))
+  const { id, source,userId } = qs.parse(search.slice(1))
   //是否是限购商品
   const [isPurchase, setisPurchase] = useState(false)
-  //限购数量
-  const [purchaseNum, setPurchaseNum] = useState(0)
+  
   //提交数据
   const [submitData, setSubmitData] = useState({
     childCurrentPrice: 0, //儿童现售价单价
@@ -84,7 +84,7 @@ const SubmitOrderPage: FC = () => {
 
   const [showPrivilege, setShowPrivilege] = useState(false)
   //最近推荐人
-  const [referees, setReferees] = useState("")
+  const [referees, setReferees] = useState('')
 
   const [submitinfo, setSubmitinfo] = useState({
     id: '', //商品id
@@ -137,19 +137,21 @@ const SubmitOrderPage: FC = () => {
       }
     })
   }, [selectTime, stepperData])
-
-  const getRefereesApi = ()=>{
-      OrderApi.getReferees().then((res)=>{
-        const {code,data} = res;
-          if (code==="200"&&data) {
-            setReferees(data)
-          }
-          console.log('res推荐人 :>> ', res);
-      }).catch((err)=>{
-          console.log('err :>> ', err);
+  //获取最近推荐人
+  const getRefereesApi = () => {
+    OrderApi.getReferees()
+      .then((res) => {
+        const { code, data } = res
+        if (code === '200' && data) {
+          setReferees(data)
+        }
+        console.log('res推荐人 :>> ', res)
+      })
+      .catch((err) => {
+        console.log('err :>> ', err)
       })
   }
-  
+  //获取商品详情
   const getGoodsDetail = (id) => {
     return new Promise((resolve, reject) => {
       OrderApi.detail({
@@ -204,7 +206,7 @@ const SubmitOrderPage: FC = () => {
 
     getGoodsDetail(id)
       .then((res: any) => {
-        const { departureCityAdcode, goodsName, promotionalImageUrl, id, isDeduction, isPurchase } = res
+        const { departureCityAdcode, goodsName, promotionalImageUrl, id, isDeduction, isPurchase, activityId } = res
         setSubmitinfo(res)
         setSelectTime(res['goodsPrices'][0])
         setPriceSet((v) => {
@@ -228,11 +230,13 @@ const SubmitOrderPage: FC = () => {
           return {
             ...v,
             departureCity: departureCityAdcode,
+            salesmanId:userId?userId:"",
             orderDto: {
               ...v.orderDto,
               goodsName,
               goodsId: id,
-              isRebate: isRebate != '1' ? 0 : 1,
+              activityId: activityId,
+              isRebate: activityId != '1' ? 0 : 1,
               promotionalImageUrl,
             },
           }
@@ -257,27 +261,9 @@ const SubmitOrderPage: FC = () => {
     console.log('成人儿童数量改变 :>> ', info)
     const { adultNum } = info
     setStepperData(info)
-
-    OrderApi.purchase({ goodsId: id })
-      .then((res) => {
-        console.log('res :>> ', res)
-        const { code, data } = res
-        if (code === '200' && data) {
-          const { limitPurchaseNum } = data
-          setPurchaseNum(limitPurchaseNum)
-          if (adultNum > limitPurchaseNum) {
-            Toast('超过最大限购数')
-            return
-          }
-        }
-      })
-      .catch((err) => {
-        console.log('err :>> ', err)
-      })
   }
 
 
-  
   //处理优惠说明
   const handleDiscountsInfo = () => {
     setPopvermode(1)
@@ -319,7 +305,7 @@ const SubmitOrderPage: FC = () => {
   }
 
   //提交订单
-  const submitHandle = () => {
+  const submitHandle = async () => {
     const { childCurrentPrice, childMarkPrice, personCurrentPrice, personMarkPrice, goodsPriceId, startDate, days } =
       selectTime
     const { adultNum, childNum, intNum } = stepperData
@@ -354,13 +340,20 @@ const SubmitOrderPage: FC = () => {
         tokenAmount: intNum,
         travelStartDate: startDate,
         travelEndDate: endDate,
-        referrerUserId:referees?referees:""
+        referrerUserId: referees ? referees : '',
       },
     }
-
-    if (isPurchase&&adultNum>purchaseNum) {
-        Toast("超过最大限购量，请修改订单！")
-        return
+    if (isPurchase) {
+      try {
+        const { code, data } = await OrderApi.purchase({ goodsId: id })
+        if (code === '200' && data) {
+          const { limitPurchaseNum } = data
+          if (adultNum > limitPurchaseNum) {
+            Toast('超过最大限购量，请修改订单！')
+            return
+          }
+        }
+      } catch (error) {}
     }
 
     if (isProtocol) {
@@ -442,8 +435,8 @@ const SubmitOrderPage: FC = () => {
     setShowPrivilege(true)
   }
   //分享
-  const sharePurchase = ()=>{
-      Toast("开发中")
+  const sharePurchase = () => {
+    Toast('开发中')
   }
   return (
     <div className="puorder-container">
@@ -510,11 +503,13 @@ const SubmitOrderPage: FC = () => {
         {popvermode === 2 ? (
           <div className="purch-ins">
             <div className="purch-ins-content">
-              当前商品同一账号【{submitinfo.purchaseConfig.purchaseDay}】天内最多可购买【
-              {submitinfo.purchaseConfig.purchaseNum}】张成人票，分享商品，好友【下单付款】后可提升【
-              {submitinfo.purchaseConfig.addNum}】个限购名额。
+              当前商品同一账号{submitinfo.purchaseConfig.purchaseDay}天内最多可购买
+              {submitinfo.purchaseConfig.purchaseNum}张成人票，分享商品，好友【下单付款】后可提升
+              {submitinfo.purchaseConfig.addNum}个限购名额。
             </div>
-            <div className="purch-ins-btn" onClick={sharePurchase}>分享好友</div>
+            <div className="purch-ins-btn" onClick={sharePurchase}>
+              分享好友
+            </div>
           </div>
         ) : (
           <div className="privilege-box">

@@ -55,7 +55,7 @@ const ToDoListCard: FC<ToDoListType> = ({ goodsName, goodsId, rebateId, onToview
         Toast("任务未达到分享时间")
         return
       }else{
-        Toast("分享功能开发中")
+        // Toast("分享功能开发中")
         shareTask(id)
       }
   }
@@ -112,7 +112,7 @@ const ToDoListCard: FC<ToDoListType> = ({ goodsName, goodsId, rebateId, onToview
                           ></span>
                         </div>
                         <div className="progress-text">
-                          {unlockBean ?? 0}/{totalBean ?? 0}
+                          {unlockBean/100 ?? 0}/{totalBean/100 ?? 0}
                         </div>
                       </div>
                     </div>

@@ -29,8 +29,8 @@ export class MyTokenService {
   /**
    * 账单列表
    */
-  static getWalletPage(): Promise<AxiosResponse<any>> {
-    return axios.get('/api/wallet/c/page')
+  static getWalletPage(params): Promise<AxiosResponse<any>> {
+    return axios.get('/api/wallet/c/page',{params})
   }
 
   /**
@@ -45,5 +45,10 @@ export class MyTokenService {
  static shareParam(params): Promise<AxiosResponse<any>> {
   return axios.get('/api/market/rebate/getShareParam',{params})
 }
-  
+  /**
+   * 我的任务-分享解锁乐豆
+   */
+ static unLockBean(params): Promise<AxiosResponse<any>> {
+  return axios.get('/api/market/rebate/unLockBean',{params})
+}
 }

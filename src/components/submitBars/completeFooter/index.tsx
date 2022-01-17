@@ -21,7 +21,7 @@ const CompleteFootCard: FC<FooterProps> = ({leftBtnGroups,btnGroups,onPopoverAct
   return (
     <div className="complete-footer">
       <div className="complete-footmain">
-        {leftBtnGroups&&leftBtnGroups.length && (
+        {leftBtnGroups&&leftBtnGroups.length ? (
           <div className="complete-btnLeft">
             <Popover
               placement="top-start"
@@ -30,7 +30,7 @@ const CompleteFootCard: FC<FooterProps> = ({leftBtnGroups,btnGroups,onPopoverAct
               reference={<Icon name={applyRefundIcon} size="4.8vw" />}
             />
           </div>
-        )}
+        ):null}
         <div className="complete-btnRight">
         <div className="complete-r">
 
@@ -40,41 +40,6 @@ const CompleteFootCard: FC<FooterProps> = ({leftBtnGroups,btnGroups,onPopoverAct
                 </div>:null)
               })}
             </div>
-          {/* {barLeftTitle && (
-            <div className="complete-l">
-              {barLeftTitle && barLeftTitle && (
-                <div className="complete-dis complete-foot-btn" onClick={() => onClickAction('barLeftTitle', null)}>
-                  {barLeftTitle}
-                </div>
-              )}
-            </div>
-          )}
-          {RightLinkTitle && (
-            <div className="complete-r">
-              {barRightTitle && barRightTitle && (
-                <div className="btn-pay complete-foot-btn" onClick={() => onClickAction('barRightTitle', null)}>
-                  {barRightTitle}
-                </div>
-              )}
-            </div>
-          )}
-          {CenterLinkTitle && (
-            <div className="complete-r">
-              <div className="btn-pay complete-foot-btn" onClick={() => onClickAction('CenterLinkTitle', null)}>
-                  {CenterLinkTitle}
-                </div>
-            </div>
-          )}
-          {showRightLinkBtn && RightLinkTitle && (
-            <div className="complete-r">
-              <div
-                className="btn-pay complete-foot-btn complete-travel"
-                onClick={() => onClickAction('RightLinkTitle', null)}
-              >
-                {RightLinkTitle}
-              </div>
-            </div>
-          )} */}
         </div>
       </div>
     </div>

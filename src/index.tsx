@@ -53,6 +53,7 @@ const MoneyRecordPage = loadable(() => import(/* webpackChunkName: 'UserCapitalP
 /**App交互测试页面 */
 const TestPage = loadable(() => import(/* webpackChunkName: 'testPage'*/ './pages/testPage'))
 const TestWXPage = loadable(() => import(/* webpackChunkName: 'testWXPage'*/ './pages/testWXPage'))
+const TestWXPage2 = loadable(() => import(/* webpackChunkName: 'testWXPage'*/ './pages/testWXPage2'))
 
 /**测试图标 echart */
 const TestChartPage = loadable(() => import(/* webpackChunkName: 'testPage'*/ './pages/testChart'))
@@ -225,6 +226,8 @@ const App = () => (
 
       <Route path="/test/page" exact component={TestPage}></Route>
       <Route path="/test/wxpage" exact component={TestWXPage}></Route>
+      <Route path="/test/wxpage2" exact component={TestWXPage2}></Route>
+      
 
       <Route path="/test/chart" exact component={TestChartPage}></Route>
 
