@@ -34,11 +34,11 @@ const MapbuyType = {
   2: '订单核销',
 }
 
-
+let orderIdInfo;
 const SubmitOrderPage: FC = () => {
   const activeRef = useRef(null)
   let UseToast;
-  let orderIdInfo;
+  
   const { search } = useLocation()
   const { id, source, userId } = qs.parse(search.slice(1))
   //是否是限购商品
@@ -227,7 +227,7 @@ const SubmitOrderPage: FC = () => {
         }
     }
     
-  },[]).bind(orderIdInfo)
+  },[])
 
   useEffect(() => {
     SHBridge.setTitle('提交订单')
