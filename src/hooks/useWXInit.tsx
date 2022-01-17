@@ -1,3 +1,4 @@
+import { isWeChat } from '@/jsbridge/env'
 import { WXService } from '@/service/WXService'
 import { useEffect, useRef } from 'react'
 
@@ -15,8 +16,14 @@ export default function useWXInit(): any {
   }
 
   useEffect(() => {
-    initWX()
+    isWeChat().then((res) => {
+      if (res) {
+        initWX()
+      }
+    })
+
     return () => {
+      if (openMiniAppRef.current == null) return
       openMiniAppRef.current.removeEventListener('ready', ready)
       openMiniAppRef.current.removeEventListener('launch', launch)
       openMiniAppRef.current.removeEventListener('error', error)
