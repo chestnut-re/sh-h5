@@ -36,3 +36,19 @@ export const isWeChat = (): Promise<boolean> => {
     }
   })
 }
+
+/**
+ * Android 环境
+ */
+export const isAndroid = (): boolean => {
+  const u = navigator.userAgent
+  return u.indexOf('Android') > -1 || u.indexOf('Adr') > -1 //android终端
+}
+
+/**
+ * iOS 环境
+ */
+export const isIOS = (): boolean => {
+  const u = navigator.userAgent
+  return !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/) //ios终端
+}
