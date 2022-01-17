@@ -218,7 +218,7 @@ const SubmitOrderPage: FC = () => {
      * 监听来自APP的回调支付成功并且回到当前页面跳转到订单确认页
      */
     window.changeAppLifecycleState = (type)=>{
-        console.log('objectypetypet :>> ', type);
+        console.log('objectypetypet :>> ', type,isorderId);
         if(type === 0&&isorderId){
           paySuccessLink(isorderId)
         }
