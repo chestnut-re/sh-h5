@@ -272,7 +272,7 @@ const App = () => (
       <Route path="/userdrawal" exact component={WithdrawSuccessPage}></Route>
 
       <Route path="/goodpng" exact component={GoodPng}></Route>
-      <Route path="/happy-coin" exact component={HappyCoinIns}></Route>
+      <Route path="/beans-explain" exact component={HappyCoinIns}></Route>
     </BrowserRouter>
   </Suspense>
 )
