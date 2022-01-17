@@ -209,17 +209,14 @@ const SubmitOrderPage: FC = () => {
   }, [selectTime])
 
   useEffect(()=>{
-    window.changeAppLifecycleState = (type)=>{
-        console.log('type :>> ', type);
-    }
     //0是前台 1切换中 2后台
-    // try {
-    //   document.addEventListener('changeAppLifecycleState', (type)=> {
-    //         console.log('eapp方法回调 :>> ', type);
-    //   });
-    // } catch (error) {
-    //   console.log('eapp方法回调errorerrorerror :>> ', error);
-    // }
+    try {
+      document.addEventListener('changeAppLifecycleState', (type)=> {
+            console.log('eapp方法回调 :>> ', type);
+      });
+    } catch (error) {
+      console.log('eapp方法回调errorerrorerror :>> ', error);
+    }
     
   },[])
 
