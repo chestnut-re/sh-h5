@@ -38,7 +38,7 @@ const MapbuyType = {
 const SubmitOrderPage: FC = () => {
   const activeRef = useRef(null)
   let UseToast;
-  let orderIdInfo="123";
+  let orderIdInfo;
   const { search } = useLocation()
   const { id, source, userId } = qs.parse(search.slice(1))
   //是否是限购商品
@@ -222,7 +222,7 @@ const SubmitOrderPage: FC = () => {
     window.changeAppLifecycleState = function(type){
         console.log('orderIdInfo :>> ', type,orderIdInfo);
         if(type === 0&&orderIdInfo){
-          return
+          // return
           paySuccessLink(orderIdInfo)
         }
     }
