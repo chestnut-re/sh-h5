@@ -1,12 +1,11 @@
-import { clearAllCookie, printCookie } from '@/utils/cookie'
+import { clearAllCookie } from '@/utils/cookie'
 import React, { useEffect, useState } from 'react'
 import './index.less'
-import { Button, Cell, Toast } from 'react-vant'
+import { Cell, Toast } from 'react-vant'
 import { SHBridge } from '@/jsbridge'
-import { isApp, isMini } from '@/jsbridge/env'
+import { isAndroid, isApp, isIOS, isMini, isWeChat } from '@/jsbridge/env'
 import { FileService } from '@/service/FileService'
 import { generateUrl } from '@/utils'
-import { JSONStringify } from 'lib/tool'
 
 /**
  * H5 设置页
@@ -81,6 +80,25 @@ const TestPage = () => {
                 SHBridge.showToast(`微信小程序:${res}`)
               }
             })
+
+            isWeChat().then((res) => {
+              console.log(res)
+              if (res) {
+                SHBridge.showToast(`微信环境`)
+              }
+            })
+          }}
+        />
+        <Cell
+          title="系统判断"
+          onClick={() => {
+            if (isAndroid()) {
+              SHBridge.showToast(`Android`)
+            }
+
+            if (isIOS()) {
+              SHBridge.showToast(`iOS`)
+            }
           }}
         />
       </Cell.Group>
@@ -142,6 +160,20 @@ const TestPage = () => {
           title="showToast"
           onClick={() => {
             SHBridge.showToast('提示')
+          }}
+        />
+      </Cell.Group>
+      <Cell.Group title="App登录态">
+        <Cell
+          title="登录状态检查"
+          onClick={() => {
+            SHBridge.showToast(`登录: ${SHBridge.isLogin()}`)
+          }}
+        />
+        <Cell
+          title="去登录"
+          onClick={() => {
+            SHBridge.login()
           }}
         />
       </Cell.Group>
