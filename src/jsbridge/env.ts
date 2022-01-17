@@ -23,8 +23,16 @@ export const isMini = (): Promise<boolean> => {
 }
 
 /**
- * 是否是微信环境
+ * 是否是微信环境非小程序
  */
-export const isWeChat = (): boolean => {
-  return /MicroMessenger/i.test(window.navigator.userAgent)
+export const isWeChat = (): Promise<boolean> => {
+  return new Promise((resolve, reject) => {
+    if (/MicroMessenger/i.test(window.navigator.userAgent)) {
+      window['wx'].miniProgram.getEnv((res) => {
+        resolve(!res.miniprogram)
+      })
+    } else {
+      return resolve(false)
+    }
+  })
 }

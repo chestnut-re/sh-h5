@@ -20,22 +20,29 @@ interface Props {
 const SubmitBtn: React.FC<Props> = ({ dataAll, templateKey, img }) => {
   const pageRef = useRef<any>({})
   const wxRef = useWXInit()
+  const [weChat, setWeChat] = useState(false)
 
   useEffect(() => {
     const params = getUrlParams(window.location.href)
     pageRef.current.id = params['id']
     pageRef.current.goodsPriceId = params['goodsPriceId']
+
+    isWeChat().then((res) => {
+      setWeChat(res)
+    })
   }, [])
 
   const makeOrder = () => {
-    if (isWeChat()) {
-      return
-    }
-    SHBridge.jump({
-      url: generateUrl(`/submit-order?id=${pageRef.current.id}&goodsPriceId=${pageRef.current.goodsPriceId}`),
-      newWebView: true,
-      title: '下单',
-      needLogin: true,
+    isWeChat().then((res) => {
+      if (res) {
+        return
+      }
+      SHBridge.jump({
+        url: generateUrl(`/submit-order?id=${pageRef.current.id}&goodsPriceId=${pageRef.current.goodsPriceId}`),
+        newWebView: true,
+        title: '下单',
+        needLogin: true,
+      })
     })
   }
   const litterUrl = `${window.location.origin}${window.location.pathname}?id=${dataAll?.id}&goodsPriceId=${
@@ -46,7 +53,7 @@ const SubmitBtn: React.FC<Props> = ({ dataAll, templateKey, img }) => {
 
   const pathURL = `/pages/webview/index.html?url=${encodeURIComponent(litterUrl)}`
 
-  if (isWeChat()) {
+  if (weChat) {
     return (
       <div className={`SubmitBtn__root SubmitBtn__root__${templateKey}`}>
         {img && <img className="btn-img" src={img} onClick={makeOrder} />}
