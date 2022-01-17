@@ -35,19 +35,24 @@ const MyTokenPage: React.FC = () => {
       }
     })
 
-    MyTokenService.rebateTask()
-      .then((res: any) => {
-        const { code, data } = res
-        if (code === '200' && data) {
-          setRebateTaskList(data)
-        } else {
-        }
-        console.log('res任务列表 :>> ', res)
-      })
-      .catch((err) => {
-        console.log('请求失败任务列表 :>> ', err)
-      })
+    getTaskList()
+    
   }, [])
+
+  const getTaskList = ()=>{
+    MyTokenService.rebateTask()
+    .then((res: any) => {
+      const { code, data } = res
+      if (code === '200' && data) {
+        setRebateTaskList(data)
+      } else {
+      }
+      console.log('res任务列表 :>> ', res)
+    })
+    .catch((err) => {
+      console.log('请求失败任务列表 :>> ', err)
+    })
+  }
 
   //去提现
   const toWithDraw = () => {
@@ -103,6 +108,7 @@ const MyTokenPage: React.FC = () => {
         const { code, data } = res;
         if (code === "200" && data) {
           Toast('分享成功')
+          getTaskList()
         }
       })
     } else {
