@@ -43,8 +43,6 @@ const ToDoListCard: FC<ToDoListType> = ({ goodsName, goodsId, rebateId, onToview
     const shareUpdateTime = updateTime?dayjs(updateTime).unix():nowTimeUnix;
     const nextShareTime = shareUpdateTime+shareTimeSS
     
-    console.log('nextShareTime>dayTime :>> ', nextShareTime,);
-     
       if (taskstate) {
           Toast("任务已完成，不需要分享")
           return
