@@ -208,6 +208,12 @@ const SubmitOrderPage: FC = () => {
     })
   }, [selectTime])
 
+  useEffect(()=>{
+    document.addEventListener('changeAppLifecycleState', (type)=> {
+          console.log('eapp方法回调 :>> ', type);
+    });
+  },[])
+
   useEffect(() => {
     SHBridge.setTitle('提交订单')
 
