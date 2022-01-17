@@ -80,7 +80,7 @@ const MyTokenPage: React.FC = () => {
       })
   }
   const openHappyCoins = () => {
-    SHBridge.jump({ url: generateUrl('/happy-coin'), newWebView: true, title: '乐豆说明' })
+    SHBridge.jump({ url: generateUrl('/beans-explain'), newWebView: true, title: '乐豆说明' })
   }
 
   const onshareChangeHandle = (item) => {
