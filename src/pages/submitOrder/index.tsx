@@ -437,6 +437,7 @@ const SubmitOrderPage: FC = () => {
           const { code, msg, data } = res
           if (code == '200' && data) {
             if (data.code == '200') {
+              console.log('data.data :>> ', data.data);
               const { returnPayInfo, orderId } = data.data;
               setisorderId(orderId)
               switch (payType) {
