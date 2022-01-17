@@ -34,7 +34,7 @@ const OverlayPage: React.FC<OvType> = ({isShow,shareData,onshareChange,onclose})
                 <Image width="100%" height="100%" fit="cover"  src={shareData?.promotionalImageUrl} />
             </div>
             <div className='share-content-btn'>
-              <div className='share-btn-item' onClick={()=>{onshareChange(shareData)}}>立即分享</div>
+              <div className='share-btn-item' onClick={()=>{onshareChange({...shareData})}}>立即分享</div>
             </div>
           </div>
          

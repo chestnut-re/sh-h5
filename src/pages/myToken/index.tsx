@@ -26,7 +26,7 @@ const MyTokenPage: React.FC = () => {
   //分享数据
   const [shareData, setShareData] = useState<any>()
   const [isshareCard, setisshareCard] = useState(false)
-
+  const [sharetaskId,setsharetaskId] = useState<any>();
   useEffect(() => {
     MyTokenService.getMyWallet().then((res: any) => {
       const { code, data } = res
@@ -76,6 +76,7 @@ const MyTokenPage: React.FC = () => {
         if (code === '200' && data) {
           setShareData(data)
           setisshareCard(true)
+          setsharetaskId(taskId)
         } else {
           Toast("服务异常")
         }
@@ -90,8 +91,8 @@ const MyTokenPage: React.FC = () => {
   }
 
   const onshareChangeHandle = (item) => {
-    console.log('itemshareDatashareData :>> ', shareData)
-    const { goodsId, userId, goodsName, id, promotionalImageUrl } = shareData;
+    console.log('itemshareDatashareData :>> ', item)
+    const { goodsId, userId, goodsName, id, promotionalImageUrl } = item;
     oncloseModal()
     if (SHBridge.isLogin()) {
       const litterUrl = `${window.location.origin}/goods-detail?id=${goodsId}&userId=${userId}`
@@ -104,11 +105,13 @@ const MyTokenPage: React.FC = () => {
         littleUrl: litterUrl,
       })
       oncloseModal()
-      MyTokenService.unLockBean({ taskId: id }).then((res) => {
-        const { code, data } = res;
+      MyTokenService.unLockBean({ taskId: sharetaskId }).then((res) => {
+        const { code,msg, data } = res;
         if (code === "200" && data) {
           Toast('分享成功')
           getTaskList()
+        }else{
+          Toast(msg)
         }
       })
     } else {
