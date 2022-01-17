@@ -227,7 +227,7 @@ const SubmitOrderPage: FC = () => {
         }
     }
     
-  },[])
+  },[]).bind(orderIdInfo)
 
   useEffect(() => {
     SHBridge.setTitle('提交订单')
