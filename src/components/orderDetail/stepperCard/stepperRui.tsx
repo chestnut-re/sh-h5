@@ -5,14 +5,15 @@ interface StepperRuiType {
   max: number | string
   min: number
   value: number
-  changeValue: (val) => void
+  changeValue: (val) => void,
+  isdisabled?:boolean; //是否开启最大值时不可点击
 }
 /**
  * 步进器
  * 
  */
 
-const StepperRuiCard: FC<StepperRuiType> = ({ max = 99, min = 0, changeValue, value }) => {
+const StepperRuiCard: FC<StepperRuiType> = ({ max = 99, min = 0, changeValue, value, isdisabled = true }) => {
   const [current, setCurrent] = useState(() => value)
   // 操作对值的加减操作
   const handleStep = (value, type) => {
@@ -54,7 +55,7 @@ const StepperRuiCard: FC<StepperRuiType> = ({ max = 99, min = 0, changeValue, va
       ></span>
       <input className="rui-stepper-input" type="tel" value={current} onChange={getChangeValue} onBlur={getValue}></input>
       <span
-        className={clsx('rui-icon rui-icon-plus', { 'rui-plus-disabled': max <= current })}
+        className={clsx('rui-icon rui-icon-plus', { 'rui-plus-disabled': max <= current&&!isdisabled })}
         onClick={() => {
           handleStep(current, '+')
         }}

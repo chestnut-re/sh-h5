@@ -19,7 +19,9 @@ interface StepType {
   handleStepper: (val) => void
   selectTime: any
   priceSet: any
-  tokenAmountNum: number
+  tokenAmountNum: number,
+  onChangeClickAdultNum?:()=>void,
+  purchaseConfigInfo:any; //限购数据
 }
 
 const StepperCard: FC<StepType> = ({
@@ -28,6 +30,8 @@ const StepperCard: FC<StepType> = ({
   tokenAmountNum,
   handleStepper,
   handleDiscounts,
+  onChangeClickAdultNum,
+  purchaseConfigInfo
 }) => {
   //成人数量
   const [adultNum, setAdultNum] = useState(1)
@@ -41,7 +45,7 @@ const StepperCard: FC<StepType> = ({
   useEffect(() => {
     console.log('obje库存改变ct :>> ', stock)
     setstockNum(stock)
-  }, [stock])
+  }, [stock,purchaseConfigInfo])
 
   const getExamine = () => {
     handleDiscounts()
@@ -57,7 +61,7 @@ const StepperCard: FC<StepType> = ({
   //处理成人数量
   const setGrownNumRuiValue = (val) => {
     setAdultNum(val)
-    console.log('val :>> ', val)
+    onChangeClickAdultNum&&onChangeClickAdultNum()
   }
   //处理儿童数量
   const setChildNumRuiValue = (val) => {
