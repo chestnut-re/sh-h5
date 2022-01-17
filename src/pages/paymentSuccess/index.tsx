@@ -15,15 +15,18 @@ import './index.less'
 const PaymentSuccessPage: FC = () => {
   const { search } = useLocation()
   const { orderId } = qs.parse(search.slice(1))
+  const [isSuccess,setisSuccess] = useState(false)
+
   const judgePayConfirmStatus = (orderId) => {
     OrderApi.payConfirm({
       orderId,
     })
       .then((res: any) => {
-        const { code, data } = res
-
+        const { code, data } = res;
         if (code == '200' && !data) {
           openOrderDetails()
+        }else{
+          setisSuccess(true)
         }
         console.log('res :>> ', res)
       })
@@ -57,7 +60,7 @@ const PaymentSuccessPage: FC = () => {
 
   return (
     <div className="Pays-container">
-      <div className="pays-header">
+      {isSuccess?(<div className="pays-header">
         <div className="pays-status">支付成功</div>
         <div className="pays-text">
           <p>为了确保您的旅行顺利进行，赶紧去填写出行人信息吧！</p>
@@ -68,7 +71,7 @@ const PaymentSuccessPage: FC = () => {
             填写出行人信息
           </div>
         </div>
-      </div>
+      </div>):null}
       {/* <div className="pays-you-like">
         <div className="you-like-header">猜你喜欢</div>
         <div className="you-like-list">

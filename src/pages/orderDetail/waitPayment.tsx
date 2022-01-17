@@ -16,7 +16,8 @@ import './index.less'
  * 订单待付款入口页
  */
 const COUNT_DOWN = 60 * 30 * 1000
-let reloadNum = 0
+let reloadNum = 0;
+let orderIdInfo;
 interface OrderPaymentType {
   promotionalImageUrl: string
   goodsName: string
@@ -88,8 +89,8 @@ const OrderPaymentPage: FC<OrderPaymentType> = ({
      */
     window.changeAppLifecycleState = (type)=>{
         console.log('objectypetypet :>> ', type);
-        if(type === 0&&isorderId){
-          paySuccessLink(isorderId)
+        if(type === 0&&orderIdInfo){
+          paySuccessLink(orderIdInfo)
         }
     }
   },[])
@@ -108,7 +109,7 @@ const OrderPaymentPage: FC<OrderPaymentType> = ({
         if (code == '200' && data) {
           if (data.code == '200') {
             const { returnPayInfo, payType, orderId } = data.data;
-            setisorderId(orderId)
+            orderIdInfo = orderId;
             switch (payType) {
               case 1:
                 toast1 && toast1.clear()
