@@ -96,7 +96,7 @@ const TestWXPage = () => {
       <div
         dangerouslySetInnerHTML={{
           __html: `
-          <div >
+          <div>
             <wx-open-launch-weapp
               id="launch-btn"
               username="gh_0a0abf8e5843"
