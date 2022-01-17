@@ -46,19 +46,12 @@ const FundDetailsPage: React.FC = () => {
       walletType: 1,
       billDate: getTimeApi(time),
     }).then((res: any) => {
-      let dataList = []
-      dataList = res['records'].map((item) => {
-        const timeArr = item['billDate'].split('-')
-        const listTitle = timeArr[0] + '年' + timeArr[1] + '月'
-        item['listTitle'] = listTitle
-        return item
-      })
       if (current == 1) {
-        setDetailListY(dataList)
+        setDetailListY(res.data['records'])
       } else {
-        setDetailListY((v) => [...v, ...dataList])
+        setDetailListY((v) => [...v, ...res.data['records']])
       }
-      if (res['records'].length < size) {
+      if (res.data['records'].length < size) {
         setFinished(true)
       }
       setIsloading(false)
@@ -116,32 +109,34 @@ const FundDetailsPage: React.FC = () => {
         <div className="bank"></div>
         <div className="tab-list">
           <PullRefresh onRefresh={onRefresh}>
-            <List
-              finished={finished}
-              onLoad={onLoadRefresh}
-              immediateCheck={false}
-              loading={isloading}
-              autoCheck={false}
-            >
-              {detailListY.length
-                ? detailListY.map((item, index) => {
-                    return (
-                      <div className="item" key={index}>
-                        <div className="left">
-                          <div className="type_name">{item['typeName']}</div>
-                          <div className="title">{item['title']}</div>
-                          <div className="time">{item['billDate']}</div>
-                        </div>
-                        <div className="right">
-                          <div className={'amount' + ' ' + (item['sts'] != 2 ? 'grey' : 'black')}>{item['amount']}</div>
-                          <div className="order_no"> {!item['subOrderNo'] ? '' : `订单编号${item['subOrderNo']}`} </div>
-                          <div className="state">{item['stsName']}</div>
-                        </div>
+            {detailListY.length > 0 ? (
+              <List
+                finished={finished}
+                onLoad={onLoadRefresh}
+                immediateCheck={false}
+                loading={isloading}
+                autoCheck={false}
+              >
+                {detailListY.map((item, index) => {
+                  return (
+                    <div className="item" key={index}>
+                      <div className="left">
+                        <div className="type_name">{item['typeName']}</div>
+                        <div className="title">{item['title']}</div>
+                        <div className="time">{item['billDate']}</div>
                       </div>
-                    )
-                  })
-                : null}
-            </List>
+                      <div className="right">
+                        <div className={'amount' + ' ' + (item['sts'] != 2 ? 'grey' : 'black')}>{item['amount']}</div>
+                        <div className="order_no"> {!item['subOrderNo'] ? '' : `订单编号${item['subOrderNo']}`} </div>
+                        <div className="state">{item['stsName']}</div>
+                      </div>
+                    </div>
+                  )
+                })}
+              </List>
+            ) : (
+              <div className="empty">暂无数据</div>
+            )}
           </PullRefresh>
         </div>
       </div>

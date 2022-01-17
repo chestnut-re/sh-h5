@@ -20,21 +20,21 @@ const MoneyRecordPage: React.FC = () => {
     getList()
   }, [current])
 
-  const getList = async () => {
+  const getList = async (index = 0) => {
     setIsloading(true)
     try {
       const res = await AccountInfoApi.accountList({
         walletType: '3',
-        current: current,
+        current: index || current,
         size: 10,
       })
       setIsloading(false)
       if (current == 1) {
-        setList(res['records'])
+        setList(res.data['records'])
       } else {
-        setList((v) => [...v, ...res['records']])
+        setList((v) => [...v, ...res.data['records']])
       }
-      if (res['records'].length < 10) {
+      if (res.data['records'].length < 10) {
         setFinished(true)
       }
     } catch (e) {
@@ -51,6 +51,9 @@ const MoneyRecordPage: React.FC = () => {
   const onRefresh = async () => {
     setFinished(false)
     setCurrent(1)
+    if (current == 1) {
+      getList(1)
+    }
   }
 
   return (
@@ -72,6 +75,7 @@ const MoneyRecordPage: React.FC = () => {
               )
             })}
           </List>
+          {list.length == 0 ? <div className="empty">暂无数据</div> : null}
         </PullRefresh>
       </div>
     </div>
