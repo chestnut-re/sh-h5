@@ -34,9 +34,11 @@ const MapbuyType = {
   2: '订单核销',
 }
 
+
 const SubmitOrderPage: FC = () => {
   const activeRef = useRef(null)
-  let UseToast
+  let UseToast;
+  let orderIdInfo;
   const { search } = useLocation()
   const { id, source, userId } = qs.parse(search.slice(1))
   //是否是限购商品
@@ -218,9 +220,9 @@ const SubmitOrderPage: FC = () => {
      * 监听来自APP的回调支付成功并且回到当前页面跳转到订单确认页
      */
     window.changeAppLifecycleState = (type)=>{
-        console.log('objectypetypet :>> ', type,isorderId);
-        if(type === 0&&isorderId){
-          paySuccessLink(isorderId)
+        console.log('objectypetypet :>> ', type,orderIdInfo);
+        if(type === 0&&orderIdInfo){
+          paySuccessLink(orderIdInfo)
         }
     }
     
@@ -440,6 +442,7 @@ const SubmitOrderPage: FC = () => {
               console.log('data.data :>> ', data.data);
               const { returnPayInfo, orderId } = data.data;
               setisorderId(orderId)
+              orderIdInfo = orderId;
               switch (payType) {
                 case 1:
                   UseToast.clear()
