@@ -59,6 +59,8 @@ const SubmitOrderPage: FC = () => {
   //限购数据
   const [purchaseConfigInfo, setPurchaseConfigInfo] = useState({})
 
+  const [isorderId,setisorderId] = useState()
+
   //提交数据
   const [submitData, setSubmitData] = useState({
     childCurrentPrice: 0, //儿童现售价单价
@@ -210,12 +212,16 @@ const SubmitOrderPage: FC = () => {
 
   useEffect(()=>{
     //0是前台 1切换中 2后台
-    try {
-      document.addEventListener('changeAppLifecycleState', (type)=> {
-            console.log('eapp方法回调 :>> ', type);
-      });
-    } catch (error) {
-      console.log('eapp方法回调errorerrorerror :>> ', error);
+    /**
+     * 
+     * @param type 0是前台 1切换中 2后台
+     * 监听来自APP的回调支付成功并且回到当前页面跳转到订单确认页
+     */
+    window.changeAppLifecycleState = (type)=>{
+        console.log('objectypetypet :>> ', type);
+        if(type === 0&&isorderId){
+          paySuccessLink(isorderId)
+        }
     }
     
   },[])
@@ -431,7 +437,8 @@ const SubmitOrderPage: FC = () => {
           const { code, msg, data } = res
           if (code == '200' && data) {
             if (data.code == '200') {
-              const { returnPayInfo, orderId } = data.data
+              const { returnPayInfo, orderId } = data.data;
+              setisorderId(orderId)
               switch (payType) {
                 case 1:
                   UseToast.clear()

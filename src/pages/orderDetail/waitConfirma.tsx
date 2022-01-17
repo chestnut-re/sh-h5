@@ -13,10 +13,12 @@ import TripPeopleCard from '@/components/orderDetail/tripPeopleCard'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
 import './index.less'
+import { OrderApi } from '@/service/OrderDetailApi'
 
 /**
  * 订单待确认入口页
  */
+
 const OrderConfirmaPage: FC = (props: any) => {
   const {
     promotionalImageUrl,
@@ -38,14 +40,29 @@ const OrderConfirmaPage: FC = (props: any) => {
   } = props
   const { search } = useLocation()
   const { orderId } = qs.parse(search.slice(1))
-  //满足生成二维码条件数据
+  //满足生成二维码条件数据 是否有出行人
   const [qrCodedata, setQrCodedata] = useState()
-
-useEffect(()=>{
-  SHBridge.setTitle("订单待核销")
-},[])
-  //退款失败的人员列表
+  //退款状态人员列表
   const [refundList, setRefundList] = useState()
+
+  useEffect(() => {
+    SHBridge.setTitle('订单待核销')
+
+    OrderApi.orderRefund({
+      orderId: orderId,
+    })
+      .then((result: any) => {
+        console.log('resultresultresult :>> ', result);
+        const { code, data } = result
+        if (code === '200' && data) {
+          setRefundList(data)
+        }
+      })
+      .catch((err) => {
+        console.log('err :>> ', err)
+      })
+  }, [])
+
   console.log('object :>> ', props)
   const BarsConfig = {
     btnGroups: [
@@ -81,13 +98,11 @@ useEffect(()=>{
       })
     },
   }
-  
+
   useEffect(() => {
     const conformData = ordersTravel.find((item) => {
       return item.travelerName
     })
-
-
 
     console.log('conformData :>> ', conformData)
     setQrCodedata(conformData)
@@ -104,9 +119,12 @@ useEffect(()=>{
     console.log('dakia :>> ')
   }
   //处理出行人列表数据根据不同子订单状态跳转不同订单详情
-  const openTravelListItem = (item) => {
+  const openTravelListItem = async (item) => {
     console.log('item :>> ', item)
-    const { state } = item
+    const { state} = item
+    
+    console.log('orderRefundInfoziidngdan :>> ', orderRefundInfo)
+
     if (state != 3) {
       SHBridge.jump({
         url: generateUrl(`/order-detail?orderId=${orderId}`),
@@ -147,15 +165,6 @@ useEffect(()=>{
             payAmount={payAmount}
             tokenAmount={tokenAmount}
           />
-          {/* <PreferCard
-            tokenAmount={tokenAmount}
-            adultNum={adultNum}
-            goodsId={goodsId}
-            childNum={childNum}
-            travelId={travelId}
-            discountAmount={discountAmount}
-            payAmount={payAmount}
-          /> */}
         </div>
 
         {qrCodedata ? (

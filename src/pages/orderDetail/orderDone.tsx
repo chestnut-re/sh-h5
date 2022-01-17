@@ -12,49 +12,48 @@ import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
 import './index.less'
 interface OrderDoneType {
-  promotionalImageUrl?: string;
-  goodsName?: string;
-  travelStartDate?: string;
-  travelEndDate?: string;
-  adultNum?: string;
-  childNum?: string;
-  tokenAmount?: number;
-  discountAmount?: number;
-  payAmount?: number;
-  orderNo?: string;
-  payType?: number;
-  orderTime?: string;
-  payTime?: string;
-  goodsId?: string;
-  ordersTravel?: any;
-  travelId:string;
+  promotionalImageUrl?: string
+  goodsName?: string
+  travelStartDate?: string
+  travelEndDate?: string
+  adultNum?: string
+  childNum?: string
+  tokenAmount?: number
+  discountAmount?: number
+  payAmount?: number
+  orderNo?: string
+  payType?: number
+  orderTime?: string
+  payTime?: string
+  goodsId?: string
+  ordersTravel?: any
+  travelId: string
 }
 
 /**
  * 订单已完成入口页
  */
-const OrderDonePage: FC<OrderDoneType> = (props) => {
-  console.log('object :>> ', props)
+const OrderDonePage: FC<OrderDoneType> = ({
+  promotionalImageUrl,
+  goodsName,
+  travelStartDate,
+  travelEndDate,
+  adultNum,
+  childNum,
+  tokenAmount,
+  discountAmount,
+  payAmount,
+  orderNo,
+  payType,
+  orderTime,
+  payTime,
+  goodsId,
+  ordersTravel,
+  travelId,
+}) => {
   const { search } = useLocation()
   const { orderId } = qs.parse(search.slice(1))
-  const {
-    promotionalImageUrl,
-    goodsName,
-    travelStartDate,
-    travelEndDate,
-    adultNum,
-    childNum,
-    tokenAmount,
-    discountAmount,
-    payAmount,
-    orderNo,
-    payType,
-    orderTime,
-    payTime,
-    goodsId,
-    ordersTravel,
-    travelId
-  } = props
+
   const BarsConfig = {
     btnGroups: [{ name: '再次购买', key: 'ZCGM' }],
     leftBtnGroups: [],
@@ -90,8 +89,6 @@ const OrderDonePage: FC<OrderDoneType> = (props) => {
       replace: false,
       title: '出行确认码',
     })
-
-    console.log('chuli')
   }
   return (
     <div className="Order-container">
@@ -111,15 +108,6 @@ const OrderDonePage: FC<OrderDoneType> = (props) => {
             goodsId={goodsId}
             tokenAmount={tokenAmount}
           />
-          {/* <PreferCard
-            tokenAmount={tokenAmount}
-            adultNum={adultNum}
-            goodsId={goodsId}
-            childNum={childNum}
-            travelId={travelId}
-            discountAmount={discountAmount}
-            payAmount={payAmount}
-          /> */}
         </div>
         <PreviewTripCard ordersTravel={ordersTravel} openTripLinkHandel={openTripLinkHandelFun} />
         <IndentCard orderNo={orderNo} payType={payType} orderTime={orderTime} payTime={payTime} />

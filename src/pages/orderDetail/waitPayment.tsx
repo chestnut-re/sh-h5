@@ -34,6 +34,7 @@ interface OrderPaymentType {
   id: string
   goodsId: string
   travelId: string
+  residueTime:number
   reloadOrder: () => void
 }
 const OrderPaymentPage: FC<OrderPaymentType> = ({
@@ -53,16 +54,13 @@ const OrderPaymentPage: FC<OrderPaymentType> = ({
   id,
   goodsId,
   travelId,
+  residueTime,
   reloadOrder,
 }) => {
-  const [countdowntime, setCountdownTime] = useState<number>(COUNT_DOWN)
+  
 
-  useEffect(() => {
-    if (orderTime) {
-      const restTime = (dayjs().unix() - dayjs(orderTime).unix()) * 1000
-      setCountdownTime(COUNT_DOWN - restTime)
-    }
-  }, [orderTime])
+  const [isorderId,setisorderId] = useState()
+
 
   const countDownStops = () => {
     if (reloadNum <= 1) {
@@ -81,6 +79,21 @@ const OrderPaymentPage: FC<OrderPaymentType> = ({
       title: '支付成功',
     })
   }
+  useEffect(()=>{
+    //0是前台 1切换中 2后台
+    /**
+     * 
+     * @param type 0是前台 1切换中 2后台
+     * 监听来自APP的回调支付成功并且回到当前页面跳转到订单确认页
+     */
+    window.changeAppLifecycleState = (type)=>{
+        console.log('objectypetypet :>> ', type);
+        if(type === 0&&isorderId){
+          paySuccessLink(isorderId)
+        }
+    }
+  },[])
+
   const HandleOrdersubmit = () => {
     const toast1 = Toast.loading({
       message: '订单生成中...',
@@ -94,7 +107,8 @@ const OrderPaymentPage: FC<OrderPaymentType> = ({
         const { code, msg, data } = res
         if (code == '200' && data) {
           if (data.code == '200') {
-            const { returnPayInfo, payType, orderId } = data.data
+            const { returnPayInfo, payType, orderId } = data.data;
+            setisorderId(orderId)
             switch (payType) {
               case 1:
                 toast1 && toast1.clear()
@@ -151,7 +165,7 @@ const OrderPaymentPage: FC<OrderPaymentType> = ({
     <div className="Order-container">
       <div className="order-count">
         <CountDown
-          time={countdowntime}
+          time={residueTime}
           onFinish={() => {
             countDownStops()
           }}
