@@ -60,22 +60,31 @@ const MoneyRecordPage: React.FC = () => {
     <div className="MoneyRecordPage__root">
       <div className="list">
         <PullRefresh onRefresh={onRefresh}>
-          <List finished={finished} onLoad={onLoadRefresh} immediateCheck={false} loading={isloading} autoCheck={false}>
-            {list.map((item, index) => {
-              return (
-                <div className="item" key={index}>
-                  <div className="item_left">
-                    <div className="item_left_1">
-                      {item.typeName} {item.stsName}
+          {list.length > 0 ? (
+            <List
+              finished={finished}
+              onLoad={onLoadRefresh}
+              immediateCheck={false}
+              loading={isloading}
+              autoCheck={false}
+            >
+              {list.map((item, index) => {
+                return (
+                  <div className="item" key={index}>
+                    <div className="item_left">
+                      <div className="item_left_1">
+                        {item.typeName} {item.stsName}
+                      </div>
+                      <div className="item_left_2">{item.billDate}</div>
                     </div>
-                    <div className="item_left_2">{item.billDate}</div>
+                    <div className="item_right">{item.amount}</div>
                   </div>
-                  <div className="item_right">{item.amount}</div>
-                </div>
-              )
-            })}
-          </List>
-          {list.length == 0 ? <div className="empty">暂无数据</div> : null}
+                )
+              })}
+            </List>
+          ) : (
+            <div className="empty">暂无数据</div>
+          )}
         </PullRefresh>
       </div>
     </div>
