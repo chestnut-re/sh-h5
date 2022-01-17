@@ -12,14 +12,14 @@ import './index.less'
 interface Props {
   templateKey: PageTemplateKey
   data: any
+  dataAll: any
   title: string
-  makeOrder: () => void
 }
 
 /**
  * 商品详情页模版
  */
-const GoodsDetailTemplate: React.FC<Props> = ({ data, title, templateKey, makeOrder }) => {
+const GoodsDetailTemplate: React.FC<Props> = ({ dataAll, data, title, templateKey }) => {
   return (
     <div className="GoodsDetailTemplate__root">
       {/* 背景图片 */}
@@ -29,7 +29,7 @@ const GoodsDetailTemplate: React.FC<Props> = ({ data, title, templateKey, makeOr
       {/* 标题图 */}
       <Title img={data?.detailTitleImage} templateKey={templateKey} />
       {/* 下单按钮图 */}
-      <SubmitBtn templateKey={templateKey} img={data?.submitOrderImage} />
+      <SubmitBtn templateKey={templateKey} img={data?.submitOrderImage} dataAll={dataAll} />
       {/* 标签图 */}
       <Label img={data?.detailDescImage} templateKey={templateKey} />
       {/* 价格图 */}

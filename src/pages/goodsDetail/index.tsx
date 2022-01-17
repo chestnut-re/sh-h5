@@ -45,7 +45,7 @@ const GoodsDetailPage: React.FC = () => {
         console.log(res.data)
       })
 
-      // 如果是分享人，完成分享任务
+      // 如果有分享人，完成分享任务
       // url 中有 taskId，表示是分享的链接，如果用户
       pageRef.current.taskId = params['taskId']
       if (pageRef.current.taskId) {
@@ -59,19 +59,6 @@ const GoodsDetailPage: React.FC = () => {
   const _share = () => {
     // setShareVisible(!shareVisible)
     // this.$refs.swiper.swipeNext()
-  }
-
-  /**下单 */
-  const _makeOrder = () => {
-    if (isWeChat()) {
-      return
-    }
-    SHBridge.jump({
-      url: generateUrl(`/submit-order?id=${pageRef.current.id}&goodsPriceId=${pageRef.current.goodsPriceId}`),
-      newWebView: true,
-      title: '下单',
-      needLogin: true,
-    })
   }
 
   const _toTravelRoute = () => {
@@ -124,8 +111,8 @@ const GoodsDetailPage: React.FC = () => {
             <GoodsDetailTemplate
               templateKey={data?.goodsDetailStart?.pageTemplateKey}
               data={data?.goodsDetailStart}
+              dataAll={data}
               title={data?.goodsName}
-              makeOrder={_makeOrder}
             />
           </SwiperSlide>
           {data.goodsDetailPage?.map((item, index) => {
@@ -133,10 +120,9 @@ const GoodsDetailPage: React.FC = () => {
               <SwiperSlide key={index}>
                 <GoodsDetailTemplate
                   templateKey={item.pageTemplateKey}
-                  // templateKey={'null'}
                   data={item}
+                  dataAll={data}
                   title={data.goodsName}
-                  makeOrder={_makeOrder}
                 />
               </SwiperSlide>
             )
@@ -144,10 +130,9 @@ const GoodsDetailPage: React.FC = () => {
           <SwiperSlide>
             <GoodsDetailTemplate
               templateKey={data?.goodsDetailEnd?.pageTemplateKey}
-              // templateKey={'null'}
               data={data.goodsDetailEnd}
+              dataAll={data}
               title={data.goodsName}
-              makeOrder={_makeOrder}
             />
           </SwiperSlide>
         </Swiper>

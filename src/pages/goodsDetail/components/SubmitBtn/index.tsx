@@ -3,11 +3,13 @@ import useWXInit from '@/hooks/useWXInit'
 import { SHBridge } from '@/jsbridge'
 import { isWeChat } from '@/jsbridge/env'
 import { generateUrl, getUrlParams } from '@/utils'
+import { getCookie } from '@/utils/cookie'
 import React, { useEffect, useRef, useState } from 'react'
 import { PageTemplateKey } from '../../utils'
 import './index.less'
 
 interface Props {
+  dataAll: any
   img: string
   templateKey: PageTemplateKey
 }
@@ -15,7 +17,7 @@ interface Props {
 /**
  * 立即下单按钮
  */
-const SubmitBtn: React.FC<Props> = ({ templateKey, img }) => {
+const SubmitBtn: React.FC<Props> = ({ dataAll, templateKey, img }) => {
   const pageRef = useRef<any>({})
   const wxRef = useWXInit()
 
@@ -26,6 +28,9 @@ const SubmitBtn: React.FC<Props> = ({ templateKey, img }) => {
   }, [])
 
   const makeOrder = () => {
+    if (isWeChat()) {
+      return
+    }
     SHBridge.jump({
       url: generateUrl(`/submit-order?id=${pageRef.current.id}&goodsPriceId=${pageRef.current.goodsPriceId}`),
       newWebView: true,
@@ -33,6 +38,13 @@ const SubmitBtn: React.FC<Props> = ({ templateKey, img }) => {
       needLogin: true,
     })
   }
+  const litterUrl = `${window.location.origin}${window.location.pathname}?id=${dataAll?.id}&goodsPriceId=${
+    dataAll?.goodsPriceId
+  }&userId=${getCookie('userId')}&isRebate=${dataAll?.isRebate}&isPurchase=${dataAll?.isPurchase}&isPurchaseAdd=${
+    dataAll?.isPurchaseAdd
+  }`
+
+  const pathURL = `/pages/webview/index.html?url=${encodeURIComponent(litterUrl)}`
 
   if (isWeChat()) {
     return (
@@ -41,12 +53,11 @@ const SubmitBtn: React.FC<Props> = ({ templateKey, img }) => {
         {/* @ts-ignore */}
         <wx-open-launch-weapp
           ref={wxRef}
-          username="gh_0a0abf8e5843" //小程序原始ID
-          path="pages/index/index.html"
+          username="gh_0a0abf8e5843"
+          path={pathURL}
           style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
         >
           <script type="text/wxtag-template">
-            {/* 这里唤起小程序的点按区域 */}
             <div
               style={{
                 position: 'absolute',
