@@ -171,7 +171,7 @@ const TestPage = () => {
           }}
         />
         <Cell
-          title="去登录"
+          title="App 去登录"
           onClick={() => {
             SHBridge.login()
           }}
