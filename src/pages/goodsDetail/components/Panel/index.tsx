@@ -62,7 +62,15 @@ const Panel: React.FC<Props> = ({ data, dataAll, isLike, myLikes, shares, goodsP
         littleUrl: litterUrl,
       })
     } else {
-      Toast('还未登录，请登录后分享')
+      SHBridge.login()
+      // Toast('还未登录，请登录后分享')
+    }
+  }
+  const giveAsk = () => {
+    if (SHBridge.isLogin()) {
+      SHBridge.toChat(dataAll.id)
+    } else {
+      SHBridge.login()
     }
   }
   return (
@@ -83,11 +91,13 @@ const Panel: React.FC<Props> = ({ data, dataAll, isLike, myLikes, shares, goodsP
           <p>{shares}</p>
         </div>
       )}
+      {!isWeapp && (
+        <div onClick={giveAsk}>
+          <img src={ask} alt="" />
+          <p>咨询</p>
+        </div>
+      )}
 
-      <div>
-        <img src={ask} alt="" />
-        <p>咨询</p>
-      </div>
     </div>
   )
 }
