@@ -185,6 +185,9 @@ const GoodPng = loadable(() => import(/* webpackChunkName: 'GoodPng' */ './pages
 /**乐币说明 */
 const HappyCoinIns = loadable(() => import(/* webpackChunkName: 'GoodPng' */ './pages/happyCoinIns'))
 
+/**技术支持 */
+const SupportPage = loadable(() => import(/* webpackChunkName: 'GoodPng' */ './pages/support'))
+
 const env = process.env.NODE_ENV
 console.log(env)
 
@@ -227,7 +230,6 @@ const App = () => (
       <Route path="/test/page" exact component={TestPage}></Route>
       <Route path="/test/wxpage" exact component={TestWXPage}></Route>
       <Route path="/test/wxpage2" exact component={TestWXPage2}></Route>
-      
 
       <Route path="/test/chart" exact component={TestChartPage}></Route>
 
@@ -273,6 +275,8 @@ const App = () => (
 
       <Route path="/goodpng" exact component={GoodPng}></Route>
       <Route path="/beans-explain" exact component={HappyCoinIns}></Route>
+
+      <Route path="/support" exact component={SupportPage}></Route>
     </BrowserRouter>
   </Suspense>
 )
