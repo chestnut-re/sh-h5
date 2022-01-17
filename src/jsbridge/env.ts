@@ -2,8 +2,6 @@
  * 当前环境检查
  */
 
-import { resolve } from 'path'
-
 // import wx from 'weixin-js-sdk'
 
 /**
@@ -21,5 +19,20 @@ export const isMini = (): Promise<boolean> => {
     window['wx'].miniProgram.getEnv((res) => {
       resolve(!!res.miniprogram)
     })
+  })
+}
+
+/**
+ * 是否是微信环境非小程序
+ */
+export const isWeChat = (): Promise<boolean> => {
+  return new Promise((resolve, reject) => {
+    if (/MicroMessenger/i.test(window.navigator.userAgent)) {
+      window['wx'].miniProgram.getEnv((res) => {
+        resolve(!res.miniprogram)
+      })
+    } else {
+      return resolve(false)
+    }
   })
 }
