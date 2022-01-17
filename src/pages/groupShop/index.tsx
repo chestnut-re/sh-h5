@@ -8,6 +8,7 @@ import { Image, Empty, Toast, List } from 'react-vant'
 import emptyIcon from '@/assets/img/empty@3x.png'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
+import { getCookie } from '@/utils/cookie'
 import './index.less'
 
 /**
@@ -22,6 +23,9 @@ const GroupShopPage: FC = () => {
   const [shopInfo, setShopInfo] = useState({
     isDeleted: 0,
     attentionState:0,
+    shopName:"",
+    shopDesc:"",
+    shopHeadUrl:""
   })
 
   //请求是否完成
@@ -113,6 +117,24 @@ const GroupShopPage: FC = () => {
       title: '商品详情',
     })
   }
+  //分享团小店
+  const shareGroupShop = () => {
+    if (SHBridge.isLogin()) {
+      const litterUrl = `${window.location.origin}${window.location.pathname}?id=${id}&userId=${getCookie('userId')}`
+      console.log('litterUrl :>> ', litterUrl);
+      const {shopName,shopDesc,shopHeadUrl} = shopInfo;
+      SHBridge.shareDetail({
+        type: 'goods',
+        title: shopName,
+        description: shopDesc,
+        headUrl: shopHeadUrl,
+        littleUrl: litterUrl,
+      })
+    } else {
+      SHBridge.login()
+      // Toast('还未登录，请登录后分享')
+    }
+  }
 
   useEffect(() => {
     getSmallShopInfo()
@@ -136,7 +158,7 @@ const GroupShopPage: FC = () => {
                 >
                   {shopInfo.attentionState == 0 ? '关注' : '已关注'}
                 </div>
-                <div className="smallshop-abtn">分享</div>
+                <div className="smallshop-abtn" onClick={shareGroupShop}>分享</div>
               </div>):null}
             </div>
           </div>

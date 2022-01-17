@@ -64,6 +64,7 @@ const MyTokenPage: React.FC = () => {
 
   const shareTask = (taskId) => {
     // SHBridge.shareActivity(specialDetail)
+    console.log('taskId :>> ', taskId);
     MyTokenService.shareParam({ taskId })
       .then((res) => {
         const { code, data } = res
@@ -84,8 +85,8 @@ const MyTokenPage: React.FC = () => {
   }
 
   const onshareChangeHandle = (item) => {
-    console.log('item :>> ', item)
-    const { goodsId, userId, goodsName, id, promotionalImageUrl } = item;
+    console.log('itemshareDatashareData :>> ', shareData)
+    const { goodsId, userId, goodsName, id, promotionalImageUrl } = shareData;
     oncloseModal()
     if (SHBridge.isLogin()) {
       const litterUrl = `${window.location.origin}/goods-detail?id=${goodsId}&userId=${userId}`

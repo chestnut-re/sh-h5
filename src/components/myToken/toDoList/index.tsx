@@ -1,6 +1,8 @@
 import React, { useState,useEffect, FC } from 'react'
 import dayjs from 'dayjs';
 import clsx from 'clsx'
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc)
 import StampIng_icon from '@/assets/img/stamp_ing@3x.png'
 import Stampcomplete_icon from '@/assets/img/stamp_complete@3x.png'
 import './index.less'
@@ -26,6 +28,7 @@ const ToDoListCard: FC<ToDoListType> = ({ goodsName, goodsId, rebateId, onToview
   const onToviewHandleItem = () => {
     onToviewHandle()
   }
+  
   useEffect(()=>{
       const state = rebateList.some( (item)=>{ 
         return item.state === 2; 
@@ -38,18 +41,21 @@ const ToDoListCard: FC<ToDoListType> = ({ goodsName, goodsId, rebateId, onToview
     const nowTimeUnix = dayjs().unix()
     const {id,isDestroy,updateTime,shareTime=1} = item;
     
-    const shareTimeSS = shareTime*60*60;
+    const shareTimeSS = shareTime;
+   const updateTimess = "2022-01-18T09:06:05.775+00:00"
+    // const shareUpdateTime = updateTime?dayjs(updateTime).unix():nowTimeUnix;
+    // const nextShareTime = dayjs(updateTimess).utc().add(1,'hour').format("YYYY-MM-DD hh:mm:ss")
+    const nextShareTime = dayjs(updateTime).utc().add(shareTime,'hour').format("YYYY-MM-DD hh:mm:ss")
+    console.log('nextShareTime :>> ',  dayjs().isBefore(dayjs(nextShareTime)),nextShareTime);
+    // return
 
-    const shareUpdateTime = updateTime?dayjs(updateTime).unix():nowTimeUnix;
-    const nextShareTime = shareUpdateTime+shareTimeSS
-    
       if (taskstate) {
           Toast("任务已完成，不需要分享")
           return
       }else if (isDestroy===0) {
         Toast("订单未核销")
         return
-      }else if(nextShareTime>nowTimeUnix){
+      }else if(dayjs().isBefore(dayjs(nextShareTime))){
         Toast("任务未达到分享时间")
         return
       }else{
