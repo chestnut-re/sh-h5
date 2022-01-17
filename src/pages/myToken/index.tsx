@@ -70,7 +70,7 @@ const MyTokenPage: React.FC = () => {
         if (code === '200' && data) {
           setShareData(data)
           setisshareCard(true)
-        }else{
+        } else {
           Toast("服务异常")
         }
       })
@@ -85,7 +85,7 @@ const MyTokenPage: React.FC = () => {
 
   const onshareChangeHandle = (item) => {
     console.log('item :>> ', item)
-    const { goodsId, userId, goodsName,id, promotionalImageUrl } = item;
+    const { goodsId, userId, goodsName, id, promotionalImageUrl } = item;
     oncloseModal()
     if (SHBridge.isLogin()) {
       const litterUrl = `${window.location.origin}/goods-detail?id=${goodsId}&userId=${userId}`
@@ -98,19 +98,20 @@ const MyTokenPage: React.FC = () => {
         littleUrl: litterUrl,
       })
       oncloseModal()
-      MyTokenService.unLockBean({taskId:id}).then((res)=>{
-          const {code,data} = res;
-          if (code === "200"&&data) {
-            Toast('分享成功')
-          }
+      MyTokenService.unLockBean({ taskId: id }).then((res) => {
+        const { code, data } = res;
+        if (code === "200" && data) {
+          Toast('分享成功')
+        }
       })
     } else {
-      Toast('还未登录，请登录后分享')
+      SHBridge.login()
+      // Toast('还未登录，请登录后分享')
     }
     console.log('item :>> ', item)
   }
 
-  const oncloseModal = ()=>{
+  const oncloseModal = () => {
     setisshareCard(false)
   }
 
@@ -122,7 +123,7 @@ const MyTokenPage: React.FC = () => {
             乐豆余额
           </div>
           <div className="mtkon-header-with">
-            <div className="mhw-left">{totalAmount/100}</div>
+            <div className="mhw-left">{totalAmount / 100}</div>
             <div className="mhw-right">
               <div className="mhw-right-btn" onClick={toWithDraw}>
                 提现

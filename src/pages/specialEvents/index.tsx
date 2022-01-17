@@ -63,7 +63,8 @@ const SpecialEventsPage: React.FC = () => {
     if (SHBridge.isLogin()) {
       SHBridge.shareActivity(specialDetail)
     } else {
-      Toast('还未登录，请登录后分享')
+      SHBridge.login()
+      // Toast('还未登录，请登录后分享')
     }
   }
   //左侧回退按钮事件处理
