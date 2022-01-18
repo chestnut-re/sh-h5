@@ -22,10 +22,10 @@ const GroupShopPage: FC = () => {
   const isToken = SHBridge.getToken()
   const [shopInfo, setShopInfo] = useState({
     isDeleted: 0,
-    attentionState:0,
-    shopName:"",
-    shopDesc:"",
-    shopHeadUrl:""
+    attentionState: 0,
+    shopName: '',
+    shopDesc: '',
+    shopHeadUrl: '',
   })
 
   //请求是否完成
@@ -37,7 +37,7 @@ const GroupShopPage: FC = () => {
   const getSmallShopInfo = () => {
     SmallShop.detail({
       id,
-      token:SHBridge.getToken()
+      token: SHBridge.getToken(),
     })
       .then((res) => {
         const { code, data } = res
@@ -52,21 +52,26 @@ const GroupShopPage: FC = () => {
   }
 
   const attentionSmaiiShop = () => {
-    SmallShop.attention({
-      attentionState: shopInfo.attentionState ? 0 : 1,
-      shopId: id,
-    })
-      .then((res) => {
-        const { code, data } = res
-        if (code == '200' && data) {
-          Toast('操作成功')
-          getSmallShopInfo()
-        }
-        console.log('object 关注:>> ', res)
+    if (SHBridge.isLogin()) {
+      SmallShop.attention({
+        attentionState: shopInfo.attentionState ? 0 : 1,
+        shopId: id,
       })
-      .catch((err) => {
-        console.log('err :>> ', err)
-      })
+        .then((res) => {
+          const { code, data } = res
+          if (code == '200' && data) {
+            Toast('操作成功')
+            getSmallShopInfo()
+          }
+          console.log('object 关注:>> ', res)
+        })
+        .catch((err) => {
+          console.log('err :>> ', err)
+        })
+    } else {
+      SHBridge.login()
+      // Toast('还未登录，请登录后分享')
+    }
   }
 
   const getGoodsList = async () => {
@@ -108,9 +113,9 @@ const GroupShopPage: FC = () => {
   }
 
   //打开小店商品详情
-  const openDoodsDetailLink = (item)=>{
-    const {goodsPriceId} = item;
-    console.log('item :>> ', item);
+  const openDoodsDetailLink = (item) => {
+    const { goodsPriceId } = item
+    console.log('item :>> ', item)
     SHBridge.jump({
       url: generateUrl(`/goods-detail?id=${item.id}&goodsPriceId=${goodsPriceId}&shopId=${id}`),
       newWebView: true,
@@ -121,8 +126,8 @@ const GroupShopPage: FC = () => {
   const shareGroupShop = () => {
     if (SHBridge.isLogin()) {
       const litterUrl = `${window.location.origin}${window.location.pathname}?id=${id}&userId=${getCookie('userId')}`
-      console.log('litterUrl :>> ', litterUrl);
-      const {shopName,shopDesc,shopHeadUrl} = shopInfo;
+      console.log('litterUrl :>> ', litterUrl)
+      const { shopName, shopDesc, shopHeadUrl } = shopInfo
       SHBridge.shareDetail({
         type: 'goods',
         title: shopName,
@@ -151,23 +156,23 @@ const GroupShopPage: FC = () => {
             <div className="smallshop-content">
               <div className="smallshop-name">{shopInfo.shopName}</div>
               <div className="smallshop-title">如有疑问 可联系我</div>
-              {isToken?(<div className="smallshop-action">
+              <div className="smallshop-action">
                 <div
                   onClick={attentionSmaiiShop}
                   className={clsx('smallshop-abtn', { 'smallshop-abtn-on': shopInfo.attentionState != 0 })}
                 >
                   {shopInfo.attentionState == 0 ? '关注' : '已关注'}
                 </div>
-                <div className="smallshop-abtn" onClick={shareGroupShop}>分享</div>
-              </div>):null}
+                <div className="smallshop-abtn" onClick={shareGroupShop}>
+                  分享
+                </div>
+              </div>
             </div>
           </div>
           <div className="smallshop-introduce">
             <div className="wrapper">
-              <div className="text">
-              简介：{shopInfo.shopDesc ?? '暂无简介内容'}
-              </div>
-            
+              <div className="text">简介：{shopInfo.shopDesc ?? '暂无简介内容'}</div>
+
               {/* <input id="exp1" className="exp" type="checkbox" />
               <div className="text">
                 <label className="btn" htmlFor="exp1"></label>
@@ -176,18 +181,32 @@ const GroupShopPage: FC = () => {
             </div>
           </div>
           <div className="smallshop-main">
-            <List errorText="请求失败，点击重新加载" immediateCheck finishedText="" finished={finished} onLoad={onLoadGoodsList}>
-              {goodsList.length>0?(<ul className="smallshop-main-ul">
-                {goodsList.map((item, index) => {
-                  return (
-                    <li className="smallshop-main-li" key={index} onClick={()=>{
-                      openDoodsDetailLink(item)
-                    }}>
-                      <GoodsPreview {...item} />
-                    </li>
-                  )
-                })}
-              </ul>):<Empty className="custom-image" image={emptyIcon} description="暂无数据" />}
+            <List
+              errorText="请求失败，点击重新加载"
+              immediateCheck
+              finishedText=""
+              finished={finished}
+              onLoad={onLoadGoodsList}
+            >
+              {goodsList.length > 0 ? (
+                <ul className="smallshop-main-ul">
+                  {goodsList.map((item, index) => {
+                    return (
+                      <li
+                        className="smallshop-main-li"
+                        key={index}
+                        onClick={() => {
+                          openDoodsDetailLink(item)
+                        }}
+                      >
+                        <GoodsPreview {...item} />
+                      </li>
+                    )
+                  })}
+                </ul>
+              ) : (
+                <Empty className="custom-image" image={emptyIcon} description="暂无数据" />
+              )}
             </List>
           </div>
         </>
