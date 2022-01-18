@@ -1,9 +1,9 @@
-/* 创建一个事件对象，名字为newEvent，类型为build */
+/* 创建一个事件对象，名字为newEvent，类型为onResume */
 const newEvent = new Event('onResume', { bubbles:true,cancelable:true,composed:true });
 
 window['changeAppLifecycleState'] = function(type){
                
-        /* 给这个事件对象创建一个属性并赋值 */
+        /* @param state 0是前台 1切换中 2后台 */
          newEvent["state"] = type;
         document.dispatchEvent(newEvent);  
 }

@@ -228,13 +228,17 @@ const SubmitOrderPage: FC = () => {
     // }
 
     document.addEventListener("onResume",function(e){
-              console.log('e出发自定义事件 :>> ', e.state);
               const {state} = e;
+              console.log('e出发自定义事件 :>> ', state,orderIdInfo);
               if(state === 0&&orderIdInfo){
                       paySuccessLink(orderIdInfo)
                     }
     },false)
-    
+    return ()=>{
+      document.removeEventListener("onResume",function(e){
+          console.log('e :>> ', e);
+        },false)
+    }
   },[])
 
   useEffect(() => {
