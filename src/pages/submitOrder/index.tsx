@@ -283,7 +283,7 @@ const SubmitOrderPage: FC = () => {
           }
         })
         //是否是限购商品是限购
-        if (isPurchase) {
+        if (isPurchase>0) {
           setisPurchase(true)
 
           const { code, data } = await purchaseNumber()
@@ -314,15 +314,14 @@ const SubmitOrderPage: FC = () => {
 
   //获取成人数量
   const handlechangeStepper = async (info) => {
-    console.log('成人儿童数量改变 :>> ', info)
-    const { adultNum } = info
     setStepperData(info)
-    getPurchase()
-    
   }
 //获取最大限购数据
   const getPurchase = async ()=>{
       //购买数量改变请求限购校验接口
+      if(!isPurchase){
+        return 
+      } 
     const { code, data } = await purchaseNumber()
     if (code === '200' && data) {
       setPurchaseConfigInfo((v) => {

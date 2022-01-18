@@ -1,11 +1,9 @@
 import React, { useState, useEffect, FC } from 'react'
 
-import { ConfigProvider, Icon, Toast, Stepper } from 'react-vant'
-import integralIcon from '@/assets/img/integral_icon.png'
+import { ConfigProvider, Icon } from 'react-vant'
 import questionIcon from '@/assets/img/question_icon@3x.png'
 import StepperRui from '@/components/orderDetail/stepperCard/stepperRui'
 import './index.less'
-import { number } from 'echarts'
 
 /**
  * 订单步进器选择卡片包含
@@ -120,7 +118,6 @@ const StepperCard: FC<StepType> = ({
           {(maxInteNum)>=1 && tokenAmountNum >= 1 ? (
             <li className="step-boxli">
               <div className="step-name hairline--icon">
-                <Icon size="4vw" className="integra-icon" name={integralIcon} />
                 <span className='hellp-icon'>乐豆</span>
                 <span className="name-subtitle">共{tokenAmountNum / RMB_CON}</span>
               </div>
