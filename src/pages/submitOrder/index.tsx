@@ -34,11 +34,11 @@ const MapbuyType = {
   2: '订单核销',
 }
 
-let orderIdInfo;
+let orderIdInfo
 const SubmitOrderPage: FC = () => {
   const activeRef = useRef(null)
-  let UseToast;
-  
+  let UseToast
+
   const { search } = useLocation()
   const { id, source, userId } = qs.parse(search.slice(1))
   //是否是限购商品
@@ -61,7 +61,7 @@ const SubmitOrderPage: FC = () => {
   //限购数据
   const [purchaseConfigInfo, setPurchaseConfigInfo] = useState({})
 
-  const [isorderId,setisorderId] = useState()
+  const [isorderId, setisorderId] = useState()
 
   //提交数据
   const [submitData, setSubmitData] = useState({
@@ -212,21 +212,27 @@ const SubmitOrderPage: FC = () => {
     })
   }, [selectTime])
 
-  useEffect(()=>{
- 
-    document.addEventListener("onResume",function(e){
-              const {state} = e;
-              console.log('e出发自定义事件 :>> ', state,orderIdInfo);
-              if(state === 0&&orderIdInfo){
-                      paySuccessLink(orderIdInfo)
-                    }
-    },false)
-    return ()=>{
-      document.removeEventListener("onResume",function(e){
-          console.log('e :>> ', e);
-        },false)
+  useEffect(() => {
+    document.addEventListener(
+      'onResume',
+      function (e) {
+        const { state } = e
+        if (state === 0 && orderIdInfo) {
+          paySuccessLink(orderIdInfo)
+        }
+      },
+      false
+    )
+    return () => {
+      document.removeEventListener(
+        'onResume',
+        function (e) {
+          console.log('e :>> ', e)
+        },
+        false
+      )
     }
-  },[])
+  }, [])
 
   useEffect(() => {
     SHBridge.setTitle('提交订单')
@@ -267,7 +273,7 @@ const SubmitOrderPage: FC = () => {
         }
 
         setSubmitData((v) => {
-          const neworderDto  = {...v.orderDto}
+          const neworderDto = { ...v.orderDto }
           return {
             ...v,
             departureCity: departureCityAdcode,
@@ -283,7 +289,7 @@ const SubmitOrderPage: FC = () => {
           }
         })
         //是否是限购商品是限购
-        if (isPurchase>0) {
+        if (isPurchase > 0) {
           setisPurchase(true)
 
           const { code, data } = await purchaseNumber()
@@ -316,12 +322,12 @@ const SubmitOrderPage: FC = () => {
   const handlechangeStepper = async (info) => {
     setStepperData(info)
   }
-//获取最大限购数据
-  const getPurchase = async ()=>{
-      //购买数量改变请求限购校验接口
-      if(!isPurchase){
-        return 
-      } 
+  //获取最大限购数据
+  const getPurchase = async () => {
+    //购买数量改变请求限购校验接口
+    if (!isPurchase) {
+      return
+    }
     const { code, data } = await purchaseNumber()
     if (code === '200' && data) {
       setPurchaseConfigInfo((v) => {
@@ -438,10 +444,10 @@ const SubmitOrderPage: FC = () => {
           const { code, msg, data } = res
           if (code == '200' && data) {
             if (data.code == '200') {
-              console.log('data.data :>> ', data.data);
-              const { returnPayInfo, orderId } = data.data;
+              console.log('data.data :>> ', data.data)
+              const { returnPayInfo, orderId } = data.data
               setisorderId(orderId)
-              orderIdInfo = orderId;
+              orderIdInfo = orderId
               switch (payType) {
                 case 1:
                   UseToast.clear()

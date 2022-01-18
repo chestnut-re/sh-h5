@@ -76,6 +76,7 @@
     "@babel/polyfill": "^7.12.1",
     "@loadable/component": "^5.15.0",
     "@vant/area-data": "^1.1.5",
+    "ahooks": "^3.1.6",
     "axios": "^0.21.1",
     "clipboard": "^2.0.8",
     "clsx": "^1.1.1",
