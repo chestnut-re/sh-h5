@@ -234,6 +234,7 @@ const RefundFailure: FC<IndexRefundType> = ({
   }
   //处理人员数据改变
   const changeRefundNumHandle = (val) => {
+    console.log('val :>> ', val)
     const { adultRefundList, childRefundList } = suborderInfo
     let adultRefundList_options = []
     let refundAmount = 0

@@ -19,6 +19,19 @@ interface ToDoListType {
   onToviewHandle: () => void
 }
 
+const NumberMap = {
+  0: '一',
+  1: '二',
+  2: '三',
+  3: '四',
+  4: '五',
+  5: '六',
+  6: '七',
+  7: '八',
+  8: '九',
+  9: '十',
+}
+
 const ToDoListCard: FC<ToDoListType> = ({ goodsName, goodsId, rebateId, onToviewHandle, rebateList, shareTask }) => {
   //查看更多
   const [isMore, setIsMore] = useState(false)
@@ -50,9 +63,9 @@ const ToDoListCard: FC<ToDoListType> = ({ goodsName, goodsId, rebateId, onToview
       })
     }
   }
-  const sumProgress = (unlockBean, totalBean) => {
-    if (totalBean && unlockBean) {
-      const Nums = (unlockBean / totalBean) * 100
+  const sumProgress = (unLockBean, totalBean) => {
+    if (totalBean && unLockBean) {
+      const Nums = (unLockBean / totalBean) * 100
       return Nums
     } else {
       return 0
@@ -73,21 +86,21 @@ const ToDoListCard: FC<ToDoListType> = ({ goodsName, goodsId, rebateId, onToview
         {isMore && (
           <div className="todo-box-content">
             <ul className="todo-box-content-ul">
-              {rebateList.map(({ id, totalBean, unlockBean, updateTime, state, shareTime, isDestroy }) => {
+              {rebateList.map(({ id, totalBean, unLockBean, updateTime, state, shareTime, isDestroy }, index) => {
                 return (
                   <li className="tbcu-li" key={id}>
                     <div className="tbcu-li-name">
                       <div className="tbcu-li-name-t">
                         <p>任</p>
                         <p>务</p>
-                        <p>一</p>
+                        <p>{NumberMap[index]}</p>
                       </div>
                     </div>
                     <div className="tbcu-li-content">
                       <div className="tbcu-li-content-top">
                         <div className="tlct-left">
                           <span className="tlct-left-name">已解锁</span>
-                          <span className="tlct-left-num">{unlockBean ?? 0}</span>
+                          <span className="tlct-left-num">{unLockBean ?? 0}</span>
                         </div>
                         {isDestroy != 1 && <div className="tlct-right">核销订单后可用</div>}
                       </div>
@@ -95,18 +108,18 @@ const ToDoListCard: FC<ToDoListType> = ({ goodsName, goodsId, rebateId, onToview
                         <div className="progress-container">
                           <span
                             className="progress__portion"
-                            style={{ width: `${sumProgress(unlockBean, totalBean)}%` }}
+                            style={{ width: `${sumProgress(unLockBean, totalBean)}%` }}
                           ></span>
                           <span
                             className="progress__header"
                             style={{
-                              left: `${sumProgress(unlockBean, totalBean)}%`,
-                              transform: `translate(-${sumProgress(unlockBean, totalBean)}%, -50%)`,
+                              left: `${sumProgress(unLockBean, totalBean)}%`,
+                              transform: `translate(-${sumProgress(unLockBean, totalBean)}%, -50%)`,
                             }}
                           ></span>
                         </div>
                         <div className="progress-text">
-                          {unlockBean / 100 ?? 0}/{totalBean / 100 ?? 0}
+                          {unLockBean / 100 ?? 0}/{totalBean / 100 ?? 0}
                         </div>
                       </div>
                     </div>

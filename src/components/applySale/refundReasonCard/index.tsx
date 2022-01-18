@@ -1,5 +1,5 @@
 import React, { useState, useEffect, FC } from 'react'
-
+import { RefundApis } from '@/service/RefundApply'
 import { Icon, ActionSheet, Cell, Radio } from 'react-vant'
 import './index.less'
 /**
@@ -12,16 +12,31 @@ const RefundReasonCard: FC = ({ onchangeReason, defaultValue }) => {
   const setVisible = (b) => {
     setHandelVisible(b)
   }
-  const TabActions = [
-    { name: '七天无理由退款', id: '1' },
-    { name: '选项二', id: '2' },
-    { name: '选项三', id: '3' },
-    { name: '选项四', id: '4' },
-    { name: '七天无', id: '5' },
-    { name: '选项六', id: '6' },
-    { name: '选项七', id: '7' },
-    { name: '选项八', id: '8' },
-  ]
+  const [TabActions, setTabActions] = useState([])
+
+  useEffect(() => {
+    RefundApis.reason({
+      current: 1,
+      size: 100,
+      dictCode: 'HD1',
+    }).then((res) => {
+      const { code, data } = res
+      if (code === '200' && data) {
+        const { records } = data
+        setTabActions(() => {
+          const newrecords = records.map((item) => {
+            return {
+              name: item.dictValue ? item.dictValue : '-',
+              id: item.id,
+            }
+          })
+
+          return [...newrecords]
+        })
+      }
+      console.log('res退款政策 :>> ', res)
+    })
+  }, [])
 
   useEffect(() => {
     if (defaultValue) {

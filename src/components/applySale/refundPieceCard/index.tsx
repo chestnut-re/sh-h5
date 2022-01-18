@@ -1,4 +1,4 @@
-import React, { useState,useEffect, FC } from 'react'
+import React, { useState, useEffect, FC } from 'react'
 import { ConfigProvider } from 'react-vant'
 import StepperRui from '@/components/orderDetail/stepperCard/stepperRui'
 
@@ -11,16 +11,14 @@ import './index.less'
 const themeVars = {
   '--rv-stepper-button-icon-color': '#121212',
 }
-interface RefupieceType{
-    suborderInfo:any;
-    defaultValue?:any;
-    changeRefundNum:(val)=>void
+interface RefupieceType {
+  suborderInfo: any
+  defaultValue?: any
+  changeRefundNum: (val) => void
 }
 
-const RefupieceCard: FC<RefupieceType> = ({suborderInfo,changeRefundNum,defaultValue}) => {
-
- const {adultNum,childNum} = suborderInfo;
-
+const RefupieceCard: FC<RefupieceType> = ({ suborderInfo, changeRefundNum, defaultValue }) => {
+  const { adultNum, childNum } = suborderInfo
 
   //成人数量
   const [adultNums, setAdultNums] = useState(0)
@@ -29,22 +27,20 @@ const RefupieceCard: FC<RefupieceType> = ({suborderInfo,changeRefundNum,defaultV
 
   useEffect(() => {
     changeRefundNum({
-        adultNum:adultNums,
-        childNum:childNums,
+      adultNum: adultNums,
+      childNum: childNums,
     })
-  }, [adultNums,childNums])
+  }, [adultNums, childNums])
 
   useEffect(() => {
-      const {isedit,adultNum,childNum} = defaultValue;
-      if (isedit) {
-        console.log('zhxiing :>> >>>????',isedit,adultNum,childNum);
-        setAdultNums(adultNum)
-          setChildNums(childNum)
-       
-      }
+    const { isedit, adultNum, childNum } = defaultValue
+    if (isedit) {
+      console.log('zhxiing :>> >>>????', isedit, adultNum, childNum)
+      setAdultNums(adultNum)
+      setChildNums(childNum)
+    }
   }, [defaultValue])
 
- 
   return (
     <div className="refupiece-card rv-hairline--top-bottom">
       <div className="refupiece-name">退款件数</div>
@@ -54,12 +50,7 @@ const RefupieceCard: FC<RefupieceType> = ({suborderInfo,changeRefundNum,defaultV
             <div className="refupiece-title">成人</div>
             <div className="refupiece-box">
               <ConfigProvider themeVars={themeVars}>
-                <StepperRui
-                  value={adultNums}
-                  min={1}
-                  max={adultNum}
-                  changeValue={(val) => setAdultNums(val)}
-                />
+                <StepperRui value={adultNums} min={0} max={adultNum} changeValue={(val) => setAdultNums(val)} />
               </ConfigProvider>
             </div>
           </li>
@@ -67,12 +58,7 @@ const RefupieceCard: FC<RefupieceType> = ({suborderInfo,changeRefundNum,defaultV
             <div className="refupiece-title">儿童</div>
             <div className="refupiece-box">
               <ConfigProvider themeVars={themeVars}>
-                <StepperRui
-                  value={childNums}
-                  min={0}
-                  max={childNum}
-                  changeValue={(val) => setChildNums(val)}
-                />
+                <StepperRui value={childNums} min={0} max={childNum} changeValue={(val) => setChildNums(val)} />
               </ConfigProvider>
             </div>
           </li>

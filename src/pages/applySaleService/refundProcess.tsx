@@ -56,14 +56,7 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
     tokenAmount: 0,
     updateTime: '',
   })
-
-  const BarsConfig = {
-    btnGroups: [
-      { name: '咨询', key: 'ZX' },
-      { name: '再次购买', key: 'ZCGM' },
-      { name: '撤销申请', key: 'CXSQ' },
-    ],
-    leftBtnGroups: refundList.refundState == 2 ? [] : [{ text: '修改申请', key: 'XGSQ' }],
+  const [BarsConfig, setBarsConfig] = useState({
     onSelect: (item) => {
       const { key } = item
       switch (key) {
@@ -102,7 +95,37 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
       })
       console.log('item :>> ', item)
     },
-  }
+  })
+
+  // const BarsConfig = {
+  //   btnGroups: [],
+  //   leftBtnGroups: refundList.refundState == 1 ? [{ text: '修改申请', key: 'XGSQ' }] : [],
+
+  // }
+
+  useEffect(() => {
+    if (refundList.refundState == 1) {
+      setBarsConfig((v) => {
+        return {
+          ...v,
+          btnGroups: [
+            { name: '咨询', key: 'ZX' },
+            { name: '再次购买', key: 'ZCGM' },
+            { name: '撤销申请', key: 'CXSQ' },
+          ],
+          leftBtnGroups: [{ text: '修改申请', key: 'XGSQ' }],
+        }
+      })
+    } else {
+      setBarsConfig((v) => {
+        return {
+          ...v,
+          btnGroups: [{ name: '再次购买', key: 'ZCGM' }],
+          leftBtnGroups: [],
+        }
+      })
+    }
+  }, [refundList])
 
   const cancelRefund = () => {
     RefundApis.cancel({
@@ -114,10 +137,10 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
         if (code == '200' && data) {
           Toast('撤销申请成功')
           SHBridge.jump({
-            url: generateUrl(`/order-detail?orderId=${orderId}`),
-            newWebView: true,
-            replace: false,
-            title: '订单详情',
+            url: generateUrl(`/undo-apply`),
+            newWebView: false,
+            replace: true,
+            title: '撤销成功',
           })
         } else {
           Toast('系统异常')

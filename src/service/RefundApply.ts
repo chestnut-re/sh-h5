@@ -45,4 +45,11 @@ export class RefundApis {
   static cancel(data): Promise<AxiosResponse<any>> {
     return axios.post(`/api/orders/refund/cancelRefundApply/${data.id}`, data)
   }
+
+  /**
+   * 退款原因
+   */
+  static reason(params): Promise<AxiosResponse<any>> {
+    return axios.get(`/api/platform/dictionary/getDictionaryItemIPage`, { params })
+  }
 }

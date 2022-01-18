@@ -21,6 +21,11 @@ const RefundAmountCard: FC<RefundAmountType> = ({ refundTokenAmount = 0, refundA
     }
   }, [defaultValue])
 
+  useEffect(() => {
+    setrefundAmount(refundAmount)
+    setrefundTokenAmountNum(refundTokenAmount)
+  }, [refundTokenAmount, refundAmount])
+
   return (
     <div className="refuamount-container">
       <div className="refuamount-card">

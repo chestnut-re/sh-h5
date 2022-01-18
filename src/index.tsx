@@ -2,7 +2,7 @@ import React, { lazy, Suspense } from 'react'
 import loadable from '@loadable/component'
 import ReactDOM from 'react-dom'
 import { BrowserRouter, Route } from 'react-router-dom'
-import "./utils/windowpage"
+import './utils/windowpage'
 import './utils/vconsole'
 import 'normalize.css'
 import './assets/css/base.css'
@@ -187,6 +187,8 @@ const HappyCoinIns = loadable(() => import(/* webpackChunkName: 'GoodPng' */ './
 
 /**技术支持 */
 const SupportPage = loadable(() => import(/* webpackChunkName: 'GoodPng' */ './pages/support'))
+/**撤销成功 */
+const UndoApplySuccess = loadable(() => import(/* webpackChunkName: 'GoodPng' */ './pages/applySaleService/undoApply'))
 
 const env = process.env.NODE_ENV
 console.log(env)
@@ -274,7 +276,7 @@ const App = () => (
 
       <Route path="/goodpng" exact component={GoodPng}></Route>
       <Route path="/beans-explain" exact component={HappyCoinIns}></Route>
-
+      <Route path="/undo-apply" exact component={UndoApplySuccess}></Route>
       <Route path="/support" exact component={SupportPage}></Route>
     </BrowserRouter>
   </Suspense>
