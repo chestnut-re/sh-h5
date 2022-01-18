@@ -95,7 +95,7 @@ const OrderConfirmaPage: FC = (props: any) => {
         url: generateUrl(`/apply-sales?orderId=${orderId}&type=0`),
         newWebView: true,
         replace: false,
-        title: '申请售后',
+        title: '申请退款',
       })
     },
   }
