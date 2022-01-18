@@ -12,6 +12,7 @@ import ProtocolCard from '@/components/orderDetail/protocolCard'
 import KnownCalendarCard from '@/components/orderDetail/knownCalendarCard'
 import Privilege from './privilege'
 import { SHBridge } from '@/jsbridge'
+import { getCookie } from '@/utils/cookie'
 import { generateUrl } from '@/utils'
 import { OrderApi } from '@/service/OrderDetailApi'
 
@@ -60,8 +61,6 @@ const SubmitOrderPage: FC = () => {
   const [referees, setReferees] = useState('')
   //限购数据
   const [purchaseConfigInfo, setPurchaseConfigInfo] = useState({})
-
-  const [isorderId, setisorderId] = useState()
 
   //提交数据
   const [submitData, setSubmitData] = useState({
@@ -446,7 +445,6 @@ const SubmitOrderPage: FC = () => {
             if (data.code == '200') {
               console.log('data.data :>> ', data.data)
               const { returnPayInfo, orderId } = data.data
-              setisorderId(orderId)
               orderIdInfo = orderId
               switch (payType) {
                 case 1:
@@ -512,9 +510,19 @@ const SubmitOrderPage: FC = () => {
     setPopvermode(2)
     setShowPrivilege(true)
   }
-  //分享
+  //分享商品
   const sharePurchase = () => {
-    Toast('开发中')
+    const { id, goodsName, goodsNickName, promotionalImageUrl } = submitinfo
+    const litterUrl = `${window.location.origin}/goods-detail?id=${id}&userId=${getCookie('userId')}`
+    console.log('litterUrl :>> ', litterUrl)
+    SHBridge.shareDetail({
+      type: 'goods',
+      title: goodsName,
+      description: goodsNickName,
+      headUrl: promotionalImageUrl,
+      littleUrl: litterUrl,
+    })
+    setShowPrivilege(false)
   }
   return (
     <div className="puorder-container">
