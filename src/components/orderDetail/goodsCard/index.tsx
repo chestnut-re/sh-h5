@@ -22,21 +22,19 @@ interface GoodsType {
 }
 const RMB_CON = 100
 
-const GoodsCard: FC<GoodsType> = (props) => {
-  console.log('BBBBBBBpropspropsprops :>> ', props)
-  const {
-    promotionalImageUrl,
-    goodsName,
-    startDate,
-    endDate,
-    adultNum,
-    childNum,
-    travelId,
-    goodsId,
-    tokenAmount,
-    discountAmount,
-    payAmount,
-  } = props
+const GoodsCard: FC<GoodsType> = ({
+  promotionalImageUrl,
+  goodsName,
+  startDate,
+  endDate,
+  adultNum,
+  childNum,
+  travelId,
+  goodsId,
+  tokenAmount,
+  discountAmount,
+  payAmount,
+}) => {
   const [showPrivilege, setShowPrivilege] = useState(false)
   const openDiscounts = () => {
     setShowPrivilege(true)

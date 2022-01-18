@@ -26,12 +26,12 @@ const RefundAmountCard: FC<RefundAmountType> = ({ refundTokenAmount = 0, refundA
       <div className="refuamount-card">
         <div className="refuamount-name">退款金额</div>
         <div className="refuamount-r">
-          ¥<span>{refundAmountNum / 100}</span>
+          ¥<span>{!isNaN(refundAmountNum) ? refundAmountNum / 100 : 0}</span>
         </div>
       </div>
-      {!isNaN(refundTokenAmountNum) ? (
+      {!isNaN(refundTokenAmountNum) && refundTokenAmountNum > 0 ? (
         <div className="refuamount-card">
-          <div className="refuamount-name">退回积分</div>
+          <div className="refuamount-name">退回乐豆</div>
           <div className="refuamount-r">
             <span>{refundTokenAmountNum / 100}</span>
           </div>

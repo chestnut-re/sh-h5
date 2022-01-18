@@ -13,8 +13,8 @@ import qs from 'query-string'
 
 import './index.less'
 /**
- * 退款失败入口
- * type 3 退款失败（refundFailure）
+ * 退款状态入口
+ *
  */
 
 interface IndexRefundType {
@@ -63,7 +63,7 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
       { name: '再次购买', key: 'ZCGM' },
       { name: '撤销申请', key: 'CXSQ' },
     ],
-    leftBtnGroups: [{ text: '修改申请', key: 'XGSQ' }],
+    leftBtnGroups: refundList.refundState == 2 ? [] : [{ text: '修改申请', key: 'XGSQ' }],
     onSelect: (item) => {
       const { key } = item
       switch (key) {
@@ -119,7 +119,7 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
             replace: false,
             title: '订单详情',
           })
-        }else{
+        } else {
           Toast('系统异常')
         }
       })
@@ -141,7 +141,9 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
         console.log('res :>> ', res)
         const { code, data } = res
         if (code === '200') {
-            const itemData = data.find(item => { return item.id == refundId })
+          const itemData = data.find((item) => {
+            return item.id == refundId
+          })
           setRefundList(itemData)
         }
       })

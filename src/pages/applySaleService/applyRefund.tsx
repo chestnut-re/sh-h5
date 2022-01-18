@@ -1,7 +1,6 @@
 import React, { useState, useEffect, FC } from 'react'
-
+import clsx from 'clsx'
 import GoodsCard from '@/components/orderDetail/goodsCard'
-import PreferCard from '@/components/orderDetail/preferCard'
 import RefundReasonCard from '@/components/applySale/refundReasonCard'
 import RefundPieceCard from '@/components/applySale/refundPieceCard'
 import RefundAmountCard from '@/components/applySale/refundAmount'
@@ -14,7 +13,6 @@ import qs from 'query-string'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
 import './index.less'
-import clsx from 'clsx'
 
 /**
  * 申请退款入口
@@ -29,7 +27,6 @@ interface IndexRefundType {
 const RefundFailure: FC<IndexRefundType> = ({
   orderInfo: {
     goodsName,
-    id,
     goodsId,
     updateType,
     travelStartDate,
@@ -44,7 +41,7 @@ const RefundFailure: FC<IndexRefundType> = ({
   },
 }) => {
   const { search } = useLocation()
-  const { type, orderId, refundId } = qs.parse(search.slice(1))
+  const { orderId, refundId } = qs.parse(search.slice(1))
 
   const [showEmbedded, setShowEmbedded] = useState(false)
   //可退款数据
@@ -89,8 +86,6 @@ const RefundFailure: FC<IndexRefundType> = ({
             const childList = data.filter((item) => {
               return item.travelerType == 0
             })
-
-            console.log('adultList childListchildListchildList:>> ', adultList, childList)
             setSuborderInfo({
               adultNum: adultList.length,
               adultRefundList: [...adultList],

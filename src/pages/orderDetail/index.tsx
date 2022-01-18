@@ -45,16 +45,16 @@ const OrderIndexPage: FC = () => {
     OrderApi.findOrderdetail({
       orderId: orderId,
     })
-    // OrderApi.orderdetail({
-    //   orderId: orderId,
-    // })
+      // OrderApi.orderdetail({
+      //   orderId: orderId,
+      // })
       .then((result: any) => {
         const { code, data } = result
 
         if (code == '200' && data) {
           setOrderType(data.state)
           setOrders(data)
-          if(data.state == "4"||data.state == "3"){
+          if (data.state == '4' || data.state == '3') {
             OrderApi.suborders({
               orderId: orderId,
             })
@@ -68,12 +68,10 @@ const OrderIndexPage: FC = () => {
                 console.log('err :>> ', err)
               })
           }
-
         } else {
           setOrderType('-1')
           Toast('订单数据不存在')
         }
-        console.log('result :>> ', result)
       })
       .catch((err) => {
         setOrderType('-1')
@@ -82,10 +80,7 @@ const OrderIndexPage: FC = () => {
       .finally(() => {
         Toa.clear()
       })
-
-      
   }
-
 
   return (
     <div className="container">

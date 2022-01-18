@@ -58,13 +58,13 @@ const OrderPaymentPage: FC<OrderPaymentType> = ({
   residueTime,
   reloadOrder,
 }) => {
-  const [isorderId, setisorderId] = useState()
-
   const countDownStops = () => {
-    if (reloadNum <= 1) {
+    if (reloadNum <= 3) {
       console.log('object 倒计时结束:>> ')
       reloadNum++
-      reloadOrder()
+      setTimeout(() => {
+        reloadOrder()
+      }, 2000)
     }
   }
 
