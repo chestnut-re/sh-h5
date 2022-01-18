@@ -1,47 +1,47 @@
-import React, { useState,useEffect,FC } from 'react'
+import React, { useState, useEffect, FC } from 'react'
 
 import { Icon, ActionSheet, Cell, Radio } from 'react-vant'
 import './index.less'
 /**
  * 退款原因选择卡片
  */
-const actions = [
-  { name: '七天无理由退款', id: '1' },
-  { name: '选项二', id: '002' },
-  { name: '选项三', id: '003' },
-  { name: '选项三', id: '004' },
-  { name: '七天无理由退款', id: '5' },
-  { name: '选项二', id: '006' },
-  { name: '选项三', id: '007' },
-  { name: '选项三', id: '008' },
-]
 
-const RefundReasonCard:FC = ({onchangeReason,defaultValue}) => {
+const RefundReasonCard: FC = ({ onchangeReason, defaultValue }) => {
   const [visible, setHandelVisible] = useState(false)
-  const [actionvalue, setHandelActionvalue] = useState({name:"",id:""})
+  const [actionvalue, setHandelActionvalue] = useState({ name: '', id: '' })
   const setVisible = (b) => {
     setHandelVisible(b)
   }
+  const TabActions = [
+    { name: '七天无理由退款', id: '1' },
+    { name: '选项二', id: '2' },
+    { name: '选项三', id: '3' },
+    { name: '选项四', id: '4' },
+    { name: '七天无', id: '5' },
+    { name: '选项六', id: '6' },
+    { name: '选项七', id: '7' },
+    { name: '选项八', id: '8' },
+  ]
 
-  useEffect(()=>{
-      if (!actionvalue.name&&defaultValue) {
-          const isactions = actions.find((item)=>{
-              return item.name = defaultValue.reason
-          })
-          setHandelActionvalue(isactions)
-      }
-  },[defaultValue])
-
+  useEffect(() => {
+    if (defaultValue) {
+      const isactions = TabActions.find((item) => {
+        console.log('itemitemitem :>> ', item)
+        return item.name == defaultValue.reason
+      })
+      setHandelActionvalue(isactions ? isactions : { name: '', id: '' })
+    }
+  }, [defaultValue])
 
   const setCellHandel = (item) => {
-    console.log('item :>> ', item);
+    console.log('item :>> ', item)
     setHandelActionvalue(item)
     setVisible(false)
   }
 
   useEffect(() => {
     onchangeReason({
-      reason:actionvalue.name
+      reason: actionvalue.name,
     })
   }, [actionvalue])
 
@@ -49,15 +49,22 @@ const RefundReasonCard:FC = ({onchangeReason,defaultValue}) => {
     <div className="refundreason-card">
       <div className="refundreason-name">退款原因</div>
       <div className="refundreason-select" onClick={() => setVisible(true)}>
-        <span>{actionvalue.name?actionvalue.name:"请选择"}</span>
+        <span>{actionvalue.name ? actionvalue.name : '请选择'}</span>
         <Icon color="#999999" name="arrow" />
       </div>
       <ActionSheet title="退款原因" visible={visible} onCancel={() => setVisible(false)}>
         <div className="action-main">
           <Radio.Group value={actionvalue.id}>
             <Cell.Group>
-              {actions.map((item) => {
-                return <Cell key={item.id} title={item.name} onClick={() => setCellHandel(item)} rightIcon={<Radio name={item.id} />} />
+              {TabActions.map((item) => {
+                return (
+                  <Cell
+                    key={item.id}
+                    title={item.name}
+                    onClick={() => setCellHandel(item)}
+                    rightIcon={<Radio name={item.id} />}
+                  />
+                )
               })}
             </Cell.Group>
           </Radio.Group>

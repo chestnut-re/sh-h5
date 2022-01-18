@@ -1,38 +1,42 @@
-import React, { useState,useEffect, FC } from 'react'
+import React, { useState, useEffect, FC } from 'react'
 
 import './index.less'
 /**
  * 退改说明卡片
  */
-interface RefundAmountType{
-  refundTokenAmount:number;
-  refundAmount:number
+interface RefundAmountType {
+  refundTokenAmount: number
+  refundAmount: number
+  defaultValue: any
 }
 
-const RefundAmountCard: FC<RefundAmountType> = ({ refundTokenAmount, refundAmount }) => {
+const RefundAmountCard: FC<RefundAmountType> = ({ refundTokenAmount = 0, refundAmount = 0, defaultValue }) => {
+  const [refundAmountNum, setrefundAmount] = useState(refundAmount)
+  const [refundTokenAmountNum, setrefundTokenAmountNum] = useState(refundTokenAmount)
+  useEffect(() => {
+    if (defaultValue) {
+      const { refundAmount, tokenAmount } = defaultValue
+      setrefundAmount(refundAmount)
+      setrefundTokenAmountNum(tokenAmount)
+    }
+  }, [defaultValue])
 
-
-//   useEffect(()=>{
-//     if (defaultValue) {
-//         const {amount,tokenAmount} = defaultValue;
-//         setRemarks(remarks)
-        
-//     }
-// },[defaultValue])
   return (
-    <div className='refuamount-container'>
+    <div className="refuamount-container">
       <div className="refuamount-card">
         <div className="refuamount-name">退款金额</div>
         <div className="refuamount-r">
-          ¥<span>{refundAmount/100}</span>
+          ¥<span>{refundAmountNum / 100}</span>
         </div>
       </div>
-      {refundTokenAmount>0?<div className="refuamount-card">
-        <div className="refuamount-name">退回积分</div>
-        <div className="refuamount-r">
-          <span>{refundTokenAmount}</span>
+      {!isNaN(refundTokenAmountNum) ? (
+        <div className="refuamount-card">
+          <div className="refuamount-name">退回积分</div>
+          <div className="refuamount-r">
+            <span>{refundTokenAmountNum / 100}</span>
+          </div>
         </div>
-      </div>:null}
+      ) : null}
     </div>
   )
 }

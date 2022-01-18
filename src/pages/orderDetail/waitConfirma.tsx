@@ -14,6 +14,7 @@ import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
 import './index.less'
 import { OrderApi } from '@/service/OrderDetailApi'
+import { Toast } from 'react-vant'
 
 /**
  * 订单待确认入口页
@@ -43,7 +44,7 @@ const OrderConfirmaPage: FC = (props: any) => {
   //满足生成二维码条件数据 是否有出行人
   const [qrCodedata, setQrCodedata] = useState()
   //退款状态人员列表
-  const [refundList, setRefundList] = useState()
+  const [refundList, setRefundList] = useState([])
 
   useEffect(() => {
     SHBridge.setTitle('订单待核销')
@@ -52,7 +53,7 @@ const OrderConfirmaPage: FC = (props: any) => {
       orderId: orderId,
     })
       .then((result: any) => {
-        console.log('resultresultresult :>> ', result);
+        console.log('resultresultresult :>> ', result)
         const { code, data } = result
         if (code === '200' && data) {
           setRefundList(data)
@@ -121,17 +122,17 @@ const OrderConfirmaPage: FC = (props: any) => {
   //处理出行人列表数据根据不同子订单状态跳转不同订单详情
   const openTravelListItem = async (item) => {
     console.log('item :>> ', item)
-    const { state} = item
-    
-    console.log('orderRefundInfoziidngdan :>> ', orderRefundInfo)
+    const { orderId, refundId } = item
 
-    if (state != 3) {
+    if (refundId) {
       SHBridge.jump({
-        url: generateUrl(`/order-detail?orderId=${orderId}`),
+        url: generateUrl(`/apply-sales??orderId=${orderId}&refundId=${refundId}&type=2`),
         newWebView: true,
         replace: false,
         title: '订单详情',
       })
+    } else {
+      Toast('退款信息不存在！')
     }
 
     console.log('dakia :>> ')
@@ -181,7 +182,7 @@ const OrderConfirmaPage: FC = (props: any) => {
         )}
         <IndentCard orderNo={orderNo} payType={payType} orderTime={orderTime} payTime={payTime} />
         <BackCard />
-        {ordersTravel.map((item, index) => {
+        {refundList.map((item, index) => {
           return item.travelerName ? (
             <TripPeopleCard openTravelClick={openTravelListItem} {...item} key={index} />
           ) : null

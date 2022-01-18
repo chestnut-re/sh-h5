@@ -26,11 +26,8 @@ import clsx from 'clsx'
 interface IndexRefundType {
   orderInfo: any
 }
-const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
-  console.log('orderIorderInfoorderInfoorderInfoorderInfonfo :>> ', orderInfo)
-  const { search } = useLocation()
-  const { type, orderId, refundId } = qs.parse(search.slice(1))
-  const {
+const RefundFailure: FC<IndexRefundType> = ({
+  orderInfo: {
     goodsName,
     id,
     goodsId,
@@ -44,7 +41,10 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
     discountAmount,
     payAmount,
     travelId,
-  } = orderInfo
+  },
+}) => {
+  const { search } = useLocation()
+  const { type, orderId, refundId } = qs.parse(search.slice(1))
 
   const [showEmbedded, setShowEmbedded] = useState(false)
   //可退款数据
@@ -65,17 +65,15 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
     reason: '',
     remarks: '',
     ruleId: '',
-    refundTokenAmount: 0,
-    refundAmount: 0,
     suborderIds: [],
   })
 
-  useEffect(()=>{
-    //非编辑状态下 判断订单是否享受优惠有优惠弹框阻止 
-    if (discountAmount>0) {
+  useEffect(() => {
+    //非编辑状态下 判断订单是否享受优惠有优惠弹框阻止
+    if (discountAmount > 0) {
       setShowEmbedded(true)
     }
-  },[discountAmount])
+  }, [discountAmount])
 
   useEffect(() => {
     if (refundId) {
@@ -92,6 +90,7 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
               return item.travelerType == 0
             })
 
+            console.log('adultList childListchildListchildList:>> ', adultList, childList)
             setSuborderInfo({
               adultNum: adultList.length,
               adultRefundList: [...adultList],
@@ -99,17 +98,28 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
               childRefundList: [...childList],
             })
 
-            // setSubData((v) => {
-            //   return {
-            //     ...v,
-            //     adultNum: adultList.length,
-            //     childNum: childList.length,
-            //   }
-            // })
             setDefaultValueInfo({
               isedit: true,
               adultNum: adultList.length,
               childNum: childList.length,
+            })
+
+            const refundAmount = data.reduce((sum, w) => {
+              return w.payAmount + sum
+            }, 0)
+            const refundTokenAmount = data.reduce((sum, w) => {
+              const { tokenAmount } = w
+              if (tokenAmount) {
+                return tokenAmount + sum
+              }
+            }, 0)
+
+            setRefundInfo((v) => {
+              return {
+                ...v,
+                refundAmount: isNaN(refundAmount) ? 0 : refundAmount,
+                refundTokenAmount: isNaN(refundTokenAmount) ? 0 : refundTokenAmount,
+              }
             })
           }
         })
@@ -117,24 +127,34 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
           console.log('err :>> ', err)
         })
 
-        //获取退款单信息
-        RefundApis.RefundList(orderId)
-            .then((res) => {
-              console.log('res :>> ', res)
-              const { code, data } = res
-              if (code === '200') {
-                  const itemData = data.find(item => { return item.id == refundId })
-                    console.log('itemData<><<<<<<<<<<<<<<<<<<<< :>> ', itemData);
-                    setSubData(itemData)
-                    setRefundInfo(itemData)
-                // setRefundList(itemData)
+      //获取退款单信息
+      RefundApis.RefundList(orderId)
+        .then((res) => {
+          console.log('res :>> ', res)
+          const { code, data } = res
+          if (code === '200') {
+            const itemData = data.find((item) => {
+              return item.id == refundId
+            })
+            console.log('itemData<><<<<<<<<<<<<<<<<<<<< :>> ', itemData)
+            setSubData((v) => {
+              return {
+                ...v,
+                ...itemData,
               }
             })
-            .catch((err) => {
-              console.log('err :>> ', err)
+            setRefundInfo((v) => {
+              return {
+                ...v,
+                ...itemData,
+              }
             })
-
-
+            // setRefundList(itemData)
+          }
+        })
+        .catch((err) => {
+          console.log('err :>> ', err)
+        })
     } else {
       RefundApis.suborder(orderId)
         .then((res) => {
@@ -152,7 +172,6 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
 
   //提交退款申请
   const submitApplyRefund = () => {
-    console.log('subData :>> ', subData)
     const { reason, remarks, adultNum, credentialImageUrl, childNum } = subData
     if (!reason) {
       Toast('请选择退款原因')
@@ -164,7 +183,6 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
         return
       }
     }
-   
 
     if (!remarks) {
       Toast('请填写退款说明')
@@ -183,7 +201,6 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
       })
         .then((res) => {
           const { code, data } = res
-          console.log('res 提交申请:>> ', res)
           //  return
           if (code === '200' && data) {
             const { id } = data
@@ -193,19 +210,17 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
               replace: true,
               title: '申请退款',
             })
-          }else{
-            Toast("修改失败")
+          } else {
+            Toast('修改失败')
           }
         })
         .catch((err) => {
-          Toast("服务异常")
-          console.log('res修改退款说明err :>> ', err)
+          Toast('服务异常')
         })
     } else {
       RefundApis.submit(subData)
         .then((res) => {
           const { code, data } = res
-          console.log('res 提交申请:>> ', res)
           //  return
           if (code === '200' && data) {
             const { id } = data
@@ -220,8 +235,6 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
         .catch((err) => {
           console.log('err :>> ', err)
         })
-
-      console.log('object提交 :>> ')
     }
   }
   //处理人员数据改变
@@ -231,13 +244,11 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
     let refundAmount = 0
     let refundTokenAmount = 0
 
-    console.log('adultRefund>>>>>>>>List :>> ', adultRefundList)
-
     const adultRefund = adultRefundList ? adultRefundList.slice(0, val.adultNum) : []
     const childRefund = childRefundList ? childRefundList.slice(0, val.childNum) : []
     const aduChilList = [...adultRefund, ...childRefund]
-
     adultRefundList_options = aduChilList.map((item) => item.id)
+
     refundAmount = aduChilList.reduce((sum, w) => {
       return w.payAmount + sum
     }, 0)
@@ -303,7 +314,7 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
   }
 
   //考虑一下
-  const backConsider = ()=>{
+  const backConsider = () => {
     SHBridge.jump({
       url: generateUrl(`/order-detail?orderId=${orderId}`),
       newWebView: false,
@@ -329,16 +340,9 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
             tokenAmount={tokenAmount}
             discountAmount={discountAmount}
           />
-          {/* <PreferCard tokenAmount={tokenAmount}
-            adultNum={adultNum}
-            goodsId={goodsId}
-            childNum={childNum}
-            travelId={travelId}
-            discountAmount={discountAmount}
-            payAmount={payAmount} /> */}
         </div>
-        <RefundReasonCard onchangeReason={onchangeReasonHandle}  defaultValue={refundInfo} />
-        <div className={clsx(defaultValueInfo.isedit&&"refund-dis")}>
+        <RefundReasonCard onchangeReason={onchangeReasonHandle} defaultValue={refundInfo} />
+        <div className={clsx(defaultValueInfo.isedit && 'refund-dis')}>
           {updateType === 0 && (
             <RefundPieceCard
               defaultValue={defaultValueInfo}
@@ -358,7 +362,7 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
           </div>
         </div>
       </div>
-      <Overlay visible={showEmbedded&&!defaultValueInfo.isedit}>
+      <Overlay visible={showEmbedded && !defaultValueInfo.isedit}>
         <div className="refund-wrapper">
           <div className="refund-block">
             <div className="block-text">当前线路已享优惠购买，申请退款将错过本期优惠</div>
@@ -366,7 +370,9 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
               <div className="block-left btn-item" onClick={() => setShowEmbedded(false)}>
                 放弃优惠
               </div>
-              <div className="block-right btn-item" onClick={backConsider}>再考虑一下</div>
+              <div className="block-right btn-item" onClick={backConsider}>
+                再考虑一下
+              </div>
             </div>
           </div>
         </div>
