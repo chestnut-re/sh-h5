@@ -40,13 +40,14 @@ const ToDoListCard: FC<ToDoListType> = ({ goodsName, goodsId, rebateId, onToview
     const { id, isDestroy, updateTime, shareTime = 1 } = item
 
     const nextShareTime = dayjs(updateTime).utc().add(shareTime, 'hour').format('YYYY-MM-DD hh:mm:ss')
-    // return
-
     if (dayjs().isBefore(dayjs(nextShareTime))) {
       Toast('任务未达到分享时间')
       return
     } else {
-      shareTask(id)
+      shareTask({
+        taskId: id,
+        ...item,
+      })
     }
   }
   const sumProgress = (unlockBean, totalBean) => {
@@ -72,7 +73,7 @@ const ToDoListCard: FC<ToDoListType> = ({ goodsName, goodsId, rebateId, onToview
         {isMore && (
           <div className="todo-box-content">
             <ul className="todo-box-content-ul">
-              {rebateList.map(({ id, totalBean, unlockBean, updateTime, shareTime, isDestroy }) => {
+              {rebateList.map(({ id, totalBean, unlockBean, updateTime, state, shareTime, isDestroy }) => {
                 return (
                   <li className="tbcu-li" key={id}>
                     <div className="tbcu-li-name">
@@ -113,7 +114,7 @@ const ToDoListCard: FC<ToDoListType> = ({ goodsName, goodsId, rebateId, onToview
                       <div
                         className="tbcu-li-share-btn"
                         onClick={() => {
-                          shareTaskHandle({ id, isDestroy, updateTime, shareTime })
+                          shareTaskHandle({ id, isDestroy, updateTime, shareTime, state })
                         }}
                       >
                         立即分享

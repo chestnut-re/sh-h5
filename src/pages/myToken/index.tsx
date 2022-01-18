@@ -26,7 +26,7 @@ const MyTokenPage: React.FC = () => {
   //分享数据
   const [shareData, setShareData] = useState<any>()
   const [isshareCard, setisshareCard] = useState(false)
-  const [sharetaskId,setsharetaskId] = useState<any>();
+  const [sharetaskId, setsharetaskId] = useState<any>({})
   useEffect(() => {
     MyTokenService.getMyWallet().then((res: any) => {
       const { code, data } = res
@@ -36,22 +36,21 @@ const MyTokenPage: React.FC = () => {
     })
 
     getTaskList()
-    
   }, [])
 
-  const getTaskList = ()=>{
+  const getTaskList = () => {
     MyTokenService.rebateTask()
-    .then((res: any) => {
-      const { code, data } = res
-      if (code === '200' && data) {
-        setRebateTaskList(data)
-      } else {
-      }
-      console.log('res任务列表 :>> ', res)
-    })
-    .catch((err) => {
-      console.log('请求失败任务列表 :>> ', err)
-    })
+      .then((res: any) => {
+        const { code, data } = res
+        if (code === '200' && data) {
+          setRebateTaskList(data)
+        } else {
+        }
+        console.log('res任务列表 :>> ', res)
+      })
+      .catch((err) => {
+        console.log('请求失败任务列表 :>> ', err)
+      })
   }
 
   //去提现
@@ -67,22 +66,23 @@ const MyTokenPage: React.FC = () => {
     setShowEmbedded(true)
   }
 
-  const shareTask = (taskId) => {
+  const shareTask = (item) => {
+    const { taskId, state } = item
     // SHBridge.shareActivity(specialDetail)
-    console.log('taskId :>> ', taskId);
+    console.log('taskId :>> ', item)
     MyTokenService.shareParam({ taskId })
       .then((res) => {
         const { code, data } = res
         if (code === '200' && data) {
           setShareData(data)
           setisshareCard(true)
-          setsharetaskId(taskId)
+          setsharetaskId(item)
         } else {
-          Toast("服务异常")
+          Toast('服务异常')
         }
       })
       .catch((err) => {
-        Toast("系统错误")
+        Toast('系统错误')
         console.log('err :>> ', err)
       })
   }
@@ -91,12 +91,11 @@ const MyTokenPage: React.FC = () => {
   }
 
   const onshareChangeHandle = (item) => {
-    console.log('itemshareDatashareData :>> ', item)
-    const { goodsId, userId, goodsName, id, promotionalImageUrl } = item;
+    const { goodsId, userId, goodsName, id, promotionalImageUrl } = item
     oncloseModal()
     if (SHBridge.isLogin()) {
       const litterUrl = `${window.location.origin}/goods-detail?id=${goodsId}&userId=${userId}`
-      console.log('litterUrl :>> ', litterUrl);
+      console.log('litterUrl :>> ', litterUrl)
       SHBridge.shareDetail({
         type: 'goods',
         title: goodsName,
@@ -105,15 +104,18 @@ const MyTokenPage: React.FC = () => {
         littleUrl: litterUrl,
       })
       oncloseModal()
-      MyTokenService.unLockBean({ taskId: sharetaskId }).then((res) => {
-        const { code,msg, data } = res;
-        if (code === "200" && data) {
-          Toast('分享成功')
-          getTaskList()
-        }else{
-          Toast(msg)
-        }
-      })
+      const { taskId, state } = sharetaskId
+      if (state != 2) {
+        MyTokenService.unLockBean({ taskId: taskId }).then((res) => {
+          const { code, msg, data } = res
+          if (code === '200' && data) {
+            Toast('分享成功')
+            getTaskList()
+          } else {
+            Toast(msg)
+          }
+        })
+      }
     } else {
       SHBridge.login()
       // Toast('还未登录，请登录后分享')
@@ -192,7 +194,12 @@ const MyTokenPage: React.FC = () => {
           <div className="task-close" onClick={() => setShowEmbedded(false)}></div>
         </div>
       </Overlay>
-      <ModalOverlay shareData={shareData} onclose={oncloseModal} onshareChange={onshareChangeHandle} isShow={isshareCard} />
+      <ModalOverlay
+        shareData={shareData}
+        onclose={oncloseModal}
+        onshareChange={onshareChangeHandle}
+        isShow={isshareCard}
+      />
     </div>
   )
 }
