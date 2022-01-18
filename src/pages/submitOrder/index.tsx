@@ -227,8 +227,12 @@ const SubmitOrderPage: FC = () => {
     //     }
     // }
 
-    document.addEventListener("build",function(e){
-              console.log('e出发自定义事件 :>> ', e);
+    document.addEventListener("onResume",function(e){
+              console.log('e出发自定义事件 :>> ', e.state);
+              const {state} = e;
+              if(state === 0&&orderIdInfo){
+                      paySuccessLink(orderIdInfo)
+                    }
     },false)
     
   },[])
