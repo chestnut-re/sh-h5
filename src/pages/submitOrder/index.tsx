@@ -213,20 +213,7 @@ const SubmitOrderPage: FC = () => {
   }, [selectTime])
 
   useEffect(()=>{
-    //0是前台 1切换中 2后台
-    /**
-     * 
-     * @param type 0是前台 1切换中 2后台
-     * 监听来自APP的回调支付成功并且回到当前页面跳转到订单确认页
-     */
-    // window.changeAppLifecycleState = function(type){
-    //     console.log('orderIdInfo :>> ', type,orderIdInfo);
-    //     if(type === 0&&orderIdInfo){
-    //       // return
-    //       paySuccessLink(orderIdInfo)
-    //     }
-    // }
-
+ 
     document.addEventListener("onResume",function(e){
               const {state} = e;
               console.log('e出发自定义事件 :>> ', state,orderIdInfo);

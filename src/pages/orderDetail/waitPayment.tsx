@@ -16,8 +16,8 @@ import './index.less'
  * 订单待付款入口页
  */
 const COUNT_DOWN = 60 * 30 * 1000
-let reloadNum = 0;
-let orderIdInfo;
+let reloadNum = 0
+let orderIdInfo
 interface OrderPaymentType {
   promotionalImageUrl: string
   goodsName: string
@@ -35,7 +35,7 @@ interface OrderPaymentType {
   id: string
   goodsId: string
   travelId: string
-  residueTime:number
+  residueTime: number
   reloadOrder: () => void
 }
 const OrderPaymentPage: FC<OrderPaymentType> = ({
@@ -58,10 +58,7 @@ const OrderPaymentPage: FC<OrderPaymentType> = ({
   residueTime,
   reloadOrder,
 }) => {
-  
-
-  const [isorderId,setisorderId] = useState()
-
+  const [isorderId, setisorderId] = useState()
 
   const countDownStops = () => {
     if (reloadNum <= 1) {
@@ -80,20 +77,28 @@ const OrderPaymentPage: FC<OrderPaymentType> = ({
       title: '支付成功',
     })
   }
-  useEffect(()=>{
-    //0是前台 1切换中 2后台
-    /**
-     * 
-     * @param type 0是前台 1切换中 2后台
-     * 监听来自APP的回调支付成功并且回到当前页面跳转到订单确认页
-     */
-    window.changeAppLifecycleState = (type)=>{
-        console.log('objectypetypet :>> ', type);
-        if(type === 0&&orderIdInfo){
+  useEffect(() => {
+    document.addEventListener(
+      'onResume',
+      function (e) {
+        const { state } = e
+        console.log('e出发自定义事件 :>> ', state, orderIdInfo)
+        if (state === 0 && orderIdInfo) {
           paySuccessLink(orderIdInfo)
         }
+      },
+      false
+    )
+    return () => {
+      document.removeEventListener(
+        'onResume',
+        function (e) {
+          console.log('e :>> ', e)
+        },
+        false
+      )
     }
-  },[])
+  }, [])
 
   const HandleOrdersubmit = () => {
     const toast1 = Toast.loading({
@@ -108,8 +113,8 @@ const OrderPaymentPage: FC<OrderPaymentType> = ({
         const { code, msg, data } = res
         if (code == '200' && data) {
           if (data.code == '200') {
-            const { returnPayInfo, payType, orderId } = data.data;
-            orderIdInfo = orderId;
+            const { returnPayInfo, payType, orderId } = data.data
+            orderIdInfo = orderId
             switch (payType) {
               case 1:
                 toast1 && toast1.clear()
