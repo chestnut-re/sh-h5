@@ -38,8 +38,8 @@ const Panel: React.FC<Props> = ({ data, dataAll, isLike, myLikes, shares, goodsP
     })
   }, [isLike])
   const giveThumbs = () => {
-    setLove(!love)
     if (SHBridge.isLogin()) {
+      setLove(!love)
       GoodsDetailService.thumbsUp({ goodsId: goodsPriceId, shopId: shopId, type: 1, state: love ? 0 : 1 }).then(
         (res) => {
           console.log('123', res)
@@ -51,9 +51,11 @@ const Panel: React.FC<Props> = ({ data, dataAll, isLike, myLikes, shares, goodsP
   }
   const giveShare = () => {
     if (SHBridge.isLogin()) {
-      const litterUrl = `${window.location.origin}${window.location.pathname}?id=${dataAll?.id}&goodsPriceId=${dataAll?.goodsPriceId
-        }&userId=${getCookie('userId')}&isRebate=${dataAll?.isRebate}&isPurchase=${dataAll?.isPurchase}&isPurchaseAdd=${dataAll?.isPurchaseAdd
-        }`
+      const litterUrl = `${window.location.origin}${window.location.pathname}?id=${dataAll?.id}&goodsPriceId=${
+        dataAll?.goodsPriceId
+      }&userId=${getCookie('userId')}&isRebate=${dataAll?.isRebate}&isPurchase=${dataAll?.isPurchase}&isPurchaseAdd=${
+        dataAll?.isPurchaseAdd
+      }`
       SHBridge.shareDetail({
         type: 'goods',
         title: dataAll.goodsName,
@@ -97,7 +99,6 @@ const Panel: React.FC<Props> = ({ data, dataAll, isLike, myLikes, shares, goodsP
           <p>咨询</p>
         </div>
       )}
-
     </div>
   )
 }
