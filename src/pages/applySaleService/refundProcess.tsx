@@ -56,52 +56,46 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
     tokenAmount: 0,
     updateTime: '',
   })
-  const [BarsConfig, setBarsConfig] = useState({
-    onSelect: (item) => {
-      const { key } = item
-      switch (key) {
-        case 'ZX':
-          //再次购买处理
-          // SHBridge.jump({
-          //   url: generateUrl(`/submit-order?id=${goodsId}`),
-          //   newWebView: true,
-          //   replace: false,
-          //   title: '提交订单',
-          // })
-          break
-        case 'ZCGM':
-          //再次购买处理
-          SHBridge.jump({
-            url: generateUrl(`/submit-order?id=${goodsId}`),
-            newWebView: true,
-            replace: false,
-            title: '提交订单',
-          })
-          break
-        case 'CXSQ':
-          // FillTraveHandelfun()
-          cancelRefund()
-          break
-        default:
-          break
-      }
-    },
-    onPopoverAction: (item) => {
-      SHBridge.jump({
-        url: generateUrl(`/apply-sales?id=${id}&type=1&refundId=${refundList.id}`),
-        newWebView: false,
-        replace: true,
-        title: '修改申请',
-      })
-      console.log('item :>> ', item)
-    },
-  })
+  const [BarsConfig, setBarsConfig] = useState({})
 
-  // const BarsConfig = {
-  //   btnGroups: [],
-  //   leftBtnGroups: refundList.refundState == 1 ? [{ text: '修改申请', key: 'XGSQ' }] : [],
-
-  // }
+  const onSelectClick = (item) => {
+    const { key } = item
+    switch (key) {
+      case 'ZX':
+        //再次购买处理
+        // SHBridge.jump({
+        //   url: generateUrl(`/submit-order?id=${goodsId}`),
+        //   newWebView: true,
+        //   replace: false,
+        //   title: '提交订单',
+        // })
+        break
+      case 'ZCGM':
+        //再次购买处理
+        SHBridge.jump({
+          url: generateUrl(`/submit-order?id=${goodsId}`),
+          newWebView: true,
+          replace: false,
+          title: '提交订单',
+        })
+        break
+      case 'CXSQ':
+        // FillTraveHandelfun()
+        cancelRefund()
+        break
+      default:
+        break
+    }
+  }
+  const onPopoverActionClick = (item) => {
+    SHBridge.jump({
+      url: generateUrl(`/apply-sales?id=${id}&type=1&refundId=${refundList.id}`),
+      newWebView: false,
+      replace: true,
+      title: '修改申请',
+    })
+    console.log('item :>> ', item)
+  }
 
   useEffect(() => {
     if (refundList.refundState == 1) {
@@ -167,6 +161,7 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
           const itemData = data.find((item) => {
             return item.id == refundId
           })
+          console.log('itemDataitemDataitemData :>> ', itemData)
           setRefundList(itemData)
         }
       })
@@ -196,7 +191,7 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
         </div>
         <BackCard />
       </div>
-      <CompleteFooter {...BarsConfig} />
+      <CompleteFooter {...BarsConfig} onSelect={onSelectClick} onPopoverAction={onPopoverActionClick} />
     </div>
   )
 }

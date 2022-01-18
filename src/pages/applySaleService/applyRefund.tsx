@@ -218,9 +218,11 @@ const RefundFailure: FC<IndexRefundType> = ({
           const { code, data } = res
           //  return
           if (code === '200' && data) {
-            const { id } = data
+            // const { id } = data
+            console.log('res :>> ', res)
+
             SHBridge.jump({
-              url: generateUrl(`/apply-sales?orderId=${orderId}&type=2&refundId=${id}`),
+              url: generateUrl(`/apply-sales?orderId=${orderId}&type=2&refundId=${data.id}`),
               newWebView: false,
               replace: true,
               title: '申请退款',
