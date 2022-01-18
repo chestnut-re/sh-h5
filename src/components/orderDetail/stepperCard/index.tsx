@@ -5,6 +5,7 @@ import integralIcon from '@/assets/img/integral_icon.png'
 import questionIcon from '@/assets/img/question_icon@3x.png'
 import StepperRui from '@/components/orderDetail/stepperCard/stepperRui'
 import './index.less'
+import { number } from 'echarts'
 
 /**
  * 订单步进器选择卡片包含
@@ -41,6 +42,8 @@ const StepperCard: FC<StepType> = ({
   const [inteNum, setInteNum] = useState(0)
   //库存数量
   const [stockNum, setstockNum] = useState(2)
+ //乐豆最大抵扣数量
+ const [maxInteNum, setMaxInteNum] = useState(0)
 
   useEffect(() => {
     console.log('obje库存改变ct :>> ', stock)
@@ -50,6 +53,15 @@ const StepperCard: FC<StepType> = ({
   const getExamine = () => {
     handleDiscounts()
   }
+
+  useEffect(()=>{
+      if(pointsDeduction>tokenAmountNum){
+        const tokenAmountNums = parseInt(tokenAmountNum/100)
+        setMaxInteNum(tokenAmountNums)
+      }else{
+        setMaxInteNum(parseInt(pointsDeduction/100))
+      }
+  },[pointsDeduction,tokenAmountNum])
 
   useEffect(() => {
     handleStepper({
@@ -105,7 +117,7 @@ const StepperCard: FC<StepType> = ({
               />
             </div>
           </li>
-          {(pointsDeduction / RMB_CON)>=1 && tokenAmountNum >= 1 ? (
+          {(maxInteNum)>=1 && tokenAmountNum >= 1 ? (
             <li className="step-boxli">
               <div className="step-name hairline--icon">
                 <Icon size="4vw" className="integra-icon" name={integralIcon} />
@@ -128,10 +140,10 @@ const StepperCard: FC<StepType> = ({
         </ul>
       </div>
 
-      {(pointsDeduction / RMB_CON)>=1 && tokenAmountNum >= 1 ? (
+      {(pointsDeduction / RMB_CON)>=1 && maxInteNum >= 1 ? (
         <div className="info-integral rv-hairline--bottom">
           <div className="integral-instruction">
-            此订单最多可用{pointsDeduction / RMB_CON}.00金豆抵<span>¥{pointsDeduction / RMB_CON}.00</span>
+            此订单最多可用{maxInteNum}.00乐豆抵<span>¥{maxInteNum}.00</span>
           </div>
         </div>
       ) : null}
