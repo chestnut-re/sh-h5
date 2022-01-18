@@ -55,7 +55,7 @@ const StepperCard: FC<StepType> = ({
     handleStepper({
       adultNum: adultNum && adultNum > 0 ? adultNum : 1, //成人数量
       childNum: childNum && childNum >= 0 ? childNum : 0, //儿童数量
-      intNum: inteNum, //积分
+      intNum: inteNum*100, //积分
     })
   }, [adultNum, childNum, inteNum])
   //处理成人数量
@@ -98,7 +98,7 @@ const StepperCard: FC<StepType> = ({
             </div>
             <div className="step-content">
               <StepperRui
-                value={inteNum}
+                value={childNum}
                 min={0}
                 max={stockNum - adultNum}
                 changeValue={(val) => setChildNumRuiValue(val)}
@@ -110,12 +110,12 @@ const StepperCard: FC<StepType> = ({
               <div className="step-name hairline--icon">
                 <Icon size="4vw" className="integra-icon" name={integralIcon} />
                 <span className='hellp-icon'>乐豆</span>
-                <span className="name-subtitle">共{tokenAmountNum}</span>
+                <span className="name-subtitle">共{tokenAmountNum / RMB_CON}</span>
               </div>
               <div className="step-content">
                 <ConfigProvider themeVars={themeVars}>
                   <StepperRui
-                    value={childNum}
+                    value={inteNum}
                     min={0}
                     max={pointsDeduction / RMB_CON}
                     changeValue={(val) => setinteNumRuiValue(val)}
