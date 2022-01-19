@@ -24,6 +24,7 @@ import './index.less'
  * url 必填入参
  * id : 商品id
  * source：下单途径:1 自然获客、2 分享任务链接、3 分享普通链接、4 线下扫码
+ * taskId:任务id来自乐豆分享
  * isRebate 是否返利商品：0否1是 已弃用
  */
 
@@ -41,7 +42,7 @@ const SubmitOrderPage: FC = () => {
   let UseToast
 
   const { search } = useLocation()
-  const { id, source, userId } = qs.parse(search.slice(1))
+  const { id, source, userId, taskId } = qs.parse(search.slice(1))
   //是否是限购商品
   const [isPurchase, setisPurchase] = useState(false)
   //是否开启增加限购按钮
@@ -408,6 +409,7 @@ const SubmitOrderPage: FC = () => {
         payAmount: priceNum,
         payType: payType,
         source: source && source != 'undefined' && source != 'null' ? source : 1,
+        taskId: taskId && taskId != 'undefined' && taskId != 'null' ? taskId : '',
         state: 1,
         travelId: goodsPriceId,
         discountAmount: preferPrice,

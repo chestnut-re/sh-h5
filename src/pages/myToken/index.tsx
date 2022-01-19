@@ -91,10 +91,12 @@ const MyTokenPage: React.FC = () => {
   }
 
   const onshareChangeHandle = (item) => {
-    const { goodsId, userId, goodsName, id, promotionalImageUrl } = item
+    const { goodsId, userId, goodsName, id, promotionalImageUrl, rebateType } = item
+    console.log('item :>> ', item)
+
     oncloseModal()
     if (SHBridge.isLogin()) {
-      const litterUrl = `${window.location.origin}/goods-detail?id=${goodsId}&userId=${userId}&source=2`
+      const litterUrl = `${window.location.origin}/goods-detail?id=${goodsId}&userId=${userId}&source=2&taskId=${id}&rebateType=${rebateType}`
       console.log('litterUrl :>> ', litterUrl)
       SHBridge.shareDetail({
         type: 'goods',
