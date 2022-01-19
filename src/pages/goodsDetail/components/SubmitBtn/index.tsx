@@ -27,6 +27,7 @@ const SubmitBtn: React.FC<Props> = ({ dataAll, templateKey, img }) => {
     pageRef.current.id = params['id']
     pageRef.current.goodsPriceId = params['goodsPriceId']
     pageRef.current.source = params['source']
+    pageRef.current.userId = params['userId']
 
     isWeChat().then((res) => {
       setWeChat(res)
@@ -48,11 +49,7 @@ const SubmitBtn: React.FC<Props> = ({ dataAll, templateKey, img }) => {
       })
     })
   }
-  const litterUrl = `${window.location.origin}${window.location.pathname}?id=${dataAll?.id}&goodsPriceId=${
-    dataAll?.goodsPriceId
-  }&userId=${getCookie('userId')}&isPurchase=${dataAll?.isPurchase}&isPurchaseAdd=${dataAll?.isPurchaseAdd}&source=${
-    pageRef.current.source
-  }`
+  const litterUrl = `${window.location.origin}${window.location.pathname}?id=${dataAll?.id}&goodsPriceId=${dataAll?.goodsPriceId}&userId=${pageRef.current.userId}&isPurchase=${dataAll?.isPurchase}&isPurchaseAdd=${dataAll?.isPurchaseAdd}&source=${pageRef.current.source}`
 
   const pathURL = `/pages/webview/index.html?url=${encodeURIComponent(litterUrl)}`
 
