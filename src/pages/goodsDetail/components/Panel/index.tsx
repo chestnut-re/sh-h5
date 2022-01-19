@@ -53,7 +53,7 @@ const Panel: React.FC<Props> = ({ data, dataAll, isLike, myLikes, shares, goodsP
     if (SHBridge.isLogin()) {
       const litterUrl = `${window.location.origin}${window.location.pathname}?id=${dataAll?.id}&goodsPriceId=${
         dataAll?.goodsPriceId
-      }&userId=${getCookie('userId')}&isRebate=${dataAll?.isRebate}&isPurchase=${dataAll?.isPurchase}&isPurchaseAdd=${
+      }&userId=${getCookie('userId')}&isPurchase=${dataAll?.isPurchase}&isPurchaseAdd=${
         dataAll?.isPurchaseAdd
       }&source=3`
       SHBridge.shareDetail({
