@@ -109,7 +109,7 @@ const OrderConfirmaPage: FC = (props: any) => {
 
     setQrCodedata(conformData)
     const isall = ordersTravel.some((item) => {
-      return !item.refundState
+      return !item.refundState || item.refundState == 3 || item.refundState == 5
     })
 
     setisallrefund(isall)
