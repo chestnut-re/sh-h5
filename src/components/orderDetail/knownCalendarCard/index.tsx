@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, FC } from 'react'
 import dayjs from 'dayjs'
-import { Calendar } from 'react-vant'
+import { Calendar, ConfigProvider } from 'react-vant'
 import type { CalendarInstance } from 'react-vant'
 import './index.less'
 /**
@@ -35,22 +35,25 @@ const isCalendarDisabled = (time, timelist: any[] = []) => {
     }
   }
 }
-
+const themeVars = {
+  '--rv-calendar-header-title-height': 0,
+  '--rv-calendar-popup-height': '10%',
+}
 interface KnownCalendarType {
   calendata?: any[] //可选时间 集合
   selecttime: any //选中时间
   selectedHandelCalend: (val) => void //时间选择回调函数
 }
 
-const KnownCalendarCard: FC<KnownCalendarType> = (props) => {
+const KnownCalendarCard: FC<KnownCalendarType> = ({ calendata = [], selecttime, selectedHandelCalend }) => {
   const refContainer = useRef<any>(null)
   const activeRef = useRef(null)
 
-  const { calendata=[], selecttime } = props
   //ref获取日历方法
   const calendarRef = useRef<CalendarInstance>()
   //显隐日历
   const [visible, setVisible] = useState(false)
+
   //监听数据改变更改日历对应时间高亮
   useEffect(() => {
     calendarRef.current.reset(dayjs(selecttime?.startDate).toDate())
@@ -62,19 +65,18 @@ const KnownCalendarCard: FC<KnownCalendarType> = (props) => {
 
   //日期选择确定
   const onConfirms = (date) => {
-    console.log('object执行时间选择 :>> ', date);
+    console.log('object执行时间选择 :>> ', date)
     const dateStr = dayjs(date).format('YYYY-MM-DD')
     const dayitem = calendata?.find((item) => {
       return item.startDate == dateStr
     })
 
     setVisible(false)
-    props.selectedHandelCalend(dayitem)
+    selectedHandelCalend(dayitem)
   }
   //父组件发送数据
   const onHandelSelected = (item) => {
-    
-    props.selectedHandelCalend(item)
+    selectedHandelCalend(item)
   }
   //格式化日历对应数据
   const formatter = (day) => {
@@ -83,15 +85,15 @@ const KnownCalendarCard: FC<KnownCalendarType> = (props) => {
     if (dayitem.type == 'disabled') {
       day.type = 'disabled'
     } else {
+      day.topInfo = `库存${dayitem.stock}`
       day.bottomInfo = `¥${dayitem.bottomInfo / RMB_CON}`
     }
     return day
   }
-  const setHnadelVisible = ()=>{
+  const setHnadelVisible = () => {
     if (!visible) {
       setVisible(true)
     }
-    
   }
   const onTransformScroll = (target, animation = 'smooth') => {
     // 计算当前标签到最左侧的宽度,本身的宽度
@@ -117,6 +119,15 @@ const KnownCalendarCard: FC<KnownCalendarType> = (props) => {
     }
   }
 
+  const TitleDom = () => {
+    return (
+      <div className="kcalendar-title-b">
+        <p>选择出发日期</p>
+        {/* <div className='kcalendar-save-btn'>确认</div> */}
+      </div>
+    )
+  }
+
   return (
     <>
       <div className="KCalendar-container">
@@ -139,11 +150,13 @@ const KnownCalendarCard: FC<KnownCalendarType> = (props) => {
               )
             })}
           </div>
-          {calendata.length>4?(<div className="kcalendar-more">
-            <div className="more-btn" onClick={() => setHnadelVisible()}>
-              查看更多
+          {calendata.length > 4 ? (
+            <div className="kcalendar-more">
+              <div className="more-btn" onClick={() => setHnadelVisible()}>
+                查看更多
+              </div>
             </div>
-          </div>):null}
+          ) : null}
         </div>
         <div className="kcalendar-box">
           <div className="kcalendar-item-l">
@@ -154,17 +167,23 @@ const KnownCalendarCard: FC<KnownCalendarType> = (props) => {
           </div>
         </div>
       </div>
-      <Calendar
-        ref={calendarRef}
-        title="选择出发日期"
-        weekdays={['周日', '周一', '周二', '周三', '周四', '周五', '周六']}
-        onClose={() => setVisible(false)}
-        visible={visible}
-        showConfirm={false}
-        color="#4dcfc5"
-        formatter={formatter}
-        onConfirm={onConfirms}
-      />
+      <ConfigProvider themeVars={themeVars}>
+        <Calendar
+          ref={calendarRef}
+          title="选择出发日期"
+          weekdays={['周日', '周一', '周二', '周三', '周四', '周五', '周六']}
+          onClose={() => setVisible(false)}
+          visible={visible}
+          showConfirm={false}
+          color="#4dcfc5"
+          rowHeight={'17.06667vw'}
+          formatter={formatter}
+          showMark={false}
+          // formatMonthTitle={(date) => ``}
+          title={<TitleDom />}
+          onConfirm={onConfirms}
+        />
+      </ConfigProvider>
     </>
   )
 }

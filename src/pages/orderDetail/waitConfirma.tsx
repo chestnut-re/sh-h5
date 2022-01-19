@@ -59,11 +59,6 @@ const OrderConfirmaPage: FC = (props: any) => {
         const { code, data } = result
         if (code === '200' && data) {
           setRefundList(data)
-
-          const isall = data.some((item) => {
-            return !item.refundState
-          })
-          setisallrefund(isall)
         }
       })
       .catch((err) => {
@@ -112,8 +107,12 @@ const OrderConfirmaPage: FC = (props: any) => {
       return item.travelerName
     })
 
-    console.log('conformData :>> ', conformData)
     setQrCodedata(conformData)
+    const isall = ordersTravel.some((item) => {
+      return !item.refundState
+    })
+
+    setisallrefund(isall)
   }, [ordersTravel])
 
   //处理展开二维码
