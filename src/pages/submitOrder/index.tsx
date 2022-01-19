@@ -571,7 +571,8 @@ const SubmitOrderPage: FC = () => {
         {isPurchase && purchaseConfigInfo ? (
           <div className="puorder-purchasing">
             <div className="puorder-purchasing-left">
-              限{purchaseConfigInfo.purchaseDay}天内，成人{purchaseConfigInfo.maxNum}份
+              限{purchaseConfigInfo.purchaseDay}天内，成人{purchaseConfigInfo.countNum}，剩余{purchaseConfigInfo.maxNum}
+              份
             </div>
             {isPurchaseAdd ? (
               <div className="puorder-purchasing-right" onClick={addPurchasingNum}>
