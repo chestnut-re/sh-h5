@@ -102,7 +102,7 @@ const ToDoListCard: FC<ToDoListType> = ({ goodsName, goodsId, rebateId, onToview
                       <div className="tbcu-li-content-top">
                         <div className="tlct-left">
                           <span className="tlct-left-name">已解锁</span>
-                          <span className="tlct-left-num">{unLockBean ?? 0}</span>
+                          <span className="tlct-left-num">{unLockBean ? unLockBean / 100 : 0}</span>
                         </div>
                         {isDestroy != 1 && <div className="tlct-right">核销订单后可用</div>}
                       </div>

@@ -513,7 +513,7 @@ const SubmitOrderPage: FC = () => {
   //分享商品
   const sharePurchase = () => {
     const { id, goodsName, goodsNickName, promotionalImageUrl } = submitinfo
-    const litterUrl = `${window.location.origin}/goods-detail?id=${id}&userId=${getCookie('userId')}`
+    const litterUrl = `${window.location.origin}/goods-detail?id=${id}&userId=${getCookie('userId')}&source=2`
     console.log('litterUrl :>> ', litterUrl)
     SHBridge.shareDetail({
       type: 'goods',

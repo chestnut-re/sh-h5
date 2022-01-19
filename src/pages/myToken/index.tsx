@@ -94,7 +94,7 @@ const MyTokenPage: React.FC = () => {
     const { goodsId, userId, goodsName, id, promotionalImageUrl } = item
     oncloseModal()
     if (SHBridge.isLogin()) {
-      const litterUrl = `${window.location.origin}/goods-detail?id=${goodsId}&userId=${userId}`
+      const litterUrl = `${window.location.origin}/goods-detail?id=${goodsId}&userId=${userId}&source=2`
       console.log('litterUrl :>> ', litterUrl)
       SHBridge.shareDetail({
         type: 'goods',

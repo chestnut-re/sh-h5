@@ -49,11 +49,11 @@ const RefundInstrucCard: FC<RefundInstrucType> = ({ refundInsChange, defaultValu
     SHBridge.getImage((data) => {
       console.log('data文件上传 :>> ', data)
       if (data) {
-        const { ossServerUrl, fileUrl } = data
-        const imgUrl = `${ossServerUrl}${fileUrl}`
+        const { privateUrl } = data
+        // const imgUrl = `${ossServerUrl}${fileUrl}`
         file.status = 'success'
         file.message = '上传成功'
-        file.content = imgUrl
+        file.content = privateUrl
         setImgFileList((v) => {
           const nv = [...v]
           nv[index] = file
