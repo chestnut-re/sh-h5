@@ -50,10 +50,12 @@ const ToDoListCard: FC<ToDoListType> = ({ goodsName, goodsId, rebateId, onToview
   }, [rebateList])
   //分享任务
   const shareTaskHandle = (item) => {
-    const { id, isDestroy, updateTime, shareTime = 1 } = item
+    const { id, updateTime, shareTime = 1 } = item
 
     const nextShareTime = dayjs(updateTime).utc().add(shareTime, 'hour').format('YYYY-MM-DD hh:mm:ss')
-    if (dayjs().isBefore(dayjs(nextShareTime))) {
+    const nextTime = dayjs().isBefore(dayjs(nextShareTime))
+    //首次分享updateTime可能为null
+    if (updateTime && nextTime) {
       Toast('任务未达到分享时间')
       return
     } else {
