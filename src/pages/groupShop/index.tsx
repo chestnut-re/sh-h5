@@ -129,7 +129,7 @@ const GroupShopPage: FC = () => {
       console.log('litterUrl :>> ', litterUrl)
       const { shopName, shopDesc, shopHeadUrl } = shopInfo
       SHBridge.shareDetail({
-        type: 'goods',
+        type: 'shop',
         title: shopName,
         description: shopDesc,
         headUrl: shopHeadUrl,
