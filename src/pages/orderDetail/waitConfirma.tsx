@@ -45,6 +45,9 @@ const OrderConfirmaPage: FC = (props: any) => {
   //退款状态人员列表
   const [refundList, setRefundList] = useState([])
 
+  //判断是不是所有人都已退款 不展示售后入口
+  const [isallrefund, setisallrefund] = useState(false)
+
   useEffect(() => {
     SHBridge.setTitle('订单待核销')
 
@@ -56,6 +59,11 @@ const OrderConfirmaPage: FC = (props: any) => {
         const { code, data } = result
         if (code === '200' && data) {
           setRefundList(data)
+
+          const isall = data.some((item) => {
+            return !item.refundState
+          })
+          setisallrefund(isall)
         }
       })
       .catch((err) => {
@@ -69,7 +77,7 @@ const OrderConfirmaPage: FC = (props: any) => {
       { name: '再次购买', key: 'ZCGM' },
       { name: qrCodedata ? '' : '填写出行人信息', key: 'TXCXR' },
     ],
-    leftBtnGroups: [{ text: '申请售后', key: 'SQSH' }],
+    leftBtnGroups: isallrefund ? [{ text: '申请售后', key: 'SQSH' }] : [],
     onSelect: (item) => {
       const { key } = item
       switch (key) {

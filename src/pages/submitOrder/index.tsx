@@ -407,7 +407,7 @@ const SubmitOrderPage: FC = () => {
         originPrice: personCurrentPrice * adultNum + childCurrentPrice * childNum * RMB_CON,
         payAmount: priceNum,
         payType: payType,
-        source: source ? source : 1,
+        source: source && source != 'undefined' && source != 'null' ? source : 1,
         state: 1,
         travelId: goodsPriceId,
         discountAmount: preferPrice,
@@ -556,6 +556,7 @@ const SubmitOrderPage: FC = () => {
               handleDiscounts={handleDiscountsInfo}
               purchaseConfigInfo={purchaseConfigInfo}
               onChangeClickAdultNum={getPurchase}
+              isPurchase={isPurchase}
             />
           </div>
           <PayTypeCard changePayType={handlePayType} />

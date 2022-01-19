@@ -18,9 +18,10 @@ interface StepType {
   handleStepper: (val) => void
   selectTime: any
   priceSet: any
-  tokenAmountNum: number,
-  onChangeClickAdultNum?:()=>void,
-  purchaseConfigInfo:any; //限购数据
+  tokenAmountNum: number
+  onChangeClickAdultNum?: () => void
+  purchaseConfigInfo: any //限购数据'
+  isPurchase: boolean
 }
 
 const StepperCard: FC<StepType> = ({
@@ -30,7 +31,8 @@ const StepperCard: FC<StepType> = ({
   handleStepper,
   handleDiscounts,
   onChangeClickAdultNum,
-  purchaseConfigInfo
+  purchaseConfigInfo,
+  isPurchase,
 }) => {
   //成人数量
   const [adultNum, setAdultNum] = useState(1)
@@ -40,38 +42,38 @@ const StepperCard: FC<StepType> = ({
   const [inteNum, setInteNum] = useState(0)
   //库存数量
   const [stockNum, setstockNum] = useState(2)
- //乐豆最大抵扣数量
- const [maxInteNum, setMaxInteNum] = useState(0)
+  //乐豆最大抵扣数量
+  const [maxInteNum, setMaxInteNum] = useState(0)
 
   useEffect(() => {
     console.log('obje库存改变ct :>> ', stock)
     setstockNum(stock)
-  }, [stock,purchaseConfigInfo])
+  }, [stock, purchaseConfigInfo])
 
   const getExamine = () => {
     handleDiscounts()
   }
 
-  useEffect(()=>{
-      if(pointsDeduction>tokenAmountNum){
-        const tokenAmountNums = parseInt(tokenAmountNum/100)
-        setMaxInteNum(tokenAmountNums)
-      }else{
-        setMaxInteNum(parseInt(pointsDeduction/100))
-      }
-  },[pointsDeduction,tokenAmountNum])
+  useEffect(() => {
+    if (pointsDeduction > tokenAmountNum) {
+      const tokenAmountNums = parseInt(tokenAmountNum / 100)
+      setMaxInteNum(tokenAmountNums)
+    } else {
+      setMaxInteNum(parseInt(pointsDeduction / 100))
+    }
+  }, [pointsDeduction, tokenAmountNum])
 
   useEffect(() => {
     handleStepper({
       adultNum: adultNum && adultNum > 0 ? adultNum : 1, //成人数量
       childNum: childNum && childNum >= 0 ? childNum : 0, //儿童数量
-      intNum: inteNum*100, //积分
+      intNum: inteNum * 100, //积分
     })
   }, [adultNum, childNum, inteNum])
   //处理成人数量
   const setGrownNumRuiValue = (val) => {
     setAdultNum(val)
-    onChangeClickAdultNum&&onChangeClickAdultNum()
+    onChangeClickAdultNum && onChangeClickAdultNum()
   }
   //处理儿童数量
   const setChildNumRuiValue = (val) => {
@@ -97,7 +99,7 @@ const StepperCard: FC<StepType> = ({
                 value={adultNum}
                 min={1}
                 max={stockNum - childNum}
-                isdisabled={false}
+                isdisabled={!isPurchase}
                 changeValue={(val) => setGrownNumRuiValue(val)}
               />
             </div>
@@ -115,10 +117,10 @@ const StepperCard: FC<StepType> = ({
               />
             </div>
           </li>
-          {(maxInteNum)>=1 && tokenAmountNum >= 1 ? (
+          {maxInteNum >= 1 && tokenAmountNum >= 1 ? (
             <li className="step-boxli">
               <div className="step-name hairline--icon">
-                <span className='hellp-icon'>乐豆</span>
+                <span className="hellp-icon">乐豆</span>
                 <span className="name-subtitle">共{tokenAmountNum / RMB_CON}</span>
               </div>
               <div className="step-content">
@@ -131,13 +133,13 @@ const StepperCard: FC<StepType> = ({
                   />
                 </ConfigProvider>
               </div>
-              <div className='hellp-icon-l'></div>
+              <div className="hellp-icon-l"></div>
             </li>
           ) : null}
         </ul>
       </div>
 
-      {(pointsDeduction / RMB_CON)>=1 && maxInteNum >= 1 ? (
+      {pointsDeduction / RMB_CON >= 1 && maxInteNum >= 1 ? (
         <div className="info-integral rv-hairline--bottom">
           <div className="integral-instruction">
             此订单最多可用{maxInteNum}.00乐豆抵<span>¥{maxInteNum}.00</span>
