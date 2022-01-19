@@ -55,7 +55,7 @@ const Panel: React.FC<Props> = ({ data, dataAll, isLike, myLikes, shares, goodsP
         dataAll?.goodsPriceId
       }&userId=${getCookie('userId')}&isRebate=${dataAll?.isRebate}&isPurchase=${dataAll?.isPurchase}&isPurchaseAdd=${
         dataAll?.isPurchaseAdd
-      }`
+      }&source=3`
       SHBridge.shareDetail({
         type: 'goods',
         title: dataAll.goodsName,
@@ -65,7 +65,6 @@ const Panel: React.FC<Props> = ({ data, dataAll, isLike, myLikes, shares, goodsP
       })
     } else {
       SHBridge.login()
-      // Toast('还未登录，请登录后分享')
     }
   }
   const giveAsk = () => {
