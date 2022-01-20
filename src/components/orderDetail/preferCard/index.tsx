@@ -7,8 +7,8 @@ import './index.less'
 /**
  * 积分、优惠卡片
  */
-const RMB_CON = 1000
-
+// const RMB_CON = 1000
+import { RMB_CON } from '@/utils/currency'
 interface PreferType {
   tokenAmount: number
   discountAmount: number
@@ -37,7 +37,7 @@ const PreferCard: FC<PreferType> = (props) => {
             <span>乐豆</span>
           </div>
           <div className="integral-instruction">
-            使用{tokenAmount / RMB_CON}乐豆<span>-¥{tokenAmount / RMB_CON}</span>
+            使用{RMB_CON(tokenAmount)}乐豆<span>-¥{RMB_CON(tokenAmount)}</span>
           </div>
         </div>
       ) : null}
@@ -49,7 +49,7 @@ const PreferCard: FC<PreferType> = (props) => {
         </div>
         <div className="discounts-instruction">
           <div className="instruction-l">
-            已优惠<span>¥{discountAmount / RMB_CON}</span>&nbsp; 共计<span>¥{payAmount / RMB_CON}</span>
+            已优惠<span>¥{RMB_CON(discountAmount)}</span>&nbsp; 共计<span>¥{RMB_CON(payAmount)}</span>
           </div>
         </div>
       </div>

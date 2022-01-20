@@ -11,7 +11,7 @@ import './index.less'
 /**
  * w我的代币
  */
-const RMB_CON = 1000
+import { RMB_CON } from '@/utils/currency'
 const themeVars = {
   '--rv-empty-description-font-size': '3.46667vw',
   '--rv-empty-description-color': '#666666',
@@ -43,7 +43,6 @@ const MyTokenPage: React.FC = () => {
         setTotalAmount(data.totalAmount)
       }
     })
-
     getTaskList()
   }, [])
 
@@ -148,7 +147,7 @@ const MyTokenPage: React.FC = () => {
             乐豆余额
           </div>
           <div className="mtkon-header-with">
-            <div className="mhw-left">{totalAmount == 0 ? 0 : (totalAmount / RMB_CON).toFixed(2)}</div>
+            <div className="mhw-left">{RMB_CON(totalAmount)}</div>
             <div className="mhw-right">
               <div className="mhw-right-btn" onClick={toWithDraw}>
                 提现

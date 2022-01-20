@@ -22,8 +22,8 @@ const themeVars = {
 }
 
 const COUNT_DOWN = 60 * 30 * 1000
-const RMB_CON = 1000
-
+// const RMB_CON = 1000
+import { RMB_CON } from '@/utils/currency'
 interface ManageItemProps {
   orderItem: {
     state?: number
@@ -88,7 +88,7 @@ const ManageItem: FC<ManageItemProps> = (props) => {
               {oitem.state == 5 || oitem.state == 6 || oitem.state == 7 ? (
                 <span className="micr-price-text">退款金额</span>
               ) : null}
-              ¥{oitem?.payAmount / RMB_CON}
+              ¥{RMB_CON(oitem.payAmount)}
             </div>
           )}
         </div>

@@ -30,7 +30,8 @@ interface ManageProps {
   promotionalImageUrl?: string
   payTime?: string
 }
-const RMB_CON = 1000
+// const RMB_CON = 1000
+import { RMB_CON } from '@/utils/currency'
 const ManageDetailItem: FC<ManageProps> = (props) => {
   const { goodsName, payAmount, orderUserName, orderTime, orderNo, state, promotionalImageUrl, payTime } = props
   const [countdowntime, setCountdownTime] = useState<number>(COUNT_DOWN)
@@ -52,7 +53,7 @@ const ManageDetailItem: FC<ManageProps> = (props) => {
           {payAmount ? (
             <div className="mig-pro">
               付款<span className="mig-pro-icon">¥</span>
-              <span>{payAmount / RMB_CON}</span>
+              <span>{RMB_CON(payAmount)}</span>
             </div>
           ) : null}
         </div>

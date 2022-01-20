@@ -29,9 +29,6 @@ import './index.less'
  * isRebate 是否返利商品：0否1是 已弃用
  */
 
-const RMB_CON = 1000
-//mock数据
-
 const MapbuyType = {
   1: '下单付款',
   2: '订单核销',

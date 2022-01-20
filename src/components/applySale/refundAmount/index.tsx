@@ -1,10 +1,11 @@
 import React, { useState, useEffect, FC } from 'react'
-
+import { RMB_CON } from '@/utils/currency'
 import './index.less'
 /**
  * 退改说明卡片
  */
-const RMB_CON = 1000
+// const RMB_CON = 1000
+
 interface RefundAmountType {
   refundTokenAmount: number
   refundAmount: number
@@ -32,14 +33,14 @@ const RefundAmountCard: FC<RefundAmountType> = ({ refundTokenAmount = 0, refundA
       <div className="refuamount-card">
         <div className="refuamount-name">退款金额</div>
         <div className="refuamount-r">
-          ¥<span>{!isNaN(refundAmountNum) ? refundAmountNum / RMB_CON : 0}</span>
+          ¥<span>{RMB_CON(refundAmountNum)}</span>
         </div>
       </div>
       {!isNaN(refundTokenAmountNum) && refundTokenAmountNum > 0 ? (
         <div className="refuamount-card">
           <div className="refuamount-name">退回乐豆</div>
           <div className="refuamount-r">
-            <span>{refundTokenAmountNum / RMB_CON}</span>
+            <span>{RMB_CON(refundTokenAmountNum)}</span>
           </div>
         </div>
       ) : null}
