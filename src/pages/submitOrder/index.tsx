@@ -531,7 +531,7 @@ const SubmitOrderPage: FC = () => {
   const openContactCustomerService = () => {
     // alert("123")
     if (SHBridge.isLogin()) {
-      SHBridge.toChat('a1468476295464828928')
+      SHBridge.toChat('hugangyun')
     } else {
       SHBridge.login()
     }
