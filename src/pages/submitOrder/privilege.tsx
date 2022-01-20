@@ -5,30 +5,37 @@ import './privilege.less'
 /**
  * 提交订单页面
  */
+const RMB_CON = 1000
 const PRIVI_Map = {
-     1:"酒店",
-     2:"交通",
-     3:"餐饮",
-     4:"景点",
-     5:"其他"
+  0: '',
+  1: '机票',
+  2: '大巴',
+  3: '酒店',
+  4: '饭店',
+  5: '景点',
+  6: '火车',
 }
-interface PrivType{
-  id:string|number;
-  goodsPriceId:string;
-  stepperData:any;
+interface PrivType {
+  id: string | number
+  goodsPriceId: string
+  stepperData: any
 }
 
 const PrivilegePage: FC<PrivType> = (props) => {
-  const { goodsPriceId, id,stepperData:{adultNum,childNum,intNum} } = props;
+  const {
+    goodsPriceId,
+    id,
+    stepperData: { adultNum, childNum, intNum },
+  } = props
   const [privilegeList, setPrivilegeList] = useState()
   const getDiscountApi = (id, goodsPriceId) => {
     OrderApi.getDiscount({
       id: id, // 商品ID
       goodsPriceId: goodsPriceId, //商品价格ID
-    }).then((res:any) => {
+    }).then((res: any) => {
       const { code, data } = res
       const privilegeMap = new Map()
-      if (code === '200' && data&&data.length>0) {
+      if (code === '200' && data && data.length > 0) {
         data.forEach((element) => {
           const isHas = privilegeMap.has(element.travelType)
           if (isHas) {
@@ -39,7 +46,7 @@ const PrivilegePage: FC<PrivType> = (props) => {
             privilegeMap.set(element.travelType, [element])
           }
         })
-        const elements:Array<any> = []
+        const elements: Array<any> = []
 
         privilegeMap.forEach((value, key) => {
           elements.push(
@@ -51,9 +58,13 @@ const PrivilegePage: FC<PrivType> = (props) => {
                     <li className="privilege-li" key={index}>
                       <div className="li-left">{item.remark}</div>
                       <div className="li-right">
-                        <span className="rightli-l">¥{item.childMarkPrice}</span>
-                        <span className="rightli-c">¥{item.personCurrentPrice}</span>
-                        <span className="rightli-r">X{adultNum+childNum}</span>
+                        <span className="rightli-l">
+                          ¥{(item.personMarkPrice * adultNum + item.childMarkPrice * childNum) / RMB_CON}
+                        </span>
+                        <span className="rightli-c">
+                          ¥{(item.personCurrentPrice * adultNum + item.childCurrentPrice * childNum) / RMB_CON}
+                        </span>
+                        <span className="rightli-r">X{adultNum + childNum}</span>
                       </div>
                     </li>
                   )
@@ -63,7 +74,7 @@ const PrivilegePage: FC<PrivType> = (props) => {
           )
         })
         setPrivilegeList(elements)
-      }else{
+      } else {
         setPrivilegeList(<div className="privilege-nomore">暂无优惠</div>)
       }
 
@@ -81,9 +92,7 @@ const PrivilegePage: FC<PrivType> = (props) => {
   return (
     <div className="privilege-container">
       <div className="privilege-main">
-        <div className="privilege-fluid">
-          {privilegeList}
-        </div>
+        <div className="privilege-fluid">{privilegeList}</div>
       </div>
     </div>
   )
