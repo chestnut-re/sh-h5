@@ -7,7 +7,7 @@ import './index.less'
 /**
  * 积分、优惠卡片
  */
-const RMB_CON = 100
+const RMB_CON = 1000
 
 interface PreferType {
   tokenAmount: number

@@ -6,7 +6,7 @@ import './index.less'
 /**
  * 已知日期日历选择卡片
  */
-const RMB_CON = 100
+const RMB_CON = 1000
 const WeekMap = {
   0: '周日',
   1: '周一',

@@ -30,9 +30,9 @@ interface ManageProps {
   promotionalImageUrl?: string
   payTime?: string
 }
-const RMB_CON = 100
+const RMB_CON = 1000
 const ManageDetailItem: FC<ManageProps> = (props) => {
-  const { goodsName, payAmount, orderUserName, orderTime, orderNo, state, promotionalImageUrl,payTime } = props
+  const { goodsName, payAmount, orderUserName, orderTime, orderNo, state, promotionalImageUrl, payTime } = props
   const [countdowntime, setCountdownTime] = useState<number>(COUNT_DOWN)
 
   useEffect(() => {
@@ -40,7 +40,7 @@ const ManageDetailItem: FC<ManageProps> = (props) => {
       const restTime = (dayjs().unix() - dayjs(orderTime).unix()) * 1000
       setCountdownTime(COUNT_DOWN - restTime)
     }
-  }, [state,orderTime])
+  }, [state, orderTime])
   return (
     <div className="mdetail-item">
       <div className="mdetail-item-goods">
@@ -80,17 +80,19 @@ const ManageDetailItem: FC<ManageProps> = (props) => {
             <div className="listLi-left">订单编号</div>
             <div className="listLi-right">{orderNo}</div>
           </li>
-          {payTime&&<li className="detail-listLi">
-            <div className="listLi-left">支付时间</div>
-            <div className="listLi-right">{payTime}</div>
-          </li>}
+          {payTime && (
+            <li className="detail-listLi">
+              <div className="listLi-left">支付时间</div>
+              <div className="listLi-right">{payTime}</div>
+            </li>
+          )}
           {/* <li className="detail-listLi">
             <div className="listLi-left">退款金额</div>
             <div className="listLi-right">¥123</div>
           </li> */}
         </ul>
       </div>
-      {state&&state >= 0 ? (
+      {state && state >= 0 ? (
         <div className={`detail-status ${MaStatusMap[state]?.bgName}`}>
           <div className={`status-text ${MaStatusMap[state]?.cName}`}>
             <h1>{MaStatusMap[state]?.text}</h1>

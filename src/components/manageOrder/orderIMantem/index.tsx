@@ -22,7 +22,7 @@ const themeVars = {
 }
 
 const COUNT_DOWN = 60 * 30 * 1000
-const RMB_CON = 100;
+const RMB_CON = 1000
 
 interface ManageItemProps {
   orderItem: {
@@ -61,40 +61,40 @@ const ManageItem: FC<ManageItemProps> = (props) => {
   return (
     <div className="maorder-item">
       <ConfigProvider themeVars={themeVars}>
-        <div className='maorder-item-header'>
-            <div className={`maorder-item-header-left ${ManageStatusMap[oitem.state ?? '']?.['cName']}`}>
+        <div className="maorder-item-header">
+          <div className={`maorder-item-header-left ${ManageStatusMap[oitem.state ?? '']?.['cName']}`}>
             {ManageStatusMap[oitem.state ?? '']?.['text']}
-            </div>
+          </div>
 
-            {oitem.state === 1 && (
+          {oitem.state === 1 && (
             <div className="maorder-item-header-right">
-              
-                  <CountDown time={countdowntime} format="剩 mm:ss" />
-              
+              <CountDown time={countdowntime} format="剩 mm:ss" />
             </div>
           )}
         </div>
-        </ConfigProvider>
-        <div className='maorder-item-content'>
-            <div className='maorder-item-content-left'>
-                <Image width="100%" height="100%" fit="cover" src={oitem.promotionalImageUrl} />
-            </div>
-            <div className='maorder-item-content-right'>
-                <div className='micr-name rv-ellipsis'>
-                {oitem.goodsName}
-                </div>
-                <div className='micr-tags'>
-                    {oitem.adultNum?<span>成人x{oitem.adultNum}</span>:null}
-                    {oitem.childNum?<span>儿童x{oitem.childNum}</span>:null}
-                </div>
-                {oitem?.payAmount&&(<div className='micr-price'>
-                  {oitem.state==5||oitem.state==6||oitem.state==7?<span className='micr-price-text'>退款金额</span>:null}
-                ¥{oitem?.payAmount/RMB_CON}
-                </div>)}
-            </div>
+      </ConfigProvider>
+      <div className="maorder-item-content">
+        <div className="maorder-item-content-left">
+          <Image width="100%" height="100%" fit="cover" src={oitem.promotionalImageUrl} />
         </div>
+        <div className="maorder-item-content-right">
+          <div className="micr-name rv-ellipsis">{oitem.goodsName}</div>
+          <div className="micr-tags">
+            {oitem.adultNum ? <span>成人x{oitem.adultNum}</span> : null}
+            {oitem.childNum ? <span>儿童x{oitem.childNum}</span> : null}
+          </div>
+          {oitem?.payAmount && (
+            <div className="micr-price">
+              {oitem.state == 5 || oitem.state == 6 || oitem.state == 7 ? (
+                <span className="micr-price-text">退款金额</span>
+              ) : null}
+              ¥{oitem?.payAmount / RMB_CON}
+            </div>
+          )}
+        </div>
+      </div>
 
-        {/* {oitem.state==5?(<div className='maorder-item-footer'>
+      {/* {oitem.state==5?(<div className='maorder-item-footer'>
             <ul className='maorder-item-footer-ul'>
               <li className='mifu-item'>
                   <div className='mifu-item-left'>成人x2</div>

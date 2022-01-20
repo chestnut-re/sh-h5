@@ -12,7 +12,7 @@ import './index.less'
 const themeVars = {
   '--rv-stepper-button-icon-color': '#121212',
 }
-const RMB_CON = 100
+const RMB_CON = 1000
 interface StepType {
   handleDiscounts: () => void
   handleStepper: (val) => void
@@ -56,10 +56,10 @@ const StepperCard: FC<StepType> = ({
 
   useEffect(() => {
     if (pointsDeduction > tokenAmountNum) {
-      const tokenAmountNums = parseInt(tokenAmountNum / 100)
+      const tokenAmountNums = parseInt(tokenAmountNum / RMB_CON)
       setMaxInteNum(tokenAmountNums)
     } else {
-      setMaxInteNum(parseInt(pointsDeduction / 100))
+      setMaxInteNum(parseInt(pointsDeduction / RMB_CON))
     }
   }, [pointsDeduction, tokenAmountNum])
 
@@ -67,7 +67,7 @@ const StepperCard: FC<StepType> = ({
     handleStepper({
       adultNum: adultNum && adultNum > 0 ? adultNum : 1, //成人数量
       childNum: childNum && childNum >= 0 ? childNum : 0, //儿童数量
-      intNum: inteNum * 100, //积分
+      intNum: inteNum * RMB_CON, //积分
     })
   }, [adultNum, childNum, inteNum])
   //处理成人数量

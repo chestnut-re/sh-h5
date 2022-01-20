@@ -20,7 +20,7 @@ interface GoodsType {
   discountAmount: number
   payAmount: number
 }
-const RMB_CON = 100
+const RMB_CON = 1000
 
 const GoodsCard: FC<GoodsType> = ({
   promotionalImageUrl,
