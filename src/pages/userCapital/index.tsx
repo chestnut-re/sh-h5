@@ -42,7 +42,7 @@ const UserCapitalPage: React.FC = () => {
   }, [])
 
   const wthdrawal = async () => {
-    const res = await AccountInfoApi.cash({ amount: Number(value) * 100 })
+    const res = await AccountInfoApi.cash({ amount: Number(value) * 1000 })
     if (res.code == '200') {
       setShow(false)
       SHBridge.jump({
