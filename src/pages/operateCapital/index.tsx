@@ -8,6 +8,7 @@ import { generateUrl } from '@/utils'
 import { AccountInfoApi } from '@/service/AccountInfo'
 import MyNavBar from '@/components/myNavBar'
 import close from '@/assets/img/capital/close.png'
+import { getPrice } from '@/utils/price'
 
 /**
  * 运营资金
@@ -43,7 +44,7 @@ const OperateCapitalPage: React.FC = () => {
   }
 
   const outApi = async () => {
-    const res = await AccountInfoApi.fundsOut({ amount: Number(value) * 100 })
+    const res = await AccountInfoApi.fundsOut({ amount: Number(value) * 1000 })
     if (res.code == '200') {
       setShow(false)
       SHBridge.jump({
@@ -54,7 +55,7 @@ const OperateCapitalPage: React.FC = () => {
     }
   }
   const inApi = async () => {
-    const res = await AccountInfoApi.fundsIn({ amount: Number(value) * 100 })
+    const res = await AccountInfoApi.fundsIn({ amount: Number(value) * 1000 })
     if (res.code == '200') {
       setShow(false)
       SHBridge.jump({
@@ -75,12 +76,12 @@ const OperateCapitalPage: React.FC = () => {
 
     setValue(Number(value).toString())
     if (selectType == 'out') {
-      if (Number(value) > Number((accountInfo['funds'] / 100).toFixed(2))) {
+      if (Number(value) > Number(getPrice(accountInfo['funds']))) {
         SHBridge.showToast('转出金额超过可转资金')
         return
       }
     } else {
-      if (Number(value) > Number((accountInfo['available'] / 100).toFixed(2))) {
+      if (Number(value) > Number(getPrice(accountInfo['available']))) {
         SHBridge.showToast('转入金额超过可转资金')
         return
       }
@@ -118,10 +119,10 @@ const OperateCapitalPage: React.FC = () => {
         </div>
         <div className="two">
           <span>¥</span>
-          <span className="num">&nbsp;{((accountInfo['funds'] || 0) / 100).toFixed(2)}</span>
+          <span className="num">&nbsp;{getPrice(accountInfo['funds'], 2)}</span>
         </div>
         <div className="three">
-          <div>冻结金额 ¥{((accountInfo['fundsFrozen'] || 0) / 100).toFixed(2)}</div>
+          <div>冻结金额 ¥{getPrice(accountInfo['fundsFrozen'], 2)}</div>
         </div>
       </div>
       <div className="btn">
@@ -158,8 +159,8 @@ const OperateCapitalPage: React.FC = () => {
             <div>
               可
               {selectType == 'out'
-                ? `转出¥${(accountInfo['funds'] / 100).toFixed(2)}元`
-                : `转入${(accountInfo['available'] / 100).toFixed(2)}`}
+                ? `转出¥${getPrice(accountInfo['funds'], 2)}元`
+                : `转入${getPrice(accountInfo['available'], 2)}`}
               &nbsp;
             </div>
           </div>
