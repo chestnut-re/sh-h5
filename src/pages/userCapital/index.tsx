@@ -37,6 +37,9 @@ const UserCapitalPage: React.FC = () => {
         } else {
           setIsCanDraw(false)
         }
+        const p = getPrice(res.data['frozen'], 2)
+        console.log(p)
+        debugger
       }
     })
   }, [])
@@ -58,12 +61,12 @@ const UserCapitalPage: React.FC = () => {
       SHBridge.showToast('请输入正确的金额')
       return
     }
-    if (Number(value) < getPrice(canDrawMoney)) {
+    if (Number(value) < Number(getPrice(canDrawMoney))) {
       SHBridge.showToast(`提现金额不能小于${getPrice(canDrawMoney)}`)
       return
     }
     setValue(Number(value).toString())
-    if (Number(value) > getPrice(accountInfo['available'])) {
+    if (Number(value) > Number(getPrice(accountInfo['available']))) {
       SHBridge.showToast('提现金额不能超过可用金额')
       return
     }
@@ -123,7 +126,7 @@ const UserCapitalPage: React.FC = () => {
           <span className="num">&nbsp;{getPrice(accountInfo['available'], 2)}</span>
         </div>
         <div className="three">
-          <div>锁定金额 ¥{getPrice(accountInfo['frozen'])}</div>
+          <div>锁定金额 ¥{getPrice(accountInfo['frozen'], 2)}</div>
           {/* <img className="pic" src={tips} alt="" /> */}
         </div>
       </div>
@@ -158,7 +161,7 @@ const UserCapitalPage: React.FC = () => {
             </div>
             <div>可提现金额{getPrice(accountInfo['available'])}元</div>
           </div>
-          <div className={Number(value) >= getPrice(canDrawMoney) ? 'numberKey_yes' : 'numberKey_no'}>
+          <div className={Number(value) >= Number(getPrice(canDrawMoney)) ? 'numberKey_yes' : 'numberKey_no'}>
             <NumberKeyboard
               theme="custom"
               extraKey="."

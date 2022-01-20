@@ -76,12 +76,12 @@ const OperateCapitalPage: React.FC = () => {
 
     setValue(Number(value).toString())
     if (selectType == 'out') {
-      if (Number(value) > getPrice(accountInfo['funds'])) {
+      if (Number(value) > Number(getPrice(accountInfo['funds']))) {
         SHBridge.showToast('转出金额超过可转资金')
         return
       }
     } else {
-      if (Number(value) > getPrice(accountInfo['available'])) {
+      if (Number(value) > Number(getPrice(accountInfo['available']))) {
         SHBridge.showToast('转入金额超过可转资金')
         return
       }
