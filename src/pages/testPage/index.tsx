@@ -35,6 +35,15 @@ const TestPage = () => {
     })
   }
 
+  const _handleImgInputChangeNApi2 = (event) => {
+    console.log(event)
+    const file = event.target.files[0]
+    FileService.uploadImgNApiFile(file).then((res) => {
+      console.log(res)
+      // {"code":"200","msg":"成功","data":{"ossServerUrl":"https://shanhai-shoping.oss-cn-beijing.aliyuncs.com/","fileUrl":"img/user/pic34c43201aad3457da85f00dd7defd06f.jpg"}}
+    })
+  }
+
   return (
     <div className="Mine">
       <Cell.Group title="数据">
@@ -239,6 +248,9 @@ const TestPage = () => {
         </Cell>
         <Cell title="图片上传-napi">
           <input type="file" name="image" accept="image/*" onChange={_handleImgInputChangeNApi} />
+        </Cell>
+        <Cell title="文件上传-napi">
+          <input type="file" name="image" onChange={_handleImgInputChangeNApi2} />
         </Cell>
       </Cell.Group>
 
