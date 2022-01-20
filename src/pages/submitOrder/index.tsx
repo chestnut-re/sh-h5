@@ -405,7 +405,7 @@ const SubmitOrderPage: FC = () => {
         ...submitData.orderDto,
         adultNum: adultNum,
         childNum: childNum,
-        originPrice: personCurrentPrice * adultNum + childCurrentPrice * childNum * RMB_CON,
+        originPrice: personCurrentPrice * adultNum + childCurrentPrice * childNum,
         payAmount: priceNum,
         payType: payType,
         source: source && source != 'undefined' && source != 'null' ? source : 1,
