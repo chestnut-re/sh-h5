@@ -5,7 +5,7 @@ import './index.less'
  * 商品预览
  */
 
-const RMB_COM = 100
+const RMB_COM = 1000
 
 interface GoodPreviewType {
   goodsName: string
