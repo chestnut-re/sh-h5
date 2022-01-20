@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Overlay, ConfigProvider, Empty, Toast } from 'react-vant'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
-import { MyTokenService } from '../../service/MyTokenService'
+import { MyTokenService } from '@/service/MyTokenService'
 import ToDoList from '@/components/myToken/toDoList'
 import emptyIcon from '@/assets/img/token/token_empty@3x.png'
 import ModalOverlay from './overlay'
@@ -17,6 +17,12 @@ const themeVars = {
   '--rv-empty-description-color': '#666666',
   '--rv-empty-description-padding': 0,
 }
+
+const CompleteType = {
+  1: '新用户注册',
+  2: '订单核销',
+}
+
 const MyTokenPage: React.FC = () => {
   //代币数量
   const [totalAmount, setTotalAmount] = useState(0)
@@ -24,6 +30,8 @@ const MyTokenPage: React.FC = () => {
   const [showEmbedded, setShowEmbedded] = useState(false)
   //任务列表
   const [rebateTaskList, setRebateTaskList] = useState<any[]>([])
+  //当前查看任务列表
+  const [rebateTaskinfo, setRebateTaskinfo] = useState<any>()
   //分享数据
   const [shareData, setShareData] = useState<any>()
   const [isshareCard, setisshareCard] = useState(false)
@@ -63,7 +71,9 @@ const MyTokenPage: React.FC = () => {
     SHBridge.jump({ url: generateUrl('/detailed'), newWebView: true, title: '收支明细' })
   }
   //显示说明
-  const setHandleShowEmbedded = () => {
+  const setHandleShowEmbedded = (item) => {
+    console.log('item :>> ', item)
+    setRebateTaskinfo(item)
     setShowEmbedded(true)
   }
 
@@ -138,7 +148,7 @@ const MyTokenPage: React.FC = () => {
             乐豆余额
           </div>
           <div className="mtkon-header-with">
-            <div className="mhw-left">{totalAmount / RMB_CON}</div>
+            <div className="mhw-left">{(totalAmount / RMB_CON).toFixed(2)}</div>
             <div className="mhw-right">
               <div className="mhw-right-btn" onClick={toWithDraw}>
                 提现
@@ -167,7 +177,13 @@ const MyTokenPage: React.FC = () => {
                 rebateTaskList.map((item, index) => {
                   return (
                     <div className="task-list-item" key={index}>
-                      <ToDoList {...item} shareTask={shareTask} onToviewHandle={setHandleShowEmbedded} />
+                      <ToDoList
+                        {...item}
+                        shareTask={shareTask}
+                        onToviewHandle={() => {
+                          setHandleShowEmbedded(item)
+                        }}
+                      />
                     </div>
                   )
                 })
@@ -184,18 +200,43 @@ const MyTokenPage: React.FC = () => {
       </div>
 
       <Overlay zIndex={999} visible={showEmbedded} onClick={() => setShowEmbedded(false)}>
-        <div className="task-wrapper">
-          <div className="task-content">
-            <div className="task-content-header">任务说明</div>
-            <div className="task-content-body">
-              <p>1、分享线路给好友可完权益任务； </p>
-              <p>2、需累计分享10次，每次分享间隔时间24小时；</p>
-              <p>3、每次分享任务需满足10个不同的好友进行访问； </p>
-              <p>4、如有问题，请联系专属业务员进行处理。</p>
+        {showEmbedded ? (
+          <div className="task-wrapper">
+            <div className="task-content">
+              <div className="task-content-header">任务说明</div>
+              <div className="task-content-body">
+                {rebateTaskinfo.type == 1 && (
+                  <>
+                    <p>1、分享线路给好友完成指定的权益任务，可解锁相应的乐豆； </p>
+                    <p>2、每次分享成功可解锁{rebateTaskinfo.unlockShareBean}乐豆；</p>
+                    <p>3、如有问题，请联系专属业务员进行处理。</p>
+                  </>
+                )}
+                {rebateTaskinfo.type == 2 && (
+                  <>
+                    <p>1、分享线路给好友且好友完成{CompleteType[rebateTaskinfo.pullType]}即可解锁相应的乐豆； </p>
+                    <p>2、每次可解锁{rebateTaskinfo.unlockPullBean}乐豆；</p>
+                    <p>3、如有问题，请联系专属业务员进行处理。</p>
+                  </>
+                )}
+                {rebateTaskinfo.type == 3 && (
+                  <>
+                    <p>
+                      1、分享线路给好友完成指定的权益任务，可解锁相应的乐豆，每次分享成功可解锁
+                      {rebateTaskinfo.unlockShareBean}乐豆；{' '}
+                    </p>
+                    <p>
+                      2、也可以分享线路给好友且好友完成{CompleteType[rebateTaskinfo.pullType]}
+                      即可解锁相应的乐豆，每次可解锁{rebateTaskinfo.unlockPullBean}乐豆；
+                    </p>
+                    <p>3、如有问题，请联系专属业务员进行处理。</p>
+                  </>
+                )}
+              </div>
             </div>
+            <div className="task-close" onClick={() => setShowEmbedded(false)}></div>
           </div>
-          <div className="task-close" onClick={() => setShowEmbedded(false)}></div>
-        </div>
+        ) : null}
       </Overlay>
       <ModalOverlay
         shareData={shareData}
