@@ -117,7 +117,9 @@ const GroupShopPage: FC = () => {
     const { goodsPriceId } = item
     console.log('item :>> ', item)
     SHBridge.jump({
-      url: generateUrl(`/goods-detail?id=${item.id}&goodsPriceId=${goodsPriceId}&shopId=${id}`),
+      url: generateUrl(
+        `/goods-detail?id=${item.id}&goodsPriceId=${goodsPriceId}&shopId=${id}&userId=${getCookie('userId')}`
+      ),
       newWebView: true,
       title: '商品详情',
     })
