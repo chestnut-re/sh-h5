@@ -28,6 +28,7 @@ interface Props {
 const Panel: React.FC<Props> = ({ data, dataAll, isLike, myLikes, shares, goodsPriceId, shopId, onShare }) => {
   const [love, setLove] = useState(null) as any
   const [isWeapp, setIsWeapp] = useState(false)
+  const [myLikesNum, setMyLikesNum] = useState(0) as any
 
   useEffect(() => {
     setLove(isLike == 1)
@@ -36,9 +37,11 @@ const Panel: React.FC<Props> = ({ data, dataAll, isLike, myLikes, shares, goodsP
         setIsWeapp(true)
       }
     })
-  }, [isLike])
+    setMyLikesNum(myLikes)
+  }, [isLike, myLikes])
   const giveThumbs = () => {
     if (SHBridge.isLogin()) {
+      setMyLikesNum(love ? myLikesNum - 1 : myLikesNum + 1)
       setLove(!love)
       GoodsDetailService.thumbsUp({ goodsId: goodsPriceId, shopId: shopId, type: 1, state: love ? 0 : 1 }).then(
         (res) => {
@@ -84,7 +87,7 @@ const Panel: React.FC<Props> = ({ data, dataAll, isLike, myLikes, shares, goodsP
       </div>
       <div onClick={giveThumbs}>
         <img src={love ? isLikes : likes} alt="" />
-        <p>{myLikes}</p>
+        <p>{myLikesNum}</p>
       </div>
       {!isWeapp && (
         <div onClick={giveShare}>
