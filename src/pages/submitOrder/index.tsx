@@ -6,6 +6,7 @@ import qs from 'query-string'
 import dayjs from 'dayjs'
 import { Toast, Popup } from 'react-vant'
 import PayTypeCard from '@/components/orderDetail/payTypeCard'
+import ContactCard from '@/components/orderDetail/contactCard'
 import BackCard from '@/components/orderDetail/backthatCard'
 import FooterCard from '@/components/orderDetail/footerCard'
 import ProtocolCard from '@/components/orderDetail/protocolCard'
@@ -526,10 +527,21 @@ const SubmitOrderPage: FC = () => {
     })
     setShowPrivilege(false)
   }
+
+  const openContactCustomerService = () => {
+    // alert("123")
+    if (SHBridge.isLogin()) {
+      SHBridge.toChat('a1468476295464828928')
+    } else {
+      SHBridge.login()
+    }
+  }
+
   return (
     <div className="puorder-container">
       <div className="puorder-main">
         <div className="puorder-fluid">
+          <ContactCard openContactCustomer={openContactCustomerService} />
           <div className="puorder-card">
             <GoodsCard
               promotionalImageUrl={submitinfo.promotionalImageUrl}
