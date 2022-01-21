@@ -27,4 +27,10 @@ export class ManageOrder {
       params,
     })
   }
+  /**
+   * 退款单详情
+   */
+  static remburdetail(id): Promise<AxiosResponse<any>> {
+    return axios.get(`/api/orders/refund/getOrderRefundDetail/${id}`)
+  }
 }
