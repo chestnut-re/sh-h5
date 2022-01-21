@@ -207,14 +207,14 @@ const MyTokenPage: React.FC = () => {
                 {rebateTaskinfo.type == 1 && (
                   <>
                     <p>1、分享线路给好友完成指定的权益任务，可解锁相应的乐豆； </p>
-                    <p>2、每次分享成功可解锁{rebateTaskinfo.unlockShareBean}乐豆；</p>
+                    <p>2、每次分享成功可解锁{RMB_CON(rebateTaskinfo.unlockShareBean)}乐豆；</p>
                     <p>3、如有问题，请联系专属业务员进行处理。</p>
                   </>
                 )}
                 {rebateTaskinfo.type == 2 && (
                   <>
                     <p>1、分享线路给好友且好友完成{CompleteType[rebateTaskinfo.pullType]}即可解锁相应的乐豆； </p>
-                    <p>2、每次可解锁{rebateTaskinfo.unlockPullBean}乐豆；</p>
+                    <p>2、每次可解锁{RMB_CON(rebateTaskinfo.unlockPullBean)}乐豆；</p>
                     <p>3、如有问题，请联系专属业务员进行处理。</p>
                   </>
                 )}
@@ -222,11 +222,11 @@ const MyTokenPage: React.FC = () => {
                   <>
                     <p>
                       1、分享线路给好友完成指定的权益任务，可解锁相应的乐豆，每次分享成功可解锁
-                      {rebateTaskinfo.unlockShareBean}乐豆；{' '}
+                      {RMB_CON(rebateTaskinfo.unlockShareBean)}乐豆；
                     </p>
                     <p>
                       2、也可以分享线路给好友且好友完成{CompleteType[rebateTaskinfo.pullType]}
-                      即可解锁相应的乐豆，每次可解锁{rebateTaskinfo.unlockPullBean}乐豆；
+                      即可解锁相应的乐豆，每次可解锁{RMB_CON(rebateTaskinfo.unlockPullBean)}乐豆；
                     </p>
                     <p>3、如有问题，请联系专属业务员进行处理。</p>
                   </>

@@ -8,6 +8,9 @@ export function RMB_CON(num: number) {
   if (!num) {
     return 0
   }
+  if (typeof num != 'number') {
+    return 0
+  }
   // 小数点后三位千分比
   const number = Math.floor(num) / 1000
   // 转为货币计数法

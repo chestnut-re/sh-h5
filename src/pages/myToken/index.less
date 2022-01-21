@@ -160,10 +160,12 @@
   z-index: 999;
   .task-content {
     width: 544px;
-    height: 448px;
+    min-height: 448px;
     background: url(../../assets/img/token/overlay_bg@3x.png) no-repeat center;
-    background-size: 100%;
+    background-size: cover;
     padding: 38px 40px;
+    overflow: hidden;
+    border-radius: 20px;
     .task-content-header {
       font-size: 32px;
       font-family: PingFang SC, PingFang SC-Medium;
