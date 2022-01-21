@@ -20,6 +20,12 @@ const OperateCapitalPage: React.FC = () => {
   const [value, setValue] = useState('')
   const [accountInfo, setAccountInfo] = useState({})
   useEffect(() => {
+    setTimeout(() => {
+      if (document.querySelector('body') != null) {
+        document.querySelector('body')!.style.overflow = 'hidden'
+      }
+    }, 1)
+
     SHBridge.setTitleAction([{ value: '账户资金明细', type: 'text' }], () => {
       toFundDetails()
     })

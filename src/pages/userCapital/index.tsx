@@ -24,6 +24,12 @@ const UserCapitalPage: React.FC = () => {
   const [isCanDraw, setIsCanDraw] = useState(false)
   const canDrawMoney = 10000
   useEffect(() => {
+    setTimeout(() => {
+      if (document.querySelector('body') != null) {
+        document.querySelector('body')!.style.overflow = 'hidden'
+      }
+    }, 1)
+
     SHBridge.setTitleAction([{ value: '账户资金明细', type: 'text' }], () => {
       // console.log(index);
       toFundDetails()
@@ -37,9 +43,6 @@ const UserCapitalPage: React.FC = () => {
         } else {
           setIsCanDraw(false)
         }
-        const p = getPrice(res.data['frozen'], 2)
-        console.log(p)
-        debugger
       }
     })
   }, [])
