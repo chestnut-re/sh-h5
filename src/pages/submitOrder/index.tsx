@@ -538,7 +538,7 @@ const SubmitOrderPage: FC = () => {
     <div className="puorder-container">
       <div className="puorder-main">
         <div className="puorder-fluid">
-          <ContactCard openContactCustomer={openContactCustomerService} />
+          {/* <ContactCard openContactCustomer={openContactCustomerService} /> */}
           <div className="puorder-card">
             <GoodsCard
               promotionalImageUrl={submitinfo.promotionalImageUrl}

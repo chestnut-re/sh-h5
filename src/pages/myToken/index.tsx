@@ -44,7 +44,26 @@ const MyTokenPage: React.FC = () => {
         setTotalAmount(data.totalAmount)
       }
     })
-    getTaskList()
+
+    document.addEventListener(
+      'onResume',
+      function (e) {
+        const { state } = e
+        if (state === 0) {
+          getTaskList()
+        }
+      },
+      false
+    )
+    return () => {
+      document.removeEventListener(
+        'onResume',
+        function (e) {
+          console.log('e :>> ', e)
+        },
+        false
+      )
+    }
   }, [])
 
   const getTaskList = () => {
