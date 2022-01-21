@@ -1,11 +1,12 @@
 import React, { useState, useEffect, FC } from 'react'
 import { ConfigProvider, Tabs, Empty, List, Toast, Loading, PullRefresh } from 'react-vant'
 import ManageItem from '@/components/manageOrder/orderIMantem'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import emptyIcon from '@/assets/img/empty_b@3x.png'
 import { ManageOrder } from '@/service/ManageOrderApi'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
+import qs from 'query-string'
 import './index.less'
 /**
  * 订单管理入口页面
@@ -26,20 +27,22 @@ const TabsListObj = [
   { tabName: '退款/售后', type: 5, id: 4, isTag: false },
 ]
 
-let current = 1;
+let current = 1
 const ManageOrderPage: FC = () => {
-  
   const { search } = useLocation()
+  //获取url是否携带
+  const { action_type } = qs.parse(search.slice(1))
+
   //请求是否完成
   const [finished, setFinished] = useState<boolean>(false)
   //是否在请求状态
   const [isloading, setIsloading] = useState<boolean>(true)
- 
+
   //列表数据
   const [listData, setListData] = useState<any[]>([])
   //高亮tab
-  const [activeState, setActive] = useState<any>('')
- 
+  const [activeState, setActive] = useState<any>(action_type ? Number(action_type) : '')
+
   const getOrderListData = async () => {
     return new Promise<any>((resolve, reject) => {
       ManageOrder.list({
@@ -48,10 +51,9 @@ const ManageOrderPage: FC = () => {
         current: current,
       })
         .then((res: any) => {
-          const { code,msg } = res
+          const { code, msg } = res
           if (code == '200') {
-            
-            current++;
+            current++
             resolve(res)
           } else {
             Toast(msg)
@@ -78,30 +80,29 @@ const ManageOrderPage: FC = () => {
       data: { total, records },
     }: any = await getOrderListData()
 
-    setListData((v) =>{
-      const newList = isRefresh ? records : [...v, ...records];
+    setListData((v) => {
+      const newList = isRefresh ? records : [...v, ...records]
       if (PAGE_SIZE > records.length) {
         setFinished(true)
       }
-      return newList;
+      return newList
     })
   }
 
-  const onLoadRefresh = async ()=>{
-    console.log('obje下拉刷新ct :>> ', );
-    setIsloading(true);
-    setFinished(false);
-    setListData([]);
+  const onLoadRefresh = async () => {
+    console.log('obje下拉刷新ct :>> ')
+    setIsloading(true)
+    setFinished(false)
+    setListData([])
     // setCurrent(1);
-    current = 1;
-    await onLoadManageOrderList(1);
-
+    current = 1
+    await onLoadManageOrderList(1)
   }
 
   useEffect(() => {
     setIsloading(true)
     setFinished(false)
-    
+
     setListData([])
   }, [activeState])
 
@@ -122,14 +123,14 @@ const ManageOrderPage: FC = () => {
         })
       }
     )
-  },[])
+  }, [])
   const tabHandelClick = (info) => {
-    const { name } = info;
+    const { name } = info
     if (isloading) {
-      Toast("数据加载中，请稍后")
+      Toast('数据加载中，请稍后')
       return
     }
-    current = 1;
+    current = 1
     setActive(name)
   }
 
@@ -166,9 +167,7 @@ const ManageOrderPage: FC = () => {
                     //   {item.tabName}
                     //   {paymentNum > 0 ? <span className="maorder-tag">{`(${paymentNum})`}</span> : null}
                     // </>
-                    <>
-                      {item.tabName}
-                    </>
+                    <>{item.tabName}</>
                   )
                 }}
               />
@@ -177,7 +176,7 @@ const ManageOrderPage: FC = () => {
         </ConfigProvider>
       </div>
       <div className="maorder-content">
-        <PullRefresh className='refresh-box' onRefresh={onLoadRefresh} >
+        <PullRefresh className="refresh-box" onRefresh={onLoadRefresh}>
           {listData.length ? (
             <List
               finished={finished}
