@@ -1,5 +1,7 @@
 import { SHBridge } from '@/jsbridge'
 import { GoodsDetailService } from '@/service/GoodsDetailService'
+import { MyTokenService } from '@/service/MyTokenService'
+
 import { generateUrl, getUrlParams } from '@/utils'
 import React, { useEffect, useRef, useState } from 'react'
 import GoodsDetailTemplate from './components/GoodsDetailTemplate'
@@ -49,9 +51,8 @@ const GoodsDetailPage: React.FC = () => {
       // url 中有 taskId，表示是分享的链接，如果用户
       pageRef.current.taskId = params['taskId']
       if (pageRef.current.taskId) {
-        GoodsDetailService.unLockBean({ taskId: pageRef.current.taskId })
+        MyTokenService.unLockBean({ taskId: pageRef.current.taskId })
       }
-      //
     }
   }, [])
 
