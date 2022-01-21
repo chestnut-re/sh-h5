@@ -100,7 +100,7 @@ const OrderConfirmaPage: FC = (props: any) => {
     onPopoverAction: (item) => {
       SHBridge.jump({
         url: generateUrl(`/apply-sales?orderId=${orderId}&type=0`),
-        newWebView: true,
+        newWebView: false,
         replace: false,
         title: '申请退款',
       })
