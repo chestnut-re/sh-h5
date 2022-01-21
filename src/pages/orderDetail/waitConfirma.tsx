@@ -58,7 +58,12 @@ const OrderConfirmaPage: FC = (props: any) => {
         console.log('resultresultresult :>> ', result)
         const { code, data } = result
         if (code === '200' && data) {
-          setRefundList(data)
+          console.log('object :>> ', data)
+          //只显示退款中，退款失败 退款成功订单
+          const newRefund = data.filter((item) => {
+            return item.refundState && item.refundState != 3 && item.refundState != 5
+          })
+          setRefundList(newRefund)
         }
       })
       .catch((err) => {
@@ -95,7 +100,7 @@ const OrderConfirmaPage: FC = (props: any) => {
     onPopoverAction: (item) => {
       SHBridge.jump({
         url: generateUrl(`/apply-sales?orderId=${orderId}&type=0`),
-        newWebView: true,
+        newWebView: false,
         replace: false,
         title: '申请退款',
       })

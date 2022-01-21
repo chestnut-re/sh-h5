@@ -5,7 +5,8 @@ import './privilege.less'
 /**
  * 提交订单页面
  */
-const RMB_CON = 1000
+// const RMB_CON = 1000
+import { RMB_CON } from '@/utils/currency'
 const PRIVI_Map = {
   0: '',
   1: '机票',
@@ -59,10 +60,10 @@ const PrivilegePage: FC<PrivType> = (props) => {
                       <div className="li-left">{item.remark}</div>
                       <div className="li-right">
                         <span className="rightli-l">
-                          ¥{(item.personMarkPrice * adultNum + item.childMarkPrice * childNum) / RMB_CON}
+                          ¥{RMB_CON(item.personMarkPrice * adultNum + item.childMarkPrice * childNum)}
                         </span>
                         <span className="rightli-c">
-                          ¥{(item.personCurrentPrice * adultNum + item.childCurrentPrice * childNum) / RMB_CON}
+                          ¥{RMB_CON(item.personCurrentPrice * adultNum + item.childCurrentPrice * childNum)}
                         </span>
                         <span className="rightli-r">X{adultNum + childNum}</span>
                       </div>

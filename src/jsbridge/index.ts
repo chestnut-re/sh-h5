@@ -59,6 +59,8 @@ export class SHBridge {
   static setTitle(title: string): void {
     if (isApp()) {
       AppBridge.setTitle(title)
+    } else {
+      document.title = title ? title : '山海云途'
     }
   }
 
@@ -129,7 +131,14 @@ export class SHBridge {
   static closePage(): void {
     if (isApp()) {
       AppBridge.closePage()
+      return
     }
+
+    isMini().then((res) => {
+      if (res) {
+        MiniAppBridge.closePage()
+      }
+    })
   }
 
   /**

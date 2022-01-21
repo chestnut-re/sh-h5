@@ -3,6 +3,7 @@ import React, { useState, useEffect, FC } from 'react'
 import { ConfigProvider, Icon } from 'react-vant'
 import questionIcon from '@/assets/img/question_icon@3x.png'
 import StepperRui from '@/components/orderDetail/stepperCard/stepperRui'
+import { RMB_CON } from '@/utils/currency'
 import './index.less'
 
 /**
@@ -12,7 +13,8 @@ import './index.less'
 const themeVars = {
   '--rv-stepper-button-icon-color': '#121212',
 }
-const RMB_CON = 1000
+const RMB_CONV = 1000
+
 interface StepType {
   handleDiscounts: () => void
   handleStepper: (val) => void
@@ -56,10 +58,10 @@ const StepperCard: FC<StepType> = ({
 
   useEffect(() => {
     if (pointsDeduction > tokenAmountNum) {
-      const tokenAmountNums = parseInt(tokenAmountNum / RMB_CON)
+      const tokenAmountNums = parseInt(tokenAmountNum / RMB_CONV)
       setMaxInteNum(tokenAmountNums)
     } else {
-      setMaxInteNum(parseInt(pointsDeduction / RMB_CON))
+      setMaxInteNum(parseInt(pointsDeduction / RMB_CONV))
     }
   }, [pointsDeduction, tokenAmountNum])
 
@@ -67,7 +69,7 @@ const StepperCard: FC<StepType> = ({
     handleStepper({
       adultNum: adultNum && adultNum > 0 ? adultNum : 1, //成人数量
       childNum: childNum && childNum >= 0 ? childNum : 0, //儿童数量
-      intNum: inteNum * RMB_CON, //积分
+      intNum: inteNum * RMB_CONV, //积分
     })
   }, [adultNum, childNum, inteNum])
   //处理成人数量
@@ -121,14 +123,14 @@ const StepperCard: FC<StepType> = ({
             <li className="step-boxli">
               <div className="step-name hairline--icon">
                 <span className="hellp-icon">乐豆</span>
-                <span className="name-subtitle">共{tokenAmountNum / RMB_CON}</span>
+                <span className="name-subtitle">共{RMB_CON(tokenAmountNum)}</span>
               </div>
               <div className="step-content">
                 <ConfigProvider themeVars={themeVars}>
                   <StepperRui
                     value={inteNum}
                     min={0}
-                    max={pointsDeduction / RMB_CON}
+                    max={RMB_CON(pointsDeduction)}
                     changeValue={(val) => setinteNumRuiValue(val)}
                   />
                 </ConfigProvider>
@@ -139,7 +141,7 @@ const StepperCard: FC<StepType> = ({
         </ul>
       </div>
 
-      {pointsDeduction / RMB_CON >= 1 && maxInteNum >= 1 ? (
+      {pointsDeduction >= 1000 && maxInteNum >= 1 ? (
         <div className="info-integral rv-hairline--bottom">
           <div className="integral-instruction">
             此订单最多可用{maxInteNum}.00乐豆抵<span>¥{maxInteNum}.00</span>
@@ -161,7 +163,7 @@ const StepperCard: FC<StepType> = ({
           <div className="discounts-instruction">
             <div className="instruction-l">
               已优惠<b>¥</b>
-              <span>{priceSet?.preferPrice / RMB_CON}</span>
+              <span>{RMB_CON(priceSet.preferPrice)}</span>
             </div>
           </div>
         </div>

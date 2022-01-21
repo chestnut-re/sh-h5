@@ -18,6 +18,8 @@ interface ToDoListType {
   shareTask: (id) => void
   onToviewHandle: () => void
 }
+// const RMB_CON = 1000
+import { RMB_CON } from '@/utils/currency'
 
 const NumberMap = {
   0: '一',
@@ -102,7 +104,7 @@ const ToDoListCard: FC<ToDoListType> = ({ goodsName, goodsId, rebateId, onToview
                       <div className="tbcu-li-content-top">
                         <div className="tlct-left">
                           <span className="tlct-left-name">已解锁</span>
-                          <span className="tlct-left-num">{unLockBean ? unLockBean / 100 : 0}</span>
+                          <span className="tlct-left-num">{RMB_CON(unLockBean)}</span>
                         </div>
                         {isDestroy != 1 && <div className="tlct-right">核销订单后可用</div>}
                       </div>
@@ -121,7 +123,7 @@ const ToDoListCard: FC<ToDoListType> = ({ goodsName, goodsId, rebateId, onToview
                           ></span>
                         </div>
                         <div className="progress-text">
-                          {unLockBean / 100 ?? 0}/{totalBean / 100 ?? 0}
+                          {RMB_CON(unLockBean)}/{RMB_CON(totalBean)}
                         </div>
                       </div>
                     </div>

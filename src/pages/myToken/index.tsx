@@ -11,7 +11,7 @@ import './index.less'
 /**
  * w我的代币
  */
-const RMB_CON = 1000
+import { RMB_CON } from '@/utils/currency'
 const themeVars = {
   '--rv-empty-description-font-size': '3.46667vw',
   '--rv-empty-description-color': '#666666',
@@ -37,14 +37,33 @@ const MyTokenPage: React.FC = () => {
   const [isshareCard, setisshareCard] = useState(false)
   const [sharetaskId, setsharetaskId] = useState<any>({})
   useEffect(() => {
+    SHBridge.setTitle('我的乐豆')
     MyTokenService.getMyWallet().then((res: any) => {
       const { code, data } = res
       if (code === '200' && data) {
         setTotalAmount(data.totalAmount)
       }
     })
-
     getTaskList()
+    document.addEventListener(
+      'onResume',
+      function (e) {
+        const { state } = e
+        if (state === 0) {
+          getTaskList()
+        }
+      },
+      false
+    )
+    return () => {
+      document.removeEventListener(
+        'onResume',
+        function (e) {
+          console.log('e :>> ', e)
+        },
+        false
+      )
+    }
   }, [])
 
   const getTaskList = () => {
@@ -102,12 +121,15 @@ const MyTokenPage: React.FC = () => {
   }
 
   const onshareChangeHandle = (item) => {
-    const { goodsId, userId, goodsName, id, promotionalImageUrl, rebateType } = item
+    const { goodsId, userId, goodsName, shareType, id, promotionalImageUrl, rebateType } = item
     console.log('item :>> ', item)
-
+    let shareIp = null
+    if (rebateType != 2) {
+      shareIp = shareType
+    }
     oncloseModal()
     if (SHBridge.isLogin()) {
-      const litterUrl = `${window.location.origin}/goods-detail?id=${goodsId}&userId=${userId}&source=2&taskId=${id}&rebateType=${rebateType}`
+      const litterUrl = `${window.location.origin}/goods-detail?id=${goodsId}&userId=${userId}&source=2&taskId=${id}&rebateType=${rebateType}&share_ip=${shareIp}`
       console.log('litterUrl :>> ', litterUrl)
       SHBridge.shareDetail({
         type: 'goods',
@@ -118,7 +140,7 @@ const MyTokenPage: React.FC = () => {
       })
       oncloseModal()
       const { taskId, state } = sharetaskId
-      if (state != 2) {
+      if (state != 2 && shareIp === 0) {
         MyTokenService.unLockBean({ taskId: taskId }).then((res) => {
           const { code, msg, data } = res
           if (code === '200' && data) {
@@ -148,7 +170,7 @@ const MyTokenPage: React.FC = () => {
             乐豆余额
           </div>
           <div className="mtkon-header-with">
-            <div className="mhw-left">{totalAmount == 0 ? 0 : (totalAmount / RMB_CON).toFixed(2)}</div>
+            <div className="mhw-left">{RMB_CON(totalAmount)}</div>
             <div className="mhw-right">
               <div className="mhw-right-btn" onClick={toWithDraw}>
                 提现
@@ -208,14 +230,14 @@ const MyTokenPage: React.FC = () => {
                 {rebateTaskinfo.type == 1 && (
                   <>
                     <p>1、分享线路给好友完成指定的权益任务，可解锁相应的乐豆； </p>
-                    <p>2、每次分享成功可解锁{rebateTaskinfo.unlockShareBean}乐豆；</p>
+                    <p>2、每次分享成功可解锁{RMB_CON(rebateTaskinfo.unlockShareBean)}乐豆；</p>
                     <p>3、如有问题，请联系专属业务员进行处理。</p>
                   </>
                 )}
                 {rebateTaskinfo.type == 2 && (
                   <>
                     <p>1、分享线路给好友且好友完成{CompleteType[rebateTaskinfo.pullType]}即可解锁相应的乐豆； </p>
-                    <p>2、每次可解锁{rebateTaskinfo.unlockPullBean}乐豆；</p>
+                    <p>2、每次可解锁{RMB_CON(rebateTaskinfo.unlockPullBean)}乐豆；</p>
                     <p>3、如有问题，请联系专属业务员进行处理。</p>
                   </>
                 )}
@@ -223,11 +245,11 @@ const MyTokenPage: React.FC = () => {
                   <>
                     <p>
                       1、分享线路给好友完成指定的权益任务，可解锁相应的乐豆，每次分享成功可解锁
-                      {rebateTaskinfo.unlockShareBean}乐豆；{' '}
+                      {RMB_CON(rebateTaskinfo.unlockShareBean)}乐豆；
                     </p>
                     <p>
                       2、也可以分享线路给好友且好友完成{CompleteType[rebateTaskinfo.pullType]}
-                      即可解锁相应的乐豆，每次可解锁{rebateTaskinfo.unlockPullBean}乐豆；
+                      即可解锁相应的乐豆，每次可解锁{RMB_CON(rebateTaskinfo.unlockPullBean)}乐豆；
                     </p>
                     <p>3、如有问题，请联系专属业务员进行处理。</p>
                   </>

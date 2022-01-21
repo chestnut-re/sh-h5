@@ -29,6 +29,7 @@ const Panel: React.FC<Props> = ({ data, dataAll, isLike, myLikes, shares, goodsP
   const [love, setLove] = useState(null) as any
   const [isWeapp, setIsWeapp] = useState(false)
   const [myLikesNum, setMyLikesNum] = useState(0) as any
+  const [mySharesNum, setMySharesNum] = useState(0) as any
 
   useEffect(() => {
     setLove(isLike == 1)
@@ -38,7 +39,8 @@ const Panel: React.FC<Props> = ({ data, dataAll, isLike, myLikes, shares, goodsP
       }
     })
     setMyLikesNum(myLikes)
-  }, [isLike, myLikes])
+    setMySharesNum(shares)
+  }, [isLike, myLikes, shares])
   const giveThumbs = () => {
     if (SHBridge.isLogin()) {
       setMyLikesNum(love ? myLikesNum - 1 : myLikesNum + 1)
@@ -66,6 +68,7 @@ const Panel: React.FC<Props> = ({ data, dataAll, isLike, myLikes, shares, goodsP
         headUrl: dataAll.promotionalImageUrl,
         littleUrl: litterUrl,
       })
+      setMySharesNum(mySharesNum + 1)
     } else {
       SHBridge.login()
     }
@@ -92,7 +95,7 @@ const Panel: React.FC<Props> = ({ data, dataAll, isLike, myLikes, shares, goodsP
       {!isWeapp && (
         <div onClick={giveShare}>
           <img src={share} alt="" />
-          <p>{shares}</p>
+          <p>{mySharesNum}</p>
         </div>
       )}
       {!isWeapp && (

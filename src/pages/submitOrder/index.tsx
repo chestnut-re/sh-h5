@@ -29,9 +29,6 @@ import './index.less'
  * isRebate 是否返利商品：0否1是 已弃用
  */
 
-const RMB_CON = 1000
-//mock数据
-
 const MapbuyType = {
   1: '下单付款',
   2: '订单核销',
@@ -541,7 +538,7 @@ const SubmitOrderPage: FC = () => {
     <div className="puorder-container">
       <div className="puorder-main">
         <div className="puorder-fluid">
-          <ContactCard openContactCustomer={openContactCustomerService} />
+          {/* <ContactCard openContactCustomer={openContactCustomerService} /> */}
           <div className="puorder-card">
             <GoodsCard
               promotionalImageUrl={submitinfo.promotionalImageUrl}

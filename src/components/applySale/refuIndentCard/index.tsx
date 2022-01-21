@@ -2,6 +2,7 @@ import dayjs from 'dayjs'
 import React, { useState, useEffect, FC } from 'react'
 import Clipboard from 'clipboard'
 import { Toast } from 'react-vant'
+import { RMB_CON } from '@/utils/currency'
 
 import './index.less'
 /**
@@ -14,7 +15,7 @@ interface RefurefuindentType {
   adultNum: string
   childNum: string
 }
-const RMB_CON = 1000
+// const RMB_CON = 1000
 
 const RefurefuindentCard: FC<RefurefuindentType> = ({ orderId, reason, adultNum, childNum, amount, applyTime }) => {
   useEffect(() => {
@@ -54,7 +55,7 @@ const RefurefuindentCard: FC<RefurefuindentType> = ({ orderId, reason, adultNum,
         </li>
         <li className="refuindent-li">
           <div className="refuindent-li_l">退款金额</div>
-          <div className="refuindent-li_r">¥ {amount / RMB_CON}</div>
+          <div className="refuindent-li_r">¥ {RMB_CON(amount)}</div>
         </li>
         <li className="refuindent-li">
           <div className="refuindent-li_l">申请时间</div>

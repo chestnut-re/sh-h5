@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { NumberKeyboard, Popover, Toast } from 'react-vant'
+import { NumberKeyboard, Popover, Field, Toast } from 'react-vant'
 import { useDebouncedEffect } from '@/hooks/useDebouncedEffect'
 import ask from '@/assets/img/token/ask.png'
 import { SHBridge } from '@/jsbridge'
@@ -10,26 +10,28 @@ import './index.less'
  * 我的代币提现
  */
 const WithDrawPage: React.FC = () => {
-  const [myK, setMyK] = useState("")
+  const [myK, setMyK] = useState('')
   const [visible, setVisible] = useState(false)
   const [dollar, setDollar] = useState()
   useEffect(() => {
-    MyTokenService.getCashPage().then((res) => {
-      console.log(res)
-      if (res['code'] == '200') {
-        if (res.data.maxCashAmount > res.data.cashableAmount) {
-          setDollar(res.data.cashableAmount)
+    MyTokenService.getCashPage()
+      .then((res) => {
+        console.log(res)
+        if (res['code'] == '200') {
+          if (res.data.maxCashAmount > res.data.cashableAmount) {
+            setDollar(res.data.cashableAmount)
+          } else {
+            setDollar(res.data.maxCashAmount)
+          }
         } else {
-          setDollar(res.data.maxCashAmount)
+          Toast({
+            message: res['msg'],
+          })
         }
-      } else {
-        Toast({
-          message: res['msg'],
-        })
-      }
-    }).catch((err)=>{
-       Toast("系统异常")
-    })
+      })
+      .catch((err) => {
+        Toast('系统异常')
+      })
   }, [])
 
   // useDebouncedEffect(
@@ -58,7 +60,7 @@ const WithDrawPage: React.FC = () => {
     } else if (Number(myK) > Number(dollar)) {
       Toast('已超过单次最大提现金额')
     } else {
-      MyTokenService.askForWithDraw({ amount: myK*100 }).then((res) => {
+      MyTokenService.askForWithDraw({ amount: myK * 100 }).then((res) => {
         console.log(res)
         if (res['code'] == '200') {
           Toast({
@@ -114,7 +116,7 @@ const WithDrawPage: React.FC = () => {
         <div className="text">
           {Number(dollar) > Number(myK) || Number(dollar) == Number(myK) ? (
             <div>
-              {Number(dollar) == 0 ? '暂时还没有可提现金额' : `最多可提现${dollar?dollar/100:0}元`}
+              {Number(dollar) == 0 ? '暂时还没有可提现金额' : `最多可提现${dollar ? dollar / 100 : 0}元`}
 
               <Popover
                 className="popover"

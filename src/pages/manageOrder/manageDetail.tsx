@@ -19,7 +19,7 @@ const CategoryArr = (list) => {
   for (let i = 0; i < list.length; i++) {
     let az = 0
     for (let j = 0; j < data.length; j++) {
-      const stateS = data[j][0].state;
+      const stateS = data[j][0].state
       //退款中 退款成功 退款失败 卡片拼接
       if (stateS == 5 || stateS == 6 || stateS == 7) {
         if (data[j][0].state == list[i].state) {
@@ -66,6 +66,8 @@ const MaorderDetailPage: FC = () => {
   const { search } = useLocation()
   const { id } = qs.parse(search.slice(1))
 
+  const [isloading, setisloading] = useState(true)
+
   const [details, setDetails] = useState({
     order: {},
     suborders: [],
@@ -75,6 +77,7 @@ const MaorderDetailPage: FC = () => {
     const data = await getMaorderDetail(id)
     data.suborders = CategoryArr(data.suborders)
     setDetails(data)
+    setisloading(false)
   }
 
   useEffect(() => {
@@ -97,7 +100,19 @@ const MaorderDetailPage: FC = () => {
               )
             })}
           </div>
-        ) : null}
+        ) : (
+          <div className="maorder-text">{isloading ? '加载中...' : '未填写出行人信息，请及时联系用户填写'}</div>
+        )}
+      </div>
+      <div className="maorderDetail-box">
+        <div
+          className="maorderDetail-btn"
+          onClick={() => {
+            Toast('开发中')
+          }}
+        >
+          联系
+        </div>
       </div>
     </div>
   )

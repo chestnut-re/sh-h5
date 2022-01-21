@@ -6,7 +6,8 @@ import './index.less'
 /**
  * 已知日期日历选择卡片
  */
-const RMB_CON = 1000
+// const RMB_CON = 1000
+import { RMB_CON } from '@/utils/currency'
 const WeekMap = {
   0: '周日',
   1: '周一',
@@ -86,7 +87,7 @@ const KnownCalendarCard: FC<KnownCalendarType> = ({ calendata = [], selecttime, 
       day.type = 'disabled'
     } else {
       day.topInfo = `库存${dayitem.stock}`
-      day.bottomInfo = `¥${dayitem.bottomInfo / RMB_CON}`
+      day.bottomInfo = `¥${RMB_CON(dayitem.bottomInfo)}`
     }
     return day
   }
@@ -145,7 +146,7 @@ const KnownCalendarCard: FC<KnownCalendarType> = ({ calendata = [], selecttime, 
                 >
                   <p>{dayjs(item.startDate).format('MM-DD')}</p>
                   <p>{WeekMap[dayjs(item.startDate).format('d')]}</p>
-                  <p className="price">¥{item.personCurrentPrice / RMB_CON}</p>
+                  <p className="price">¥{RMB_CON(item.personCurrentPrice)}</p>
                 </div>
               )
             })}
