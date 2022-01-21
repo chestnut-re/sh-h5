@@ -59,7 +59,11 @@ const OrderConfirmaPage: FC = (props: any) => {
         const { code, data } = result
         if (code === '200' && data) {
           console.log('object :>> ', data)
-          setRefundList(data)
+          //只显示退款中，退款失败 退款成功订单
+          const newRefund = data.filter((item) => {
+            return item.refundState && item.refundState != 3 && item.refundState != 5
+          })
+          setRefundList(newRefund)
         }
       })
       .catch((err) => {
