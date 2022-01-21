@@ -13,4 +13,12 @@ export class MiniAppBridge {
       url: `/pages/pay/index?data=${encodeURIComponent(data)}&amount=${amount}&orderId=${orderId}`,
     })
   }
+
+  /**
+   * 返回上页
+   * 关闭当前页面
+   */
+  static closePage(): void {
+    window['wx'].miniProgram.navigateBack()
+  }
 }

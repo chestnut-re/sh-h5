@@ -131,7 +131,14 @@ export class SHBridge {
   static closePage(): void {
     if (isApp()) {
       AppBridge.closePage()
+      return
     }
+
+    isMini().then((res) => {
+      if (res) {
+        MiniAppBridge.closePage()
+      }
+    })
   }
 
   /**
