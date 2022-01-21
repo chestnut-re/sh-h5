@@ -16,6 +16,7 @@ import { isWeChat } from '@/jsbridge/env'
 const CDownloadApp: React.FC = () => {
   const [showMask, setShowMask] = useState(false)
 
+  /**下载 Android */
   const _downloadAndroid = () => {
     isWeChat().then((res) => {
       if (res) {
@@ -27,6 +28,7 @@ const CDownloadApp: React.FC = () => {
     })
   }
 
+  /**下载 ios */
   const _downloadiOS = () => {
     isWeChat().then((res) => {
       if (res) {
