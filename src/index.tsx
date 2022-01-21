@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react'
+import React, { Suspense } from 'react'
 import loadable from '@loadable/component'
 import ReactDOM from 'react-dom'
 import { BrowserRouter, Route } from 'react-router-dom'
@@ -14,6 +14,7 @@ const HomePage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ 
 /**AppPage, App入口页 */
 const AppPage = loadable(() => import(/* webpackChunkName: 'AppPage'*/ './pages/app'))
 const AppBizPage = loadable(() => import(/* webpackChunkName: 'AppBizPage'*/ './pages/appbiz'))
+const MiniAppPage = loadable(() => import(/* webpackChunkName: 'MiniAppPage'*/ './pages/miniapp'))
 
 /**商品详情页 */
 const GoodsDetailPage = loadable(() => import(/* webpackChunkName: 'GoodsDetailPage'*/ './pages/goodsDetail'))
@@ -200,6 +201,7 @@ const App = () => (
 
       <Route path="/app" exact component={AppPage}></Route>
       <Route path="/appbiz" exact component={AppBizPage}></Route>
+      <Route path="/miniapp" exact component={MiniAppPage}></Route>
 
       <Route path="/goods-detail" exact component={GoodsDetailPage}></Route>
       <Route path="/goods-desc" exact component={ActiviteDescPage}></Route>
