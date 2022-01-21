@@ -190,6 +190,8 @@ const HappyCoinIns = loadable(() => import(/* webpackChunkName: 'GoodPng' */ './
 const SupportPage = loadable(() => import(/* webpackChunkName: 'GoodPng' */ './pages/support'))
 /**撤销成功 */
 const UndoApplySuccess = loadable(() => import(/* webpackChunkName: 'GoodPng' */ './pages/applySaleService/undoApply'))
+/**B端退款详情 */
+const ReimburseDetail = loadable(() => import(/* webpackChunkName: 'GoodPng' */ './pages/reimburseDetail'))
 
 const env = process.env.NODE_ENV
 console.log(env)
@@ -280,6 +282,7 @@ const App = () => (
       <Route path="/beans-explain" exact component={HappyCoinIns}></Route>
       <Route path="/undo-apply" exact component={UndoApplySuccess}></Route>
       <Route path="/support" exact component={SupportPage}></Route>
+      <Route path="/reimburse-detail" exact component={ReimburseDetail}></Route>
     </BrowserRouter>
   </Suspense>
 )
