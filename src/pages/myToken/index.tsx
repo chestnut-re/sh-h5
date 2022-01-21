@@ -37,6 +37,7 @@ const MyTokenPage: React.FC = () => {
   const [isshareCard, setisshareCard] = useState(false)
   const [sharetaskId, setsharetaskId] = useState<any>({})
   useEffect(() => {
+    SHBridge.setTitle('我的乐豆')
     MyTokenService.getMyWallet().then((res: any) => {
       const { code, data } = res
       if (code === '200' && data) {

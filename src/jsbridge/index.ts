@@ -59,6 +59,8 @@ export class SHBridge {
   static setTitle(title: string): void {
     if (isApp()) {
       AppBridge.setTitle(title)
+    } else {
+      document.title = title ? title : '山海云途'
     }
   }
 
