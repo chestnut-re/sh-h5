@@ -58,6 +58,7 @@ const OrderConfirmaPage: FC = (props: any) => {
         console.log('resultresultresult :>> ', result)
         const { code, data } = result
         if (code === '200' && data) {
+          console.log('object :>> ', data)
           setRefundList(data)
         }
       })

@@ -121,12 +121,12 @@ const MyTokenPage: React.FC = () => {
   }
 
   const onshareChangeHandle = (item) => {
-    const { goodsId, userId, goodsName, id, promotionalImageUrl, rebateType } = item
+    const { goodsId, userId, goodsName, shareType, id, promotionalImageUrl, rebateType } = item
     console.log('item :>> ', item)
 
     oncloseModal()
     if (SHBridge.isLogin()) {
-      const litterUrl = `${window.location.origin}/goods-detail?id=${goodsId}&userId=${userId}&source=2&taskId=${id}&rebateType=${rebateType}`
+      const litterUrl = `${window.location.origin}/goods-detail?id=${goodsId}&userId=${userId}&source=2&taskId=${id}&rebateType=${rebateType}&share_ip=${shareType}`
       console.log('litterUrl :>> ', litterUrl)
       SHBridge.shareDetail({
         type: 'goods',
@@ -137,7 +137,7 @@ const MyTokenPage: React.FC = () => {
       })
       oncloseModal()
       const { taskId, state } = sharetaskId
-      if (state != 2) {
+      if (state != 2 && shareType == 0) {
         MyTokenService.unLockBean({ taskId: taskId }).then((res) => {
           const { code, msg, data } = res
           if (code === '200' && data) {
