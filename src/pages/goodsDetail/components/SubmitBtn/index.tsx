@@ -51,7 +51,11 @@ const SubmitBtn: React.FC<Props> = ({ dataAll, templateKey, img }) => {
   if (weChat) {
     return (
       <div className={`SubmitBtn__root SubmitBtn__root__${templateKey}`}>
-        {img && <img className="btn-img" src={img} onClick={makeOrder} />}
+        {img && (
+          <div className="img-wrapper">
+            <img className="img" src={img} onClick={makeOrder} />
+          </div>
+        )}
         {/* @ts-ignore */}
         <wx-open-launch-weapp
           ref={wxRef}
