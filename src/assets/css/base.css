@@ -138,3 +138,13 @@ a:active {
   margin-top: constant(safe-area-inset-top); /*兼容 IOS<11.2*/
   margin-top: env(safe-area-inset-top);
 }
+
+/* 100vh适配问题 */
+html {
+  height: -webkit-fill-available;
+}
+
+body {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+}

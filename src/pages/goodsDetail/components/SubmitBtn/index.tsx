@@ -4,6 +4,7 @@ import { SHBridge } from '@/jsbridge'
 import { isWeChat } from '@/jsbridge/env'
 import { generateUrl } from '@/utils'
 import React, { useEffect, useState } from 'react'
+import { Divider } from 'react-vant'
 import { PageTemplateKey } from '../../utils'
 import './index.less'
 
@@ -77,7 +78,11 @@ const SubmitBtn: React.FC<Props> = ({ dataAll, templateKey, img }) => {
   }
   return (
     <div className={`SubmitBtn__root SubmitBtn__root__${templateKey}`}>
-      {img && <img className="btn-img" src={img} onClick={makeOrder} />}
+      {img && (
+        <div className="img-wrapper">
+          <img className="img" src={img} onClick={makeOrder} />
+        </div>
+      )}
     </div>
   )
 }
