@@ -1,12 +1,7 @@
 import React, { useState, useEffect, FC, useImperativeHandle, forwardRef } from 'react'
-import {
-  Popover,
-  Popup,
-  DatetimePicker,
-  Field,
-  hooks
-} from 'react-vant'
+import { Popover, Popup, DatetimePicker, Field, hooks } from 'react-vant'
 import { isStrNull } from '@/utils'
+import { Personal } from '@/service/Personal'
 
 import addIcon from '@/assets/img/add_icon@3x.png'
 
@@ -29,9 +24,8 @@ const actions = [
 const rulesInfo = {
   certificateErrorMsg: '',
   validityErrorMsg: '',
-  type: 0
+  type: 0,
 }
-
 
 const OptionalInfo = (props, ref) => {
   const [showPicker, setShowPicker] = useState(false)
@@ -44,8 +38,6 @@ const OptionalInfo = (props, ref) => {
   const { certificate } = props
   useEffect(() => {
     if (certificate && certificate.length > 0) {
-      console.log(certificate)
-
       const newErrorObj = [] as any
       certificate.map((item, index) => {
         item.type = index
@@ -54,7 +46,7 @@ const OptionalInfo = (props, ref) => {
         newErrorObj.push({
           certificateErrorMsg: '',
           validityErrorMsg: '',
-          type: index
+          type: index,
         })
       })
       setErrorInfoList(newErrorObj)
@@ -80,7 +72,7 @@ const OptionalInfo = (props, ref) => {
     errorInfoList.push({
       certificateErrorMsg: '',
       validityErrorMsg: '',
-      type: activeKey
+      type: activeKey,
     })
     setInfolist(infolist)
     setErrorInfoList(errorInfoList)
@@ -94,14 +86,13 @@ const OptionalInfo = (props, ref) => {
       return index != i
     })
 
-    console.log('i :>> ', i, newInfolist)
     setInfolist([...newInfolist])
     setErrorInfoList([...newErrorInfoList])
   }
 
   useImperativeHandle(ref, () => ({
     infolist: infolist,
-    rulesPass: rules
+    rulesPass: rules,
   }))
 
   const onFieldChange = (value, type) => {
@@ -152,7 +143,7 @@ const OptionalInfo = (props, ref) => {
 
   const rules = () => {
     infolist.map((item, index) => {
-      if (props.type != 1) {
+      if (props.type == 1) {
         if (!item.certificateNo || isStrNull(item.certificateNo)) {
           errorInfoList[index].certificateErrorMsg = '请输入证件号'
         } else {
@@ -169,7 +160,6 @@ const OptionalInfo = (props, ref) => {
         errorInfoList[index].validityErrorMsg = ''
       }
     })
-    console.log('errorInfoList', errorInfoList)
     return judgeListComplete(errorInfoList)
   }
 
@@ -179,7 +169,6 @@ const OptionalInfo = (props, ref) => {
     for (const key in ObjectValue) {
       ObjectValue.type = ''
       if (ObjectValue[key] == '') {
-
       } else {
         flag = false
       }
@@ -191,7 +180,7 @@ const OptionalInfo = (props, ref) => {
     }
   }
   const judgeListComplete = (list) => {
-    const isNotComplete = list.findIndex(item => {
+    const isNotComplete = list.findIndex((item) => {
       return judgeObjectComplete(item) === false
     })
     if (isNotComplete > -1) {
@@ -200,7 +189,6 @@ const OptionalInfo = (props, ref) => {
       return true
     }
   }
-
   return (
     <div className="optional-info">
       {props.type == 0 && <div className="optional-info-text">儿童选填</div>}
@@ -264,8 +252,8 @@ const OptionalInfo = (props, ref) => {
                 addOptionalInfo()
               }}
             >
-              <img className='optional-add-img' src={addIcon} />
-              <div className='optional-add-txt'>添加其他证件</div>
+              <img className="optional-add-img" src={addIcon} />
+              <div className="optional-add-txt">添加其他证件</div>
             </div>
           </div>
           <div className="oic-line"></div>

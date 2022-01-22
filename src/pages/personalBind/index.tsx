@@ -1,5 +1,18 @@
 import React, { useState, FC, useRef, useEffect, useCallback } from 'react'
-import { hooks, NoticeBar, Icon, Button, Radio, Flex, Toast, Popup, Area, Field, Popover, DatetimePicker } from 'react-vant'
+import {
+  hooks,
+  NoticeBar,
+  Icon,
+  Button,
+  Radio,
+  Flex,
+  Toast,
+  Popup,
+  Area,
+  Field,
+  Popover,
+  DatetimePicker,
+} from 'react-vant'
 import PageView from '@/components/personal/pageView'
 import { Personal } from '@/service/Personal'
 import inactiveIcon from '@/assets/img/inactive_Icon@3x.png'
@@ -29,9 +42,8 @@ const actions = [
 ]
 
 const PersonalBindPage: FC = (props) => {
-
   const [travelerList, setTravelerList] = useState([])
-  const [showPopup, setShowPopup] = useState(false);
+  const [showPopup, setShowPopup] = useState(false)
   const [subordersList, setSubordersList] = useState([])
   const [travelerCertificateDtoList, setTravelerCertificateDtoList] = useState([] as any)
 
@@ -42,7 +54,7 @@ const PersonalBindPage: FC = (props) => {
 
   const [selectProtocol, setSelectProtocol] = useState(false)
   // useRef 初始化为数组
-  const childRefs = useRef<any>([]);
+  const childRefs = useRef<any>([])
   const [state, set] = hooks.useSetState({
     visible: false,
   })
@@ -59,15 +71,15 @@ const PersonalBindPage: FC = (props) => {
    */
   const initialTravelerInfo = (id: any, type = '1') => {
     const travelerObj = {
-      certificateNo: "",
+      certificateNo: '',
       certificateType: 1,
-      createTime: "",
+      createTime: '',
       id: '',
       isDelete: 0,
       suborderId: id,
-      updateTime: "",
-      validity: "",
-      type: type
+      updateTime: '',
+      validity: '',
+      type: type,
     }
     return travelerObj
   }
@@ -82,7 +94,7 @@ const PersonalBindPage: FC = (props) => {
       certificateNoMsg: '',
       addrMsg: '',
       addressMsg: '',
-      index: id
+      index: id,
     }
     return errorObj
   }
@@ -102,7 +114,6 @@ const PersonalBindPage: FC = (props) => {
         newErrorObj['emerPhoneMsg'] = travelerPhoneRules(item['emerPhoneNumber'])
         newErrorObj['addrMsg'] = noEmptyRules(item['habitualResidence'])
         newErrorObj['addressMsg'] = noEmptyRules(item['address'])
-
       } else {
         newErrorMessage[index] = {}
       }
@@ -145,7 +156,6 @@ const PersonalBindPage: FC = (props) => {
     return errMsg
   }
 
-
   const travelerRules = (index, val) => {
     const newErrorMessage = [...errorMessage]
     const subordersObj = subordersList[index]
@@ -153,24 +163,24 @@ const PersonalBindPage: FC = (props) => {
     switch (val) {
       case 'travelerName':
         newErrorObj['nameMsg'] = travelerNameRules(subordersObj['travelerName'])
-        break;
+        break
       case 'travelerPhone':
         newErrorObj['phoneMsg'] = travelerPhoneRules(subordersObj['travelerPhoneNumber'])
-        break;
+        break
       case 'addr':
         newErrorObj['addrMsg'] = noEmptyRules(subordersObj['habitualResidence'])
-        break;
+        break
       case 'address':
         newErrorObj['addressMsg'] = noEmptyRules(subordersObj['address'])
-        break;
+        break
       case 'emerName':
         newErrorObj['emerNameMsg'] = travelerNameRules(subordersObj['emerName'])
-        break;
+        break
       case 'emerPhone':
         newErrorObj['emerPhoneMsg'] = travelerPhoneRules(subordersObj['emerPhoneNumber'])
-        break;
+        break
       default:
-        console.log('不符合条件');
+        console.log('不符合条件')
     }
     setErrorMessage(newErrorMessage)
   }
@@ -181,7 +191,6 @@ const PersonalBindPage: FC = (props) => {
     for (const key in ObjectValue) {
       ObjectValue.index = ''
       if (ObjectValue[key] == '') {
-
       } else {
         flag = false
       }
@@ -193,7 +202,7 @@ const PersonalBindPage: FC = (props) => {
     }
   }
   const judgeListComplete = (list) => {
-    const isNotComplete = list.findIndex(item => {
+    const isNotComplete = list.findIndex((item) => {
       return judgeObjectComplete(item) === false
     })
     if (isNotComplete > -1) {
@@ -207,9 +216,9 @@ const PersonalBindPage: FC = (props) => {
    * 获取订单信息
    */
   const getOrderInfo = () => {
-    Personal.getOrder(urlParams.id).then(res => {
+    Personal.getOrder(urlParams.id).then((res) => {
       const travelerArr = [] as any
-      const errorMsg = []
+      const errorMsg = [] as any
       res.data.map((item, index) => {
         travelerArr.push([initialTravelerInfo(item.id)])
         errorMsg.push(initialErrorObj(index))
@@ -224,10 +233,10 @@ const PersonalBindPage: FC = (props) => {
    * 获取出行人列表
    */
   const getList = () => {
-    Personal.listInfo().then(res => {
+    Personal.listInfo().then((res) => {
       const { data } = res
       if (!data) return
-      data.map(item => {
+      data.map((item) => {
         item.select = false
       })
       setTravelerList(data)
@@ -235,7 +244,7 @@ const PersonalBindPage: FC = (props) => {
   }
   /**
    * 选择出行人模板
-   * @param obj 
+   * @param obj
    */
 
   const onSelectItem = (obj) => {
@@ -263,7 +272,7 @@ const PersonalBindPage: FC = (props) => {
     }
 
     const newTravelerList = [...travelerList] as any
-    newTravelerList.map(item => {
+    newTravelerList.map((item) => {
       if (obj.id == item['id']) {
         for (let i = 0; i < newSubordersList.length; i++) {
           if (!newSubordersList[i].travelerName && !newSubordersList[i].selectedTraveler) {
@@ -279,7 +288,7 @@ const PersonalBindPage: FC = (props) => {
               newSubordersList[i].emerTravelerRelation = obj.emerTravelerRelation
               newSubordersList[i].travelerRelation = obj.userTravelerRelation
               travelerCertificateDtoList[i] = obj.travelerCertificate
-              break;
+              break
             }
           }
         }
@@ -324,7 +333,7 @@ const PersonalBindPage: FC = (props) => {
 
   /**
    * 修改出行人名字
-   * @param val 
+   * @param val
    * @param i
    */
   const onTravelerName = (val, i) => {
@@ -335,8 +344,8 @@ const PersonalBindPage: FC = (props) => {
 
   /**
    * 修改出现人手机号码
-   * @param val 
-   * @param i 
+   * @param val
+   * @param i
    */
 
   const onTravelerPhone = (val, i) => {
@@ -347,8 +356,8 @@ const PersonalBindPage: FC = (props) => {
 
   /**
    * 修改紧急联系人姓名
-   * @param val 
-   * @param i 
+   * @param val
+   * @param i
    */
 
   const onEmerTravelerName = (val, i) => {
@@ -359,8 +368,8 @@ const PersonalBindPage: FC = (props) => {
 
   /**
    * 修改紧急联系人手机号码
-   * @param val 
-   * @param i 
+   * @param val
+   * @param i
    */
 
   const onEmerTravelerPhone = (val, i) => {
@@ -370,8 +379,8 @@ const PersonalBindPage: FC = (props) => {
   }
 
   /**
-   * 紧急联系人详细地址
-   * @returns 
+   * 联系人详细地址
+   * @returns
    */
 
   const onTravelerAddress = (val, i) => {
@@ -391,11 +400,14 @@ const PersonalBindPage: FC = (props) => {
       }
       const postData = {
         suborderDtoList: [...subordersList],
-        travelerCertificateDtoList: [...travelerCertificateList(childRefs.current), ...selectTravelerCertificate(travelerCertificateDtoList)]
+        travelerCertificateDtoList: [
+          ...travelerCertificateList(childRefs.current),
+          ...selectTravelerCertificate(travelerCertificateDtoList),
+        ],
       }
       console.log('travelerCertificateDtoList', postData)
 
-      Personal.addPedestrianInfo(postData).then(res => {
+      Personal.addPedestrianInfo(postData).then((res) => {
         console.log('paramsparams', res)
 
         if (res['code'] == '200') {
@@ -422,29 +434,30 @@ const PersonalBindPage: FC = (props) => {
    */
   const travelerCertificateList = (list) => {
     const certificate = [] as any
-    list.length > 0 && list.forEach((childRef: any) => {
-      childRef.infolist.map((itemj, j) => {
-        if (itemj.certificateNo != '') {
-          itemj.certificateType = itemj.certificateType == '身份证' ? 1 : 2
-          certificate.push(itemj)
-        }
+    list.length > 0 &&
+      list.forEach((childRef: any) => {
+        childRef.infolist.map((itemj, j) => {
+          if (itemj.certificateNo != '') {
+            itemj.certificateType = itemj.certificateType == '身份证' ? 1 : 2
+            certificate.push(itemj)
+          }
+        })
       })
-    });
     return certificate
   }
 
   const selectTravelerCertificate = (list) => {
     const certificate = [] as any
-    list.length > 0 && list.forEach((item: any, index) => {
-      if (subordersList[index].selectedTraveler) {
-        item.forEach(element => {
-          element.suborderId = subordersList[index].id
+    list.length > 0 &&
+      list.forEach((item: any, index) => {
+        if (subordersList[index].selectedTraveler) {
+          item.forEach((element) => {
+            element.suborderId = subordersList[index].id
 
-          certificate.push(element)
-        });
-      }
-
-    })
+            certificate.push(element)
+          })
+        }
+      })
     return certificate
   }
 
@@ -454,14 +467,15 @@ const PersonalBindPage: FC = (props) => {
    */
   const getCertificateRules = () => {
     const certificateRules = [] as any
-    childRefs.current && childRefs.current.forEach((childRef: any, index) => {
-      const travelerItem = subordersList[index] as any
-      if (travelerItem.selectedTraveler) {
-        certificateRules.push(true)
-      } else {
-        certificateRules.push(childRef.rulesPass())
-      }
-    });
+    childRefs.current &&
+      childRefs.current.forEach((childRef: any, index) => {
+        const travelerItem = subordersList[index] as any
+        if (travelerItem.selectedTraveler) {
+          certificateRules.push(true)
+        } else {
+          certificateRules.push(childRef.rulesPass())
+        }
+      })
 
     const isPass = certificateRules.every((item) => {
       return item == true
@@ -476,7 +490,7 @@ const PersonalBindPage: FC = (props) => {
   }
 
   /**
-   * 
+   *
    */
   const changeAddrVal = (val) => {
     const newSubordersList = [...subordersList] as any
@@ -516,21 +530,20 @@ const PersonalBindPage: FC = (props) => {
     })
 
     const newTravelerList = [...travelerList] as any
-    newTravelerList.map(item => {
+    newTravelerList.map((item) => {
       if (newSubordersList[i].travelerId == item['id']) {
         item['select'] = false
       }
     })
 
-
     setTravelerList(newTravelerList)
-    travelerCertificateDtoList.splice(i, 1, [initialTravelerInfo(subordersList[i].id)]);
+    travelerCertificateDtoList.splice(i, 1, [initialTravelerInfo(subordersList[i].id)])
     setSubordersList(newSubordersList)
   }
 
   const getRelationText = (id) => {
     let relationText = ''
-    actions.map(item => {
+    actions.map((item) => {
       if (item.type == id) {
         relationText = item.text
       }
@@ -553,26 +566,32 @@ const PersonalBindPage: FC = (props) => {
           请填写真实可用信息，用于购买机票、火车票、办理住宿等
         </NoticeBar>
         {travelerList && travelerList.length > 0 && (
-          <div className='bind-list'>
-            <div className='bind-itemView'>
-              {travelerList.map((item, index) => (
-                index < 3 && (
-                  <div onClick={() => onSelectItem(item)} key={`index${index}`} className={`bind-item ${item['select'] && 'bind-item-select'}`}>
-                    <div className='text'>{item['travelerName']}</div>
-                    <div className='hint'>{item['type'] == 0 ? '儿童' : '成人'}</div>
-                    {item['select'] && <div className='tag'>✓</div>}
-                  </div>
-                )
-              ))}
+          <div className="bind-list">
+            <div className="bind-itemView">
+              {travelerList.map(
+                (item, index) =>
+                  index < 3 && (
+                    <div
+                      onClick={() => onSelectItem(item)}
+                      key={`index${index}`}
+                      className={`bind-item ${item['select'] && 'bind-item-select'}`}
+                    >
+                      <div className="text">{item['travelerName']}</div>
+                      <div className="hint">{item['type'] == 0 ? '儿童' : '成人'}</div>
+                      {item['select'] && <div className="tag">✓</div>}
+                    </div>
+                  )
+              )}
             </div>
-            <div onClick={() => setShowPopup(true)} className='bind-more'>
-              <span className='text'>更多</span>
+            <div onClick={() => setShowPopup(true)} className="bind-more">
+              <span className="text">更多</span>
               <Icon name="arrow" />
             </div>
           </div>
         )}
-        {subordersList && subordersList.length > 0 && (
-          subordersList.map((item, index) => (
+        {subordersList &&
+          subordersList.length > 0 &&
+          subordersList.map((item, index) =>
             item['selectedTraveler'] ? (
               <div key={`index${index}`} className="personal-content">
                 <div className="personal-content-header">
@@ -580,19 +599,21 @@ const PersonalBindPage: FC = (props) => {
                     <li className="pch-ul-li rv-hairline--bottom">
                       {item['travelerType'] == 1 && <div className="pul-name">成人</div>}
                       {item['travelerType'] == 0 && <div className="pul-name">儿童</div>}
-                      <div onClick={() => onEmpty(index)} className='pul-emptyView'>一键清空</div>
+                      <div onClick={() => onEmpty(index)} className="pul-emptyView">
+                        一键清空
+                      </div>
                     </li>
                     <li className="pch-ul-li rv-hairline--bottom">
-                      <div className='travelerView'>
-                        <div className='traveler-user'>
-                          <div className='user'>
-                            <div className='name'>{item['travelerName']}</div>
-                            <div className='tag'>{getRelationText(item['travelerRelation'])}</div>
+                      <div className="travelerView">
+                        <div className="traveler-user">
+                          <div className="user">
+                            <div className="name">{item['travelerName']}</div>
+                            <div className="tag">{getRelationText(item['travelerRelation'])}</div>
                           </div>
-                          <div className='phone'>{item['travelerPhoneNumber']}</div>
+                          <div className="phone">{item['travelerPhoneNumber']}</div>
                         </div>
                         {travelerCertificateDtoList[index].map((travelerItem, travelerIndex) => (
-                          <div key={`travelerIndex${travelerIndex}`} className='Id'>
+                          <div key={`travelerIndex${travelerIndex}`} className="Id">
                             {travelerItem.certificateType == 1 ? '身份证 ' : '护照 '}
                             {travelerItem.certificateNo}
                           </div>
@@ -609,7 +630,9 @@ const PersonalBindPage: FC = (props) => {
                     <li className="pch-ul-li rv-hairline--bottom">
                       {item['travelerType'] == 1 && <div className="pul-name">成人</div>}
                       {item['travelerType'] == 0 && <div className="pul-name">儿童</div>}
-                      <div onClick={() => onEmpty(index)} className='pul-emptyView'>一键清空</div>
+                      <div onClick={() => onEmpty(index)} className="pul-emptyView">
+                        一键清空
+                      </div>
                     </li>
                     <li className="pch-ul-li rv-hairline--bottom">
                       <div className="pul-name">证件姓名</div>
@@ -633,8 +656,12 @@ const PersonalBindPage: FC = (props) => {
                             <Popover
                               placement="bottom-end"
                               actions={actions}
-                              onSelect={(actionsItem) => { onPopoverSelect(actionsItem, index, 0) }}
-                              reference={<div className="pul-content-title">{getActionsText(item['travelerRelation'])}</div>}
+                              onSelect={(actionsItem) => {
+                                onPopoverSelect(actionsItem, index, 0)
+                              }}
+                              reference={
+                                <div className="pul-content-title">{getActionsText(item['travelerRelation'])}</div>
+                              }
                             />
                           </Flex.Item>
                         </Flex>
@@ -676,7 +703,9 @@ const PersonalBindPage: FC = (props) => {
                       </div>
                     </li>
                     <li style={{ alignItems: 'flex-start' }} className="pch-ul-li rv-hairline--bottom">
-                      <div style={{ paddingTop: 3 }} className="pul-name">详细地址</div>
+                      <div style={{ paddingTop: 3 }} className="pul-name">
+                        详细地址
+                      </div>
                       <div className="pul-content">
                         <Field
                           value={item.address}
@@ -700,7 +729,7 @@ const PersonalBindPage: FC = (props) => {
                         certificate={travelerCertificateDtoList[index]}
                         ref={(ref) => {
                           if (ref) {
-                            childRefs.current[index] = ref;
+                            childRefs.current[index] = ref
                           }
                         }}
                       />
@@ -728,8 +757,12 @@ const PersonalBindPage: FC = (props) => {
                             <Popover
                               placement="top-end"
                               actions={actions}
-                              onSelect={(actionsItem) => { onPopoverSelect(actionsItem, index, 1) }}
-                              reference={<div className="pul-content-title">{getActionsText(item['emerTravelerRelation'])}</div>}
+                              onSelect={(actionsItem) => {
+                                onPopoverSelect(actionsItem, index, 1)
+                              }}
+                              reference={
+                                <div className="pul-content-title">{getActionsText(item['emerTravelerRelation'])}</div>
+                              }
                             />
                           </Flex.Item>
                         </Flex>
@@ -756,13 +789,9 @@ const PersonalBindPage: FC = (props) => {
                 </div>
               </div>
             )
-          ))
-        )}
+          )}
 
-        <UserProtocolItem
-          isSelect={selectProtocol}
-          onSelect={onSelectProtocol}
-        />
+        <UserProtocolItem isSelect={selectProtocol} onSelect={onSelectProtocol} />
 
         <div
           onClick={() => {
@@ -770,9 +799,7 @@ const PersonalBindPage: FC = (props) => {
           }}
           className={'personal-submit'}
         >
-          <div className={'personal-submit-btn'}>
-            提交信息
-          </div>
+          <div className={'personal-submit-btn'}>提交信息</div>
         </div>
       </div>
       <Popup round visible={state.visible} position="bottom" onClose={() => set({ visible: false })}>
@@ -787,7 +814,7 @@ const PersonalBindPage: FC = (props) => {
       <Popup
         visible={showPopup}
         closeable
-        title='选择出行人'
+        title="选择出行人"
         position="bottom"
         onClickCloseIcon={() => {
           setShowPopup(false)
@@ -796,44 +823,37 @@ const PersonalBindPage: FC = (props) => {
           setShowPopup(false)
         }}
         round
-        className='PersonalBind-popupView'
+        className="PersonalBind-popupView"
         safeAreaInsetBottom
       >
-        <div className='popupView'>
-          <div className='container'>
+        <div className="popupView">
+          <div className="container">
             {travelerList.map((item, index) => (
-              <div key={`index${index}`} className='travelerItem'>
-                <div className='info'>
-                  <div className='nameView'>
-                    <div className='name'>
-                      <div className='text'>
-                        {item['travelerName']}
-                      </div>
+              <div key={`index${index}`} className="travelerItem">
+                <div className="info">
+                  <div className="nameView">
+                    <div className="name">
+                      <div className="text">{item['travelerName']}</div>
                       {getRelationText(item['userTravelerRelation']) && (
-                        <div className='tag'>
-                          {getRelationText(item['userTravelerRelation'])}
-                        </div>
+                        <div className="tag">{getRelationText(item['userTravelerRelation'])}</div>
                       )}
-
                     </div>
-                    <div className='phoneNum'>{item['phoneNumber']}</div>
+                    <div className="phoneNum">{item['phoneNumber']}</div>
                   </div>
-                  <div className='IDcard'>
-                    身份证{item['travelerCertificate'][0].certificateNo}
-                  </div>
+                  <div className="IDcard">身份证{item['travelerCertificate'][0].certificateNo}</div>
                 </div>
-                <div onClick={() => onSelectItem(item)} className='selectView'>
+                <div onClick={() => onSelectItem(item)} className="selectView">
                   <img alt="" className="img-icon" src={item['select'] ? activeIcon : inactiveIcon} />
                 </div>
               </div>
             ))}
           </div>
-          <div onClick={() => setShowPopup(false)} className='popupViewBtn'>
-            <div className='text'>确定</div>
+          <div onClick={() => setShowPopup(false)} className="popupViewBtn">
+            <div className="text">确定</div>
           </div>
         </div>
       </Popup>
-    </PageView >
+    </PageView>
   )
 }
 export default PersonalBindPage

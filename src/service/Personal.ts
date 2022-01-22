@@ -61,4 +61,11 @@ export class Personal {
   static getOrder(id): Promise<AxiosResponse<any>> {
     return axios.get(`/api/orders/${id}/suborders`)
   }
+
+  /**
+   * 实名认证
+   */
+  static realNameAuth(params): Promise<AxiosResponse<any>> {
+    return axios.post(`/api/third/auth/realNameAuth`, params)
+  }
 }

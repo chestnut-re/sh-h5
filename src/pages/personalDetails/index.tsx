@@ -1,11 +1,25 @@
 import React, { useState, FC, useRef, useEffect, useCallback } from 'react'
-import { hooks, NoticeBar, Form, Radio, Flex, Toast, Popup, Area, Field, Popover, ConfigProvider, DatetimePicker } from 'react-vant'
+import {
+  hooks,
+  NoticeBar,
+  Form,
+  Radio,
+  Flex,
+  Toast,
+  Popup,
+  Area,
+  Field,
+  Popover,
+  ConfigProvider,
+  DatetimePicker,
+} from 'react-vant'
 import { areaList } from '@vant/area-data'
 import activeIcon from '@/assets/img/activeIcon@3x.png'
 import inactiveIcon from '@/assets/img/inactiveIcon@3x.png'
 import OptionalInfo from '@/components/personalDetails/optionalInfo'
 import { Personal } from '@/service/Personal'
 import { getUrlParams, isStrNull } from '@/utils'
+import { realNameAuth, rulesCardNo, rulesName } from '@/utils/tools'
 import { SHBridge } from '@/jsbridge'
 import UserProtocolItem from '@/components/personal/userProtocolItem'
 
@@ -39,7 +53,7 @@ const PersonalDetailPage: FC = (props: any) => {
   const [selectProtocol, setSelectProtocol] = useState(false)
   const [submittal, setSubmitdata] = hooks.useSetState({
     userTravelerRelation: '', //登录用户与出行人关系
-    travelerName: '', //出行人姓名
+    travelerName: '李德恩', //出行人姓名 411421199310226438
     phoneNumber: '', //手机号
     addr: '', //出行人住址
     type: 1, //出行人类型
@@ -59,9 +73,14 @@ const PersonalDetailPage: FC = (props: any) => {
   const optionalInfoRef = useRef()
   const urlParams = getUrlParams(window.location.href)
 
+  const [realName, setRealName] = useState() as any
+
   useEffect(() => {
     if (urlParams.id) {
+      SHBridge.setTitle('编辑出行人')
       getInfo()
+    } else {
+      SHBridge.setTitle('添加出行人')
     }
   }, [])
 
@@ -105,70 +124,131 @@ const PersonalDetailPage: FC = (props: any) => {
    * 表单验证
    */
 
-  const rules = () => {
-    const { rulesPass }: any = optionalInfoRef.current;
+  const noEmptyRules = (val, msg = '该字段不能为空') => {
+    let errMsg = ''
+    if (isStrNull(val)) {
+      errMsg = msg
+    } else {
+      errMsg = ''
+    }
+    return errMsg
+  }
 
+  const travelerNameRules = (val) => {
+    let errMsg = ''
+    const nameReg = /^[\u4E00-\u9FA5]{2,20}$/
+    const nameTxt = nameReg.test(val)
+    if (!nameTxt) {
+      errMsg = '请输入正确的证件姓名'
+    } else {
+      errMsg = ''
+    }
+    return errMsg
+  }
 
-    const errorMsg = {}
-    const nameReg = /^[\u4E00-\u9FA5]{2,10}$/
+  const travelerPhoneRules = (val) => {
+    let errMsg = ''
     const phoneReg = /(^1[3|4|5|7|8|9]\d{9}$)|(^09\d{8}$)/
-    const nameTxt = nameReg.test(submittal.travelerName)
-    const phoneTxt = phoneReg.test(submittal.phoneNumber)
-    const emerNameTxt = nameReg.test(submittal.emerName)
-    const emerPhoneTxt = phoneReg.test(submittal.emerPhoneNumber)
+    const phoneTxt = phoneReg.test(val)
+    if (!phoneTxt) {
+      errMsg = '请输入正确的手机号'
+    } else {
+      errMsg = ''
+    }
+    return errMsg
+  }
 
-    const rulesCertificate = rulesPass()
+  const travelerRules = (val) => {
+    const errorMsg = { ...state.errorMessage }
+    switch (val) {
+      case 'travelerName':
+        errorMsg['nameMsg'] = travelerNameRules(submittal.travelerName)
+        break
+      case 'travelerPhone':
+        errorMsg['phoneMsg'] = travelerPhoneRules(submittal.phoneNumber)
+        break
+      case 'addr':
+        console.log('addr', submittal.addr)
+        errorMsg['addrMsg'] = noEmptyRules(submittal.addr)
+        break
+      case 'address':
+        errorMsg['detailAddrMsg'] = noEmptyRules(submittal.detailAddress)
+        break
+      case 'emerName':
+        errorMsg['emerNameMsg'] = travelerNameRules(submittal.emerName)
+        break
+      case 'emerPhone':
+        errorMsg['emerPhoneMsg'] = travelerPhoneRules(submittal.emerPhoneNumber)
+        break
+      default:
+        console.log('不符合条件')
+    }
+    set({
+      errorMessage: errorMsg,
+    })
+  }
 
+  const rules = () => {
+    const errorMsg = { ...state.errorMessage }
 
-    if (!nameTxt || !phoneTxt || !emerNameTxt || !emerPhoneTxt || isStrNull(submittal.addr) || isStrNull(submittal.detailAddress) || !rulesCertificate) {
-      if (!nameTxt) {
-        errorMsg['nameMsg'] = submittal.travelerName == '' ? '请输入姓名' : '请输入正确的证件姓名'
-      }
-      if (!phoneTxt) {
-        errorMsg['phoneMsg'] = submittal.phoneNumber == '' ? '请输入手机号码' : '请输入正确的手机号'
-      }
-      if (!emerNameTxt) {
-        errorMsg['emerNameMsg'] = submittal.emerName == '' ? '请输入紧急联系人' : '请输入正确联系人姓名'
-      }
-      if (!emerPhoneTxt) {
-        errorMsg['emerPhoneMsg'] = submittal.emerPhoneNumber == '' ? '请输入紧急联系人手机号码' : '请输入正确的手机号'
-      }
-      if (isStrNull(submittal.addr)) {
-        errorMsg['addrMsg'] = '请输入常住地址'
-      }
+    errorMsg['nameMsg'] = travelerNameRules(submittal.travelerName)
+    errorMsg['phoneMsg'] = travelerPhoneRules(submittal.phoneNumber)
 
-      if (isStrNull(submittal.detailAddress)) {
-        errorMsg['detailAddrMsg'] = '请输入详细地址'
-      }
+    errorMsg['emerNameMsg'] = travelerNameRules(submittal.emerName)
+    errorMsg['emerPhoneMsg'] = travelerPhoneRules(submittal.emerPhoneNumber)
+    errorMsg['addrMsg'] = noEmptyRules(submittal.addr)
+    errorMsg['detailAddrMsg'] = noEmptyRules(submittal.detailAddress)
+    set({
+      errorMessage: errorMsg,
+    })
+    return judgeObjectComplete(errorMsg)
+  }
 
-      set({
-        errorMessage: errorMsg,
-      })
+  const judgeObjectComplete = (ObjectValue) => {
+    let flag = new Boolean()
+    flag = true
+    for (const key in ObjectValue) {
+      ObjectValue.index = ''
+      if (ObjectValue[key] == '') {
+      } else {
+        flag = false
+      }
+    }
+    if (!flag) {
       return false
     } else {
-      if (submittal.phoneNumber == submittal.emerPhoneNumber) {
-        errorMsg['emerPhoneMsg'] = '紧急联系人手机号码不能是本人手机号'
-        set({
-          errorMessage: errorMsg,
-        })
-        return false
-      }
-      set({
-        errorMessage: {},
-      })
       return true
     }
   }
 
-  const onSubmit = useCallback(() => {
-    if (rules()) {
+  const onSubmit = useCallback(async () => {
+    let cardNo = ''
+
+    const { rulesPass }: any = optionalInfoRef.current
+    const rulesCertificate = rulesPass()
+    if (rules() && rulesCertificate) {
       if (!selectProtocol) {
         Toast({
           message: '请勾选用户协议',
         })
         return
       }
-      submittal.travelerCertificate = prune()
+      const pruneList = prune()
+      submittal.travelerCertificate = pruneList
+      pruneList.map((item, index) => {
+        if (item['certificateType'] == 1) {
+          cardNo = item['certificateNo']
+        }
+      })
+      const realName = await realNameAuth(cardNo, submittal.travelerName)
+      console.log('realName', realName)
+      if (cardNo != '' && !realName.isok) {
+        Toast({
+          message: '姓名和证件号不匹配',
+        })
+        return
+      }
+
       if (urlParams.id) {
         edit()
       } else {
@@ -183,21 +263,23 @@ const PersonalDetailPage: FC = (props: any) => {
 
   const add = () => {
     set({ subBtnDisabled: true })
-    Personal.add(submittal).then((res) => {
-      set({ subBtnDisabled: false })
-      if (res['code'] == '200') {
-        SHBridge.closePage()
-        Toast({
-          message: '添加成功',
-        })
-      } else {
-        Toast({
-          message: '添加失败',
-        })
-      }
-    }).catch(() => {
-      set({ subBtnDisabled: false })
-    })
+    Personal.add(submittal)
+      .then((res) => {
+        set({ subBtnDisabled: false })
+        if (res['code'] == '200') {
+          SHBridge.closePage()
+          Toast({
+            message: '添加成功',
+          })
+        } else {
+          Toast({
+            message: res['msg'] || '添加失败',
+          })
+        }
+      })
+      .catch(() => {
+        set({ subBtnDisabled: false })
+      })
   }
 
   /**
@@ -207,21 +289,25 @@ const PersonalDetailPage: FC = (props: any) => {
   const edit = () => {
     set({ subBtnDisabled: true })
     submittal['id'] = urlParams.id
-    Personal.edit(submittal).then((res) => {
-      set({ subBtnDisabled: false })
-      if (res['code'] == '200') {
-        Toast({
-          message: '修改成功',
-        })
-        SHBridge.closePage()
-      } else {
-        Toast({
-          message: '添加失败',
-        })
-      }
-    }).catch(() => {
-      set({ subBtnDisabled: false })
-    })
+    Personal.edit(submittal)
+      .then((res) => {
+        console.log('resres', res)
+
+        set({ subBtnDisabled: false })
+        if (res['code'] == '200') {
+          Toast({
+            message: '修改成功',
+          })
+          SHBridge.closePage()
+        } else {
+          Toast({
+            message: res['msg'] || '添加失败',
+          })
+        }
+      })
+      .catch(() => {
+        set({ subBtnDisabled: false })
+      })
   }
 
   /**
@@ -246,6 +332,21 @@ const PersonalDetailPage: FC = (props: any) => {
 
   const onSelectProtocol = () => {
     setSelectProtocol(!selectProtocol)
+  }
+
+  const onCardNo = () => {
+    let realName = {} as any
+    const { infolist }: any = optionalInfoRef.current
+    infolist.map(async (item, index) => {
+      if (item.certificateType == '身份证') {
+        if (!rulesCardNo(item.certificateNo) && !rulesName(submittal.travelerName)) return
+        const res = await realNameAuth(item.certificateNo, submittal.travelerName)
+        console.log('resresres', res)
+        setRealName(res)
+        realName = res
+      }
+    })
+    return realName
   }
 
   return (
@@ -275,6 +376,9 @@ const PersonalDetailPage: FC = (props: any) => {
                             travelerName: val,
                           })
                         }}
+                        onBlur={() => {
+                          travelerRules('travelerName')
+                        }}
                       />
                     </Flex.Item>
                     <Flex.Item span={10} className="pul-content-right">
@@ -299,11 +403,14 @@ const PersonalDetailPage: FC = (props: any) => {
                     placeholder="常用手机号"
                     errorMessage={state.errorMessage['phoneMsg']}
                     maxlength={11}
-                    type='number'
+                    type="number"
                     onChange={(val) => {
                       setSubmitdata({
                         phoneNumber: val,
                       })
+                    }}
+                    onBlur={() => {
+                      travelerRules('travelerPhone')
                     }}
                   />
                 </div>
@@ -315,25 +422,17 @@ const PersonalDetailPage: FC = (props: any) => {
                     isLink
                     readonly
                     value={submittal.addr}
-                    label=""
                     errorMessage={state.errorMessage['addrMsg']}
                     placeholder="请选择出行人常住地"
                     onClick={() => set({ visible: true })}
                   />
-                  <Popup round visible={state.visible} position="bottom" onClose={() => set({ visible: false })}>
-                    <Area
-                      title="常住地选择"
-                      areaList={areaList}
-                      onConfirm={(result) => {
-                        changeAreaVal(result)
-                      }}
-                    />
-                  </Popup>
                 </div>
               </li>
 
               <li style={{ alignItems: 'flex-start' }} className="pch-ul-li rv-hairline--bottom">
-                <div style={{ paddingTop: 3 }} className="pul-name">详细地址</div>
+                <div style={{ paddingTop: 3 }} className="pul-name">
+                  详细地址
+                </div>
                 <div className="pul-content">
                   <Field
                     value={submittal.detailAddress}
@@ -343,8 +442,11 @@ const PersonalDetailPage: FC = (props: any) => {
                     placeholder="街道、小区、门牌号等"
                     onChange={(val) => {
                       setSubmitdata({
-                        detailAddress: val
+                        detailAddress: val,
                       })
+                    }}
+                    onBlur={() => {
+                      travelerRules('address')
                     }}
                   />
                 </div>
@@ -357,7 +459,7 @@ const PersonalDetailPage: FC = (props: any) => {
                     value={submittal.type}
                     onChange={(val) => {
                       setSubmitdata({
-                        type: Number(val)
+                        type: Number(val),
                       })
                     }}
                     direction="horizontal"
@@ -403,6 +505,9 @@ const PersonalDetailPage: FC = (props: any) => {
                             emerName: val,
                           })
                         }}
+                        onBlur={() => {
+                          travelerRules('emerName')
+                        }}
                       />
                     </Flex.Item>
                     <Flex.Item span={10} className="pul-content-right">
@@ -424,12 +529,15 @@ const PersonalDetailPage: FC = (props: any) => {
                     value={submittal.emerPhoneNumber}
                     placeholder="紧急联系人手机号"
                     maxlength={11}
-                    type='number'
+                    type="number"
                     errorMessage={state.errorMessage['emerPhoneMsg']}
                     onChange={(val) => {
                       setSubmitdata({
                         emerPhoneNumber: val,
                       })
+                    }}
+                    onBlur={() => {
+                      travelerRules('emerPhone')
                     }}
                   />
                 </div>
@@ -437,10 +545,7 @@ const PersonalDetailPage: FC = (props: any) => {
             </ul>
           </div>
         </div>
-        <UserProtocolItem
-          isSelect={selectProtocol}
-          onSelect={onSelectProtocol}
-        />
+        <UserProtocolItem isSelect={selectProtocol} onSelect={onSelectProtocol} />
         <div
           onClick={() => {
             !state.subBtnDisabled && onSubmit()
@@ -452,6 +557,15 @@ const PersonalDetailPage: FC = (props: any) => {
           </div>
         </div>
       </div>
+      <Popup round visible={state.visible} position="bottom" onClose={() => set({ visible: false })}>
+        <Area
+          title="常住地选择"
+          areaList={areaList}
+          onConfirm={(result) => {
+            changeAreaVal(result)
+          }}
+        />
+      </Popup>
     </ConfigProvider>
   )
 }
