@@ -141,10 +141,9 @@ const TravelRoutePage: React.FC = () => {
                 <span className="itemDay">{item.whatDay}</span>
                 <span>{item.date ?? ''}</span>
               </div>
-              {item.travelDetails?.map((it) => {
+              {item.travelDetails?.map((it, index) => {
                 return (
-                  // eslint-disable-next-line react/jsx-key
-                  <div className="itemPoint">
+                  <div className="itemPoint" key={index}>
                     <div className="itemTime">{it.travelTime}</div>
                     <span className="point"></span>
                     {it.travelTitle}
