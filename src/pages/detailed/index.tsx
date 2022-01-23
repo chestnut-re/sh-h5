@@ -39,6 +39,7 @@ const DetailedPage: React.FC = () => {
       })
     } else {
       Toast(msg)
+      setFinished(true)
     }
   }
 

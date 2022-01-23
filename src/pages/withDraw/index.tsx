@@ -60,7 +60,7 @@ const WithDrawPage: React.FC = () => {
     } else if (Number(myK) > Number(dollar)) {
       Toast('已超过单次最大提现金额')
     } else {
-      MyTokenService.askForWithDraw({ amount: myK * 100 }).then((res) => {
+      MyTokenService.askForWithDraw({ amount: myK * 1000 }).then((res) => {
         console.log(res)
         if (res['code'] == '200') {
           Toast({
@@ -107,8 +107,20 @@ const WithDrawPage: React.FC = () => {
       <div className="header">
         <div className="title">提现金额</div>
         <div className="input-num">
-          <div>¥</div>
-          <input className="input" value={myK} readOnly onFocus={onFocus} onBlur={() => setVisible(false)} />
+          <div className="withdraw-icon">¥</div>
+          <Field
+            labelWidth="0"
+            className="input"
+            value={myK}
+            type="digit"
+            maxlength={9}
+            onChange={mywellat}
+            label=""
+            onFocus={onFocus}
+            onBlur={() => setVisible(false)}
+          />
+          {/* <div>¥</div>
+          <input className="input" value={myK} readOnly onFocus={onFocus} onBlur={() => setVisible(false)} /> */}
           {/* <div className="input" onClick={onFocus} onBlur={() => setVisible(false)}>
             {myK}
           </div> */}
@@ -133,7 +145,7 @@ const WithDrawPage: React.FC = () => {
           )}
         </div>
       </div>
-      <div className="show-hide" style={visible ? { display: 'none' } : {}}>
+      <div className="show-hide">
         <div className="card">
           <button onClick={toExamine}>申请提现</button>
         </div>
@@ -141,14 +153,14 @@ const WithDrawPage: React.FC = () => {
           查看明细
         </div>
       </div>
-      <NumberKeyboard
+      {/* <NumberKeyboard
         theme="custom"
         closeButtonText="提现"
         visible={visible}
         value={myK}
         onChange={mywellat}
         onClose={() => setVisible(false)}
-      />
+      /> */}
     </div>
   )
 }
