@@ -6,6 +6,7 @@ import './utils/windowpage'
 import './utils/vconsole'
 import 'normalize.css'
 import './assets/css/base.css'
+import '@/assets/css/sh-lib.less'
 import '@/assets/css/base-tmp.less'
 import 'react-vant/lib/styles/base.less'
 

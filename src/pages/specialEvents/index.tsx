@@ -16,7 +16,6 @@ import './index.less'
  * url 必填项-------
  *    id :专题活动id
  */
-
 const SpecialEventsPage: React.FC = () => {
   const { search } = useLocation()
   const { id } = qs.parse(search.slice(1))
@@ -33,29 +32,30 @@ const SpecialEventsPage: React.FC = () => {
     SHBridge.setFullScreen('1')
   }, [])
   useEffect(() => {
-
     SpecialEventsApi.detail({
-      id: id
-    }).then((res: any) => {
-      const { code, msg, data } = res;
-      console.log('res :>> ', res);
-      if (code === "200" && data) {
-        const { activityDetailImg, goodsList, activityImg, activitySubtitle, activityTitle, id } = data;
-        setspecialDetail({
-          activityDetailImg: activityDetailImg,
-          activityImg: activityImg,
-          activitySubtitle: activitySubtitle,
-          activityTitle: activityTitle,
-          id: id
-        })
-        setspecialGoodsList(goodsList)
-      } else {
-        Toast(msg ? msg : "接口异常")
-      }
-    }).catch((err) => {
-      Toast(err.msg)
-      console.log('res :>> ', err);
+      id: id,
     })
+      .then((res: any) => {
+        const { code, msg, data } = res
+        console.log('res :>> ', res)
+        if (code === '200' && data) {
+          const { activityDetailImg, goodsList, activityImg, activitySubtitle, activityTitle, id } = data
+          setspecialDetail({
+            activityDetailImg: activityDetailImg,
+            activityImg: activityImg,
+            activitySubtitle: activitySubtitle,
+            activityTitle: activityTitle,
+            id: id,
+          })
+          setspecialGoodsList(goodsList)
+        } else {
+          Toast(msg ? msg : '接口异常')
+        }
+      })
+      .catch((err) => {
+        Toast(err.msg)
+        console.log('res :>> ', err)
+      })
   }, [id])
 
   //右侧分享按钮点击
@@ -73,7 +73,7 @@ const SpecialEventsPage: React.FC = () => {
   }
   //打开活动商品详情
   const openActivityGoodsDetail = (item) => {
-    const { id, goodsPriceId } = item;
+    const { id, goodsPriceId } = item
     SHBridge.jump({
       url: generateUrl(`/goods-detail?id=${id}&goodsPriceId=${goodsPriceId}`),
       newWebView: true,

@@ -1,9 +1,6 @@
 import React, { useState, FC } from 'react'
 import { Image } from 'react-vant'
 import './index.less'
-/**
- * 商品预览
- */
 
 const RMB_COM = 1000
 
@@ -17,6 +14,9 @@ interface GoodPreviewType {
   stock: string
 }
 
+/**
+ * 商品预览
+ */
 const GoodsPreview: React.FC<GoodPreviewType> = (props) => {
   const { goodsName, personCurrentPrice, promotionalImageUrl, sales, stock } = props
 

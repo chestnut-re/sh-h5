@@ -1,0 +1,12 @@
+// css 功能库， 加前追
+
+@prefix: 'sh';
+
+// 文本单行显示, 末尾省略号, webkit-line-clamp 控制行数
+.@{prefix}-single-line {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
