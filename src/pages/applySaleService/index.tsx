@@ -6,6 +6,7 @@ import { OrderApi } from '@/service/OrderDetailApi'
 import ApplyRefund from './applyRefund'
 import RefundProcess from './refundProcess'
 import IndexRefund from './indexRefund'
+import storage from '@/utils/localstorage'
 
 import './index.less'
 
@@ -28,13 +29,14 @@ const RefundIndexPage: FC = () => {
       forbidClick: true,
       duration: 0,
     })
-    OrderApi.orderdetail({ orderId })
+    OrderApi.findOrderdetail({ orderId })
       .then((res) => {
         console.log('res 订单详情:>> ', res)
         const { code, data } = res
         if (code === '200' && data) {
-          console.log('data :>> ', data)
+          const { refundAndChangePolicyContent } = data
           setOrderDetail(data)
+          storage.set('_refundcontent', refundAndChangePolicyContent ? refundAndChangePolicyContent : '')
         }
       })
       .catch((err) => {

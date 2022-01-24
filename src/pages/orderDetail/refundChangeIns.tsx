@@ -1,21 +1,22 @@
 import React, { useState, useEffect, useRef, FC } from 'react'
-
+import storage from '@/utils/localstorage'
 import { SHBridge } from '@/jsbridge'
 import './refund.less'
 /**
  * 退改说明
  */
 
-
-
 const RefundChangeIns: FC = () => {
-  
-useEffect(() => {
+  const [backinfo, setBackinfo] = useState('')
+  useEffect(() => {
     SHBridge.setTitle(`退改说明`)
-}, [])
+    const backGet = storage.get('_refundcontent')
+    setBackinfo(backGet ? backinfo : '<p>暂无退改说明</p>')
+  }, [])
   return (
-      <div className="RefundIns-container">
-            <div className='refundIns-container-header'>
+    <div className="RefundIns-container">
+      <div dangerouslySetInnerHTML={{ __html: backinfo }} />
+      {/* <div className='refundIns-container-header'>
                 <div className='rch-title'>
                     保险说明
                 </div>
@@ -69,8 +70,8 @@ useEffect(() => {
                 <div className='rcb-content-footer'>
                 【卖家违约】订单生效后，因商家原因取消订单的，除全额退款外
                 </div>
-            </div>
-      </div>
+            </div> */}
+    </div>
   )
 }
 

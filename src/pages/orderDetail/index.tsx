@@ -8,6 +8,7 @@ import OrderPayment from './waitPayment'
 import { OrderApi } from '@/service/OrderDetailApi'
 import emptyIcon from '@/assets/img/empty@3x.png'
 import { SHBridge } from '@/jsbridge'
+import storage from '@/utils/localstorage'
 import './index.less'
 import { Toast, Empty } from 'react-vant'
 
@@ -52,9 +53,11 @@ const OrderIndexPage: FC = () => {
         const { code, data } = result
 
         if (code == '200' && data) {
-          setOrderType(data.state)
+          const { state, refundAndChangePolicyContent } = data
+          setOrderType(state)
           setOrders(data)
-          if (data.state == '4' || data.state == '3') {
+          storage.set('_refundcontent', refundAndChangePolicyContent ? refundAndChangePolicyContent : '')
+          if (state == '4' || state == '3') {
             OrderApi.suborders({
               orderId: orderId,
             })

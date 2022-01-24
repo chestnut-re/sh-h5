@@ -14,6 +14,7 @@ import KnownCalendarCard from '@/components/orderDetail/knownCalendarCard'
 import Privilege from './privilege'
 import { SHBridge } from '@/jsbridge'
 import { getCookie } from '@/utils/cookie'
+import storage from '@/utils/localstorage'
 import { generateUrl } from '@/utils'
 import { OrderApi } from '@/service/OrderDetailApi'
 
@@ -248,6 +249,7 @@ const SubmitOrderPage: FC = () => {
           isPurchaseAdd,
           purchaseConfig,
           activityId,
+          refundAndChangePolicyContent,
         } = res
         setSubmitinfo(res)
         if (goodsPrices.length === 0) {
@@ -304,6 +306,8 @@ const SubmitOrderPage: FC = () => {
           setIsPurchaseAdd(true)
         }
         getRefereesApi()
+        //由于退改记录存的是富文本无法通过接口查询在打开时保存退改说明退改详情页取退改说明数据
+        storage.set('_refundcontent', refundAndChangePolicyContent ? refundAndChangePolicyContent : '')
         console.log('purchaseConfigpurchaseConfigpurchaseConfigpurchaseConfig :>> ', purchaseConfig)
       })
       .catch((err) => {
