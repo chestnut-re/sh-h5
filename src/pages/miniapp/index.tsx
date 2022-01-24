@@ -1,4 +1,9 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import useQuery from '@/hooks/useQuery'
+import useWXInit from '@/hooks/useWXInit'
+import { SHBridge } from '@/jsbridge'
+import { isWeChat } from '@/jsbridge/env'
+import { generateUrl, getUrlParams } from '@/utils'
 import React, { useEffect } from 'react'
 
 /**
@@ -7,20 +12,49 @@ import React, { useEffect } from 'react'
  */
 const MiniAppPage: React.FC = () => {
   const query = useQuery()
+  const pathURL = query.get('jumpTo') ?? ''
+  const wxRef = useWXInit()
   useEffect(() => {
     const data = query.get('data')
-    if (!data) return
-    try {
-      const d = JSON.parse(decodeURIComponent(data))
-      if (d.type === 'web') {
-        window.location.replace(d.path)
+
+    if (data) {
+      try {
+        const d = JSON.parse(decodeURIComponent(data ?? ''))
+        if (d.type === 'web') {
+          window.location.replace(d.path)
+        }
+      } catch (e) {
+        console.log(e)
       }
-    } catch (e) {
-      console.log(e)
     }
   }, [])
 
-  return <div className="MiniAppPage__root">...</div>
+  return (
+    <div className="MiniAppPage__root">
+      ...
+      {/* @ts-ignore */}
+      <wx-open-launch-weapp
+        ref={wxRef}
+        username="gh_0a0abf8e5843"
+        path={pathURL}
+        style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+      >
+        <script type="text/wxtag-template">
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              opacity: 0,
+            }}
+          ></div>
+        </script>
+        {/* @ts-ignore */}
+      </wx-open-launch-weapp>
+    </div>
+  )
 }
 
 export default MiniAppPage
