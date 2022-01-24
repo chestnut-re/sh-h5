@@ -30,6 +30,10 @@ const MiniAppPage: React.FC = () => {
         console.log(e)
       }
     }
+    setTimeout(() => {
+      const element: Element = document.getElementsByClassName('MiniAppPage__root')[0] as HTMLElement
+      element.click()
+    }, 1)
   }, [])
   return weChat ? (
     <div className="MiniAppPage__root">
