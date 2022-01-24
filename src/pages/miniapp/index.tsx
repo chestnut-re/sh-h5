@@ -30,14 +30,12 @@ const MiniAppPage: React.FC = () => {
         console.log(e)
       }
     }
-    setTimeout(() => {
-      const element: Element = document.getElementsByClassName('MiniAppPage__root')[0] as HTMLElement
-      element.click()
-    }, 1)
   }, [])
-  return weChat ? (
+  return !weChat ? (
     <div className="MiniAppPage__root">
-      点击进去小程序
+      <div className="btn">
+        <div>点击进入小程序</div>
+      </div>
       {/* @ts-ignore */}
       <wx-open-launch-weapp
         ref={wxRef}
