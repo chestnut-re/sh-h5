@@ -2,7 +2,7 @@
 import useQuery from '@/hooks/useQuery'
 import useWXInit from '@/hooks/useWXInit'
 import { isWeChat } from '@/jsbridge/env'
-
+import './index.less'
 import React, { useEffect, useState } from 'react'
 
 /**
@@ -16,6 +16,7 @@ const MiniAppPage: React.FC = () => {
   const pathURL = `/pages/home/index.html?q=${encodeURIComponent(window.location.href)}`
   useEffect(() => {
     isWeChat().then((res) => {
+      console.log(res)
       setWeChat(res)
     })
     const data = query.get('data')
@@ -32,7 +33,6 @@ const MiniAppPage: React.FC = () => {
   }, [])
   return weChat ? (
     <div className="MiniAppPage__root">
-      ...
       {/* @ts-ignore */}
       <wx-open-launch-weapp
         ref={wxRef}
@@ -40,18 +40,18 @@ const MiniAppPage: React.FC = () => {
         path={pathURL}
         style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
       >
-        <script type="text/wxtag-template">
-          <div
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-              opacity: 0,
-            }}
-          ></div>
-        </script>
+        {/* <script type="text/wxtag-template"> */}
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            opacity: 0,
+          }}
+        ></div>
+        {/* </script> */}
         {/* @ts-ignore */}
       </wx-open-launch-weapp>
     </div>

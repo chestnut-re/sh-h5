@@ -3,7 +3,6 @@ import useWXInit from '@/hooks/useWXInit'
 import { SHBridge } from '@/jsbridge'
 import { isWeChat } from '@/jsbridge/env'
 import { generateUrl } from '@/utils'
-import Cookies from 'js-cookie'
 import React, { useEffect, useState } from 'react'
 import { Divider } from 'react-vant'
 import { PageTemplateKey } from '../../utils'
@@ -21,7 +20,6 @@ interface Props {
 const SubmitBtn: React.FC<Props> = ({ dataAll, templateKey, img }) => {
   const wxRef = useWXInit()
   const [weChat, setWeChat] = useState(false)
-  const appSource = Cookies.get('app_source')
 
   useEffect(() => {
     isWeChat().then((res) => {
@@ -30,7 +28,6 @@ const SubmitBtn: React.FC<Props> = ({ dataAll, templateKey, img }) => {
   }, [])
 
   const makeOrder = () => {
-    if (appSource == 'biz') return
     isWeChat().then((res) => {
       if (res) {
         return
@@ -66,18 +63,18 @@ const SubmitBtn: React.FC<Props> = ({ dataAll, templateKey, img }) => {
           path={pathURL}
           style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
         >
-          <script type="text/wxtag-template">
-            <div
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                opacity: 0,
-              }}
-            ></div>
-          </script>
+          {/* <script type="text/wxtag-template"> */}
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              opacity: 0,
+            }}
+          ></div>
+          {/* </script> */}
           {/* @ts-ignore */}
         </wx-open-launch-weapp>
       </div>
