@@ -26,7 +26,7 @@ const GoodsPreview: React.FC<GoodPreviewType> = (props) => {
         <Image width="100%" height="100%" fit="cover" src={promotionalImageUrl} />
       </div>
       <div className="pays-preview-content">
-        <div className="preview-name rv-multi-ellipsis--l2">{goodsName}</div>
+        <div className="preview-name rv-ellipsis">{goodsName}</div>
         <div className="preview-price">¥{personCurrentPrice / RMB_COM}</div>
         <div className="preview-foot">
           <div className="foot-left">{sales}已付款</div>
