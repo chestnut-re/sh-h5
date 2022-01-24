@@ -37,6 +37,7 @@ const MiniAppPage: React.FC = () => {
   }, [])
   return weChat ? (
     <div className="MiniAppPage__root">
+      点击进去小程序
       {/* @ts-ignore */}
       <wx-open-launch-weapp
         ref={wxRef}
