@@ -112,10 +112,11 @@ const WithDrawPage: React.FC = () => {
             labelWidth="0"
             className="input"
             value={myK}
-            type="digit"
+            // type="digit"
             maxlength={9}
             onChange={mywellat}
             label=""
+            formatter={money}
             onFocus={onFocus}
             onBlur={() => setVisible(false)}
           />
