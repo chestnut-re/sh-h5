@@ -360,6 +360,7 @@ const SubmitOrderPage: FC = () => {
   //支付成功跳转
   const paySuccessLink = (orderId) => {
     UseToast && UseToast.clear()
+    orderIdInfo = null
     SHBridge.jump({
       url: generateUrl(`/pay-success?t=${search}&id=${id}&orderId=${orderId}`),
       newWebView: false,

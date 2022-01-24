@@ -126,6 +126,7 @@ const OrderPaymentPage: FC<OrderPaymentType> = ({
                   const { errorCode } = wxres
                   if (errorCode == 0) {
                     toast1 && toast1.clear()
+                    orderIdInfo = null
                     paySuccessLink(orderId)
                   } else {
                     toast1.clear()
