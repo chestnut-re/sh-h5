@@ -83,6 +83,10 @@ const OrderPaymentPage: FC<OrderPaymentType> = ({
       function (e) {
         const { state } = e
         console.log('e出发自定义事件 :>> ', state, orderIdInfo)
+        if (state === 0) {
+          paySuccessLink(id)
+        }
+
         if (state === 0 && orderIdInfo) {
           paySuccessLink(orderIdInfo)
         }
