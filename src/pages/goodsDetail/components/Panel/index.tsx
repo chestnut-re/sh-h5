@@ -12,6 +12,7 @@ import './index.less'
 import { isMini } from '@/jsbridge/env'
 import { getCookie } from '@/utils/cookie'
 import { getUrlParams } from '@/utils'
+import Cookies from 'js-cookie'
 
 interface Props {
   dataAll: any
@@ -26,6 +27,7 @@ interface Props {
 
 /**面板 */
 const Panel: React.FC<Props> = ({ data, dataAll, isLike, myLikes, shares, goodsPriceId, shopId, onShare }) => {
+  const appSource = Cookies.get('app_source')
   const [love, setLove] = useState(null) as any
   const [isWeapp, setIsWeapp] = useState(false)
   const [myLikesNum, setMyLikesNum] = useState(0) as any
@@ -88,17 +90,19 @@ const Panel: React.FC<Props> = ({ data, dataAll, isLike, myLikes, shares, goodsP
       <div className={'swiper-button-next2'}>
         <img src={down} alt="" />
       </div>
-      <div onClick={giveThumbs}>
-        <img src={love ? isLikes : likes} alt="" />
-        <p>{myLikesNum}</p>
-      </div>
-      {!isWeapp && (
+      {appSource != 'biz' ? (
+        <div onClick={giveThumbs}>
+          <img src={love ? isLikes : likes} alt="" />
+          <p>{myLikesNum}</p>
+        </div>
+      ) : null}
+      {!isWeapp && appSource != 'biz' && (
         <div onClick={giveShare}>
           <img src={share} alt="" />
           <p>{mySharesNum}</p>
         </div>
       )}
-      {!isWeapp && (
+      {!isWeapp && appSource != 'biz' && (
         <div onClick={giveAsk}>
           <img src={ask} alt="" />
           <p>咨询</p>

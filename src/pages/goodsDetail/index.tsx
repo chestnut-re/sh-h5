@@ -165,7 +165,7 @@ const GoodsDetailPage: React.FC = () => {
         <div className="ref-route1" onClick={_toTravelRoute}>
           参考行程
         </div>
-        {appSource == 'biz' && (data.isPurchase == 1 || data.isRebate == 1) ? (
+        {appSource == 'biz' && (data?.isPurchase == 1 || data?.isRebate == 1) ? (
           <div className="ref-route1" onClick={_toDescRoute}>
             {data.isPurchase == 1 ? <span>限购</span> : null}
             {data.isPurchase == 1 && data.isRebate == 1 ? '｜' : ''}
