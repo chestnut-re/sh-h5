@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import useQuery from '@/hooks/useQuery'
 import useWXInit from '@/hooks/useWXInit'
-import { SHBridge } from '@/jsbridge'
 import { isWeChat } from '@/jsbridge/env'
-import { generateUrl, getUrlParams } from '@/utils'
-import React, { useEffect } from 'react'
+
+import React, { useEffect, useState } from 'react'
 
 /**
  * 跳转页面
@@ -12,11 +11,14 @@ import React, { useEffect } from 'react'
  */
 const MiniAppPage: React.FC = () => {
   const query = useQuery()
-  const pathURL = query.get('jumpTo') ?? ''
   const wxRef = useWXInit()
+  const [weChat, setWeChat] = useState(false)
+  const pathURL = `/pages/home/index.html?q=${encodeURIComponent(window.location.href)}`
   useEffect(() => {
+    isWeChat().then((res) => {
+      setWeChat(res)
+    })
     const data = query.get('data')
-
     if (data) {
       try {
         const d = JSON.parse(decodeURIComponent(data ?? ''))
@@ -28,8 +30,7 @@ const MiniAppPage: React.FC = () => {
       }
     }
   }, [])
-
-  return (
+  return weChat ? (
     <div className="MiniAppPage__root">
       ...
       {/* @ts-ignore */}
@@ -54,6 +55,8 @@ const MiniAppPage: React.FC = () => {
         {/* @ts-ignore */}
       </wx-open-launch-weapp>
     </div>
+  ) : (
+    <div className="MiniAppPage__root">....</div>
   )
 }
 
