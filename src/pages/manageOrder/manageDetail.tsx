@@ -66,7 +66,7 @@ const MaorderDetailPage: FC = () => {
   const { search } = useLocation()
   const { id } = qs.parse(search.slice(1))
 
-  const [isloading, setisloading] = useState(true)
+  const [isinclude, setisinclude] = useState(true)
 
   const [details, setDetails] = useState({
     order: {},
@@ -75,9 +75,14 @@ const MaorderDetailPage: FC = () => {
 
   const onLoadMaorderDetail = async () => {
     const data = await getMaorderDetail(id)
+    //是不是都没有填写出行人信息
+    const isclude = data.suborders.every((item) => {
+      return !item.travelerName
+    })
+    setisinclude(isclude)
+
     data.suborders = CategoryArr(data.suborders)
     setDetails(data)
-    setisloading(false)
   }
 
   useEffect(() => {
@@ -90,7 +95,7 @@ const MaorderDetailPage: FC = () => {
     <div className="MaorderDetail-container">
       <div className="maorderDetail-container-content">
         <ManageDetail {...details.order} />
-        {details?.suborders.length ? (
+        {details?.suborders.length && !isinclude ? (
           <div className="maorder-list">
             {details.suborders.map((item, index) => {
               return (
@@ -101,7 +106,7 @@ const MaorderDetailPage: FC = () => {
             })}
           </div>
         ) : (
-          <div className="maorder-text">{isloading ? '加载中...' : '未填写出行人信息，请及时联系用户填写'}</div>
+          <div className="maorder-text">未填写出行人信息，请及时联系用户填写</div>
         )}
       </div>
       <div className="maorderDetail-box">
