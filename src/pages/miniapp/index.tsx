@@ -31,7 +31,7 @@ const MiniAppPage: React.FC = () => {
       }
     }
   }, [])
-  return !weChat ? (
+  return weChat ? (
     <div className="MiniAppPage__root">
       <div className="btn">
         <div>点击进入小程序</div>
