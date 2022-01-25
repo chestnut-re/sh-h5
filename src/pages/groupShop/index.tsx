@@ -190,7 +190,7 @@ const GroupShopPage: FC = () => {
               <div className="smallshop-name">{shopInfo.shopName}</div>
               <div className="smallshop-title">如有疑问 可联系我</div>
               <div className="smallshop-action">
-                {!isMiniApp && !isWechat && (
+                {!isWechat && (
                   <div
                     onClick={attentionSmaiiShop}
                     className={clsx('smallshop-abtn', { 'smallshop-abtn-on': shopInfo.attentionState != 0 })}
