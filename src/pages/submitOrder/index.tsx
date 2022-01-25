@@ -17,6 +17,7 @@ import { getCookie } from '@/utils/cookie'
 import storage from '@/utils/localstorage'
 import { generateUrl } from '@/utils'
 import { OrderApi } from '@/service/OrderDetailApi'
+import { isMini, isWeChat } from '@/jsbridge/env'
 
 import './index.less'
 
@@ -61,7 +62,8 @@ const SubmitOrderPage: FC = () => {
   const [referees, setReferees] = useState('')
   //限购数据
   const [purchaseConfigInfo, setPurchaseConfigInfo] = useState({})
-
+  //是否是小程序
+  const [isWeMini, setIsWeMini] = useState(false)
   //提交数据
   const [submitData, setSubmitData] = useState({
     childCurrentPrice: 0, //儿童现售价单价
@@ -222,6 +224,13 @@ const SubmitOrderPage: FC = () => {
       },
       false
     )
+
+    isWeChat().then((res) => {
+      if (res) {
+        setIsWeMini(true)
+      }
+    })
+
     return () => {
       document.removeEventListener(
         'onResume',
@@ -534,7 +543,7 @@ const SubmitOrderPage: FC = () => {
     <div className="puorder-container">
       <div className="puorder-main">
         <div className="puorder-fluid">
-          <ContactCard type={2} id={id} />
+          {!isWeMini ? <ContactCard type={2} id={id} /> : null}
           <div className="puorder-card">
             <GoodsCard
               promotionalImageUrl={submitinfo.promotionalImageUrl}
