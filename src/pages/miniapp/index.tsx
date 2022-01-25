@@ -24,8 +24,7 @@ const MiniAppPage: React.FC = () => {
     const jumpTo = query.get('jumpTo')
 
     if (jumpTo) {
-      const jumpToUrl = getUrlParams(jumpTo)['url']
-      window.location.replace(decodeURIComponent(jumpToUrl) + `&q=${encodeURIComponent(jumpTo)}`)
+      window.location.replace(decodeURIComponent(jumpTo) + `&q=${encodeURIComponent(jumpTo)}`)
     }
     if (data) {
       try {
