@@ -1,6 +1,8 @@
 import React, { useState, useEffect, FC } from 'react'
 import { RefundApis } from '@/service/RefundApply'
 import { Icon, ActionSheet, Cell, Radio } from 'react-vant'
+import activeIcon from '@/assets/img/active_Icon@3x.png'
+import inactiveIcon from '@/assets/img/inactiveIcon@3x.png'
 import './index.less'
 /**
  * 退款原因选择卡片
@@ -70,14 +72,26 @@ const RefundReasonCard: FC = ({ onchangeReason, defaultValue }) => {
       <ActionSheet title="退款原因" visible={visible} onCancel={() => setVisible(false)}>
         <div className="action-main">
           <Radio.Group value={actionvalue.id}>
-            <Cell.Group>
+            <Cell.Group border={false}>
               {TabActions.map((item) => {
                 return (
                   <Cell
                     key={item.id}
                     title={item.name}
                     onClick={() => setCellHandel(item)}
-                    rightIcon={<Radio name={item.id} />}
+                    rightIcon={
+                      <Radio
+                        name={item.id}
+                        iconRender={({ checked: isActive }) => (
+                          <img
+                            alt=""
+                            className="img-icons"
+                            style={{ width: '4.8vw' }}
+                            src={isActive ? activeIcon : inactiveIcon}
+                          />
+                        )}
+                      />
+                    }
                   />
                 )
               })}
