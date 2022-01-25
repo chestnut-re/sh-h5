@@ -73,6 +73,7 @@ const ManageOrderPage: FC = () => {
 
   useEffect(() => {
     onLoadManageOrderList(1)
+    getOrderStateCount()
   }, [activeState])
 
   const onLoadManageOrderList = async (isRefresh?) => {
@@ -86,6 +87,12 @@ const ManageOrderPage: FC = () => {
         setFinished(true)
       }
       return newList
+    })
+  }
+
+  const getOrderStateCount = () => {
+    ManageOrder.biz().then((res) => {
+      console.log('res :>> ', res)
     })
   }
 

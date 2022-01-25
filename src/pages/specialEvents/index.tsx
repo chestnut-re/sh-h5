@@ -84,14 +84,14 @@ const SpecialEventsPage: React.FC = () => {
 
   return (
     <div className="SpecialEvents-container">
-      <MyNavBar
+      {/* <MyNavBar
         border={false}
         safeAreaInsetTop={true}
         leftArrow={true}
         onClickLeft={onClickHandelLeft}
         onClickRight={onClickHandelRight}
         rightText={<Icon name={shareIcon} size={24} />}
-      />
+      /> */}
       <div className="specialevents-wrap">
         <div className="specialevents-header">
           <div className="specialevents-header-pic">

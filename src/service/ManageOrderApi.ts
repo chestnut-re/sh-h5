@@ -33,4 +33,10 @@ export class ManageOrder {
   static remburdetail(id): Promise<AxiosResponse<any>> {
     return axios.get(`/api/orders/refund/getOrderRefundDetail/${id}`)
   }
+  /**
+   * 订单数量查询
+   */
+  static biz(): Promise<AxiosResponse<any>> {
+    return axios.get(`/api/multi/orders/pageOrderBiz`)
+  }
 }
