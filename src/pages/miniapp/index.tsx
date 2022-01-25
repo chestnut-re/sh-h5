@@ -4,6 +4,7 @@ import useWXInit from '@/hooks/useWXInit'
 import { isWeChat } from '@/jsbridge/env'
 import './index.less'
 import React, { useEffect, useState } from 'react'
+import { getUrlParams } from '@/utils'
 
 /**
  * 跳转页面
@@ -20,6 +21,12 @@ const MiniAppPage: React.FC = () => {
       setWeChat(res)
     })
     const data = query.get('data')
+    const jumpTo = query.get('jumpTo')
+
+    if (jumpTo) {
+      const jumpToUrl = getUrlParams(jumpTo)['url']
+      window.location.replace(decodeURIComponent(jumpToUrl) + `&q=${encodeURIComponent(jumpTo)}`)
+    }
     if (data) {
       try {
         const d = JSON.parse(decodeURIComponent(data ?? ''))
