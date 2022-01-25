@@ -530,20 +530,11 @@ const SubmitOrderPage: FC = () => {
     setShowPrivilege(false)
   }
 
-  const openContactCustomerService = () => {
-    // alert("123")
-    if (SHBridge.isLogin()) {
-      SHBridge.toChat('1468476295464828928')
-    } else {
-      SHBridge.login()
-    }
-  }
-
   return (
     <div className="puorder-container">
       <div className="puorder-main">
         <div className="puorder-fluid">
-          {/* <ContactCard openContactCustomer={openContactCustomerService} /> */}
+          <ContactCard type={1} id={id} />
           <div className="puorder-card">
             <GoodsCard
               promotionalImageUrl={submitinfo.promotionalImageUrl}

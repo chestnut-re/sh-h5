@@ -16,6 +16,12 @@ const ManageStatusMap = {
   7: { text: '退款失败', cName: 'C999999' },
   '': { text: '未知', cName: 'C999999' },
 }
+const ManageRefundMap = {
+  1: { text: '退款中', cName: 'CF5B572' },
+  2: { text: '退款成功', cName: 'C666666' },
+  3: { text: '退款失败', cName: 'C999999' },
+  '': { text: '未知', cName: 'C999999' },
+}
 const themeVars = {
   '--rv-count-down-text-color': '#f57272',
   '--rv-count-down-font-size': '11px',
@@ -24,6 +30,7 @@ const themeVars = {
 const COUNT_DOWN = 60 * 30 * 1000
 // const RMB_CON = 1000
 import { RMB_CON } from '@/utils/currency'
+import clsx from 'clsx'
 interface ManageItemProps {
   orderItem: {
     state?: number
@@ -33,79 +40,112 @@ interface ManageItemProps {
     orderTime?: string
     adultNum?: number
     childNum?: number
-    goodsPic?: string
     promotionalImageUrl?: string
+    refundState?: number | string
+    refundResDTOList: any[]
+    changeViewDetails: (val) => void
   }
 }
 
-const ManageItem: FC<ManageItemProps> = (props) => {
-  const { orderItem } = props
+const ManageItem: FC<ManageItemProps> = ({
+  id,
+  state,
+  orderTime,
+  promotionalImageUrl,
+  goodsName,
+  adultNum,
+  childNum,
+  payAmount,
+  refundState,
+  refundResDTOList,
+  totalRefundAmount,
+  countDownTimes,
+  changeViewDetails,
+}) => {
+  const [statecopy, setStatecopy] = useState<number>(state)
 
-  const [oitem, setOitem] = useState(orderItem)
-  const [countdowntime, setCountdownTime] = useState<number>(COUNT_DOWN)
-  const countdownTimeFinish = () => {
-    setOitem((v) => {
-      return {
-        ...v,
-        state: 2,
-      }
-    })
-  }
   useEffect(() => {
-    if (oitem.state === 1 && oitem.orderTime) {
-      const restTime = (dayjs().unix() - dayjs(oitem.orderTime).unix()) * 1000
-      setCountdownTime(COUNT_DOWN - restTime)
-    }
-  }, [])
+    setStatecopy(state)
+  }, [state])
 
   return (
     <div className="maorder-item">
       <ConfigProvider themeVars={themeVars}>
         <div className="maorder-item-header">
-          <div className={`maorder-item-header-left ${ManageStatusMap[oitem.state ?? '']?.['cName']}`}>
-            {ManageStatusMap[oitem.state ?? '']?.['text']}
+          <div className={`maorder-item-header-left ${ManageStatusMap[statecopy ?? '']?.['cName']}`}>
+            {ManageStatusMap[statecopy ?? '']?.['text']}
           </div>
 
-          {oitem.state === 1 && (
+          {statecopy === 1 && countDownTimes && (
             <div className="maorder-item-header-right">
-              <CountDown time={countdowntime} format="剩 mm:ss" />
+              <CountDown
+                time={countDownTimes}
+                format="剩 mm:ss"
+                onFinish={() => {
+                  setStatecopy(2)
+                }}
+              />
             </div>
           )}
         </div>
       </ConfigProvider>
-      <div className="maorder-item-content">
+      <div
+        className="maorder-item-content"
+        onClick={() => {
+          changeViewDetails({ id }, 1)
+        }}
+      >
         <div className="maorder-item-content-left">
-          <Image width="100%" height="100%" fit="cover" src={oitem.promotionalImageUrl} />
+          <Image width="100%" height="100%" fit="cover" src={promotionalImageUrl} />
         </div>
         <div className="maorder-item-content-right">
-          <div className="micr-name rv-ellipsis">{oitem.goodsName}</div>
+          <div className="micr-name rv-ellipsis">{goodsName}</div>
           <div className="micr-tags">
-            {oitem.adultNum ? <span>成人x{oitem.adultNum}</span> : null}
-            {oitem.childNum ? <span>儿童x{oitem.childNum}</span> : null}
+            {adultNum ? <span>成人x{adultNum}</span> : null}
+            {childNum ? <span>儿童x{childNum}</span> : null}
           </div>
-          {oitem?.payAmount && (
-            <div className="micr-price">
-              {oitem.state == 5 || oitem.state == 6 || oitem.state == 7 ? (
-                <span className="micr-price-text">退款金额</span>
-              ) : null}
-              ¥{RMB_CON(oitem.payAmount)}
-            </div>
-          )}
+          <div className="micr-price">
+            {refundState == 1 || refundState == 2 || refundState == 3 ? (
+              <>
+                {' '}
+                <span className="micr-price-text">退款金额</span>¥{RMB_CON(totalRefundAmount)}
+              </>
+            ) : (
+              <>¥{RMB_CON(payAmount)}</>
+            )}
+          </div>
         </div>
       </div>
 
-      {/* {oitem.state==5?(<div className='maorder-item-footer'>
-            <ul className='maorder-item-footer-ul'>
-              <li className='mifu-item'>
-                  <div className='mifu-item-left'>成人x2</div>
-                  <div className='mifu-item-right'>退款成功</div>
-              </li>
-              <li className='mifu-item'>
+      {refundResDTOList ? (
+        <div className="maorder-item-footer">
+          <ul className="maorder-item-footer-ul">
+            {refundResDTOList.map(({ adultNum, childNum, id, refundState }, index) => {
+              return (
+                <li
+                  className="mifu-item"
+                  key={index}
+                  onClick={() => {
+                    changeViewDetails({ id }, 2)
+                  }}
+                >
+                  <div className="mifu-item-left">
+                    {adultNum > 0 ? <span>成人x{adultNum}</span> : null}
+                    {childNum ? <span>儿童x{childNum}</span> : null}
+                  </div>
+                  <div className={`mifu-item-right ${ManageRefundMap[refundState ?? '']?.['cName']}`}>
+                    {ManageRefundMap[refundState].text}
+                  </div>
+                </li>
+              )
+            })}
+            {/* <li className='mifu-item'>
                   <div className='mifu-item-left'>儿童x1</div>
                   <div className='mifu-item-right mifu-ing'>退款中</div>
-              </li>
-            </ul>
-        </div>):null} */}
+              </li> */}
+          </ul>
+        </div>
+      ) : null}
     </div>
   )
 }
