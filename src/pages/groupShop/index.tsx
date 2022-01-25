@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React, { useState, useEffect, FC } from 'react'
 import GoodsPreview from '@/components/goodsPreview'
 import { SmallShop } from '@/service/GroupSmallShop'
@@ -7,10 +8,11 @@ import clsx from 'clsx'
 import { Image, Empty, Toast, List } from 'react-vant'
 import emptyIcon from '@/assets/img/empty@3x.png'
 import { SHBridge } from '@/jsbridge'
-import { generateUrl } from '@/utils'
+import { generateUrl, generateUrlClean } from '@/utils'
 import { getCookie } from '@/utils/cookie'
 import './index.less'
 import { isMini, isWeChat } from '@/jsbridge/env'
+import useWXInit from '@/hooks/useWXInit'
 
 /**
  * 团小店首页
@@ -38,6 +40,13 @@ const GroupShopPage: FC = () => {
 
   const [isMiniApp, setIsMiniApp] = useState(false) // miniapp
   const [isWechat, setIsWeChat] = useState(false) // 微信webview
+
+  const wxRef = useWXInit()
+  useEffect(() => {
+    isWeChat().then((res) => {
+      setIsWeChat(res)
+    })
+  }, [])
 
   useEffect(() => {
     isMini().then((res) => {
@@ -165,6 +174,10 @@ const GroupShopPage: FC = () => {
     getSmallShopInfo()
   }, [])
 
+  const litterUrl = generateUrlClean(`/group-shop?id=${id}`)
+
+  const pathURL = `/pages/webview/index.html?url=${encodeURIComponent(litterUrl)}`
+
   return (
     <div className="Smallshop-container">
       {shopInfo?.isDeleted == 0 ? (
@@ -183,6 +196,35 @@ const GroupShopPage: FC = () => {
                     className={clsx('smallshop-abtn', { 'smallshop-abtn-on': shopInfo.attentionState != 0 })}
                   >
                     {shopInfo.attentionState == 0 ? '关注' : '已关注'}
+                  </div>
+                )}
+
+                {isWechat && (
+                  <div className="smallshop-abtn">
+                    <div onClick={attentionSmaiiShop} className={'smallshop-abtn'}>
+                      关注
+                    </div>
+                    {/* @ts-ignore */}
+                    <wx-open-launch-weapp
+                      ref={wxRef}
+                      username="gh_0a0abf8e5843"
+                      path={pathURL}
+                      style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+                    >
+                      <script type="text/wxtag-template">
+                        <div
+                          style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                            opacity: 0,
+                          }}
+                        ></div>
+                      </script>
+                      {/* @ts-ignore */}
+                    </wx-open-launch-weapp>
                   </div>
                 )}
 
