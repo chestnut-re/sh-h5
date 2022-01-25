@@ -22,7 +22,7 @@ const UserCapitalPage: React.FC = () => {
   const [value, setValue] = useState('')
   const [accountInfo, setAccountInfo] = useState({})
   const [isCanDraw, setIsCanDraw] = useState(false)
-  const canDrawMoney = 10000
+  const canDrawMoney = 100000
   useEffect(() => {
     setTimeout(() => {
       if (document.querySelector('body') != null) {
@@ -69,7 +69,8 @@ const UserCapitalPage: React.FC = () => {
       return
     }
     setValue(Number(value).toString())
-    if (Number(value) > Number(getPrice(accountInfo['available']))) {
+
+    if (Number(value) > Number(getPrice(accountInfo['available'], 2))) {
       SHBridge.showToast('提现金额不能超过可用金额')
       return
     }
