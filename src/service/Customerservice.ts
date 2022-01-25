@@ -14,13 +14,13 @@ export class ContactApi {
   /**
    * 获取咨询客服Id
    */
-  static consultContact(id): Promise<AxiosResponse<any>> {
-    return axios.get(`/api/users/cusService/getConsultServiceId/get/${id}`)
+  static consultContact(): Promise<AxiosResponse<any>> {
+    return axios.get(`/api/users/cusService/getConsultServiceId/get`)
   }
   /**
    * 获取专属客服Id
    */
-  static exclusiveContact(id): Promise<AxiosResponse<any>> {
-    return axios.get(`/api/users/cusService/getExclusiveServiceId/get/${id}`)
+  static exclusiveContact(): Promise<AxiosResponse<any>> {
+    return axios.get(`/api/users/cusService/getExclusiveServiceId/get`)
   }
 }
