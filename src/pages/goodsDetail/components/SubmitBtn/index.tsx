@@ -63,18 +63,18 @@ const SubmitBtn: React.FC<Props> = ({ dataAll, templateKey, img }) => {
           path={pathURL}
           style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
         >
-          {/* <script type="text/wxtag-template"> */}
-          <div
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-              opacity: 0,
-            }}
-          ></div>
-          {/* </script> */}
+          <script type="text/wxtag-template">
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                opacity: 0,
+              }}
+            ></div>
+          </script>
           {/* @ts-ignore */}
         </wx-open-launch-weapp>
       </div>
