@@ -44,7 +44,7 @@ const GoodsCard: FC<GoodsType> = ({
     <div className="goods-container">
       <div className="goods-content">
         <div className="goods-l">
-          <Image width="100%" height="100%" fit="cover" src={promotionalImageUrl} />
+          <Image width="100%" height="100%" iconSize={0} fit="cover" src={promotionalImageUrl} />
         </div>
         <div className="goods-r">
           <div className="goods-rT_name rv-multi-ellipsis--l2">{goodsName}</div>

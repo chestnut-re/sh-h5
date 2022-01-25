@@ -148,3 +148,8 @@ body {
   min-height: 100vh;
   min-height: -webkit-fill-available;
 }
+.rv-image__loading {
+  background: url('https://shanhai-shoping.oss-cn-beijing.aliyuncs.com/img/user/pic/327f2ff9f41a4276a670494e49954fb4.gif')
+    center !important;
+  background-size: 100%;
+}

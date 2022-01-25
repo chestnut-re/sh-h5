@@ -96,7 +96,7 @@ const ManageItem: FC<ManageItemProps> = ({
         }}
       >
         <div className="maorder-item-content-left">
-          <Image width="100%" height="100%" fit="cover" src={promotionalImageUrl} />
+          <Image width="100%" height="100%" iconSize={0} fit="cover" src={promotionalImageUrl} />
         </div>
         <div className="maorder-item-content-right">
           <div className="micr-name rv-ellipsis">{goodsName}</div>

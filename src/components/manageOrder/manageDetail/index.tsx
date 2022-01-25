@@ -53,7 +53,7 @@ const ManageDetailItem: FC<ManageProps> = ({
     <div className="mdetail-item">
       <div className="mdetail-item-goods">
         <div className="mig-left">
-          <Image width="100%" height="100%" fit="cover" src={promotionalImageUrl} />
+          <Image width="100%" height="100%" iconSize={0} fit="cover" src={promotionalImageUrl} />
         </div>
         <div className="mig-right">
           <div className="mig-name rv-multi-ellipsis--l2">{goodsName}</div>

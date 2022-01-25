@@ -23,7 +23,7 @@ const GoodsPreview: React.FC<GoodPreviewType> = (props) => {
   return (
     <div className="Good_preview-container">
       <div className="preview-h">
-        <Image width="100%" height="100%" fit="cover" src={promotionalImageUrl} />
+        <Image width="100%" iconSize={0} height="100%" lazyload={true} fit="cover" src={promotionalImageUrl} />
       </div>
       <div className="pays-preview-content">
         <div className="preview-name rv-ellipsis">{goodsName}</div>

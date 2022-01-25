@@ -6,7 +6,7 @@ import qs from 'query-string'
 import { SHBridge } from '@/jsbridge'
 import emptyIcon from '@/assets/img/empty@3x.png'
 import shareIcon from '@/assets/img/share_icon.png'
-import { Image, Empty, Icon, Toast } from 'react-vant'
+import { Image, Empty, Loading, Toast } from 'react-vant'
 import { SpecialEventsApi } from '@/service/SpecialEvents'
 import { generateUrl } from '@/utils'
 import './index.less'
@@ -95,7 +95,7 @@ const SpecialEventsPage: React.FC = () => {
       <div className="specialevents-wrap">
         <div className="specialevents-header">
           <div className="specialevents-header-pic">
-            <Image width="100%" height="100%" fit="cover" src={specialDetail.activityDetailImg} />
+            <Image width="100%" height="100%" fit="cover" iconSize={0} src={specialDetail.activityDetailImg} />
           </div>
         </div>
         <div className="specialevents-content">

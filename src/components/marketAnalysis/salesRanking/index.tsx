@@ -44,6 +44,7 @@ const SalesRanking: FC = () => {
                     width="100%"
                     height="100%"
                     fit="cover"
+                    iconSize={0}
                     src={`http://picsum.photos/128?t=${Math.random()}`}
                   />
                 </div>

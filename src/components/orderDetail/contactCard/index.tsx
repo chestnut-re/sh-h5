@@ -54,7 +54,7 @@ const ContactCard: FC<ContactType> = ({ type, id }) => {
       {contactInfo ? (
         <div className="contact_card" onClick={openContactCustomerService}>
           <div className="card-l">
-            <Image width="100%" height="100%" fit="cover" src={contactInfo['pic']} />
+            <Image width="100%" iconSize={0} height="100%" fit="cover" src={contactInfo['pic']} />
           </div>
           <div className="card-c">
             <div className="card-ct">{contactInfo['realName']}</div>

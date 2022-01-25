@@ -184,7 +184,7 @@ const GroupShopPage: FC = () => {
         <>
           <div className="smallshop-personal">
             <div className="smallshop-avatar">
-              <Image width="100%" height="100%" fit="cover" src={shopInfo.shopHeadUrl} />
+              <Image width="100%" height="100%" iconSize={0} fit="cover" src={shopInfo.shopHeadUrl} />
             </div>
             <div className="smallshop-content">
               <div className="smallshop-name">{shopInfo.shopName}</div>
