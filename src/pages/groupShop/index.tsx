@@ -10,6 +10,7 @@ import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
 import { getCookie } from '@/utils/cookie'
 import './index.less'
+import { isMini, isWeChat } from '@/jsbridge/env'
 
 /**
  * 团小店首页
@@ -34,6 +35,23 @@ const GroupShopPage: FC = () => {
   const [current, setCurrent] = useState(1)
   //商品列表
   const [goodsList, setGoodsList] = useState<any[]>([])
+
+  const [isMiniApp, setIsMiniApp] = useState(false) // miniapp
+  const [isWechat, setIsWeChat] = useState(false) // 微信webview
+
+  useEffect(() => {
+    isMini().then((res) => {
+      if (res) {
+        setIsMiniApp(true)
+      }
+    })
+    isWeChat().then((res) => {
+      if (res) {
+        setIsWeChat(true)
+      }
+    })
+  }, [])
+
   const getSmallShopInfo = () => {
     SmallShop.detail({
       id,
@@ -159,15 +177,20 @@ const GroupShopPage: FC = () => {
               <div className="smallshop-name">{shopInfo.shopName}</div>
               <div className="smallshop-title">如有疑问 可联系我</div>
               <div className="smallshop-action">
-                <div
-                  onClick={attentionSmaiiShop}
-                  className={clsx('smallshop-abtn', { 'smallshop-abtn-on': shopInfo.attentionState != 0 })}
-                >
-                  {shopInfo.attentionState == 0 ? '关注' : '已关注'}
-                </div>
-                <div className="smallshop-abtn" onClick={shareGroupShop}>
-                  分享
-                </div>
+                {!isMiniApp && !isWechat && (
+                  <div
+                    onClick={attentionSmaiiShop}
+                    className={clsx('smallshop-abtn', { 'smallshop-abtn-on': shopInfo.attentionState != 0 })}
+                  >
+                    {shopInfo.attentionState == 0 ? '关注' : '已关注'}
+                  </div>
+                )}
+
+                {!isMiniApp && !isWechat && (
+                  <div className="smallshop-abtn" onClick={shareGroupShop}>
+                    分享
+                  </div>
+                )}
               </div>
             </div>
           </div>

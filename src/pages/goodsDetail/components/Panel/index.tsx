@@ -7,11 +7,9 @@ import up from '@/assets/img/tinified/up.png'
 import down from '@/assets/img/tinified/down.png'
 import { SHBridge } from '@/jsbridge'
 import { GoodsDetailService } from '@/service/GoodsDetailService'
-import { Toast } from 'react-vant'
 import './index.less'
-import { isMini } from '@/jsbridge/env'
+import { isMini, isWeChat } from '@/jsbridge/env'
 import { getCookie } from '@/utils/cookie'
-import { getUrlParams } from '@/utils'
 import Cookies from 'js-cookie'
 
 interface Props {
@@ -30,6 +28,7 @@ const Panel: React.FC<Props> = ({ data, dataAll, isLike, myLikes, shares, goodsP
   const appSource = Cookies.get('app_source')
   const [love, setLove] = useState(null) as any
   const [isWeapp, setIsWeapp] = useState(false)
+  const [isWechat, setIsWeChat] = useState(false)
   const [myLikesNum, setMyLikesNum] = useState(0) as any
   const [mySharesNum, setMySharesNum] = useState(0) as any
 
@@ -38,6 +37,11 @@ const Panel: React.FC<Props> = ({ data, dataAll, isLike, myLikes, shares, goodsP
     isMini().then((res) => {
       if (res) {
         setIsWeapp(true)
+      }
+    })
+    isWeChat().then((res) => {
+      if (res) {
+        setIsWeChat(true)
       }
     })
     setMyLikesNum(myLikes)
@@ -90,19 +94,19 @@ const Panel: React.FC<Props> = ({ data, dataAll, isLike, myLikes, shares, goodsP
       <div className={'swiper-button-next2'}>
         <img src={down} alt="" />
       </div>
-      {appSource != 'biz' ? (
+      {!isWeapp && appSource != 'biz' && !isWechat && (
         <div onClick={giveThumbs}>
           <img src={love ? isLikes : likes} alt="" />
           <p>{myLikesNum}</p>
         </div>
-      ) : null}
-      {!isWeapp && appSource != 'biz' && (
+      )}
+      {!isWeapp && appSource != 'biz' && !isWechat && (
         <div onClick={giveShare}>
           <img src={share} alt="" />
           <p>{mySharesNum}</p>
         </div>
       )}
-      {!isWeapp && appSource != 'biz' && (
+      {!isWeapp && appSource != 'biz' && !isWechat && (
         <div onClick={giveAsk}>
           <img src={ask} alt="" />
           <p>咨询</p>
