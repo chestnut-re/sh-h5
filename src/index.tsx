@@ -19,6 +19,7 @@ const MiniAppPage = loadable(() => import(/* webpackChunkName: 'MiniAppPage'*/ '
 
 /**CDownloadApp c端app下载落地页 */
 const CDownloadApp = loadable(() => import(/* webpackChunkName: 'CDownloadApp'*/ './pages/cdownloadapp'))
+const BDownloadApp = loadable(() => import(/* webpackChunkName: 'CDownloadApp'*/ './pages/bdownloadapp'))
 
 /**商品详情页 */
 const GoodsDetailPage = loadable(() => import(/* webpackChunkName: 'GoodsDetailPage'*/ './pages/goodsDetail'))
@@ -210,6 +211,7 @@ const App = () => (
       <Route path="/miniapp" exact component={MiniAppPage}></Route>
 
       <Route path="/cdownloadapp" exact component={CDownloadApp}></Route>
+      <Route path="/bdownloadapp" exact component={BDownloadApp}></Route>
 
       <Route path="/goods-detail" exact component={GoodsDetailPage}></Route>
       <Route path="/goods-desc" exact component={ActiviteDescPage}></Route>

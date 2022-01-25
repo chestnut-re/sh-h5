@@ -22,7 +22,7 @@ const CDownloadApp: React.FC = () => {
       if (res) {
         setShowMask(true)
       } else {
-        const androidApk = 'https://travel-h5.oss-cn-beijing.aliyuncs.com/apk/shanhaic-1.apk'
+        const androidApk = 'https://travel-h5.oss-cn-beijing.aliyuncs.com/apk/shanhaib-1.apk'
         window.location.href = androidApk
       }
     })
@@ -30,7 +30,7 @@ const CDownloadApp: React.FC = () => {
 
   /**下载 ios */
   const _downloadiOS = () => {
-    window.location.href = 'https://testflight.apple.com/join/MkVJEq1O'
+    window.location.href = 'https://testflight.apple.com/join/tu8x51g9'
   }
 
   return (
