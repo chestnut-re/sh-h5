@@ -53,7 +53,7 @@ const PersonalDetailPage: FC = (props: any) => {
   const [selectProtocol, setSelectProtocol] = useState(false)
   const [submittal, setSubmitdata] = hooks.useSetState({
     userTravelerRelation: '', //登录用户与出行人关系
-    travelerName: '李德恩', //出行人姓名 411421199310226438
+    travelerName: '', //出行人姓名 411421199310226438
     phoneNumber: '', //手机号
     addr: '', //出行人住址
     type: 1, //出行人类型
