@@ -29,19 +29,26 @@ interface ManageProps {
   payAmount?: number
   promotionalImageUrl?: string
   payTime?: string
+  countDownTimes?: string
 }
 // const RMB_CON = 1000
 import { RMB_CON } from '@/utils/currency'
-const ManageDetailItem: FC<ManageProps> = (props) => {
-  const { goodsName, payAmount, orderUserName, orderTime, orderNo, state, promotionalImageUrl, payTime } = props
-  const [countdowntime, setCountdownTime] = useState<number>(COUNT_DOWN)
-
+const ManageDetailItem: FC<ManageProps> = ({
+  goodsName,
+  payAmount,
+  orderUserName,
+  orderTime,
+  orderNo,
+  state,
+  promotionalImageUrl,
+  payTime,
+  countDownTimes,
+}) => {
+  const [statecopy, setStatecopy] = useState(state)
   useEffect(() => {
-    if (state === 1 && orderTime) {
-      const restTime = (dayjs().unix() - dayjs(orderTime).unix()) * 1000
-      setCountdownTime(COUNT_DOWN - restTime)
-    }
-  }, [state, orderTime])
+    setStatecopy(state)
+  }, [state])
+
   return (
     <div className="mdetail-item">
       <div className="mdetail-item-goods">
@@ -65,11 +72,17 @@ const ManageDetailItem: FC<ManageProps> = (props) => {
             <div className="listLi-right">{orderUserName}</div>
             <div className="maorder-countdown">
               <ConfigProvider themeVars={themeVars}>
-                {state === 1 && (
+                {statecopy === 1 && countDownTimes ? (
                   <div>
-                    <CountDown time={countdowntime} format="剩 mm:ss" />
+                    <CountDown
+                      time={countDownTimes}
+                      onFinish={() => {
+                        setStatecopy(2)
+                      }}
+                      format="剩 mm:ss"
+                    />
                   </div>
-                )}
+                ) : null}
               </ConfigProvider>
             </div>
           </li>
@@ -87,16 +100,12 @@ const ManageDetailItem: FC<ManageProps> = (props) => {
               <div className="listLi-right">{payTime}</div>
             </li>
           )}
-          {/* <li className="detail-listLi">
-            <div className="listLi-left">退款金额</div>
-            <div className="listLi-right">¥123</div>
-          </li> */}
         </ul>
       </div>
-      {state && state >= 0 ? (
-        <div className={`detail-status ${MaStatusMap[state]?.bgName}`}>
-          <div className={`status-text ${MaStatusMap[state]?.cName}`}>
-            <h1>{MaStatusMap[state]?.text}</h1>
+      {statecopy && statecopy >= 0 ? (
+        <div className={`detail-status ${MaStatusMap[statecopy]?.bgName}`}>
+          <div className={`status-text ${MaStatusMap[statecopy]?.cName}`}>
+            <h1>{MaStatusMap[statecopy]?.text}</h1>
           </div>
         </div>
       ) : null}

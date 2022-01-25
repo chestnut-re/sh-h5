@@ -56,7 +56,8 @@ const ReimburseDetail: FC = () => {
           <li className="reimburse-detail-li">
             <div className="reimburse-dl-left">退款件数</div>
             <div className="reimburse-dl-right">
-              成人x{reimdetail?.adultNum} 儿童x{reimdetail?.childNum}
+              {reimdetail?.adultNum > 0 ? <>成人x{reimdetail?.adultNum}</> : null}
+              {reimdetail?.childNum > 0 ? <>儿童x{reimdetail?.childNum}</> : null}
             </div>
           </li>
           <li className="reimburse-detail-li">

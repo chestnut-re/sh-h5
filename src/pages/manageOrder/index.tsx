@@ -20,11 +20,11 @@ const themeVars = {
 const PAGE_SIZE = 10
 
 const TabsListObj = [
-  { tabName: '全部', type: '', id: 0, isTag: false },
-  { tabName: '待付款', type: 1, id: 1, isTag: true },
-  { tabName: '待核销', type: 3, id: 2, isTag: false },
-  { tabName: '已完成', type: 4, id: 3, isTag: false },
-  { tabName: '退款/售后', type: 5, id: 4, isTag: false },
+  { tabName: '全部', state: '', id: 0, isTag: false, type: 1 },
+  { tabName: '待付款', state: 1, id: 1, isTag: true, type: 1 },
+  { tabName: '待核销', state: 3, id: 2, isTag: false, type: 1 },
+  { tabName: '已完成', state: 4, id: 3, isTag: false, type: 1 },
+  { tabName: '退款/售后', state: 5, id: 4, isTag: false, type: 0 },
 ]
 
 let current = 1
@@ -43,12 +43,15 @@ const ManageOrderPage: FC = () => {
   //高亮tab
   const [activeState, setActive] = useState<any>(action_type ? Number(action_type) : '')
 
+  //待付款数量
+  const [paymentNum, setpaymentNum] = useState(0)
   const getOrderListData = async () => {
     return new Promise<any>((resolve, reject) => {
       ManageOrder.list({
-        state: activeState,
+        state: activeState == 5 ? '' : activeState,
         size: PAGE_SIZE,
         current: current,
+        type: activeState == 5 ? 2 : 1,
       })
         .then((res: any) => {
           const { code, msg } = res
@@ -93,6 +96,14 @@ const ManageOrderPage: FC = () => {
   const getOrderStateCount = () => {
     ManageOrder.biz().then((res) => {
       console.log('res :>> ', res)
+      const { code, data } = res
+      if (code === '200' && data) {
+        const istate = data.find((item) => {
+          return item.state == 1
+        })
+        console.log('istate :>> ', istate)
+        setpaymentNum(istate.count ?? 0)
+      }
     })
   }
 
@@ -140,14 +151,23 @@ const ManageOrderPage: FC = () => {
     current = 1
     setActive(name)
   }
-
-  const manageOrderDetail = (item) => {
+  //type 1跳转订单详情 2跳转退款性情
+  const manageOrderDetail = (item, type) => {
+    console.log('item :>> ', item)
+    if (type === 1) {
+      SHBridge.jump({
+        url: generateUrl(`/management-details${search}&id=${item.id}`),
+        newWebView: true,
+        title: '订单管理',
+      })
+    } else {
+      SHBridge.jump({
+        url: generateUrl(`/reimburse-detail?id=${item.id}`),
+        newWebView: true,
+        title: '退款详情',
+      })
+    }
     // history.push(`/management-details${search}&id=${item.id}`)
-    SHBridge.jump({
-      url: generateUrl(`/management-details${search}&id=${item.id}`),
-      newWebView: true,
-      title: '订单管理',
-    })
   }
   return (
     <div className="Maorder-container">
@@ -165,16 +185,16 @@ const ManageOrderPage: FC = () => {
             {TabsListObj.map((item) => (
               <Tabs.TabPane
                 key={item.id}
-                name={item.type}
+                name={item.state}
                 renderTitle={() => {
                   return !item.isTag ? (
                     item.tabName
                   ) : (
-                    // <>
-                    //   {item.tabName}
-                    //   {paymentNum > 0 ? <span className="maorder-tag">{`(${paymentNum})`}</span> : null}
-                    // </>
-                    <>{item.tabName}</>
+                    <>
+                      {item.tabName}
+                      {paymentNum > 0 ? <span className="maorder-tag">{`(${paymentNum})`}</span> : null}
+                    </>
+                    // <>{item.tabName}</>
                   )
                 }}
               />
@@ -193,14 +213,8 @@ const ManageOrderPage: FC = () => {
             >
               {listData.map((item, index) => {
                 return (
-                  <div
-                    className="morderitem"
-                    key={item.id + index}
-                    onClick={() => {
-                      manageOrderDetail(item)
-                    }}
-                  >
-                    <ManageItem orderItem={item} />
+                  <div className="morderitem" key={item.id + index}>
+                    <ManageItem {...item} changeViewDetails={manageOrderDetail} />
                   </div>
                 )
               })}

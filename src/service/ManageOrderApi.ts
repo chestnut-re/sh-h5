@@ -9,7 +9,10 @@ export class ManageOrder {
    * 查询订单列表
    */
   static list(params): Promise<AxiosResponse<any>> {
-    return axios.get('/api/multi/orders', {
+    // return axios.get('/api/multi/orders', {
+    //   params,
+    // })
+    return axios.get('/api/multi/orders/pageOrderBiz', {
       params,
     })
   }
@@ -37,6 +40,6 @@ export class ManageOrder {
    * 订单数量查询
    */
   static biz(): Promise<AxiosResponse<any>> {
-    return axios.get(`/api/multi/orders/pageOrderBiz`)
+    return axios.get(`/api/multi/orders/countOrderBiz`)
   }
 }
