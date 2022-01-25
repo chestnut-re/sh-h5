@@ -242,7 +242,7 @@ const PersonalDetailPage: FC = (props: any) => {
       })
       const realName = await realNameAuth(cardNo, submittal.travelerName)
       console.log('realName', realName)
-      if (cardNo != '' && !realName.isok) {
+      if (submittal.type == 1 && cardNo != '' && !realName.isok) {
         Toast({
           message: '姓名和证件号不匹配',
         })
