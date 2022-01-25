@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { NumberKeyboard, Popover, Field, Toast } from 'react-vant'
-import { useDebouncedEffect } from '@/hooks/useDebouncedEffect'
+import { Popover, Field, Toast } from 'react-vant'
 import ask from '@/assets/img/token/ask.png'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
@@ -10,7 +9,7 @@ import './index.less'
  * 我的代币提现
  */
 const WithDrawPage: React.FC = () => {
-  const [myK, setMyK] = useState('')
+  const [amounts, setAmounts] = useState('')
   const [visible, setVisible] = useState(false)
   const [dollar, setDollar] = useState()
   useEffect(() => {
@@ -55,12 +54,12 @@ const WithDrawPage: React.FC = () => {
   const askFor = () => {
     if (Number(dollar) == 0) {
       Toast('没有可提现金额')
-    } else if (Number(myK) == 0) {
+    } else if (Number(amounts) == 0) {
       Toast('提现金额不能为0')
-    } else if (Number(myK) > Number(dollar)) {
+    } else if (Number(amounts) > Number(dollar)) {
       Toast('已超过单次最大提现金额')
     } else {
-      MyTokenService.askForWithDraw({ amount: myK * 1000 }).then((res) => {
+      MyTokenService.askForWithDraw({ amount: amounts * 1000 }).then((res) => {
         console.log(res)
         if (res['code'] == '200') {
           Toast({
@@ -98,7 +97,7 @@ const WithDrawPage: React.FC = () => {
     // console.log('e', e)
     // const a = money(e)
     // console.log('e2', a)
-    setMyK(e)
+    setAmounts(e)
     // console.log(e)
   }
 
@@ -111,7 +110,7 @@ const WithDrawPage: React.FC = () => {
           <Field
             labelWidth="0"
             className="input"
-            value={myK}
+            value={amounts}
             // type="digit"
             maxlength={9}
             onChange={mywellat}
@@ -121,13 +120,13 @@ const WithDrawPage: React.FC = () => {
             onBlur={() => setVisible(false)}
           />
           {/* <div>¥</div>
-          <input className="input" value={myK} readOnly onFocus={onFocus} onBlur={() => setVisible(false)} /> */}
+          <input className="input" value={amounts} readOnly onFocus={onFocus} onBlur={() => setVisible(false)} /> */}
           {/* <div className="input" onClick={onFocus} onBlur={() => setVisible(false)}>
-            {myK}
+            {amounts}
           </div> */}
         </div>
         <div className="text">
-          {Number(dollar) > Number(myK) || Number(dollar) == Number(myK) ? (
+          {Number(dollar) > Number(amounts) || Number(dollar) == Number(amounts) ? (
             <div>
               {Number(dollar) == 0 ? '暂时还没有可提现金额' : `最多可提现${dollar ? dollar / 100 : 0}元`}
 
@@ -158,7 +157,7 @@ const WithDrawPage: React.FC = () => {
         theme="custom"
         closeButtonText="提现"
         visible={visible}
-        value={myK}
+        value={amounts}
         onChange={mywellat}
         onClose={() => setVisible(false)}
       /> */}
