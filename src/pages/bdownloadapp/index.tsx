@@ -39,7 +39,7 @@ const CDownloadApp: React.FC = () => {
         <img src={background} alt="" />
         <div className="btn-box">
           <div className="text-content">
-            <span>奔赴山海</span>
+            <span>奔赴山海Biz</span>
             <span>世界那样美好，待你游历细品</span>
           </div>
           <div className="android-box" onClick={_downloadAndroid}>
