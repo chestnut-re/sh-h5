@@ -214,6 +214,14 @@ const SubmitOrderPage: FC = () => {
   }, [selectTime])
 
   useEffect(() => {
+    isMini().then((res) => {
+      if (res) {
+        setIsWeMini(true)
+      }
+    })
+  }, [])
+
+  useEffect(() => {
     document.addEventListener(
       'onResume',
       function (e) {
@@ -224,13 +232,6 @@ const SubmitOrderPage: FC = () => {
       },
       false
     )
-
-    isWeChat().then((res) => {
-      if (res) {
-        setIsWeMini(true)
-      }
-    })
-
     return () => {
       document.removeEventListener(
         'onResume',
