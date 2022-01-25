@@ -534,7 +534,7 @@ const SubmitOrderPage: FC = () => {
     <div className="puorder-container">
       <div className="puorder-main">
         <div className="puorder-fluid">
-          <ContactCard type={1} id={id} />
+          <ContactCard type={2} id={id} />
           <div className="puorder-card">
             <GoodsCard
               promotionalImageUrl={submitinfo.promotionalImageUrl}
