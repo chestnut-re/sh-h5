@@ -3,6 +3,7 @@ import useWXInit from '@/hooks/useWXInit'
 import { SHBridge } from '@/jsbridge'
 import { isWeChat } from '@/jsbridge/env'
 import { generateUrl } from '@/utils'
+import Cookies from 'js-cookie'
 import React, { useEffect, useState } from 'react'
 import { Divider } from 'react-vant'
 import { PageTemplateKey } from '../../utils'
@@ -20,7 +21,7 @@ interface Props {
 const SubmitBtn: React.FC<Props> = ({ dataAll, templateKey, img }) => {
   const wxRef = useWXInit()
   const [weChat, setWeChat] = useState(false)
-
+  const appSource = Cookies.get('app_source')
   useEffect(() => {
     isWeChat().then((res) => {
       setWeChat(res)
@@ -28,6 +29,7 @@ const SubmitBtn: React.FC<Props> = ({ dataAll, templateKey, img }) => {
   }, [])
 
   const makeOrder = () => {
+    if (appSource == 'biz') return
     isWeChat().then((res) => {
       if (res) {
         return
