@@ -200,10 +200,8 @@ const GroupShopPage: FC = () => {
                 )}
 
                 {isWechat && (
-                  <div className="smallshop-abtn">
-                    <div onClick={attentionSmaiiShop} className={'smallshop-abtn'}>
-                      关注
-                    </div>
+                  <div className="smallshop-abtn-wrapper">
+                    关注
                     {/* @ts-ignore */}
                     <wx-open-launch-weapp
                       ref={wxRef}
