@@ -4,6 +4,7 @@ import qs from 'query-string'
 // import { withRouter } from 'react-router-dom'
 import GoodsCard from '@/components/orderDetail/goodsCard'
 import PreferCard from '@/components/orderDetail/preferCard'
+import ContactCard from '@/components/orderDetail/contactCard'
 import IndentCard from '@/components/orderDetail/indentCard'
 import BackCard from '@/components/orderDetail/backthatCard'
 import CompleteFooter from '@/components/submitBars/completeFooter'
@@ -93,7 +94,7 @@ const OrderDonePage: FC<OrderDoneType> = ({
   return (
     <div className="Order-container">
       <div className="order-main">
-        {/* <ContactWcharCard /> */}
+        <ContactCard type={1} id={orderId} />
         <div className="preview_card">
           <GoodsCard
             goodsName={goodsName}
