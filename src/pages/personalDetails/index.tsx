@@ -235,21 +235,21 @@ const PersonalDetailPage: FC = (props: any) => {
       }
       const pruneList = prune()
       submittal.travelerCertificate = pruneList
-      pruneList.map((item, index) => {
-        if (item['certificateType'] == 1) {
-          cardNo = item['certificateNo']
-        }
-      })
-      if (submittal.type == 1) {
-        const realName = await realNameAuth(cardNo, submittal.travelerName)
-        console.log('realName', realName)
-        if (cardNo != '' && !realName.isok) {
-          Toast({
-            message: '姓名和证件号不匹配',
-          })
-          return
-        }
-      }
+      // pruneList.map((item, index) => {
+      //   if (item['certificateType'] == 1) {
+      //     cardNo = item['certificateNo']
+      //   }
+      // })
+      // if (submittal.type == 1) {
+      //   const realName = await realNameAuth(cardNo, submittal.travelerName)
+      //   console.log('realName', realName)
+      //   if (cardNo != '' && !realName.isok) {
+      //     Toast({
+      //       message: '姓名和证件号不匹配',
+      //     })
+      //     return
+      //   }
+      // }
 
       if (urlParams.id) {
         edit()
