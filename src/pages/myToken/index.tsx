@@ -87,7 +87,7 @@ const MyTokenPage: React.FC = () => {
   }
   //打开明细
   const myTokenDetailHandle = () => {
-    SHBridge.jump({ url: generateUrl('/detailed'), newWebView: true, title: '收支明细' })
+    SHBridge.jump({ url: generateUrl('/detailed?type=1'), newWebView: true, title: '收支明细' })
   }
   //显示说明
   const setHandleShowEmbedded = (item) => {
