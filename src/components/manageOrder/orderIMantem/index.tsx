@@ -21,6 +21,7 @@ const ManageRefundMap = {
   2: { text: '退款成功', cName: 'C666666' },
   3: { text: '退款失败', cName: 'C999999' },
   '': { text: '未知', cName: 'C999999' },
+  null: { text: '未知', cName: 'C999999' },
 }
 const themeVars = {
   '--rv-count-down-text-color': '#f57272',
@@ -134,7 +135,7 @@ const ManageItem: FC<ManageItemProps> = ({
                     {childNum ? <span>儿童x{childNum}</span> : null}
                   </div>
                   <div className={`mifu-item-right ${ManageRefundMap[refundState ?? '']?.['cName']}`}>
-                    {ManageRefundMap[refundState].text}
+                    {ManageRefundMap[refundState ?? '']?.text}
                   </div>
                 </li>
               )
