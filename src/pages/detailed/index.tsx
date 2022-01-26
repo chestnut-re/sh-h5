@@ -2,9 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { Toast, List } from 'react-vant'
 import { MyTokenService } from '@/service/MyTokenService'
 import emptyIcon from '@/assets/img/token/token_empty@3x.png'
+import { useLocation } from 'react-router-dom'
+import qs from 'query-string'
 import './index.less'
 /**
  * 收支明细
+ * url 参数说明
+ * ""全部 1：收支明细 2提现明细
  */
 let currentIndex = 1
 const PAGE_SIZE = 10
@@ -16,6 +20,8 @@ const listMap = {
 }
 
 const DetailedPage: React.FC = () => {
+  const { search } = useLocation()
+  const { type } = qs.parse(search.slice(1))
   //列表数据
   const [details, setDetails] = useState<any[]>([])
   //加载状态
@@ -25,6 +31,7 @@ const DetailedPage: React.FC = () => {
     const { code, msg, data } = await MyTokenService.getWalletPage({
       size: PAGE_SIZE,
       current: currentIndex,
+      billType: type && type != 'null' && type != 'undefined' ? type : '',
     })
 
     if (code === '200' && data) {
