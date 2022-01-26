@@ -49,6 +49,11 @@ const ToDoListCard: FC<ToDoListType> = ({ goodsName, goodsId, rebateId, onToview
       return item.state === 2
     })
     setTaskstate(state)
+
+    //为完成任务默认展开
+    if (!state) {
+      setIsMore(true)
+    }
   }, [rebateList])
   //分享任务
   const shareTaskHandle = (item) => {
