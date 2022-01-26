@@ -3,6 +3,7 @@ import { SHBridge } from '@/jsbridge'
 import wecharIcon from '@/assets/img/wx_icon@3x.png'
 import { ContactApi } from '@/service/Customerservice'
 import { Image, Toast } from 'react-vant'
+import { isMini } from '@/jsbridge/env'
 import './index.less'
 /**
  * 打开微信联系团长卡片
@@ -15,17 +16,34 @@ interface ContactType {
 const ContactCard: FC<ContactType> = ({ type, id }) => {
   //客服信息
   const [contactInfo, setContactInfo] = useState()
+  //是否是小程序环境
+  const [isWeMini, setIsWeMini] = useState(false)
   useEffect(() => {
-    getcontactData()
+    isMini()
+      .then((res) => {
+        console.log('res :>> ', res)
+        if (res) {
+          setIsWeMini(true)
+        }
+      })
+      .catch((err) => {
+        console.log('err :>> ', err)
+      })
   }, [])
+
+  useEffect(() => {
+    if (!isWeMini) {
+      getcontactData()
+    }
+  }, [isWeMini])
   const getcontactData = async () => {
     let dataInfo
     if (type === 1) {
       dataInfo = await ContactApi.orderContact(id)
     } else if (type === 2) {
-      dataInfo = await ContactApi.consultContact(id)
+      dataInfo = await ContactApi.consultContact()
     } else if (type === 3) {
-      dataInfo = await ContactApi.exclusiveContact(id)
+      dataInfo = await ContactApi.exclusiveContact()
     }
     if (dataInfo) {
       const { code, data } = dataInfo
@@ -51,7 +69,7 @@ const ContactCard: FC<ContactType> = ({ type, id }) => {
 
   return (
     <>
-      {contactInfo ? (
+      {contactInfo && !isWeMini ? (
         <div className="contact_card" onClick={openContactCustomerService}>
           <div className="card-l">
             <Image width="100%" iconSize={0} height="100%" fit="cover" src={contactInfo['pic']} />
