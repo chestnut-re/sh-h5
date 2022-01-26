@@ -127,7 +127,7 @@ const MyTokenPage: React.FC = () => {
     if (rebateType != 2) {
       shareIp = shareType
     }
-    oncloseModal()
+    // oncloseModal()
     if (SHBridge.isLogin()) {
       const litterUrl = `${window.location.origin}/goods-detail?id=${goodsId}&userId=${userId}&source=2&taskId=${id}&rebateType=${rebateType}&share_ip=${shareIp}`
       console.log('litterUrl :>> ', litterUrl)
@@ -138,13 +138,13 @@ const MyTokenPage: React.FC = () => {
         headUrl: promotionalImageUrl,
         littleUrl: litterUrl,
       })
-      oncloseModal()
+      // oncloseModal()
       const { taskId, state } = sharetaskId
       if (state != 2 && shareIp === 0) {
         MyTokenService.unLockBean({ taskId: taskId }).then((res) => {
           const { code, msg, data } = res
           if (code === '200' && data) {
-            Toast('分享成功')
+            // Toast('分享成功')
             getTaskList()
           } else {
             Toast(msg)
@@ -260,12 +260,14 @@ const MyTokenPage: React.FC = () => {
           </div>
         ) : null}
       </Overlay>
-      <ModalOverlay
-        shareData={shareData}
-        onclose={oncloseModal}
-        onshareChange={onshareChangeHandle}
-        isShow={isshareCard}
-      />
+      {isshareCard && (
+        <ModalOverlay
+          shareData={shareData}
+          onclose={oncloseModal}
+          onshareChange={onshareChangeHandle}
+          isShow={isshareCard}
+        />
+      )}
     </div>
   )
 }
