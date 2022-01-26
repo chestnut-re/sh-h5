@@ -189,7 +189,7 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
           />
           <RefuIndentCard {...refundList} />
         </div>
-        <BackCard />
+        <BackCard goodsId={goodsId} />
       </div>
       <CompleteFooter {...BarsConfig} onSelect={onSelectClick} onPopoverAction={onPopoverActionClick} />
     </div>

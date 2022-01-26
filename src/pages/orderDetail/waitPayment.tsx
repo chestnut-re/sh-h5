@@ -1,8 +1,6 @@
 import React, { useState, useEffect, FC } from 'react'
-import dayjs from 'dayjs'
 import { CountDown } from 'react-vant'
 import GoodsCard from '@/components/orderDetail/goodsCard'
-import PreferCard from '@/components/orderDetail/preferCard'
 import ContactCard from '@/components/orderDetail/contactCard'
 import IndentCard from '@/components/orderDetail/indentCard'
 import BackCard from '@/components/orderDetail/backthatCard'
@@ -18,7 +16,6 @@ import './index.less'
 /**
  * 订单待付款入口页
  */
-const COUNT_DOWN = 60 * 30 * 1000
 let reloadNum = 0
 let orderIdInfo
 interface OrderPaymentType {
@@ -83,7 +80,7 @@ const OrderPaymentPage: FC<OrderPaymentType> = ({
     })
   }
   useEffect(() => {
-    orderIdInfo = id ? id : null
+    orderIdInfo = orderId ? orderId : null
 
     document.addEventListener(
       'onResume',
@@ -212,7 +209,7 @@ const OrderPaymentPage: FC<OrderPaymentType> = ({
             payAmount={payAmount} /> */}
         </div>
         <IndentCard orderNo={orderNo} payType={payType} orderTime={orderTime} payTime={payTime} />
-        <BackCard />
+        <BackCard goodsId={goodsId} />
       </div>
       <FooterCard
         priceSetData={{ priceNum: payAmount, preferPrice: discountAmount }}

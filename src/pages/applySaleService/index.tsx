@@ -36,7 +36,7 @@ const RefundIndexPage: FC = () => {
         if (code === '200' && data) {
           const { refundAndChangePolicyContent } = data
           setOrderDetail(data)
-          storage.set('_refundcontent', refundAndChangePolicyContent ? refundAndChangePolicyContent : '')
+          // storage.set('_refundcontent', refundAndChangePolicyContent ? refundAndChangePolicyContent : '')
         }
       })
       .catch((err) => {

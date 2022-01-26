@@ -112,7 +112,7 @@ const OrderDonePage: FC<OrderDoneType> = ({
         </div>
         <PreviewTripCard ordersTravel={ordersTravel} openTripLinkHandel={openTripLinkHandelFun} />
         <IndentCard orderNo={orderNo} payType={payType} orderTime={orderTime} payTime={payTime} />
-        <BackCard />
+        <BackCard goodsId={goodsId} />
       </div>
       <CompleteFooter {...BarsConfig} />
     </div>

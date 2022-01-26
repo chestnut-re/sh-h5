@@ -193,7 +193,7 @@ const OrderConfirmaPage: FC = (props: any) => {
           <FillTravelCodeCard FillTraveHandel={FillTraveHandelfun} />
         )}
         <IndentCard orderNo={orderNo} payType={payType} orderTime={orderTime} payTime={payTime} />
-        <BackCard />
+        <BackCard goodsId={goodsId} />
         {refundList.map((item, index) => {
           return item.travelerName ? (
             <TripPeopleCard openTravelClick={openTravelListItem} {...item} key={index} />

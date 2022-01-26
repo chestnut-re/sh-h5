@@ -75,7 +75,7 @@ const IndexRefund: FC<IndexRefundType> = ({ orderInfo }) => {
           /> */}
         </div>
         <ApplyRefundCard changeApply={changeApplyHandle} />
-        <BackCard />
+        <BackCard goodsId={goodsId} />
       </div>
     </div>
   )

@@ -14,10 +14,9 @@ import KnownCalendarCard from '@/components/orderDetail/knownCalendarCard'
 import Privilege from './privilege'
 import { SHBridge } from '@/jsbridge'
 import { getCookie } from '@/utils/cookie'
-import storage from '@/utils/localstorage'
 import { generateUrl } from '@/utils'
 import { OrderApi } from '@/service/OrderDetailApi'
-import { isMini, isWeChat } from '@/jsbridge/env'
+import { isMini } from '@/jsbridge/env'
 
 import './index.less'
 
@@ -317,8 +316,6 @@ const SubmitOrderPage: FC = () => {
         }
         getRefereesApi()
         //由于退改记录存的是富文本无法通过接口查询在打开时保存退改说明退改详情页取退改说明数据
-        storage.set('_refundcontent', refundAndChangePolicyContent ? refundAndChangePolicyContent : '')
-        console.log('purchaseConfigpurchaseConfigpurchaseConfigpurchaseConfig :>> ', purchaseConfig)
       })
       .catch((err) => {
         console.log(' :>>接口异常 ')
@@ -577,7 +574,7 @@ const SubmitOrderPage: FC = () => {
             />
           </div>
           <PayTypeCard changePayType={handlePayType} />
-          <BackCard />
+          <BackCard goodsId={id} />
 
           <ProtocolCard changeProtocolStatus={handleProtocolStatus} />
         </div>
