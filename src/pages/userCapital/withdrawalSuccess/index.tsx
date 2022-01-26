@@ -18,7 +18,7 @@ const WithdrawSuccessPage: React.FC = () => {
     setDec(decodeURIComponent(getUrlParams(window.location.href)['dec']))
   }, [])
   const back = () => {
-    window.history.back()
+    location.href = document.referrer
   }
   return (
     <div className="WithdrawSuccessPage__root">

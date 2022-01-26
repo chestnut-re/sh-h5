@@ -64,8 +64,8 @@ const UserCapitalPage: React.FC = () => {
       SHBridge.showToast('请输入正确的金额')
       return
     }
-    if (Number(value) < Number(getPrice(canDrawMoney))) {
-      SHBridge.showToast(`提现金额不能小于${getPrice(canDrawMoney)}`)
+    if (Number(value) < Number(getPrice(canDrawMoney, 2))) {
+      SHBridge.showToast(`提现金额不能小于${getPrice(canDrawMoney, 2)}`)
       return
     }
     setValue(Number(value).toString())
@@ -89,7 +89,7 @@ const UserCapitalPage: React.FC = () => {
 
   const showPop = () => {
     if (!isCanDraw) {
-      SHBridge.showToast(`您的可用余额小于${getPrice(canDrawMoney)}，暂不可提现`)
+      SHBridge.showToast(`您的可用余额小于${getPrice(canDrawMoney, 2)}，暂不可提现`)
       return
     }
     setVisible(true)
@@ -163,7 +163,7 @@ const UserCapitalPage: React.FC = () => {
               {/* <input value={value} type="" /> */}
               <div className="input">{value}</div>
             </div>
-            <div>可提现金额{getPrice(accountInfo['available'])}元</div>
+            <div>可提现金额{getPrice(accountInfo['available'], 2)}元</div>
           </div>
           <div className={Number(value) >= Number(getPrice(canDrawMoney)) ? 'numberKey_yes' : 'numberKey_no'}>
             <NumberKeyboard
