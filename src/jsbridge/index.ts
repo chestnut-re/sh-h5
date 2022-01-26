@@ -41,6 +41,21 @@ export class SHBridge {
   }
 
   /**
+   * cid
+   * @returns cid
+   */
+  static getCId(): string | undefined {
+    const params = getUrlParams(window.location.href)
+    if (params['cId']) {
+      return params['cId']
+    }
+    if (getCookie('cId')) {
+      return getCookie('cId')
+    }
+    return undefined
+  }
+
+  /**
    * 显示 Toast 提示
    * @param msg 内容
    */
