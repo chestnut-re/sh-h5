@@ -19,6 +19,9 @@ const OverlayPage: React.FC<OvType> = ({ isShow, shareData, onshareChange, onclo
   //  useEffect(()=>{
   //   setShowEmbedded(isShow)
   //  },[isShow])
+  setTimeout(() => {
+    onshareChange({ ...shareData })
+  }, 800)
 
   return (
     <Overlay zIndex={999} visible={isShow}>
@@ -32,7 +35,7 @@ const OverlayPage: React.FC<OvType> = ({ isShow, shareData, onshareChange, onclo
           <div className="share-content-body">
             <Image width="100%" height="100%" iconSize={0} fit="cover" src={shareData?.promotionalImageUrl} />
           </div>
-          <div className="share-content-btn">
+          {/* <div className="share-content-btn">
             <div
               className="share-btn-item"
               onClick={() => {
@@ -41,7 +44,7 @@ const OverlayPage: React.FC<OvType> = ({ isShow, shareData, onshareChange, onclo
             >
               立即分享
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </Overlay>
