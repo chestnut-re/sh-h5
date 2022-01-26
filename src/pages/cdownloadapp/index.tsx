@@ -30,7 +30,13 @@ const CDownloadApp: React.FC = () => {
 
   /**下载 ios */
   const _downloadiOS = () => {
-    window.location.href = 'https://testflight.apple.com/join/MkVJEq1O'
+    isWeChat().then((res) => {
+      if (res) {
+        setShowMask(true)
+      } else {
+        window.location.href = 'https://testflight.apple.com/join/MkVJEq1O'
+      }
+    })
   }
 
   return (
