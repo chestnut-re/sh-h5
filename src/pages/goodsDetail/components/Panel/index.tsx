@@ -94,7 +94,7 @@ const Panel: React.FC<Props> = ({ data, dataAll, isLike, myLikes, shares, goodsP
       <div className={'swiper-button-next2'}>
         <img src={down} alt="" />
       </div>
-      {!isWeapp && appSource != 'biz' && !isWechat && (
+      {appSource != 'biz' && !isWechat && (
         <div onClick={giveThumbs}>
           <img src={love ? isLikes : likes} alt="" />
           <p>{myLikesNum}</p>
