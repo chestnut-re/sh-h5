@@ -6,6 +6,7 @@ import { MyTokenService } from '@/service/MyTokenService'
 import ToDoList from '@/components/myToken/toDoList'
 import emptyIcon from '@/assets/img/token/token_empty@3x.png'
 import ModalOverlay from './overlay'
+import { isMini } from '@/jsbridge/env'
 import { getCookie } from '@/utils/cookie'
 import './index.less'
 /**
@@ -51,6 +52,7 @@ const MyTokenPage: React.FC = () => {
         const { state } = e
         if (state === 0) {
           getTaskList()
+          oncloseModal()
         }
       },
       false
@@ -97,6 +99,14 @@ const MyTokenPage: React.FC = () => {
   }
 
   const shareTask = (item) => {
+    isMini().then((res) => {
+      console.log(res)
+      if (res) {
+        Toast('请下载App')
+        return
+      }
+    })
+
     const { taskId, state } = item
     // SHBridge.shareActivity(specialDetail)
     console.log('taskId :>> ', item)
@@ -107,6 +117,9 @@ const MyTokenPage: React.FC = () => {
           setShareData(data)
           setisshareCard(true)
           setsharetaskId(item)
+          setTimeout(() => {
+            onshareChangeHandle(item)
+          }, 1800)
         } else {
           Toast('服务异常')
         }

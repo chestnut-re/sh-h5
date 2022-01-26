@@ -20,8 +20,8 @@ const OverlayPage: React.FC<OvType> = ({ isShow, shareData, onshareChange, onclo
   //   setShowEmbedded(isShow)
   //  },[isShow])
   setTimeout(() => {
-    onshareChange({ ...shareData })
-  }, 800)
+    // onshareChange({ ...shareData })
+  }, 1200)
 
   return (
     <Overlay zIndex={999} visible={isShow}>
