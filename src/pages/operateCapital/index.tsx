@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Dialog, Toast, ActionSheet, NumberKeyboard, NavBar } from 'react-vant'
+import { Dialog, Toast, ActionSheet, NumberKeyboard, NavBar, Popup } from 'react-vant'
 import './index.less'
 import { useDebouncedEffect } from '@/hooks/useDebouncedEffect'
 import { url } from 'inspector'
@@ -154,7 +154,7 @@ const OperateCapitalPage: React.FC = () => {
           </div>
         </div>
       </Dialog>
-      <ActionSheet visible={visible} onClickOverlay={closeActionSheet}>
+      <Popup position="bottom" round visible={visible} onClickOverlay={closeActionSheet}>
         <div className="number-dialog">
           <div className="box">
             <div>{selectType == 'out' ? '转出到 账户资金金额（元）' : '转入到 运营资金金额（元）'}</div>
@@ -183,7 +183,7 @@ const OperateCapitalPage: React.FC = () => {
             />
           </div>
         </div>
-      </ActionSheet>
+      </Popup>
     </div>
   )
 }
