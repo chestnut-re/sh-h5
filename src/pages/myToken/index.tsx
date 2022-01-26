@@ -119,7 +119,7 @@ const MyTokenPage: React.FC = () => {
           setsharetaskId(item)
           setTimeout(() => {
             onshareChangeHandle(item)
-          }, 1200)
+          }, 800)
         } else {
           Toast('服务异常')
         }
