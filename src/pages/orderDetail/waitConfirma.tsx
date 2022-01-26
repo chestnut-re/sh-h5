@@ -4,6 +4,7 @@ import qs from 'query-string'
 import GoodsCard from '@/components/orderDetail/goodsCard'
 import IndentCard from '@/components/orderDetail/indentCard'
 import BackCard from '@/components/orderDetail/backthatCard'
+import ContactCard from '@/components/orderDetail/contactCard'
 import CompleteFooter from '@/components/submitBars/completeFooter'
 import TravelCodeCard from '@/components/orderDetail/travelCodeCard'
 import FillTravelCodeCard from '@/components/orderDetail/fillTravelCodeCard'
@@ -162,7 +163,7 @@ const OrderConfirmaPage: FC = (props: any) => {
   return (
     <div className="Order-container">
       <div className="order-main">
-        {/* <ContactWcharCard/> */}
+        <ContactCard type={1} id={orderId} />
         <div className="preview_card">
           <GoodsCard
             goodsName={goodsName}

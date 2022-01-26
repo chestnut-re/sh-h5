@@ -3,6 +3,7 @@ import dayjs from 'dayjs'
 import { CountDown } from 'react-vant'
 import GoodsCard from '@/components/orderDetail/goodsCard'
 import PreferCard from '@/components/orderDetail/preferCard'
+import ContactCard from '@/components/orderDetail/contactCard'
 import IndentCard from '@/components/orderDetail/indentCard'
 import BackCard from '@/components/orderDetail/backthatCard'
 import FooterCard from '@/components/orderDetail/footerCard'
@@ -10,6 +11,8 @@ import { OrderApi } from '@/service/OrderDetailApi'
 import { SHBridge } from '@/jsbridge'
 import { Toast } from 'react-vant'
 import { generateUrl } from '@/utils'
+import { useLocation } from 'react-router-dom'
+import qs from 'query-string'
 import './index.less'
 
 /**
@@ -58,6 +61,8 @@ const OrderPaymentPage: FC<OrderPaymentType> = ({
   residueTime,
   reloadOrder,
 }) => {
+  const { search } = useLocation()
+  const { orderId } = qs.parse(search.slice(1))
   const countDownStops = () => {
     if (reloadNum <= 3) {
       console.log('object 倒计时结束:>> ')
@@ -183,7 +188,7 @@ const OrderPaymentPage: FC<OrderPaymentType> = ({
         />
       </div>
       <div className="order-main">
-        {/* <ContactWcharCard/> */}
+        <ContactCard type={1} id={orderId} />
         <div className="preview_card">
           <GoodsCard
             goodsName={goodsName}
