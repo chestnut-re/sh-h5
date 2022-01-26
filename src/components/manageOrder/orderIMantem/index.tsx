@@ -106,19 +106,20 @@ const ManageItem: FC<ManageItemProps> = ({
             {childNum ? <span>儿童x{childNum}</span> : null}
           </div>
           <div className="micr-price">
-            {refundState == 1 || refundState == 2 || refundState == 3 ? (
+            {/* {refundState == 1 || refundState == 2 || refundState == 3 ? (
               <>
                 {' '}
                 <span className="micr-price-text">退款金额</span>¥{RMB_CON(totalRefundAmount)}
               </>
             ) : (
               <>¥{RMB_CON(payAmount)}</>
-            )}
+            )} */}
+            ¥{RMB_CON(payAmount)}
           </div>
         </div>
       </div>
 
-      {refundResDTOList ? (
+      {/* {refundResDTOList ? (
         <div className="maorder-item-footer">
           <ul className="maorder-item-footer-ul">
             {refundResDTOList.map(({ adultNum, childNum, id, refundState }, index) => {
@@ -140,13 +141,9 @@ const ManageItem: FC<ManageItemProps> = ({
                 </li>
               )
             })}
-            {/* <li className='mifu-item'>
-                  <div className='mifu-item-left'>儿童x1</div>
-                  <div className='mifu-item-right mifu-ing'>退款中</div>
-              </li> */}
           </ul>
         </div>
-      ) : null}
+      ) : null} */}
     </div>
   )
 }

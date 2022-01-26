@@ -61,6 +61,10 @@ const ReimburseDetail: FC = () => {
             </div>
           </li>
           <li className="reimburse-detail-li">
+            <div className="reimburse-dl-left">退款单号</div>
+            <div className="reimburse-dl-right">{id}</div>
+          </li>
+          <li className="reimburse-detail-li">
             <div className="reimburse-dl-left">退款金额</div>
             <div className="reimburse-dl-right">¥ {RMB_CON(reimdetail?.amount)}</div>
           </li>
