@@ -240,13 +240,15 @@ const PersonalDetailPage: FC = (props: any) => {
           cardNo = item['certificateNo']
         }
       })
-      const realName = await realNameAuth(cardNo, submittal.travelerName)
-      console.log('realName', realName)
-      if (submittal.type == 1 && cardNo != '' && !realName.isok) {
-        Toast({
-          message: '姓名和证件号不匹配',
-        })
-        return
+      if (submittal.type == 1) {
+        const realName = await realNameAuth(cardNo, submittal.travelerName)
+        console.log('realName', realName)
+        if (cardNo != '' && !realName.isok) {
+          Toast({
+            message: '姓名和证件号不匹配',
+          })
+          return
+        }
       }
 
       if (urlParams.id) {

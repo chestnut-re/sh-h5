@@ -65,6 +65,12 @@ const OptionalInfo = (props, ref) => {
     pushInfoObj.certificateNo = ''
     pushInfoObj.validity = ''
     pushInfoObj.certificateType = '身份证'
+    if (infolist[0].certificateType == '身份证') {
+      pushInfoObj.certificateType = '护照'
+    } else {
+      pushInfoObj.certificateType = '身份证'
+    }
+
     if (infolist[0] && infolist[0].suborderId) {
       pushInfoObj.suborderId = infolist[0].suborderId
     }
