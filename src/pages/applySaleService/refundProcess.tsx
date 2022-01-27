@@ -104,6 +104,7 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
           ...v,
           btnGroups: [
             { name: '咨询', key: 'ZX' },
+            { name: '再次购买', key: 'ZCGM' },
             { name: '撤销申请', key: 'CXSQ' },
           ],
           leftBtnGroups: [{ text: '修改申请', key: 'XGSQ' }],
