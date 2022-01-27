@@ -114,7 +114,6 @@ const ManageItem: FC<ManageItemProps> = ({
               <>¥{RMB_CON(payAmount)}</>
             )} */}
             ¥{RMB_CON(payAmount)}
-            <span>下单时间 </span>
           </div>
         </div>
       </div>
