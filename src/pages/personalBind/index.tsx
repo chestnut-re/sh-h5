@@ -88,7 +88,7 @@ const PersonalBindPage: FC = (props) => {
     const errorObj = {
       nameMsg: '',
       phoneMsg: '',
-      validityMsg: '',
+      // validityMsg: '',
       emerPhoneMsg: '',
       emerNameMsg: '',
       certificateNoMsg: '',

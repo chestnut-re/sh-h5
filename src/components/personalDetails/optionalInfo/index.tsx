@@ -23,7 +23,7 @@ const actions = [
 
 const rulesInfo = {
   certificateErrorMsg: '',
-  validityErrorMsg: '',
+  // validityErrorMsg: '',
   type: 0,
 }
 
@@ -43,10 +43,10 @@ const OptionalInfo = (props, ref) => {
       certificate.map((item, index) => {
         item.type = index
         item.certificateType = item.certificateType
-        item.validity = item.validity
+        // item.validity = item.validity
         newErrorObj.push({
           certificateErrorMsg: '',
-          validityErrorMsg: '',
+          // validityErrorMsg: '',
           type: index,
         })
       })
@@ -64,7 +64,7 @@ const OptionalInfo = (props, ref) => {
     const pushInfoObj = {} as any
     pushInfoObj.type = activeKey
     pushInfoObj.certificateNo = ''
-    pushInfoObj.validity = ''
+    // pushInfoObj.validity = ''
     pushInfoObj.certificateType = 1
     if (infolist[0].certificateType == 1) {
       pushInfoObj.certificateType = 2
@@ -78,7 +78,7 @@ const OptionalInfo = (props, ref) => {
     infolist.push(pushInfoObj)
     errorInfoList.push({
       certificateErrorMsg: '',
-      validityErrorMsg: '',
+      // validityErrorMsg: '',
       type: activeKey,
     })
     setInfolist(infolist)
@@ -113,29 +113,29 @@ const OptionalInfo = (props, ref) => {
     setInfolist(newInfolist)
   }
 
-  const onTimeChange = (val) => {
-    const d = new Date(val)
-    const datetime =
-      d.getFullYear() +
-      '-' +
-      (d.getMonth() + 1) +
-      '-' +
-      d.getDate() +
-      ' ' +
-      d.getHours() +
-      ':' +
-      d.getMinutes() +
-      ':' +
-      d.getSeconds()
-    const newInfolist = [...infolist]
+  // const onTimeChange = (val) => {
+  //   const d = new Date(val)
+  //   const datetime =
+  //     d.getFullYear() +
+  //     '-' +
+  //     (d.getMonth() + 1) +
+  //     '-' +
+  //     d.getDate() +
+  //     ' ' +
+  //     d.getHours() +
+  //     ':' +
+  //     d.getMinutes() +
+  //     ':' +
+  //     d.getSeconds()
+  //   const newInfolist = [...infolist]
 
-    newInfolist.map((item, i) => {
-      if (item['type'] === showPickerId) {
-        item['validity'] = datetime
-      }
-    })
-    setInfolist(newInfolist)
-  }
+  //   newInfolist.map((item, i) => {
+  //     if (item['type'] === showPickerId) {
+  //       item['validity'] = datetime
+  //     }
+  //   })
+  //   setInfolist(newInfolist)
+  // }
 
   const onSelect = (value, type) => {
     const newInfolist = [...infolist]
@@ -157,14 +157,14 @@ const OptionalInfo = (props, ref) => {
           errorInfoList[index].certificateErrorMsg = ''
         }
 
-        if (!item.validity || isStrNull(item.validity)) {
-          errorInfoList[index].validityErrorMsg = '请输入证件号有效期'
-        } else {
-          errorInfoList[index].validityErrorMsg = ''
-        }
+        // if (!item.validity || isStrNull(item.validity)) {
+        //   errorInfoList[index].validityErrorMsg = '请输入证件号有效期'
+        // } else {
+        //   errorInfoList[index].validityErrorMsg = ''
+        // }
       } else {
         errorInfoList[index].certificateErrorMsg = ''
-        errorInfoList[index].validityErrorMsg = ''
+        // errorInfoList[index].validityErrorMsg = ''
       }
     })
     return judgeListComplete(errorInfoList)
@@ -222,7 +222,7 @@ const OptionalInfo = (props, ref) => {
                 />
               </div>
             </div>
-            <div className="oic-item rv-hairline--bottom">
+            {/* <div className="oic-item rv-hairline--bottom">
               <div className="oic-item-label oic-label-c">有效期至</div>
               <div className="oic-item-content">
                 <Field
@@ -237,7 +237,7 @@ const OptionalInfo = (props, ref) => {
                   placeholder="请选择"
                 />
               </div>
-            </div>
+            </div> */}
             {infolist.length > 1 && (
               <div
                 className="optional-info-del"
@@ -267,7 +267,7 @@ const OptionalInfo = (props, ref) => {
         </div>
       )}
 
-      <Popup visible={showPicker} round position="bottom" onClose={() => setShowPicker(false)}>
+      {/* <Popup visible={showPicker} round position="bottom" onClose={() => setShowPicker(false)}>
         <DatetimePicker
           onConfirm={(value) => {
             onTimeChange(value)
@@ -278,7 +278,7 @@ const OptionalInfo = (props, ref) => {
           maxDate={new Date(2221, 1, 1)}
           value={new Date()}
         />
-      </Popup>
+      </Popup> */}
     </div>
   )
 }
