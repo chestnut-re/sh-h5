@@ -218,6 +218,7 @@ const OptionalInfo = (props, ref) => {
                   value={item['certificateNo']}
                   placeholder="请填写正确的证件号码"
                   maxlength={18}
+                  onBlur={props.onBlur}
                   errorMessage={errorInfoList[index].certificateErrorMsg}
                 />
               </div>
