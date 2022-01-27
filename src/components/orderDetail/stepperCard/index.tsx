@@ -1,6 +1,6 @@
 import React, { useState, useEffect, FC } from 'react'
 
-import { ConfigProvider, Icon } from 'react-vant'
+import { ConfigProvider, Icon, Toast } from 'react-vant'
 import questionIcon from '@/assets/img/question_icon@3x.png'
 import StepperRui from '@/components/orderDetail/stepperCard/stepperRui'
 import { RMB_CON } from '@/utils/currency'
@@ -76,10 +76,16 @@ const StepperCard: FC<StepType> = ({
   const setGrownNumRuiValue = (val) => {
     setAdultNum(val)
     onChangeClickAdultNum && onChangeClickAdultNum()
+    if (val === 1) {
+      Toast('已达购买上限')
+    }
   }
   //处理儿童数量
   const setChildNumRuiValue = (val) => {
     setChildrenVal(val)
+    if (val === 1) {
+      Toast('已达购买上限')
+    }
     console.log('val :>> ', val)
   }
   //处理积分数量

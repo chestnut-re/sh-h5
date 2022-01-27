@@ -136,7 +136,7 @@ const MyTokenPage: React.FC = () => {
     const { goodsId, userId, goodsName, shareType, id, promotionalImageUrl, rebateType } = item
     console.log('item :>> ', item)
     let shareIp = null
-    if (rebateType != 2) {
+    if (rebateType != 1) {
       shareIp = shareType
     }
     // oncloseModal()

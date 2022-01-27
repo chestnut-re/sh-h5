@@ -1,155 +1,152 @@
-.stepper-content{
+.stepper-content {
+  position: relative;
+  .step-box {
     position: relative;
-    .step-box{
-        position: relative;
-        .step-boxul{
-            position: relative;
-            .step-boxli{
-                position: relative;
-                display: flex;
-                justify-content: space-between;
-                padding: 21px 0;
-                .step-name{
-                    font-size: 28px;
-                    font-family: PingFang SC, PingFang SC-Regular;
-                    font-weight: 400;
-                    text-align: left;
-                    color: #333333;
-                    flex: 1;
-                    .name-subtitle{
-                        color: #999999;
-                        margin-left: 10px;
-                    }
-                    .integra-icon{
-                        margin-right: 10px;
-                    }
-                    .hellp-icon{
-                        display: inline-block;
-                        padding-left: 50px;
-                        
-                    }
-                }
-                .step-content{
-                    min-width: 165px;
-                }
-                .hellp-icon-l{
-                    position: absolute;
-                    width: 74px;
-                    height: 76px;
-                    left: -20px;
-                    top: 50%;
-                    margin-top: -38px;
-                    background: url(../../../assets/img/ledou.png) no-repeat left center;
-                        background-size: 100% auto;
-                }
-            }
-        }
-    }
-    .info-integral{
+    .step-boxul {
+      position: relative;
+      .step-boxli {
         position: relative;
         display: flex;
         justify-content: space-between;
-        align-items: center;
-        padding: 0 0 22px;
-        line-height: 34px;
-        .integral-instruction{
-            font-size: 28px;
-            font-family: PingFangSC, PingFangSC-Regular;
-            font-weight: 400;
-            text-align: right;
+        padding: 21px 0;
+        .step-name {
+          font-size: 28px;
+          font-family: PingFang SC, PingFang SC-Regular;
+          font-weight: 400;
+          text-align: left;
+          color: #333333;
+          flex: 1;
+          .name-subtitle {
             color: #999999;
-            line-height: 40px;
-            flex: 1;
-            span{
-                color: #fd7d81;
-                margin-left: 10px;
-            }
+            margin-left: 10px;
+          }
+          .integra-icon {
+            margin-right: 10px;
+          }
+          .hellp-icon {
+            display: inline-block;
+            padding-left: 50px;
+          }
         }
+        .step-content {
+          min-width: 165px;
+        }
+        .hellp-icon-l {
+          position: absolute;
+          width: 74px;
+          height: 76px;
+          left: -20px;
+          top: 50%;
+          margin-top: -38px;
+          background: url(../../../assets/img/ledou.png) no-repeat left center;
+          background-size: 100% auto;
+        }
+      }
     }
-    .info-discounts{
-        position: relative;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 26px 0 2px;
-        .discounts-title{
-            font-size: 24px;
-            font-family: PingFangSC, PingFangSC-Regular;
-            font-weight: 400;
-            text-align: right;
-            color: #999999;
-            .discounts-icon{
-                padding-left: 10px;
-            }
-            
-        }
-        .discounts-instruction{
-            font-size: 28px;
-            font-family: PingFangSC, PingFangSC-Regular;
-            font-weight: 400;
-            text-align: right;
-            color: #666666;
-            line-height: 40px;
-            display: inline-flex;
-            align-items:flex-end;
-
-            .instruction-l{
-                margin-right: 10px;
-                span{
-                    color: #fd7d81;
-                    font-weight: 700;
-                    margin-left: 5px;
-                    font-size: 40px;
-                }
-                b{
-                    color: #fd7d81;
-                }
-            }
-            .instruction-r{
-                span{
-                    font-size: 36px;
-                    font-weight: 700;
-                    color: #333;
-                    margin-left: 5px;
-                }
-            }
-        }
-    }
-}
-
-
-.rui-flex-ac{
+  }
+  .info-integral {
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    .rui-icon{
-        width: 46px;
-        height: 42px;
-        background: rgba(0,0,0,0.00);
+    padding: 0 0 22px;
+    line-height: 34px;
+    .integral-instruction {
+      font-size: 28px;
+      font-family: PingFangSC, PingFangSC-Regular;
+      font-weight: 400;
+      text-align: right;
+      color: #999999;
+      line-height: 40px;
+      flex: 1;
+      span {
+        color: #fd7d81;
+        margin-left: 10px;
+      }
     }
-    .rui-icon-minus{
-        background: url("../../../assets/img/minus_icon@3x.png") no-repeat center;
-        background-size: 16px;
-        border-right: 2px solid #ccc;
+  }
+  .info-discounts {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 26px 0 2px;
+    .discounts-title {
+      font-size: 24px;
+      font-family: PingFangSC, PingFangSC-Regular;
+      font-weight: 400;
+      text-align: right;
+      color: #999999;
+      .discounts-icon {
+        padding-left: 10px;
+      }
     }
-    .rui-stepper-input{
-        width: 72px;
-        text-align: center;
-        font-size: 28px;
-        font-weight: 400;
-        color: #333333;
-        border: none;
-        caret-color: #333333;
+    .discounts-instruction {
+      font-size: 28px;
+      font-family: PingFangSC, PingFangSC-Regular;
+      font-weight: 400;
+      text-align: right;
+      color: #666666;
+      line-height: 40px;
+      display: inline-flex;
+      align-items: flex-end;
+
+      .instruction-l {
+        margin-right: 10px;
+        span {
+          color: #fd7d81;
+          font-weight: 700;
+          margin-left: 5px;
+          font-size: 40px;
+        }
+        b {
+          color: #fd7d81;
+        }
+      }
+      .instruction-r {
+        span {
+          font-size: 36px;
+          font-weight: 700;
+          color: #333;
+          margin-left: 5px;
+        }
+      }
     }
-    .rui-icon-plus{
-        background: url("../../../assets/img/plus_icon@3x.png") no-repeat center;
-        background-size: 14px;
-        border-left: 2px solid #ccc;
-    }
-    .rui-plus-disabled{
-        opacity: 0.45;
-        pointer-events:none;
-    }
+  }
+}
+
+.rui-flex-ac {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  .rui-icon {
+    width: 46px;
+    height: 42px;
+    background: rgba(0, 0, 0, 0);
+  }
+  .rui-icon-minus {
+    background: url('../../../assets/img/minus_icon@3x.png') no-repeat center;
+    background-size: 16px;
+    border-right: 2px solid #ccc;
+  }
+  .rui-stepper-input {
+    width: 72px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: 400;
+    color: #333333;
+    border: none;
+    caret-color: #333333;
+  }
+  .rui-icon-plus {
+    background: url('../../../assets/img/plus_icon@3x.png') no-repeat center;
+    background-size: 14px;
+    border-left: 2px solid #ccc;
+  }
+  .rui-plus-disabled {
+    opacity: 0.45;
+    // pointer-events:none;
+  }
 }
