@@ -100,7 +100,7 @@ const StepperCard: FC<StepType> = ({
               <StepperRui
                 value={adultNum}
                 min={1}
-                max={stockNum - childNum}
+                max={1}
                 isdisabled={!isPurchase}
                 changeValue={(val) => setGrownNumRuiValue(val)}
               />
@@ -111,12 +111,7 @@ const StepperCard: FC<StepType> = ({
               儿童<span className="name-subtitle">X{childNum}</span>
             </div>
             <div className="step-content">
-              <StepperRui
-                value={childNum}
-                min={0}
-                max={stockNum - adultNum}
-                changeValue={(val) => setChildNumRuiValue(val)}
-              />
+              <StepperRui value={childNum} min={0} max={1} changeValue={(val) => setChildNumRuiValue(val)} />
             </div>
           </li>
           {maxInteNum >= 1 && tokenAmountNum >= 1 ? (
