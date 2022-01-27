@@ -79,13 +79,17 @@ const Panel: React.FC<Props> = ({ data, dataAll, isLike, myLikes, shares, goodsP
       SHBridge.login()
     }
   }
+
   const giveAsk = () => {
     if (SHBridge.isLogin()) {
-      SHBridge.toChat(dataAll.id)
+      GoodsDetailService.getAskServiceID().then((res) => {
+        SHBridge.toChat(res.data.userId)
+      })
     } else {
       SHBridge.login()
     }
   }
+
   return (
     <div className="Panel__root">
       <div className={'swiper-button-prev2'}>

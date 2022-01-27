@@ -26,4 +26,11 @@ export class GoodsDetailService {
   static thumbsUp(data): Promise<AxiosResponse<any>> {
     return axios.post('/api/operation/goodsLikeView/like', data)
   }
+
+  /**
+   * 获取咨询客服id
+   */
+  static getAskServiceID(): Promise<AxiosResponse<any>> {
+    return axios.get('/api/users/cusService/getConsultServiceId/get')
+  }
 }
