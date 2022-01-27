@@ -4,6 +4,7 @@ import { Icon } from 'react-vant'
 import completeIcon from '@/assets/img/complete_icon.png'
 import failureIcon from '@/assets/img/failure_icon.png'
 import processingIcon from '@/assets/img/processing_icon.png'
+import { RMB_CON } from '@/utils/currency'
 import './index.less'
 /**
  * 退款进度卡片
@@ -30,6 +31,13 @@ const refundStatus = [
     descContent: 'xxxx xx xx',
     cName: 'failure',
     type: 3,
+  },
+  {
+    iconName: completeIcon,
+    descTitle: '已取消',
+    descContent: 'xxxx xx xx',
+    cName: 'complete',
+    type: 5,
   },
 ]
 
@@ -69,7 +77,7 @@ const RefundProcessCard: FC<RefundProcessType> = ({ refundState, applyTime, amou
                       <div>退款总金额</div>
                     </div>
                     <div className="refuaproce-liR">
-                      ¥ <span>{amount / 100}</span>
+                      ¥ <span>{RMB_CON(amount)}</span>
                     </div>
                   </div>
                   <div className="refuaproce-liBop">
@@ -77,7 +85,7 @@ const RefundProcessCard: FC<RefundProcessType> = ({ refundState, applyTime, amou
                       <div>退回乐豆</div>
                     </div>
                     <div className="refuaproce-titleliR">
-                      <span>{tokenAmount}</span>
+                      <span>{RMB_CON(tokenAmount)}</span>
                     </div>
                   </div>
                 </li>

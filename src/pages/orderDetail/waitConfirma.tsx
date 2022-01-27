@@ -56,14 +56,14 @@ const OrderConfirmaPage: FC = (props: any) => {
       orderId: orderId,
     })
       .then((result: any) => {
-        console.log('resultresultresult :>> ', result)
         const { code, data } = result
         if (code === '200' && data) {
           console.log('object :>> ', data)
           //只显示退款中，退款失败 退款成功订单
           const newRefund = data.filter((item) => {
-            return item.refundState && item.refundState != 3 && item.refundState != 5
+            return item.refundState && item.refundState > 0
           })
+          console.log('newRefund :>> ', newRefund)
           setRefundList(newRefund)
         }
       })
@@ -72,7 +72,6 @@ const OrderConfirmaPage: FC = (props: any) => {
       })
   }, [])
 
-  console.log('object :>> ', props)
   const BarsConfig = {
     btnGroups: [
       { name: '再次购买', key: 'ZCGM' },
