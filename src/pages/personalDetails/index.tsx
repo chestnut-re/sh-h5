@@ -53,15 +53,15 @@ const PersonalDetailPage: FC = (props: any) => {
   const [selectProtocol, setSelectProtocol] = useState(false)
   const [submittal, setSubmitdata] = hooks.useSetState({
     userTravelerRelation: '', //登录用户与出行人关系
-    travelerName: '李德恩', //出行人姓名 411421199310226438
-    phoneNumber: '18910241412', //手机号
-    addr: '北京', //出行人住址
+    travelerName: '', //出行人姓名 411421199310226438
+    phoneNumber: '', //手机号
+    addr: '', //出行人住址
     type: 1, //出行人类型
-    emerName: '德恩', //紧急联系人姓名
+    emerName: '', //紧急联系人姓名
     emerTravelerRelation: '', //紧急联系人出行人与紧急联系人关系
-    emerPhoneNumber: '18910241111', //紧急联系人手机号
+    emerPhoneNumber: '', //紧急联系人手机号
     travelerCertificate: [], //出行人证件信息
-    detailAddress: '加拉手卡说不定', // 出行人详细地址
+    detailAddress: '', // 出行人详细地址
   })
 
   const [state, set] = hooks.useSetState({
@@ -222,7 +222,7 @@ const PersonalDetailPage: FC = (props: any) => {
   }
 
   const onSubmit = useCallback(async () => {
-    let cardNo = '411421199310226438'
+    let cardNo = ''
 
     const { rulesPass }: any = optionalInfoRef.current
     const rulesCertificate = rulesPass()
@@ -234,22 +234,22 @@ const PersonalDetailPage: FC = (props: any) => {
         return
       }
       const pruneList = prune()
-      submittal.travelerCertificate = pruneList
-      pruneList.map((item, index) => {
-        if (item['certificateType'] == 1) {
-          cardNo = item['certificateNo']
-        }
-      })
-      if (submittal.type == 1) {
-        const realName = await realNameAuth(cardNo, submittal.travelerName)
-        console.log('realName121212', realName)
-        if (cardNo != '' && !realName.isok) {
-          Toast({
-            message: '姓名和证件号不匹配',
-          })
-          return
-        }
-      }
+      submittal.travelerCertificate = prune()
+      // pruneList.map((item, index) => {
+      //   if (item['certificateType'] == 1) {
+      //     cardNo = item['certificateNo']
+      //   }
+      // })
+      // if (submittal.type == 1) {
+      //   const realName = await realNameAuth(cardNo, submittal.travelerName)
+      //   console.log('realName121212', realName)
+      //   if (cardNo != '' && !realName.isok) {
+      //     Toast({
+      //       message: '姓名和证件号不匹配',
+      //     })
+      //     return
+      //   }
+      // }
 
       if (urlParams.id) {
         edit()
