@@ -322,8 +322,6 @@ const PersonalDetailPage: FC = (props: any) => {
       JSON.stringify(infolist, (key, value) => {
         if (key == 'type') {
           return undefined
-        } else if (key == 'certificateType') {
-          return value == '身份证' ? 1 : 2
         } else {
           return value
         }
