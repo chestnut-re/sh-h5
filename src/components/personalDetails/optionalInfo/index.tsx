@@ -14,7 +14,7 @@ const infos = {
   type: 0,
   certificateNo: '',
   validity: '',
-  certificateType: '身份证',
+  certificateType: '1',
 }
 const actions = [
   { text: '身份证', disabled: false },
@@ -39,9 +39,10 @@ const OptionalInfo = (props, ref) => {
   useEffect(() => {
     if (certificate && certificate.length > 0) {
       const newErrorObj = [] as any
+      console.log('1231231certificatecertificate', certificate)
       certificate.map((item, index) => {
         item.type = index
-        item.certificateType = item.certificateType == 1 ? '身份证' : '护照'
+        item.certificateType = item.certificateType
         item.validity = item.validity
         newErrorObj.push({
           certificateErrorMsg: '',
@@ -64,11 +65,11 @@ const OptionalInfo = (props, ref) => {
     pushInfoObj.type = activeKey
     pushInfoObj.certificateNo = ''
     pushInfoObj.validity = ''
-    pushInfoObj.certificateType = '身份证'
-    if (infolist[0].certificateType == '身份证') {
-      pushInfoObj.certificateType = '护照'
+    pushInfoObj.certificateType = 1
+    if (infolist[0].certificateType == 1) {
+      pushInfoObj.certificateType = 2
     } else {
-      pushInfoObj.certificateType = '身份证'
+      pushInfoObj.certificateType = 1
     }
 
     if (infolist[0] && infolist[0].suborderId) {
@@ -141,7 +142,7 @@ const OptionalInfo = (props, ref) => {
 
     newInfolist.map((item, i) => {
       if (item['type'] === type) {
-        item['certificateType'] = value.text
+        item['certificateType'] = value.text == '身份证' ? 1 : 2
       }
     })
     setInfolist(newInfolist)
@@ -207,7 +208,7 @@ const OptionalInfo = (props, ref) => {
                   onSelect={(vals) => onSelect(vals, item['type'])}
                   actions={actions}
                   placement="bottom-start"
-                  reference={<span>{item['certificateType']}</span>}
+                  reference={<span>{item['certificateType'] == 1 ? '身份证' : '护照'}</span>}
                 />
               </div>
               <div className="oic-item-content">

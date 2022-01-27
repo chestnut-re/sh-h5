@@ -405,11 +405,8 @@ const PersonalBindPage: FC = (props) => {
           ...selectTravelerCertificate(travelerCertificateDtoList),
         ],
       }
-      console.log('travelerCertificateDtoList', postData)
-
       Personal.addPedestrianInfo(postData).then((res) => {
         console.log('paramsparams', res)
-
         if (res['code'] == '200') {
           if (urlParams.from == 'orderList') {
             SHBridge.closePage()
@@ -438,7 +435,6 @@ const PersonalBindPage: FC = (props) => {
       list.forEach((childRef: any) => {
         childRef.infolist.map((itemj, j) => {
           if (itemj.certificateNo != '') {
-            itemj.certificateType = itemj.certificateType == '身份证' ? 1 : 2
             certificate.push(itemj)
           }
         })
@@ -453,7 +449,6 @@ const PersonalBindPage: FC = (props) => {
         if (subordersList[index].selectedTraveler) {
           item.forEach((element) => {
             element.suborderId = subordersList[index].id
-
             certificate.push(element)
           })
         }
@@ -724,6 +719,7 @@ const PersonalBindPage: FC = (props) => {
                     </li>
                     <li className="pch-ul-li-box rv-hairline--bottom">
                       <div className="hairline-top"></div>
+
                       <OptionalInfo
                         type={item['travelerType']}
                         certificate={travelerCertificateDtoList[index]}
