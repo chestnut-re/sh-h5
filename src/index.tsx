@@ -24,6 +24,11 @@ const BDownloadApp = loadable(() => import(/* webpackChunkName: 'CDownloadApp'*/
 /**商品详情页 */
 const GoodsDetailPage = loadable(() => import(/* webpackChunkName: 'GoodsDetailPage'*/ './pages/goodsDetail'))
 
+/**商品接待标准 */
+const GoodsDetailStandardPage = loadable(
+  () => import(/* webpackChunkName: 'GoodsDetailPage'*/ './pages/goodsDetailStandard')
+)
+
 /**商品详情页 */
 const ActiviteDescPage = loadable(
   () => import(/* webpackChunkName: 'GoodsDetailPage'*/ './pages/goodsDetail/ActiviteDesc')
@@ -214,6 +219,7 @@ const App = () => (
       <Route path="/bdownloadapp" exact component={BDownloadApp}></Route>
 
       <Route path="/goods-detail" exact component={GoodsDetailPage}></Route>
+      <Route path="/travel/route-standard" exact component={GoodsDetailStandardPage}></Route>
       <Route path="/goods-desc" exact component={ActiviteDescPage}></Route>
 
       <Route path="/travel/route" exact component={TravelRoutePage}></Route>

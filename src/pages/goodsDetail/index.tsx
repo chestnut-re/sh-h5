@@ -70,6 +70,14 @@ const GoodsDetailPage: React.FC = () => {
     })
   }
 
+  const _toTravelRoute2 = () => {
+    SHBridge.jump({
+      url: generateUrl(`/travel/route-standard?id=${pageRef.current.id}&goodsPriceId=${pageRef.current.goodsPriceId}`),
+      newWebView: true,
+      title: '接待标准',
+    })
+  }
+
   const _toDescRoute = () => {
     SHBridge.jump({
       url: generateUrl(`/goods-desc`),
@@ -164,6 +172,9 @@ const GoodsDetailPage: React.FC = () => {
 
         <div className="ref-route1" onClick={_toTravelRoute}>
           参考行程
+        </div>
+        <div className="ref-route2" onClick={_toTravelRoute2}>
+          接待标准
         </div>
         {appSource == 'biz' && (data?.isPurchase == 1 || data?.isRebate == 1) ? (
           <div className="ref-route1" onClick={_toDescRoute}>
