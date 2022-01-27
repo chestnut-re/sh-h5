@@ -12,7 +12,14 @@ export function RMB_CON(num: number) {
     return 0
   }
   // 小数点后三位千分比
-  const number = Math.floor(num) / 1000
+  const numbers = Math.floor(num) / 1000
+
+  // const interception = numbers.toString().split(".")
+  // const decimal = Number(interception[1]);
+  // if (!decimal) {
+  //     return interception[0]
+  // }
+
   // 转为货币计数法
-  return priceSplitter(number)
+  return priceSplitter(numbers)
 }
