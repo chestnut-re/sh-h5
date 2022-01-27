@@ -118,7 +118,7 @@ const MyTokenPage: React.FC = () => {
           setisshareCard(true)
           setsharetaskId(item)
           setTimeout(() => {
-            onshareChangeHandle(item)
+            onshareChangeHandle(data)
           }, 800)
         } else {
           Toast('服务异常')
@@ -136,7 +136,7 @@ const MyTokenPage: React.FC = () => {
   const onshareChangeHandle = (item) => {
     const { goodsId, userId, goodsName, shareType, id, promotionalImageUrl, rebateType } = item
     console.log('item :>> ', item)
-    let shareIp = null
+    let shareIp = ''
     if (rebateType != 2) {
       shareIp = shareType
     }

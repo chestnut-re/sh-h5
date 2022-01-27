@@ -127,12 +127,7 @@ const StepperCard: FC<StepType> = ({
               </div>
               <div className="step-content">
                 <ConfigProvider themeVars={themeVars}>
-                  <StepperRui
-                    value={inteNum}
-                    min={0}
-                    max={RMB_CON(pointsDeduction)}
-                    changeValue={(val) => setinteNumRuiValue(val)}
-                  />
+                  <StepperRui value={inteNum} min={0} max={maxInteNum} changeValue={(val) => setinteNumRuiValue(val)} />
                 </ConfigProvider>
               </div>
               <div className="hellp-icon-l"></div>
