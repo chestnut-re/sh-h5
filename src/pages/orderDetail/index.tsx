@@ -52,7 +52,7 @@ const OrderIndexPage: FC = () => {
         const { code, data } = result
 
         if (code == '200' && data) {
-          const { state, refundAndChangePolicyContent } = data
+          const { state } = data
           setOrderType(state)
           setOrders(data)
           if (state == '4' || state == '3') {

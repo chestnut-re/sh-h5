@@ -34,9 +34,7 @@ const RefundIndexPage: FC = () => {
         console.log('res 订单详情:>> ', res)
         const { code, data } = res
         if (code === '200' && data) {
-          const { refundAndChangePolicyContent } = data
           setOrderDetail(data)
-          // storage.set('_refundcontent', refundAndChangePolicyContent ? refundAndChangePolicyContent : '')
         }
       })
       .catch((err) => {

@@ -19,13 +19,15 @@ const TravelerMap = {
   7: '姐妹',
 }
 const StateMap = {
-  1: { name: '待付款', qrName: '此行程单待付款', cName: 'CFD7D81' },
-  2: { name: '已失效', qrName: '此行程单已失效', cName: 'C666666' },
-  3: { name: '待核销', qrName: '将码提供给工作人员确认出行', cName: '' },
-  4: { name: '已完成', qrName: '此行程单已确认无误', cName: 'C4DCFC5' },
-  5: { name: '退款中', qrName: '此行程单正在进行退款', cName: 'CFD7D81' },
-  6: { name: '退款成功', qrName: '此行程单已退款成功', cName: 'CFD7D81' },
-  7: { name: '退款失败', qrName: '此行程单已退款失败', cName: 'CFD7D81' },
+  // 1: { name: '待付款', qrName: '此行程单待付款', cName: 'CFD7D81' },
+  // 2: { name: '已失效', qrName: '此行程单已失效', cName: 'C666666' },
+  // 3: { name: '待核销', qrName: '将码提供给工作人员确认出行', cName: '' },
+  // 4: { name: '已完成', qrName: '此行程单已确认无误', cName: 'C4DCFC5' },
+
+  1: { name: '退款中', cName: 'CFD7D81' },
+  2: { name: '退款成功', cName: 'CFD7D81' },
+  3: { name: '退款失败', cName: 'CFD7D81' },
+  5: { name: '已取消', cName: 'CFD7D81' },
 }
 interface TripPeopleType {
   travelerRelation: number
@@ -34,28 +36,32 @@ interface TripPeopleType {
   state: number
   openTravelClick: (val) => void
   refundState: number
+  refundId: string
 }
 
-const TripPeopleCard: FC<TripPeopleType> = (props) => {
-  const { travelerRelation, travelerName, suborderNo, state, refundState } = props
-  const [newstate, setNewstate] = useState(state)
-  useEffect(() => {
-    //如果有退款监听退款状态
-    if (refundState) {
-      if (refundState === 1) {
-        setNewstate(5)
-      } else if (refundState === 2) {
-        setNewstate(6)
-      } else if (refundState === 3) {
-        setNewstate(7)
-      }
-    }
-  }, [refundState])
+const TripPeopleCard: FC<TripPeopleType> = ({
+  travelerRelation,
+  travelerName,
+  suborderNo,
+  refundId,
+  state,
+  refundState,
+  openTravelClick,
+  ...arg
+}) => {
   return (
     <div
       className="tripeop-content"
       onClick={() => {
-        props.openTravelClick(props)
+        openTravelClick({
+          travelerRelation,
+          travelerName,
+          suborderNo,
+          state,
+          refundState,
+          refundId,
+          ...arg,
+        })
       }}
     >
       <div className="tripeop-l">
@@ -65,7 +71,7 @@ const TripPeopleCard: FC<TripPeopleType> = (props) => {
             {travelerRelation === 0 ? <span className="tripeop-self">{TravelerMap[travelerRelation]}</span> : null}
           </div>
           <div className="tripeop-status">
-            <span>{StateMap[newstate].name}</span>
+            <span>{StateMap[refundState]?.name}</span>
           </div>
         </div>
         <div className="tripeop-lB">

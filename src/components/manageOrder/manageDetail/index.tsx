@@ -1,12 +1,11 @@
 import React, { useState, useEffect, FC } from 'react'
 import { Image, CountDown, ConfigProvider } from 'react-vant'
-import dayjs from 'dayjs'
 import './index.less'
 /**
  * 订单管理详情
  * 包含 订单号 订单状态 购买用户 下单时间 商品名称 价格
  */
-const COUNT_DOWN = 60 * 30 * 1000
+
 const MaStatusMap = {
   1: { text: '待付款', bgName: 'BGdaifk', cName: 'CF57272', type: 1 },
   2: { text: '已失效', bgName: 'BGyisx', cName: 'C999999', type: 2 },
