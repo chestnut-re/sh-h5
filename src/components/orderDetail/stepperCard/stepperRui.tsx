@@ -1,16 +1,17 @@
 import React, { useState, useEffect, FC } from 'react'
+import { Toast } from 'react-vant'
 import clsx from 'clsx'
 import './index.less'
 interface StepperRuiType {
   max: number | string
   min: number
   value: number
-  changeValue: (val) => void,
-  isdisabled?:boolean; //是否开启最大值时不可点击
+  changeValue: (val) => void
+  isdisabled?: boolean //是否开启最大值时不可点击
 }
 /**
  * 步进器
- * 
+ *
  */
 
 const StepperRuiCard: FC<StepperRuiType> = ({ max = 99, min = 0, changeValue, value, isdisabled = true }) => {
@@ -18,21 +19,24 @@ const StepperRuiCard: FC<StepperRuiType> = ({ max = 99, min = 0, changeValue, va
   // 操作对值的加减操作
   const handleStep = (value, type) => {
     value = value * 1
+    if (type === '+' && value + 1 > max) {
+      Toast('已达购买上限')
+    }
     value = type == '+' && value + 1 <= max ? value + 1 : type == '-' && value - 1 >= min ? value - 1 : value
     changeValue(value)
     setCurrent(value)
   }
-  useEffect(()=>{
+  useEffect(() => {
     setCurrent(value)
-  },[value])
+  }, [value])
 
   // 获取输入值的操作
   const getValue = (e) => {
     console.log('e :>> ', e)
     let value = e.target.value
     value = value.replace(/[^\d]/g, '')
-    value = value < min ? min : value > max ? max : value;
-    value = value !== null && value !== "" ? value : min
+    value = value < min ? min : value > max ? max : value
+    value = value !== null && value !== '' ? value : min
     changeValue(value)
     setCurrent(value)
   }
@@ -53,9 +57,15 @@ const StepperRuiCard: FC<StepperRuiType> = ({ max = 99, min = 0, changeValue, va
           handleStep(current, '-')
         }}
       ></span>
-      <input className="rui-stepper-input" type="tel" value={current} onChange={getChangeValue} onBlur={getValue}></input>
+      <input
+        className="rui-stepper-input"
+        type="tel"
+        value={current}
+        onChange={getChangeValue}
+        onBlur={getValue}
+      ></input>
       <span
-        className={clsx('rui-icon rui-icon-plus', { 'rui-plus-disabled': max <= current&&isdisabled })}
+        className={clsx('rui-icon rui-icon-plus', { 'rui-plus-disabled': max <= current && isdisabled })}
         onClick={() => {
           handleStep(current, '+')
         }}

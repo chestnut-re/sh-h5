@@ -76,16 +76,10 @@ const StepperCard: FC<StepType> = ({
   const setGrownNumRuiValue = (val) => {
     setAdultNum(val)
     onChangeClickAdultNum && onChangeClickAdultNum()
-    if (val === 1) {
-      Toast('已达购买上限')
-    }
   }
   //处理儿童数量
   const setChildNumRuiValue = (val) => {
     setChildrenVal(val)
-    if (val === 1) {
-      Toast('已达购买上限')
-    }
     console.log('val :>> ', val)
   }
   //处理积分数量
