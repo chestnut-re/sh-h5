@@ -22,6 +22,7 @@ import { getUrlParams, generateUrl, isStrNull } from '@/utils'
 import { SHBridge } from '@/jsbridge'
 import UserProtocolItem from '@/components/personal/userProtocolItem'
 import OptionalInfo from '@/components/personalDetails/optionalInfo'
+import { realNameAuth, rulesCardNo, rulesName } from '@/utils/tools'
 
 import './index.less'
 import { runMain } from 'module'
@@ -53,6 +54,10 @@ const PersonalBindPage: FC = (props) => {
   const [errorMessage, setErrorMessage] = useState([] as any)
 
   const [selectProtocol, setSelectProtocol] = useState(false)
+
+  const [realNameArr, setRealNameArr] = useState([])
+  const [realNameLoaded, setRealNameLoaded] = useState(false)
+
   // useRef 初始化为数组
   const childRefs = useRef<any>([])
   const [state, set] = hooks.useSetState({
@@ -389,6 +394,27 @@ const PersonalBindPage: FC = (props) => {
     setSubordersList(newSubordersList)
   }
 
+  const onRealName = (data) => {
+    return
+    const subordersItem = subordersList[data]
+    const infoListItem = childRefs.current[data].infolist
+    if (subordersItem['travelerType'] != 1 && !subordersItem['selectedTraveler']) return
+    setRealNameLoaded(true)
+    infoListItem.map((item, index) => {
+      if (item.certificateType == 1) {
+        realNameAuth(item.certificateNo, subordersItem['travelerName']).then((res) => {
+          setRealNameLoaded(false)
+          if (!res.isok) {
+            realNameArr.splice(data, data + 1, subordersItem['travelerName'])
+          } else {
+            realNameArr.splice(data, data + 1, null)
+          }
+        })
+      }
+    })
+    setRealNameArr(realNameArr)
+  }
+
   const onSubmit = () => {
     const isRulesPass = getCertificateRules()
     if (rules() && isRulesPass) {
@@ -398,6 +424,13 @@ const PersonalBindPage: FC = (props) => {
         })
         return
       }
+      // const realNameTxt = `${realNameArr.join()} 实名认证未通过`
+      // if (realNameArr.length > 0 && realNameArr.join()) {
+      //   Toast({
+      //     message: realNameTxt,
+      //   })
+      //   return
+      // }
       const postData = {
         suborderDtoList: [...subordersList],
         travelerCertificateDtoList: [
@@ -405,6 +438,7 @@ const PersonalBindPage: FC = (props) => {
           ...selectTravelerCertificate(travelerCertificateDtoList),
         ],
       }
+
       Personal.addPedestrianInfo(postData).then((res) => {
         console.log('paramsparams', res)
         if (res['code'] == '200') {
@@ -639,6 +673,7 @@ const PersonalBindPage: FC = (props) => {
                               placeholder="与证件姓名一致"
                               maxlength={20}
                               onBlur={() => {
+                                onRealName(index)
                                 travelerRules(index, 'travelerName')
                               }}
                               errorMessage={errorMessage[index].nameMsg}
@@ -723,6 +758,7 @@ const PersonalBindPage: FC = (props) => {
                       <OptionalInfo
                         type={item['travelerType']}
                         certificate={travelerCertificateDtoList[index]}
+                        onBlur={() => onRealName(index)}
                         ref={(ref) => {
                           if (ref) {
                             childRefs.current[index] = ref
@@ -791,11 +827,11 @@ const PersonalBindPage: FC = (props) => {
 
         <div
           onClick={() => {
-            onSubmit()
+            !realNameLoaded && onSubmit()
           }}
           className={'personal-submit'}
         >
-          <div className={'personal-submit-btn'}>提交信息</div>
+          <div className={`personal-submit-btn ${realNameLoaded && 'personal-submit-loaded'}`}>提交信息</div>
         </div>
       </div>
       <Popup round visible={state.visible} position="bottom" onClose={() => set({ visible: false })}>

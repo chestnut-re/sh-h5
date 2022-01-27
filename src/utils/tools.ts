@@ -35,5 +35,7 @@ export const realNameAuth = async (cardNo, name) => {
   const { data } = await Personal.realNameAuth(params)
   if (data.error_code == 0) {
     return data.result
+  } else {
+    return { isok: false }
   }
 }
