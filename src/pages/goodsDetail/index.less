@@ -16,9 +16,11 @@
   .nav {
     position: fixed;
     top: 0;
-    left: 0;
     right: 0;
     z-index: 9;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
   }
 
   .ref-route {
@@ -29,9 +31,9 @@
     text-shadow: 1px 1px 0px 0px #333333;
     background-color: rgba(68, 67, 67, 0.5);
     border-radius: 50px;
+    margin-top: 25px;
   }
   .ref-route1 {
-    float: right;
     padding: 12px 22px;
     color: #fff;
     font-size: 25px;
@@ -39,11 +41,9 @@
     text-shadow: 1px 1px 0px 0px #333333;
     background-color: rgba(68, 67, 67, 0.5);
     border-radius: 50px 0 0 50px;
-    margin: 40px 0;
+    margin-top: 20px;
   }
   .ref-route2 {
-    position: absolute;
-    right: 0;
     padding: 12px 22px;
     color: #ffffff;
     font-size: 25px;
@@ -51,7 +51,7 @@
     text-shadow: 1px 1px 0px 0px #333333;
     background-color: rgba(68, 67, 67, 0.5);
     border-radius: 50px 0 0 50px;
-    margin: 105px 0;
+    margin-top: 20px;
   }
 
   .submit-img {

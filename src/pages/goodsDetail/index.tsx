@@ -169,13 +169,6 @@ const GoodsDetailPage: React.FC = () => {
             </div>
           }
         /> */}
-
-        <div className="ref-route1" onClick={_toTravelRoute}>
-          参考行程
-        </div>
-        <div className="ref-route2" onClick={_toTravelRoute2}>
-          接待标准
-        </div>
         {appSource == 'biz' && (data?.isPurchase == 1 || data?.isRebate == 1) ? (
           <div className="ref-route1" onClick={_toDescRoute}>
             {data.isPurchase == 1 ? <span>限购</span> : null}
@@ -183,6 +176,12 @@ const GoodsDetailPage: React.FC = () => {
             {data.isRebate == 1 ? <span>下单赢乐豆</span> : null}
           </div>
         ) : null}
+        <div className="ref-route1" onClick={_toTravelRoute}>
+          参考行程
+        </div>
+        <div className="ref-route2" onClick={_toTravelRoute2}>
+          接待标准
+        </div>
       </div>
       <ShareView
         onClose={() => {
