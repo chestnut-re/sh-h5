@@ -128,7 +128,7 @@ const WithDrawPage: React.FC = () => {
         <div className="text">
           {Number(dollar) > Number(amounts) || Number(dollar) == Number(amounts) ? (
             <div>
-              {Number(dollar) == 0 ? '暂时还没有可提现金额' : `最多可提现${dollar ? dollar / 100 : 0}元`}
+              {Number(dollar) == 0 ? '暂时还没有可提现金额' : `最多可提现${dollar ? dollar / 1000 : 0}元`}
 
               <Popover
                 className="popover"
