@@ -85,6 +85,20 @@ const MaorderDetailPage: FC = () => {
     setDetails(data)
   }
 
+  const maoRderToChart = () => {
+    const { orderUserId } = details.order
+    if (SHBridge.isLogin()) {
+      if (orderUserId) {
+        SHBridge.toChat(orderUserId)
+      } else {
+        Toast('信息有误，请稍后再试')
+        return
+      }
+    } else {
+      SHBridge.login()
+    }
+  }
+
   useEffect(() => {
     onLoadMaorderDetail()
     SHBridge.setNavBgColor('#7495ee')
@@ -110,12 +124,7 @@ const MaorderDetailPage: FC = () => {
         )}
       </div>
       <div className="maorderDetail-box">
-        <div
-          className="maorderDetail-btn"
-          onClick={() => {
-            Toast('开发中')
-          }}
-        >
+        <div className="maorderDetail-btn" onClick={maoRderToChart}>
           联系
         </div>
       </div>
