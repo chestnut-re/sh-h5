@@ -44,8 +44,8 @@ const refundStatus = [
 interface RefundProcessType {
   refundState: string | number
   applyTime: string
-  amount: string | number
-  tokenAmount: string | number
+  amount: number
+  tokenAmount: number
 }
 
 const RefundProcessCard: FC<RefundProcessType> = ({ refundState, applyTime, amount, tokenAmount }) => {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, FC } from 'react'
-import dayjs from 'dayjs'
+import { RMB_CON } from '@/utils/currency'
 import { Image, CountDown, ConfigProvider } from 'react-vant'
 import './index.less'
 /**
@@ -19,47 +19,40 @@ const ManageStatusMap = {
 const ManageRefundMap = {
   1: { text: '退款中', cName: 'CF5B572' },
   2: { text: '退款成功', cName: 'C666666' },
-  3: { text: '退款失败', cName: 'C999999' },
+  3: { text: '退款失败', cName: 'CF57272' },
+  5: { text: '已取消', cName: 'C999999' },
   '': { text: '未知', cName: 'C999999' },
-  null: { text: '未知', cName: 'C999999' },
 }
 const themeVars = {
   '--rv-count-down-text-color': '#f57272',
   '--rv-count-down-font-size': '11px',
 }
 
-const COUNT_DOWN = 60 * 30 * 1000
-// const RMB_CON = 1000
-import { RMB_CON } from '@/utils/currency'
-import clsx from 'clsx'
 interface ManageItemProps {
-  orderItem: {
-    state?: number
-    orderUserName?: string
-    goodsName?: string
-    payAmount?: number
-    orderTime?: string
-    adultNum?: number
-    childNum?: number
-    promotionalImageUrl?: string
-    refundState?: number | string
-    refundResDTOList: any[]
-    changeViewDetails: (val) => void
-  }
+  id?: string
+  state?: number
+  orderUserName?: string
+  goodsName?: string
+  payAmount?: number
+  orderTime?: string
+  adultNum?: number
+  childNum?: number
+  promotionalImageUrl?: string
+  refundState?: number | string
+  refundResDTOList: any[]
+  changeViewDetails: (val) => void
+  countDownTimes?: number
 }
 
 const ManageItem: FC<ManageItemProps> = ({
   id,
   state,
-  orderTime,
   promotionalImageUrl,
   goodsName,
   adultNum,
   childNum,
   payAmount,
   refundState,
-  refundResDTOList,
-  totalRefundAmount,
   countDownTimes,
   changeViewDetails,
 }) => {
@@ -73,9 +66,15 @@ const ManageItem: FC<ManageItemProps> = ({
     <div className="maorder-item">
       <ConfigProvider themeVars={themeVars}>
         <div className="maorder-item-header">
-          <div className={`maorder-item-header-left ${ManageStatusMap[statecopy ?? '']?.['cName']}`}>
-            {ManageStatusMap[statecopy ?? '']?.['text']}
-          </div>
+          {refundState ? (
+            <div className={`maorder-item-header-left ${ManageRefundMap[refundState ?? '']?.['cName']}`}>
+              {ManageRefundMap[refundState ?? '']?.['text']}
+            </div>
+          ) : (
+            <div className={`maorder-item-header-left ${ManageStatusMap[statecopy ?? '']?.['cName']}`}>
+              {ManageStatusMap[statecopy ?? '']?.['text']}
+            </div>
+          )}
 
           {statecopy === 1 && countDownTimes && (
             <div className="maorder-item-header-right">
@@ -115,6 +114,7 @@ const ManageItem: FC<ManageItemProps> = ({
               <>¥{RMB_CON(payAmount)}</>
             )} */}
             ¥{RMB_CON(payAmount)}
+            <span>下单时间 </span>
           </div>
         </div>
       </div>
