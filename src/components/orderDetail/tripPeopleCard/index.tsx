@@ -25,9 +25,9 @@ const StateMap = {
   // 4: { name: '已完成', qrName: '此行程单已确认无误', cName: 'C4DCFC5' },
 
   1: { name: '退款中', cName: 'CFD7D81' },
-  2: { name: '退款成功', cName: 'CFD7D81' },
-  3: { name: '退款失败', cName: 'CFD7D81' },
-  5: { name: '已取消', cName: 'CFD7D81' },
+  2: { name: '退款成功', cName: 'C999999' },
+  3: { name: '退款失败', cName: 'C999999' },
+  5: { name: '已取消', cName: 'C999999' },
 }
 interface TripPeopleType {
   travelerRelation: number
@@ -37,6 +37,7 @@ interface TripPeopleType {
   openTravelClick: (val) => void
   refundState: number
   refundId: string
+  travelerType: number
 }
 
 const TripPeopleCard: FC<TripPeopleType> = ({
@@ -46,6 +47,7 @@ const TripPeopleCard: FC<TripPeopleType> = ({
   refundId,
   state,
   refundState,
+  travelerType,
   openTravelClick,
   ...arg
 }) => {
@@ -67,16 +69,15 @@ const TripPeopleCard: FC<TripPeopleType> = ({
       <div className="tripeop-l">
         <div className="tripeop-lT">
           <div className="tripeop-name">
-            {travelerName}
+            {travelerName ? travelerName : <span>{travelerType ? '成人' : '儿童'}x1</span>}
             {travelerRelation === 0 ? <span className="tripeop-self">{TravelerMap[travelerRelation]}</span> : null}
           </div>
-          <div className="tripeop-status">
+          <div className={`tripeop-status ${StateMap[refundState]?.cName}`}>
             <span>{StateMap[refundState]?.name}</span>
           </div>
         </div>
         <div className="tripeop-lB">
           <span>{suborderNo}</span>
-          {/* <span className="tripeop-copy">编号复制</span> */}
         </div>
       </div>
       <div className="tripeop-r">

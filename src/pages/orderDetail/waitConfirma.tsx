@@ -194,9 +194,7 @@ const OrderConfirmaPage: FC = (props: any) => {
         <IndentCard orderNo={orderNo} payType={payType} orderTime={orderTime} payTime={payTime} />
         <BackCard goodsId={goodsId} />
         {refundList.map((item, index) => {
-          return item.travelerName ? (
-            <TripPeopleCard openTravelClick={openTravelListItem} {...item} key={index} />
-          ) : null
+          return <TripPeopleCard openTravelClick={openTravelListItem} {...item} key={index} />
         })}
       </div>
       <CompleteFooter {...BarsConfig} />

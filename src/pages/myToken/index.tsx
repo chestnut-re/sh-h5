@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Overlay, ConfigProvider, Empty, Toast } from 'react-vant'
+import { Overlay, ConfigProvider, Empty, PullRefresh, Toast } from 'react-vant'
 import { SHBridge } from '@/jsbridge'
 import { generateUrl } from '@/utils'
 import { MyTokenService } from '@/service/MyTokenService'
@@ -7,7 +7,6 @@ import ToDoList from '@/components/myToken/toDoList'
 import emptyIcon from '@/assets/img/token/token_empty@3x.png'
 import ModalOverlay from './overlay'
 import { isMini } from '@/jsbridge/env'
-import { getCookie } from '@/utils/cookie'
 import './index.less'
 /**
  * w我的代币
@@ -136,7 +135,7 @@ const MyTokenPage: React.FC = () => {
   const onshareChangeHandle = (item) => {
     const { goodsId, userId, goodsName, shareType, id, promotionalImageUrl, rebateType } = item
     console.log('item :>> ', item)
-    let shareIp = ''
+    let shareIp = null
     if (rebateType != 2) {
       shareIp = shareType
     }
@@ -174,65 +173,75 @@ const MyTokenPage: React.FC = () => {
   const oncloseModal = () => {
     setisshareCard(false)
   }
-
+  const onRefresh = () => {
+    MyTokenService.getMyWallet().then((res: any) => {
+      const { code, data } = res
+      if (code === '200' && data) {
+        setTotalAmount(data.totalAmount)
+      }
+    })
+    getTaskList()
+  }
   return (
     <div className="MyTokenPage__root">
-      <div className="mtkon-box">
-        <div className="mtkon-box-header">
-          <div className="mtkon-header-balance" onClick={openHappyCoins}>
-            乐豆余额
-          </div>
-          <div className="mtkon-header-with">
-            <div className="mhw-left">{RMB_CON(totalAmount)}</div>
-            <div className="mhw-right">
-              <div className="mhw-right-btn" onClick={toWithDraw}>
-                提现
+      <PullRefresh successText="刷新成功" onRefresh={onRefresh}>
+        <div className="mtkon-box">
+          <div className="mtkon-box-header">
+            <div className="mtkon-header-balance" onClick={openHappyCoins}>
+              乐豆余额
+            </div>
+            <div className="mtkon-header-with">
+              <div className="mhw-left">{RMB_CON(totalAmount)}</div>
+              <div className="mhw-right">
+                <div className="mhw-right-btn" onClick={toWithDraw}>
+                  提现
+                </div>
+              </div>
+            </div>
+            <div className="mtkon-header-foot">
+              <div className="mhf-detail" onClick={myTokenDetailHandle}>
+                收支明细
               </div>
             </div>
           </div>
-          <div className="mtkon-header-foot">
-            <div className="mhf-detail" onClick={myTokenDetailHandle}>
-              收支明细
+          <div className="task">
+            <div className="task-name">
+              <div className="task-name-left">
+                <span></span>
+              </div>
+              <div className="task-name-center">我的任务</div>
+              <div className="task-name-right">
+                <span></span>
+              </div>
             </div>
+            <ConfigProvider themeVars={themeVars}>
+              <div className="task-list">
+                {rebateTaskList.length > 0 ? (
+                  rebateTaskList.map((item, index) => {
+                    return (
+                      <div className="task-list-item" key={index}>
+                        <ToDoList
+                          {...item}
+                          shareTask={shareTask}
+                          onToviewHandle={() => {
+                            setHandleShowEmbedded(item)
+                          }}
+                        />
+                      </div>
+                    )
+                  })
+                ) : (
+                  <Empty
+                    className="custom-image"
+                    image={emptyIcon}
+                    description="购买返利商品开启更多任务，快去逛逛吧！"
+                  />
+                )}
+              </div>
+            </ConfigProvider>
           </div>
         </div>
-        <div className="task">
-          <div className="task-name">
-            <div className="task-name-left">
-              <span></span>
-            </div>
-            <div className="task-name-center">我的任务</div>
-            <div className="task-name-right">
-              <span></span>
-            </div>
-          </div>
-          <ConfigProvider themeVars={themeVars}>
-            <div className="task-list">
-              {rebateTaskList.length > 0 ? (
-                rebateTaskList.map((item, index) => {
-                  return (
-                    <div className="task-list-item" key={index}>
-                      <ToDoList
-                        {...item}
-                        shareTask={shareTask}
-                        onToviewHandle={() => {
-                          setHandleShowEmbedded(item)
-                        }}
-                      />
-                    </div>
-                  )
-                })
-              ) : (
-                <Empty
-                  className="custom-image"
-                  image={emptyIcon}
-                  description="购买返利商品开启更多任务，快去逛逛吧！"
-                />
-              )}
-            </div>
-          </ConfigProvider>
-        </div>
-      </div>
+      </PullRefresh>
 
       <Overlay zIndex={999} visible={showEmbedded} onClick={() => setShowEmbedded(false)}>
         {showEmbedded ? (
