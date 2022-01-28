@@ -63,3 +63,50 @@
     }
   }
 }
+.share-mini-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // margin-top: 3vh;
+  flex-direction: column;
+  height: 100%;
+  z-index: 999;
+
+  .share-mini-close {
+    margin-top: 30px;
+    width: 58px;
+    height: 58px;
+    background: url(../../../assets/img/token/overlay_close@3x.png) no-repeat center;
+    background-size: 100%;
+  }
+  .share-mini-content {
+    position: relative;
+    width: 528px;
+    height: 858px;
+    background: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+    .share-mini-content-body {
+      max-width: 528px;
+    }
+    .share-mini-content-text {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 72px 0;
+      background: #ffffff;
+      p {
+        width: 350px;
+        font-size: 24px;
+        font-family: PingFang SC, PingFang SC-Regular;
+        font-weight: bold;
+        text-align: center;
+        color: #333333;
+        line-height: 32px;
+        letter-spacing: 2.4px;
+        margin: 0 auto;
+      }
+    }
+  }
+}
