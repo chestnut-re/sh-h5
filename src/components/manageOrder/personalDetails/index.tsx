@@ -27,9 +27,9 @@ const MaStatusMap = {
 }
 interface Peosonalprops {
   subordersitem: any[]
+  changeOrderDetail:(val)=>void
 }
-const ManagePeosonalDetailItem: FC<Peosonalprops> = (props) => {
-  const { subordersitem } = props
+const ManagePeosonalDetailItem: FC<Peosonalprops> = ({ subordersitem,changeOrderDetail }) => {
  
   return (
     <div className="pdetail-item">
@@ -57,6 +57,10 @@ const ManagePeosonalDetailItem: FC<Peosonalprops> = (props) => {
           })}
         </div>
       </div>
+        <div className='pdetail-refund rv-hairline--top'>
+          <div className='pdetail-refund-btn' onClick={()=>{changeOrderDetail(subordersitem)}}>退款详情</div>
+        </div>
+
     </div>
   )
 }

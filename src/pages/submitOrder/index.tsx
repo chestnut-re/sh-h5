@@ -103,7 +103,7 @@ const SubmitOrderPage: FC = () => {
     goodsNickName: '', //商品副标题
     promotionalImageUrl: '', //商品预览图
     goodsNo: '', //商品编号
-    isDeduction: 1, //是否开启代币抵扣 1不开启 0开启
+    isDeduction: 0, //是否开启代币抵扣 0不开启 1开启
     goodsPrices: [],
     travelMode: 0, //0是固定时间出行，1是约定时间出行
     tokenAmountNum: 0, //金豆数
@@ -275,7 +275,7 @@ const SubmitOrderPage: FC = () => {
           }
         })
         //判断是否开启积分抵扣开启0 不开启1
-        if (isDeduction === 0) {
+        if (isDeduction === 1) {
           getIntegralApi().then((amountNum) => {
             setTokenAmountNum(amountNum)
           })
