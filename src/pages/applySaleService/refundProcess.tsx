@@ -76,14 +76,6 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
             SHBridge.login()
           }
         }
-        //再次购买处理
-        // SHBridge.jump({
-        //   url: generateUrl(`/submit-order?id=${goodsId}`),
-        //   newWebView: true,
-        //   replace: false,
-        //   title: '提交订单',
-        // })
-
         break
       case 'ZCGM':
         //再次购买处理

@@ -1,11 +1,11 @@
 import React, { useState, useEffect, FC } from 'react'
-
 import { Icon } from 'react-vant'
 import completeIcon from '@/assets/img/complete_icon.png'
 import failureIcon from '@/assets/img/failure_icon.png'
 import processingIcon from '@/assets/img/processing_icon.png'
 import { RMB_CON } from '@/utils/currency'
 import './index.less'
+import dayjs from 'dayjs'
 /**
  * 退款进度卡片
  */
@@ -64,7 +64,9 @@ const RefundProcessCard: FC<RefundProcessType> = ({ refundState, applyTime, amou
         <Icon name={refinfo.iconName} className="icon-btn" size="4.8vw" color="#1989fa" />
         <span className="refuaproce-text">{refinfo.descTitle}</span>
       </div>
-      <div className="refuaproce-r">{refundState == 1 ? refinfo.descContent : applyTime}</div>
+      <div className="refuaproce-r">
+        {refundState == 1 ? refinfo.descContent : dayjs(applyTime).format('YYYY-MM-DD hh:mm:ss')}
+      </div>
       {refinfo.type != 1 && (
         <div className="refuaproce-binfo rv-hairline--top">
           {refinfo.type == 3 && <div className="refuaproce-fail">申请理由不符合退款标准</div>}
