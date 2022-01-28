@@ -27,40 +27,55 @@ const MaStatusMap = {
 }
 interface Peosonalprops {
   subordersitem: any[]
-  changeOrderDetail:(val)=>void
+  changeOrderDetail: (val) => void
 }
-const ManagePeosonalDetailItem: FC<Peosonalprops> = ({ subordersitem,changeOrderDetail }) => {
- 
+const ManagePeosonalDetailItem: FC<Peosonalprops> = ({ subordersitem, changeOrderDetail }) => {
   return (
     <div className="pdetail-item">
       <div className="pdetail-item-box">
-        <div className={`pdetail-item-box-left ${MaStatusMap[subordersitem[0].state]?.['cName']}`}>{MaStatusMap[subordersitem[0].state].text}</div>
+        <div className={`pdetail-item-box-left ${MaStatusMap[subordersitem[0].state]?.['cName']}`}>
+          {MaStatusMap[subordersitem[0].state].text}
+        </div>
         <div className="pdetail-item-box-right">
-          {subordersitem?.map((item,index)=>{
-              return (<div className="pibr-box" key={index}>
-              <ul className="pibr-box-ul">
-                <li className="pibr-box-li"><span className='pibr-label'>{item?.travelerType == 0 ? '儿童' : '成人'}</span></li>
-                {item?.travelerName?(<li className="pibr-box-li">
-                  <span className='pibr-name'>{item?.travelerName}</span>
-                  <span className='pibr-tag rv-hairline--surround'>{RelationMap[item.travelerRelation]}</span>
-                </li>):null}
-                <li className="pibr-box-li">
-                  <span className='pibr-label'>电&emsp;&emsp;话</span>
-                  <span className='pibr-content'>{item?.travelerPhoneNumber}</span>
-                </li>
-                <li className="pibr-box-li">
-                  <span className='pibr-label'>订单编号</span>
-                  <span className='pibr-content'>{item?.suborderNo}</span>
-                </li>
-              </ul>
-            </div>)
+          {subordersitem?.map((item, index) => {
+            return (
+              <div className="pibr-box" key={index}>
+                <ul className="pibr-box-ul">
+                  <li className="pibr-box-li">
+                    <span className="pibr-label">{item?.travelerType == 0 ? '儿童' : '成人'}</span>
+                  </li>
+                  {item?.travelerName ? (
+                    <li className="pibr-box-li">
+                      <span className="pibr-name">{item?.travelerName}</span>
+                      <span className="pibr-tag rv-hairline--surround">{RelationMap[item.travelerRelation]}</span>
+                    </li>
+                  ) : null}
+                  <li className="pibr-box-li">
+                    <span className="pibr-label">电&emsp;&emsp;话</span>
+                    <span className="pibr-content">{item?.travelerPhoneNumber}</span>
+                  </li>
+                  <li className="pibr-box-li">
+                    <span className="pibr-label">订单编号</span>
+                    <span className="pibr-content">{item?.suborderNo}</span>
+                  </li>
+                </ul>
+              </div>
+            )
           })}
         </div>
       </div>
-        <div className='pdetail-refund rv-hairline--top'>
-          <div className='pdetail-refund-btn' onClick={()=>{changeOrderDetail(subordersitem)}}>退款详情</div>
+      {subordersitem[0]?.refundState ? (
+        <div className="pdetail-refund rv-hairline--top">
+          <div
+            className="pdetail-refund-btn"
+            onClick={() => {
+              changeOrderDetail(subordersitem)
+            }}
+          >
+            退款详情
+          </div>
         </div>
-
+      ) : null}
     </div>
   )
 }

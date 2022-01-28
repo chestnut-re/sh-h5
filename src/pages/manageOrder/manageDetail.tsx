@@ -46,15 +46,16 @@ const CategoryArr = (list) => {
 //跳转退款性情
 const manageOrderDetail = (item) => {
   console.log('item :>> ', item)
-  const {orderRefundList} = item;
-  if (orderRefundList) {
-    SHBridge.jump({
-      url: generateUrl(`/reimburse-detail?id=${orderRefundList.id}`),
-      newWebView: true,
-      title: '退款详情',
-    })
+  if (item && item.length > 0) {
+    const { orderRefundList } = item[0]
+    if (orderRefundList) {
+      SHBridge.jump({
+        url: generateUrl(`/reimburse-detail?id=${orderRefundList.id}`),
+        newWebView: true,
+        title: '退款详情',
+      })
+    }
   }
-  
 }
 const getMaorderDetail = async (id) => {
   return new Promise<any>((resolve, reject) => {
@@ -62,141 +63,6 @@ const getMaorderDetail = async (id) => {
       id,
     })
       .then((res: any) => {
-        res = {
-          "code": "200",
-          "msg": "成功",
-          "data": {
-              "order": {
-                  "id": 1484865057903685633,
-                  "orderNo": "1484865057870499840",
-                  "orderUserId": 1478560846413266944,
-                  "orderUserName": "山海_952221",
-                  "orderUserAvatar": null,
-                  "goodsId": 1484150418656428032,
-                  "goodsName": "禅意无锡三日游",
-                  "travelId": null,
-                  "promotionalImageUrl": "https://test-travel-cdn.mountainseas.cn/img/user/pic/93bcbb7be554472b91e7fb5dc158aebd.png?e=1642843988&token=IMUMeSLOscxaU8BzDOQtuJQ5yyqEsOdDI_Ma5CQi:UrnTDwfC61BE3YqdLqshgZAbRLQ=",
-                  "adultNum": 1,
-                  "childNum": 0,
-                  "payAmount": 2240000,
-                  "orderTime": "2022-01-22 20:26:32",
-                  "payTime": "2022-01-22 20:26:44",
-                  "state": 3,
-                  "refundAmount": null,
-                  "refundAdultNum": null,
-                  "refundChildNum": null,
-                  "countDownTimes": null,
-                  "endTime": "2022-01-22 20:31:32"
-              },
-              "suborders": [
-                  {
-                      "id": 1484865058012737537,
-                      "orderId": null,
-                      "suborderNo": "1484865057975357440",
-                      "originPrice": null,
-                      "discountAmount": null,
-                      "insuranceAmount": null,
-                      "tokenAmount": null,
-                      "activityTotalAmount": null,
-                      "payAmount": 2240000,
-                      "state": 4,
-                      "refundState": null,
-                      "travelerId": 1484458955995578368,
-                      "travelerType": 1,
-                      "travelerName": "胡罡云",
-                      "travelerRelation": null,
-                      "travelerPhoneAreaCode": null,
-                      "travelerPhoneNumber": null,
-                      "travelerCertificateType": null,
-                      "travelerCertificateNo": null,
-                      "habitualResidence": null,
-                      "address": null,
-                      "emerName": null,
-                      "emerTravelerRelation": null,
-                      "emerPhoneAreaCode": null,
-                      "emerPhoneNumber": null,
-                      "createTime": "2022-01-22 20:26:32",
-                      "updateTime": "2022-01-22 20:26:32",
-                      "isVerified": null,
-                      "verifyUserId": null,
-                      "verifyTime": null,
-                      "payTime": null,
-                      "refundTime": null,
-                      "orderRefundList": {
-                          "id": 10,
-                          "refundNo": "1481556141795409920",
-                          "orderId": 1484865058012737537,
-                          "refundType": 2,
-                          "refundState": 1,
-                          "auditState": 0,
-                          "amount": 10,
-                          "tokenAmount": 0,
-                          "reason": "七天无理由退款",
-                          "remarks": "也吧",
-                          "adultNum": 1,
-                          "childNum": 0,
-                          "ruleId": null,
-                          "credentialImageUrl": "",
-                          "applyTime": "2022-01-13T09:18:05.000+00:00",
-                          "updateTime": "2022-01-13T09:18:05.000+00:00"
-                      }
-                  },
-                  {
-                    "id": 1484865058012737537,
-                    "orderId": null,
-                    "suborderNo": "1484865057975357440",
-                    "originPrice": null,
-                    "discountAmount": null,
-                    "insuranceAmount": null,
-                    "tokenAmount": null,
-                    "activityTotalAmount": null,
-                    "payAmount": 2240000,
-                    "state": 6,
-                    "refundState": null,
-                    "travelerId": 1484458955995578368,
-                    "travelerType": 1,
-                    "travelerName": "胡罡云",
-                    "travelerRelation": null,
-                    "travelerPhoneAreaCode": null,
-                    "travelerPhoneNumber": null,
-                    "travelerCertificateType": null,
-                    "travelerCertificateNo": null,
-                    "habitualResidence": null,
-                    "address": null,
-                    "emerName": null,
-                    "emerTravelerRelation": null,
-                    "emerPhoneAreaCode": null,
-                    "emerPhoneNumber": null,
-                    "createTime": "2022-01-22 20:26:32",
-                    "updateTime": "2022-01-22 20:26:32",
-                    "isVerified": null,
-                    "verifyUserId": null,
-                    "verifyTime": null,
-                    "payTime": null,
-                    "refundTime": null,
-                    "orderRefundList": {
-                        "id": 10,
-                        "refundNo": "1481556141795409920",
-                        "orderId": 1484865058012737537,
-                        "refundType": 2,
-                        "refundState": 1,
-                        "auditState": 0,
-                        "amount": 10,
-                        "tokenAmount": 0,
-                        "reason": "七天无理由退款",
-                        "remarks": "也吧",
-                        "adultNum": 1,
-                        "childNum": 0,
-                        "ruleId": null,
-                        "credentialImageUrl": "",
-                        "applyTime": "2022-01-13T09:18:05.000+00:00",
-                        "updateTime": "2022-01-13T09:18:05.000+00:00"
-                    }
-                }
-              ]
-          },
-          "success": true
-      }
         let { code, data } = res
         if (code == '200') {
           resolve(data)
