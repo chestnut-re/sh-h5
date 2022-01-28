@@ -52,8 +52,8 @@ const ActiviteDescPage: React.FC = () => {
             {data.goodsRebate?.isShareRebate == 1 ? (
               <div>
                 <div className="card_content_item">
-                  <div>分享返利</div>
-                  <div>返利比例实付款{data.goodsRebate.scale}%</div>
+                  <div className="bold">分享返利（返利比例实付款{data.goodsRebate.scale}%）</div>
+                  {/* <div>返利比例实付款{data.goodsRebate.scale}%</div> */}
                 </div>
                 <div className="card_content_item">
                   <div>任务目标</div>
@@ -70,8 +70,8 @@ const ActiviteDescPage: React.FC = () => {
             {data.goodsRebate?.isPullRebate == 1 ? (
               <div className="two">
                 <div className="card_content_item">
-                  <div>行动转化</div>
-                  <div>返利比例实付款{data.goodsRebate.scale}%</div>
+                  <div className="bold">行动转化（返利比例实付款{data.goodsRebate.scale}%）</div>
+                  {/* <div>返利比例实付款{data.goodsRebate.scale}%</div> */}
                 </div>
                 <div className="card_content_item">
                   <div>任务目标</div>
