@@ -430,7 +430,7 @@ const SubmitOrderPage: FC = () => {
         tokenAmount: intNum,
         travelStartDate: startDate,
         travelEndDate: endDate,
-        referrerUserId: referees ? referees : '',
+        referrerUserId: userId && userId != 'undefined' && userId != 'null' ? userId : '',
       },
     }
     if (isPurchase) {
