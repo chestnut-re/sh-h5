@@ -153,7 +153,7 @@ const MyTokenPage: React.FC = () => {
       // oncloseModal()
       const { taskId, state } = sharetaskId
       if (state != 2 && shareIp === 0) {
-        MyTokenService.unLockBean({ taskId: taskId }).then((res) => {
+        MyTokenService.unLockBean({ taskId: id }).then((res) => {
           const { code, msg, data } = res
           if (code === '200' && data) {
             // Toast('分享成功')
