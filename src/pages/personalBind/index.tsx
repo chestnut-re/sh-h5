@@ -395,22 +395,26 @@ const PersonalBindPage: FC = (props) => {
   }
 
   const onRealName = (data) => {
-    const subordersItem = subordersList[data]
-    const infoListItem = childRefs.current[data].infolist
-    if (subordersItem['travelerType'] != 1 && !subordersItem['selectedTraveler']) return
-    setRealNameLoaded(true)
-    infoListItem.map((item, index) => {
-      if (item.certificateType == 1) {
-        realNameAuth(item.certificateNo, subordersItem['travelerName']).then((res) => {
-          setRealNameLoaded(false)
-          if (!res.isok) {
-            realNameArr.splice(data, data + 1, subordersItem['travelerName'])
-          } else {
-            realNameArr.splice(data, data + 1, null)
-          }
-        })
-      }
-    })
+    // const subordersItem = subordersList[data]
+    // const infoListItem = childRefs.current[data].infolist
+    // if (subordersItem['travelerType'] != 1 && !subordersItem['selectedTraveler']) return
+    // setRealNameLoaded(true)
+    // infoListItem.map((item, index) => {
+    //   if (item.certificateType == 1) {
+    //     realNameAuth(item.certificateNo, subordersItem['travelerName']).then((res) => {
+    //       setRealNameLoaded(false)
+    //       if (!res.isok) {
+    //         realNameArr.splice(data, data + 1, subordersItem['travelerName'])
+    //       } else {
+    //         realNameArr.splice(data, data + 1, null)
+    //       }
+    //     }).catch(() => {
+    //       console.log('realNameArr.join()')
+    //       realNameArr.splice(data, data + 1, subordersItem['travelerName'])
+    //       setRealNameLoaded(false)
+    //     })
+    //   }
+    // })
     setRealNameArr(realNameArr)
   }
 
@@ -423,13 +427,18 @@ const PersonalBindPage: FC = (props) => {
         })
         return
       }
-      const realNameTxt = `${realNameArr.join()} 实名认证未通过`
-      if (realNameArr.length > 0 && realNameArr.join()) {
-        Toast({
-          message: realNameTxt,
-        })
-        return
-      }
+      // const realNameTxt = `${realNameArr.join()} 实名认证未通过`
+      // console.log('setRealNameLoaded(false)', realNameArr.join())
+      // const isPass = realNameArr.every((item) => {
+      //   return item == true
+      // })
+      // console.log('isPass isPass', isPass, realNameArr)
+      // if (realNameArr.length > 0 && !isPass) {
+      //   Toast({
+      //     message: realNameTxt,
+      //   })
+      //   return
+      // }
       const postData = {
         suborderDtoList: [...subordersList],
         travelerCertificateDtoList: [
