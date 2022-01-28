@@ -5,7 +5,7 @@ import jian from '@/assets/img/downImgs/jian.png'
 import mask from '@/assets/img/downImgs/mask.png'
 import dian from '@/assets/img/downImgs/dian.png'
 
-import background from '@/assets/img/downImgs/background.png'
+import background from '@/assets/img/sdlydownImgs/background.png'
 import Android from '@/assets/img/downImgs/Android.png'
 import iPhone from '@/assets/img/downImgs/iPhone.png'
 import { isWeChat } from '@/jsbridge/env'
