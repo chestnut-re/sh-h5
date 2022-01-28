@@ -21,6 +21,8 @@ const MiniAppPage = loadable(() => import(/* webpackChunkName: 'MiniAppPage'*/ '
 const CDownloadApp = loadable(() => import(/* webpackChunkName: 'CDownloadApp'*/ './pages/cdownloadapp'))
 const BDownloadApp = loadable(() => import(/* webpackChunkName: 'CDownloadApp'*/ './pages/bdownloadapp'))
 
+const SDLYCApp = loadable(() => import(/* webpackChunkName: 'CDownloadApp'*/ './pages/sdlyapp'))
+
 /**商品详情页 */
 const GoodsDetailPage = loadable(() => import(/* webpackChunkName: 'GoodsDetailPage'*/ './pages/goodsDetail'))
 
@@ -217,6 +219,8 @@ const App = () => (
 
       <Route path="/cdownloadapp" exact component={CDownloadApp}></Route>
       <Route path="/bdownloadapp" exact component={BDownloadApp}></Route>
+
+      <Route path="/sdlyapp" exact component={SDLYCApp}></Route>
 
       <Route path="/goods-detail" exact component={GoodsDetailPage}></Route>
       <Route path="/travel/route-standard" exact component={GoodsDetailStandardPage}></Route>
