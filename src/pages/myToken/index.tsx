@@ -36,6 +36,8 @@ const MyTokenPage: React.FC = () => {
   const [shareData, setShareData] = useState<any>()
   const [isshareCard, setisshareCard] = useState(false)
   const [sharetaskId, setsharetaskId] = useState<any>({})
+
+  const [model, setModel] = useState('app')
   useEffect(() => {
     SHBridge.setTitle('我的乐豆')
     MyTokenService.getMyWallet().then((res: any) => {
@@ -45,6 +47,12 @@ const MyTokenPage: React.FC = () => {
       }
     })
     getTaskList()
+    isMini().then((res) => {
+      if (res) {
+        setModel('mini')
+      }
+    })
+
     document.addEventListener(
       'onResume',
       function (e) {
@@ -98,13 +106,10 @@ const MyTokenPage: React.FC = () => {
   }
 
   const shareTask = (item) => {
-    isMini().then((res) => {
-      console.log(res)
-      if (res) {
-        Toast('请下载App')
-        return
-      }
-    })
+    if (model === 'mini') {
+      setisshareCard(true)
+      return
+    }
 
     const { taskId, state } = item
     // SHBridge.shareActivity(specialDetail)
@@ -286,6 +291,7 @@ const MyTokenPage: React.FC = () => {
         <ModalOverlay
           shareData={shareData}
           onclose={oncloseModal}
+          model={model}
           onshareChange={onshareChangeHandle}
           isShow={isshareCard}
         />
