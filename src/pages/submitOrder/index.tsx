@@ -63,6 +63,8 @@ const SubmitOrderPage: FC = () => {
   const [purchaseConfigInfo, setPurchaseConfigInfo] = useState({})
   //是否是小程序
   const [isWeMini, setIsWeMini] = useState(false)
+  //是否开启积分抵扣
+  const [isDeduction, setIsDeduction] = useState(0)
   //提交数据
   const [submitData, setSubmitData] = useState({
     childCurrentPrice: 0, //儿童现售价单价
@@ -258,7 +260,6 @@ const SubmitOrderPage: FC = () => {
           isPurchaseAdd,
           purchaseConfig,
           activityId,
-          refundAndChangePolicyContent,
         } = res
         setSubmitinfo(res)
         if (goodsPrices.length === 0) {
@@ -276,6 +277,7 @@ const SubmitOrderPage: FC = () => {
         })
         //判断是否开启积分抵扣开启0 不开启1
         if (isDeduction === 1) {
+          setIsDeduction(isDeduction)
           getIntegralApi().then((amountNum) => {
             setTokenAmountNum(amountNum)
           })
@@ -571,6 +573,7 @@ const SubmitOrderPage: FC = () => {
               purchaseConfigInfo={purchaseConfigInfo}
               onChangeClickAdultNum={getPurchase}
               isPurchase={isPurchase}
+              isDeduction={isDeduction}
             />
           </div>
           <PayTypeCard changePayType={handlePayType} />

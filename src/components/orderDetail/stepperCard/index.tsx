@@ -23,7 +23,7 @@ interface StepType {
   tokenAmountNum: number
   onChangeClickAdultNum?: () => void
   purchaseConfigInfo: any //限购数据'
-  isPurchase: boolean
+  isDeduction: number
 }
 
 const StepperCard: FC<StepType> = ({
@@ -34,7 +34,7 @@ const StepperCard: FC<StepType> = ({
   handleDiscounts,
   onChangeClickAdultNum,
   purchaseConfigInfo,
-  isPurchase,
+  isDeduction,
 }) => {
   //成人数量
   const [adultNum, setAdultNum] = useState(1)
@@ -108,7 +108,7 @@ const StepperCard: FC<StepType> = ({
               <StepperRui value={childNum} min={0} max={1} changeValue={(val) => setChildNumRuiValue(val)} />
             </div>
           </li>
-          {maxInteNum >= 1 && tokenAmountNum >= 1 ? (
+          {isDeduction ? (
             <li className="step-boxli">
               <div className="step-name hairline--icon">
                 <span className="hellp-icon">乐豆</span>
@@ -125,10 +125,11 @@ const StepperCard: FC<StepType> = ({
         </ul>
       </div>
 
-      {pointsDeduction >= 1000 && maxInteNum >= 1 ? (
+      {isDeduction ? (
         <div className="info-integral rv-hairline--bottom">
           <div className="integral-instruction">
-            此订单最多可用{maxInteNum}.00乐豆抵<span>¥{maxInteNum}.00</span>
+            此订单最多可用{`${maxInteNum > 0 ? maxInteNum + '.00' : 0}`}乐豆 抵
+            <span>¥{`${maxInteNum > 0 ? maxInteNum + '.00' : 0}`}</span>
           </div>
         </div>
       ) : null}

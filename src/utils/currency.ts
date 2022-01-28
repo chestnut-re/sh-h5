@@ -14,11 +14,12 @@ export function RMB_CON(num: number) {
   // 小数点后三位千分比
   const numbers = Math.floor(num) / 1000
 
-  // const interception = numbers.toString().split(".")
-  // const decimal = Number(interception[1]);
-  // if (!decimal) {
-  //     return interception[0]
-  // }
+  //判断小数部分是否等于0 等于0保留整数部分
+  const interception = numbers.toString().split('.')
+  const decimal = Number(interception[1])
+  if (!decimal) {
+    return interception[0]
+  }
 
   // 转为货币计数法
   return priceSplitter(numbers)
