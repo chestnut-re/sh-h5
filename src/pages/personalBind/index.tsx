@@ -872,7 +872,9 @@ const PersonalBindPage: FC = (props) => {
                     </div>
                     <div className="phoneNum">{item['phoneNumber']}</div>
                   </div>
-                  <div className="IDcard">身份证{item['travelerCertificate'][0].certificateNo}</div>
+                  <div className="IDcard">
+                    身份证{item['travelerCertificate'][0] && item['travelerCertificate'][0].certificateNo}
+                  </div>
                 </div>
                 <div onClick={() => onSelectItem(item)} className="selectView">
                   <img alt="" className="img-icon" src={item['select'] ? activeIcon : inactiveIcon} />
