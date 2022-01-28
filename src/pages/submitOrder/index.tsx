@@ -423,7 +423,7 @@ const SubmitOrderPage: FC = () => {
         payType: payType,
         source: source && source != 'undefined' && source != 'null' ? source : 1,
         taskId: taskId && taskId != 'undefined' && taskId != 'null' ? taskId : '',
-        openId: openId && openId != 'undefined' && openId != 'null' ? taskId : '',
+        openId: openId && openId != 'undefined' && openId != 'null' ? openId : '',
         state: 1,
         travelId: goodsPriceId,
         discountAmount: preferPrice,
