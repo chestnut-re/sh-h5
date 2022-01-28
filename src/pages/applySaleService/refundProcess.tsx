@@ -9,6 +9,7 @@ import RefundProcessCard from '@/components/applySale/refundProcess'
 import CompleteFooter from '@/components/submitBars/completeFooter'
 import { RefundApis } from '@/service/RefundApply'
 import { useLocation } from 'react-router-dom'
+import { ContactApi } from '@/service/Customerservice'
 import qs from 'query-string'
 
 import './index.less'
@@ -58,10 +59,23 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
   })
   const [BarsConfig, setBarsConfig] = useState({})
 
-  const onSelectClick = (item) => {
+  const onSelectClick = async (item) => {
     const { key } = item
     switch (key) {
       case 'ZX':
+        const { code, data } = await ContactApi.orderContact(orderId)
+        if (code === '200' && data) {
+          const { userId } = data
+          if (SHBridge.isLogin()) {
+            if (!userId) {
+              Toast('客服信息有误，请稍后再试')
+              return
+            }
+            SHBridge.toChat(userId)
+          } else {
+            SHBridge.login()
+          }
+        }
         //再次购买处理
         // SHBridge.jump({
         //   url: generateUrl(`/submit-order?id=${goodsId}`),
@@ -69,6 +83,7 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
         //   replace: false,
         //   title: '提交订单',
         // })
+
         break
       case 'ZCGM':
         //再次购买处理
