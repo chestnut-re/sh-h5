@@ -395,7 +395,6 @@ const PersonalBindPage: FC = (props) => {
   }
 
   const onRealName = (data) => {
-    return
     const subordersItem = subordersList[data]
     const infoListItem = childRefs.current[data].infolist
     if (subordersItem['travelerType'] != 1 && !subordersItem['selectedTraveler']) return
@@ -424,13 +423,13 @@ const PersonalBindPage: FC = (props) => {
         })
         return
       }
-      // const realNameTxt = `${realNameArr.join()} 实名认证未通过`
-      // if (realNameArr.length > 0 && realNameArr.join()) {
-      //   Toast({
-      //     message: realNameTxt,
-      //   })
-      //   return
-      // }
+      const realNameTxt = `${realNameArr.join()} 实名认证未通过`
+      if (realNameArr.length > 0 && realNameArr.join()) {
+        Toast({
+          message: realNameTxt,
+        })
+        return
+      }
       const postData = {
         suborderDtoList: [...subordersList],
         travelerCertificateDtoList: [
