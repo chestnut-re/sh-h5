@@ -63,7 +63,7 @@ const ActiviteDescPage: React.FC = () => {
                 </div>
                 <div className="card_content_item">
                   <div>完成条件</div>
-                  <div>处达独立IP{data.goodsRebate.sharePointIp}</div>
+                  <div>触达独立IP{data.goodsRebate.sharePointIp}个</div>
                 </div>
               </div>
             ) : null}
@@ -75,7 +75,7 @@ const ActiviteDescPage: React.FC = () => {
                 </div>
                 <div className="card_content_item">
                   <div>任务目标</div>
-                  <div>累计分享{data.goodsRebate.shareTotal}次</div>
+                  <div>累计分享{data.goodsRebate.pullTotal}次</div>
                 </div>
                 <div className="card_content_item">
                   <div>完成条件</div>
