@@ -59,7 +59,7 @@ const OrderPaymentPage: FC<OrderPaymentType> = ({
   reloadOrder,
 }) => {
   const { search } = useLocation()
-  const { orderId } = qs.parse(search.slice(1))
+  const { orderId, openId } = qs.parse(search.slice(1))
   const countDownStops = () => {
     if (reloadNum <= 3) {
       console.log('object 倒计时结束:>> ')
@@ -113,6 +113,7 @@ const OrderPaymentPage: FC<OrderPaymentType> = ({
     })
     OrderApi.toPay({
       orderId: id,
+      openId: openId && openId != 'undefined' && openId != 'null' ? openId : '',
     })
       .then((res: any) => {
         const { code, msg, data } = res
