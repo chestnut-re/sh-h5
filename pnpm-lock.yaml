@@ -33,7 +33,6 @@ specifiers:
   css-minimizer-webpack-plugin: ^2.0.0
   cssnano-preset-advanced: ^5.0.0
   dayjs: ^1.10.7
-  dom-to-image: ^2.6.0
   dotenv: ^8.2.0
   echarts: ^5.2.2
   echarts-for-react: ^3.0.2
@@ -86,7 +85,6 @@ dependencies:
   clipboard: 2.0.8
   clsx: 1.1.1
   dayjs: 1.10.7
-  dom-to-image: 2.6.0
   echarts: 5.2.2
   echarts-for-react: 3.0.2_echarts@5.2.2+react@17.0.2
   js-cookie: 3.0.1
@@ -3511,10 +3509,6 @@ packages:
       domhandler: 4.3.0
       entities: 2.2.0
     dev: true
-
-  /dom-to-image/2.6.0:
-    resolution: {integrity: sha1-ilA2CAiMh7HCL5A0rgMuGJiVWGc=}
-    dev: false
 
   /dom7/3.0.0:
     resolution: {integrity: sha512-oNlcUdHsC4zb7Msx7JN3K0Nro1dzJ48knvBOnDPKJ2GV9wl1i5vydJZUSyOfrkKFDZEud/jBsTk92S/VGSAe/g==}
