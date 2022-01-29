@@ -22,7 +22,7 @@ const CDownloadApp: React.FC = () => {
       if (res) {
         setShowMask(true)
       } else {
-        const androidApk = 'https://travel-h5.oss-cn-beijing.aliyuncs.com/apk/shanhaib-1.apk'
+        const androidApk = 'https://travel-h5.oss-cn-beijing.aliyuncs.com/apk/shanhaib-101.apk'
         window.location.href = androidApk
       }
     })
