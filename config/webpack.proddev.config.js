@@ -4,6 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
+const SentryCliPlugin = require('@sentry/webpack-plugin')
 
 const { merge } = require('webpack-merge')
 const webpackConfigBase = require('./webpack.base.config')
@@ -59,6 +60,15 @@ const webpackProdConfig = {
     publicPath: '/', //cdnDomain,
   },
   plugins: [
+    new SentryCliPlugin({
+      release: 'sh-travel@1.0.0',
+      // include: /\.map$/, //'.',
+      include: path.join(__dirname,'../build/static/js/'), //需要上传到sentry服务器的资源目录,会自动匹配js 以及map文件
+      ignoreFile: '.sentrycliignore',
+      ignore: ['node_modules', 'webpack.config.js'],
+      configFile: 'sentry.properties',
+      urlPrefix: '~/static/js',
+    }),
     new CleanWebpackPlugin(),
     new CompressionWebpackPlugin({
       filename: '[path][base].gz',
