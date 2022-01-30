@@ -9,6 +9,7 @@ import './assets/css/base.css'
 import '@/assets/css/sh-lib.less'
 import '@/assets/css/base-tmp.less'
 import 'react-vant/lib/styles/base.less'
+import './plugin/sentry'
 
 const HomePage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/home'))
 
