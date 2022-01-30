@@ -208,6 +208,7 @@ const ReimburseDetail = loadable(() => import(/* webpackChunkName: 'GoodPng' */ 
 
 const env = process.env.NODE_ENV
 console.log(env)
+console.log('process.env.APP_ENV', process.env.APP_ENV)
 
 const App = () => (
   <Suspense fallback={<div>Loading...</div>}>
