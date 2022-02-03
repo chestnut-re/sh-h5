@@ -3,12 +3,13 @@ import loadable from '@loadable/component'
 import ReactDOM from 'react-dom'
 import { BrowserRouter, Route } from 'react-router-dom'
 import './utils/windowpage'
-import './utils/vconsole'
 import 'normalize.css'
 import './assets/css/base.css'
 import '@/assets/css/sh-lib.less'
 import '@/assets/css/base-tmp.less'
 import 'react-vant/lib/styles/base.less'
+
+import './plugin/vconsole'
 import './plugin/sentry'
 
 const HomePage = loadable(() => import(/* webpackChunkName: 'TravelRoutePage'*/ './pages/home'))

@@ -12,6 +12,7 @@ const ConfigEnvWebpackPlugin = require("config-env-webpack-plugin");
 module.exports = function (webpackEnv) {
   // const isEnvDevelopment = process.env.NODE_ENV === 'development'
   const isEnvProduction = process.env.NODE_ENV === 'production'
+  console.log('webpack process.env.NODE_ENV', process.env.NODE_ENV);
 
   return {
     target: 'web',
