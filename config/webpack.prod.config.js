@@ -13,6 +13,7 @@ const cdnDomain = 'https://h5-cdn.mountainseas.cn/'
 
 const webpackProdConfig = {
   mode: 'production',
+  devtool: 'hidden-source-map',
   entry: {
     app: ['@babel/polyfill', path.join(__dirname, '../src', 'index.tsx')],
   },

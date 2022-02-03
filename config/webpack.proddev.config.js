@@ -12,6 +12,7 @@ const webpackConfigBase = require('./webpack.base.config')
 
 const webpackProdConfig = {
   mode: 'production',
+  devtool: 'hidden-source-map',
   entry: {
     app: ['@babel/polyfill', path.join(__dirname, '../src', 'index.tsx')],
   },

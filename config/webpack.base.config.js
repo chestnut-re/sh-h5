@@ -164,7 +164,7 @@ module.exports = function (webpackEnv) {
             from: path.join(__dirname, '../public'),
             to: './',
             filter: async (resourcePath) => {
-              console.log(resourcePath)
+              // console.log(resourcePath)
               const isIndexHtml = resourcePath.endsWith('/public/index.html')
               if (isIndexHtml) {
                 return false
