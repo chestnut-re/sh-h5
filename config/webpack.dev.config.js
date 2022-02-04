@@ -22,23 +22,40 @@ const webpackConfigDev = {
     port: 4000,
     hot: true,
     historyApiFallback: true, // router history 模式下需要
+  },
+}
+
+const proxyMap ={
+  'test': {
     proxy: {
-      // '/api/third': 'http://192.168.10.61:9000',
-      '/api': 'https://devapi.mountainseas.cn',
-      // '/api': 'https://testapi.mountainseas.cn',
-      // '/api': 'https://prodapi.mountainseas.cn',
+      '/api': 'https://testapi.mountainseas.cn',
       '/napi': {
         target: 'https://napi.mountainseas.cn',
         changeOrigin: true,
       },
-      // '/napi': {
-      //   target: 'http://192.168.10.52:7001',
-      //   changeOrigin: true,
-      // },
-      // '/napi': 'http://0.0.0.0:7001',
     },
   },
+  'development': {
+    proxy: {
+      '/api': 'https://devapi.mountainseas.cn',
+      '/napi': {
+        target: 'https://napi.mountainseas.cn',
+        changeOrigin: true,
+      },
+    },
+  },
+  'production': {
+    proxy: {
+      '/api': 'https://prodapi.mountainseas.cn',
+      '/napi': {
+        target: 'https://napi.mountainseas.cn',
+        changeOrigin: true,
+      },
+    },
+  }
 }
+
+webpackConfigDev.devServer['proxy'] = proxyMap[process.env.BACKEND_ENV].proxy
 
 const baseConfig = webpackConfigBase('development')
 
