@@ -8,7 +8,12 @@ import './index.less'
  * 退款原因选择卡片
  */
 
-const RefundReasonCard: FC = ({ onchangeReason, defaultValue }) => {
+interface Refundtype {
+  onchangeReason: (val) => void
+  defaultValue: any
+}
+
+const RefundReasonCard: FC<Refundtype> = ({ onchangeReason, defaultValue }) => {
   const [visible, setHandelVisible] = useState(false)
   const [actionvalue, setHandelActionvalue] = useState({ name: '', id: '' })
   const setVisible = (b) => {
@@ -36,19 +41,20 @@ const RefundReasonCard: FC = ({ onchangeReason, defaultValue }) => {
           return [...newrecords]
         })
       }
-      console.log('res退款政策 :>> ', res)
     })
   }, [])
 
   useEffect(() => {
     if (defaultValue) {
+      console.log('defaultValue :>> ', defaultValue, TabActions)
+      const { reason } = defaultValue
       const isactions = TabActions.find((item) => {
-        console.log('itemitemitem :>> ', item)
-        return item.name == defaultValue.reason
+        return item.name == reason
       })
+      console.log('isactions', isactions)
       setHandelActionvalue(isactions ? isactions : { name: '', id: '' })
     }
-  }, [defaultValue])
+  }, [defaultValue, TabActions])
 
   const setCellHandel = (item) => {
     console.log('item :>> ', item)

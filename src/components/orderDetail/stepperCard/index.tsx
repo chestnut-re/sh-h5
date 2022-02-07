@@ -87,7 +87,10 @@ const StepperCard: FC<StepType> = ({
     setInteNum(val)
     console.log('val :>> ', val)
   }
-
+  //
+  const onOverlimit = () => {
+    Toast('已达购买上限')
+  }
   return (
     <div className="stepper-content">
       <div className="step-box">
@@ -97,7 +100,13 @@ const StepperCard: FC<StepType> = ({
               成人<span className="name-subtitle">X{adultNum}</span>
             </div>
             <div className="step-content">
-              <StepperRui value={adultNum} min={1} max={1} changeValue={(val) => setGrownNumRuiValue(val)} />
+              <StepperRui
+                value={adultNum}
+                min={1}
+                max={1}
+                changeValue={(val) => setGrownNumRuiValue(val)}
+                onOverlimit={onOverlimit}
+              />
             </div>
           </li>
           <li className="step-boxli">
@@ -105,7 +114,13 @@ const StepperCard: FC<StepType> = ({
               儿童<span className="name-subtitle">X{childNum}</span>
             </div>
             <div className="step-content">
-              <StepperRui value={childNum} min={0} max={1} changeValue={(val) => setChildNumRuiValue(val)} />
+              <StepperRui
+                value={childNum}
+                min={0}
+                max={1}
+                changeValue={(val) => setChildNumRuiValue(val)}
+                onOverlimit={onOverlimit}
+              />
             </div>
           </li>
           {isDeduction ? (
@@ -116,7 +131,13 @@ const StepperCard: FC<StepType> = ({
               </div>
               <div className="step-content">
                 <ConfigProvider themeVars={themeVars}>
-                  <StepperRui value={inteNum} min={0} max={maxInteNum} changeValue={(val) => setinteNumRuiValue(val)} />
+                  <StepperRui
+                    value={inteNum}
+                    min={0}
+                    max={maxInteNum}
+                    changeValue={(val) => setinteNumRuiValue(val)}
+                    onOverlimit={onOverlimit}
+                  />
                 </ConfigProvider>
               </div>
               <div className="hellp-icon-l"></div>

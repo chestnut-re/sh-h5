@@ -8,19 +8,28 @@ interface StepperRuiType {
   value: number
   changeValue: (val) => void
   isdisabled?: boolean //是否开启最大值时不可点击
+  onOverlimit?: () => void
 }
 /**
  * 步进器
  *
  */
 
-const StepperRuiCard: FC<StepperRuiType> = ({ max = 99, min = 0, changeValue, value, isdisabled = true }) => {
+const StepperRuiCard: FC<StepperRuiType> = ({
+  max = 99,
+  min = 0,
+  changeValue,
+  value,
+  isdisabled = true,
+  onOverlimit,
+}) => {
   const [current, setCurrent] = useState(() => value)
   // 操作对值的加减操作
   const handleStep = (value, type) => {
     value = value * 1
-    if (type === '+' && value + 1 > max) {
-      Toast('已达购买上限')
+    if (type === '+' && value + 1 > max && onOverlimit) {
+      onOverlimit()
+      // Toast('已达购买上限')
     }
     value = type == '+' && value + 1 <= max ? value + 1 : type == '-' && value - 1 >= min ? value - 1 : value
     changeValue(value)
