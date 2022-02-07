@@ -9,12 +9,14 @@ import background from '@/assets/img/sdlydownImgs/background.png'
 import Android from '@/assets/img/downImgs/Android.png'
 import iPhone from '@/assets/img/downImgs/iPhone.png'
 import { isWeChat } from '@/jsbridge/env'
+import { useTitle } from 'ahooks'
 
 /**
  * c app 下载落地页
  */
 const SDLYCApp: React.FC = () => {
   const [showMask, setShowMask] = useState(false)
+  useTitle('申德旅游', { restoreOnUnmount: true })
 
   /**下载 Android */
   const _downloadAndroid = () => {
