@@ -121,13 +121,13 @@ const RefundInstrucCard: FC<RefundInstrucType> = ({ refundInsChange, defaultValu
                 <Flex.Item span={8} key={index}>
                   <div className="files-box">
                     <Image width="100%" height="100%" errorIcon={<div>上传失败</div>} fit="cover" src={item.content} />
-                    <div
-                      className="files-close"
-                      onClick={() => {
-                        detailDemo(index)
-                      }}
-                    ></div>
                   </div>
+                  <div
+                    className="files-close"
+                    onClick={() => {
+                      detailDemo(index)
+                    }}
+                  ></div>
                 </Flex.Item>
               )
             })}
