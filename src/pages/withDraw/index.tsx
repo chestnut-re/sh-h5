@@ -33,14 +33,6 @@ const WithDrawPage: React.FC = () => {
       })
   }, [])
 
-  // useDebouncedEffect(
-  //   () => {
-  //    setSelectedIndex2(selectedIndex)
-  //   },
-  //   [selectedIndex],
-  //   200
-  // )
-
   const toDetailed = () => {
     SHBridge.jump({ url: generateUrl('/detailed?type=2'), newWebView: false, title: '提现明细' })
     // window.location.href = '/detailed'
@@ -94,11 +86,7 @@ const WithDrawPage: React.FC = () => {
     return num
   }
   const mywellat = (e) => {
-    // console.log('e', e)
-    // const a = money(e)
-    // console.log('e2', a)
     setAmounts(e)
-    // console.log(e)
   }
 
   return (
@@ -111,7 +99,7 @@ const WithDrawPage: React.FC = () => {
             labelWidth="0"
             className="input"
             value={amounts}
-            // type="digit"
+            type="number"
             maxlength={9}
             onChange={mywellat}
             label=""
@@ -119,11 +107,6 @@ const WithDrawPage: React.FC = () => {
             onFocus={onFocus}
             onBlur={() => setVisible(false)}
           />
-          {/* <div>¥</div>
-          <input className="input" value={amounts} readOnly onFocus={onFocus} onBlur={() => setVisible(false)} /> */}
-          {/* <div className="input" onClick={onFocus} onBlur={() => setVisible(false)}>
-            {amounts}
-          </div> */}
         </div>
         <div className="text">
           {Number(dollar) > Number(amounts) || Number(dollar) == Number(amounts) ? (
@@ -153,14 +136,6 @@ const WithDrawPage: React.FC = () => {
           查看明细
         </div>
       </div>
-      {/* <NumberKeyboard
-        theme="custom"
-        closeButtonText="提现"
-        visible={visible}
-        value={amounts}
-        onChange={mywellat}
-        onClose={() => setVisible(false)}
-      /> */}
     </div>
   )
 }
