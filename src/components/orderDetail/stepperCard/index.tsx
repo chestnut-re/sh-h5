@@ -48,7 +48,6 @@ const StepperCard: FC<StepType> = ({
   const [maxInteNum, setMaxInteNum] = useState(0)
 
   useEffect(() => {
-    console.log('obje库存改变ct :>> ', stock)
     setstockNum(stock)
   }, [stock, purchaseConfigInfo])
 
@@ -80,12 +79,10 @@ const StepperCard: FC<StepType> = ({
   //处理儿童数量
   const setChildNumRuiValue = (val) => {
     setChildrenVal(val)
-    console.log('val :>> ', val)
   }
   //处理积分数量
   const setinteNumRuiValue = (val) => {
     setInteNum(val)
-    console.log('val :>> ', val)
   }
   //
   const onOverlimit = () => {
