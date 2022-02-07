@@ -34,8 +34,8 @@ const PayTypeCard: FC<PayType> = (props) => {
     isMini().then((res) => {
       console.log(res)
       if (res) {
-        PayTypeList[2].showTerm = true
-        setSelectObj(PayTypeList[2])
+        PayTypeList[3].showTerm = true
+        setSelectObj(PayTypeList[3])
       }
     })
   }, [])

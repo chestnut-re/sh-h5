@@ -433,6 +433,11 @@ const SubmitOrderPage: FC = () => {
       } catch (error) {}
     }
 
+    if (payType === 4) {
+      Toast('尚未开通其他支付方式')
+      return
+    }
+
     if (isProtocol) {
       UseToast = Toast.loading({
         message: '订单生成中...',
@@ -494,9 +499,6 @@ const SubmitOrderPage: FC = () => {
                       payErrorLink(orderId)
                     }
                   })
-                  break
-                case 4:
-                  Toast('尚未开通其他支付方式')
                   break
                 default:
                   Toast('支付方式有误，请重新选择')
