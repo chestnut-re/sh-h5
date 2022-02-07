@@ -4,7 +4,7 @@ import GoodsCard from '@/components/orderDetail/goodsCard/submitGoods'
 import StepperCard from '@/components/orderDetail/stepperCard'
 import qs from 'query-string'
 import dayjs from 'dayjs'
-import { Toast, Popup } from 'react-vant'
+import { Toast, Popup, ConfigProvider } from 'react-vant'
 import PayTypeCard from '@/components/orderDetail/payTypeCard'
 import ContactCard from '@/components/orderDetail/contactCard'
 import BackCard from '@/components/orderDetail/backthatCard'
@@ -19,7 +19,9 @@ import { OrderApi } from '@/service/OrderDetailApi'
 import { isMini } from '@/jsbridge/env'
 import { fieldAccurate } from '@/utils/tools'
 import './index.less'
-
+const themeVars = {
+  '--rv-popup-background-color': '#f3f4f4',
+}
 /**
  * 提交订单页面
  * activityId：活动id 判断是不是返利商品
@@ -55,12 +57,10 @@ const SubmitOrderPage: FC = () => {
 
   //协议是否勾选
   const [popvermode, setPopvermode] = useState(1)
-
+  //乐豆总额
   const [tokenAmountNum, setTokenAmountNum] = useState(0)
   //优惠弹窗显隐
   const [showPrivilege, setShowPrivilege] = useState(false)
-  //最近推荐人
-  const [referees, setReferees] = useState('')
   //限购数据
   const [purchaseConfigInfo, setPurchaseConfigInfo] = useState({})
   //是否是小程序
@@ -152,20 +152,7 @@ const SubmitOrderPage: FC = () => {
       }
     })
   }, [selectTime, stepperData])
-  //获取最近推荐人
-  const getRefereesApi = () => {
-    OrderApi.getReferees()
-      .then((res) => {
-        const { code, data } = res
-        if (code === '200' && data) {
-          setReferees(data)
-        }
-        console.log('res推荐人 :>> ', res)
-      })
-      .catch((err) => {
-        console.log('err :>> ', err)
-      })
-  }
+
   //获取商品详情
   const getGoodsDetail = (id) => {
     return new Promise((resolve, reject) => {
@@ -318,8 +305,6 @@ const SubmitOrderPage: FC = () => {
         if (isPurchaseAdd === 1) {
           setIsPurchaseAdd(true)
         }
-        getRefereesApi()
-        //由于退改记录存的是富文本无法通过接口查询在打开时保存退改说明退改详情页取退改说明数据
       })
       .catch((err) => {
         console.log(' :>>接口异常 ')
@@ -464,6 +449,12 @@ const SubmitOrderPage: FC = () => {
               console.log('data.data :>> ', data.data)
               const { returnPayInfo, orderId } = data.data
               orderIdInfo = orderId
+
+              if (!returnPayInfo) {
+                paySuccessLink(orderId)
+                return
+              }
+
               switch (payType) {
                 case 1:
                   UseToast.clear()
@@ -504,8 +495,11 @@ const SubmitOrderPage: FC = () => {
                     }
                   })
                   break
+                case 4:
+                  Toast('尚未开通其他支付方式')
+                  break
                 default:
-                  Toast('支付方式有误')
+                  Toast('支付方式有误，请重新选择')
                   break
               }
             }
@@ -576,11 +570,11 @@ const SubmitOrderPage: FC = () => {
               handleDiscounts={handleDiscountsInfo}
               purchaseConfigInfo={purchaseConfigInfo}
               onChangeClickAdultNum={getPurchase}
-              isPurchase={isPurchase}
               isDeduction={isDeduction}
             />
           </div>
-          <PayTypeCard changePayType={handlePayType} />
+
+          {priceSet['priceNum'] > 0 ? <PayTypeCard changePayType={handlePayType} /> : null}
           <BackCard goodsId={id} />
 
           <ProtocolCard changeProtocolStatus={handleProtocolStatus} />
@@ -602,34 +596,36 @@ const SubmitOrderPage: FC = () => {
         ) : null}
         <FooterCard priceSetData={priceSet} submitHandleOrder={submitHandle} />
       </div>
-      <Popup
-        title={popvermode === 1 ? '优惠信息' : '限购说明'}
-        visible={showPrivilege}
-        position="bottom"
-        destroyOnClose={true}
-        closeable
-        round
-        safeAreaInsetBottom={true}
-        closeIcon="close"
-        onClose={() => setShowPrivilege(false)}
-      >
-        {popvermode === 2 && purchaseConfigInfo ? (
-          <div className="purch-ins">
-            <div className="purch-ins-content">
-              当前商品同一账号{purchaseConfigInfo.purchaseDay}天内最多可购买
-              {purchaseConfigInfo.countNum}张成人票，分享商品，好友{MapbuyType[purchaseConfigInfo.addType]}后可提升
-              {purchaseConfigInfo.addNum}个限购名额。
+      <ConfigProvider themeVars={themeVars}>
+        <Popup
+          title={popvermode === 1 ? '优惠信息' : '限购说明'}
+          visible={showPrivilege}
+          position="bottom"
+          destroyOnClose={true}
+          closeable
+          round
+          safeAreaInsetBottom={true}
+          closeIcon="close"
+          onClose={() => setShowPrivilege(false)}
+        >
+          {popvermode === 2 && purchaseConfigInfo ? (
+            <div className="purch-ins">
+              <div className="purch-ins-content">
+                当前商品同一账号{purchaseConfigInfo.purchaseDay}天内最多可购买
+                {purchaseConfigInfo.countNum}张成人票，分享商品，好友{MapbuyType[purchaseConfigInfo.addType]}后可提升
+                {purchaseConfigInfo.addNum}个限购名额。
+              </div>
+              <div className="purch-ins-btn" onClick={sharePurchase}>
+                分享好友
+              </div>
             </div>
-            <div className="purch-ins-btn" onClick={sharePurchase}>
-              分享好友
+          ) : (
+            <div className="privilege-box">
+              <Privilege goodsPriceId={selectTime['goodsPriceId']} stepperData={stepperData} id={id} />
             </div>
-          </div>
-        ) : (
-          <div className="privilege-box">
-            <Privilege goodsPriceId={selectTime['goodsPriceId']} stepperData={stepperData} id={id} />
-          </div>
-        )}
-      </Popup>
+          )}
+        </Popup>
+      </ConfigProvider>
     </div>
   )
 }

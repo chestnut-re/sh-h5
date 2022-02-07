@@ -16,7 +16,8 @@ interface PayType {
 const PayTypeList = [
   { name: '微信支付', payIcon: wechatPayicon, value: 2, alias: '微信', showTerm: isApp() },
   { name: '支付宝支付', payIcon: aliPayicon, value: 3, alias: '支付宝', showTerm: isApp() },
-  { name: '微信小程序', payIcon: otherPayicon, value: 1, alias: '小程序支付', showTerm: false },
+  { name: '其他支付方式', payIcon: otherPayicon, value: 4, alias: '其他支付方式', showTerm: isApp() },
+  { name: '微信小程序', payIcon: wechatPayicon, value: 1, alias: '小程序支付', showTerm: false },
 ]
 const themeVars = {
   '--rv-cell-vertical-padding': '16px',

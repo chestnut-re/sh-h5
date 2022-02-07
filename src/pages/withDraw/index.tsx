@@ -101,6 +101,7 @@ const WithDrawPage: React.FC = () => {
             value={amounts}
             type="number"
             maxlength={9}
+            placeholder="请输入提现金额"
             onChange={mywellat}
             label=""
             formatter={money}

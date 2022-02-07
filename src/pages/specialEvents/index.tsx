@@ -49,7 +49,7 @@ const SpecialEventsPage: React.FC = () => {
           })
           setspecialGoodsList(goodsList)
         } else {
-          Toast(msg ? msg : '接口异常')
+          Toast('本活动旅行路线已售罄，请期待更多优惠！')
         }
       })
       .catch((err) => {
@@ -117,7 +117,7 @@ const SpecialEventsPage: React.FC = () => {
                 })}
               </ul>
             ) : (
-              <Empty image={emptyIcon} description="暂无数据" />
+              <Empty image={emptyIcon} description="本活动旅行路线已售罄，请期待更多优惠！" />
             )}
           </div>
         </div>
