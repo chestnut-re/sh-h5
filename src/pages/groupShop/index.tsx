@@ -154,7 +154,9 @@ const GroupShopPage: FC = () => {
   //分享团小店
   const shareGroupShop = () => {
     if (SHBridge.isLogin()) {
-      const litterUrl = `${window.location.origin}${window.location.pathname}?id=${id}&userId=${getCookie('userId')}`
+      const litterUrl = `${window.location.origin}${window.location.pathname}?id=${id}&shopId=${id}&userId=${getCookie(
+        'userId'
+      )}`
       console.log('litterUrl :>> ', litterUrl)
       const { shopName, shopDesc, shopHeadUrl } = shopInfo
       SHBridge.shareDetail({

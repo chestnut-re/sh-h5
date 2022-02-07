@@ -39,3 +39,17 @@ export const realNameAuth = async (cardNo, name) => {
     return { isok: false }
   }
 }
+
+/**
+ * 验证url参数合法性
+ */
+export const fieldAccurate = (field: any) => {
+  if (field === 0 || field === '0') {
+    return true
+  }
+  if (field && field != 'undefined' && field != 'null') {
+    return true
+  } else {
+    return false
+  }
+}

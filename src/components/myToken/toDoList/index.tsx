@@ -6,7 +6,11 @@ dayjs.extend(utc)
 import StampIng_icon from '@/assets/img/stamp_ing@3x.png'
 import Stampcomplete_icon from '@/assets/img/stamp_complete@3x.png'
 import './index.less'
-import { Toast } from 'react-vant'
+import { Toast, CountDown, ConfigProvider } from 'react-vant'
+const themeVars = {
+  '--rv-count-down-text-color': '#4DCFC5',
+  '--rv-count-down-font-size': '4.8vw',
+}
 /**
  * 我的代币-任务列表
  */
@@ -131,6 +135,12 @@ const ToDoListCard: FC<ToDoListType> = ({ goodsName, goodsId, rebateId, onToview
                           {RMB_CON(unLockBean)}/{RMB_CON(totalBean)}
                         </div>
                       </div>
+
+                      {/* <div className="countdown-box">
+                        <ConfigProvider themeVars={themeVars}>
+                        <CountDown time={30 * 60 * 60 * 1000} format="HH:mm:ss后可再次解锁" />
+                        </ConfigProvider>
+                      </div> */}
                     </div>
                     <div className="tbcu-li-share">
                       <div

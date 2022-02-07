@@ -17,7 +17,7 @@ import { getCookie } from '@/utils/cookie'
 import { generateUrl } from '@/utils'
 import { OrderApi } from '@/service/OrderDetailApi'
 import { isMini } from '@/jsbridge/env'
-
+import { fieldAccurate } from '@/utils/tools'
 import './index.less'
 
 /**
@@ -29,6 +29,7 @@ import './index.less'
  * taskId:任务id来自乐豆分享
  * isRebate 是否返利商品：0否1是 已弃用
  * openId: 小程序下单独有
+ * shopId:小店Id
  */
 
 const MapbuyType = {
@@ -42,7 +43,7 @@ const SubmitOrderPage: FC = () => {
   let UseToast
 
   const { search } = useLocation()
-  const { id, source, userId, openId, taskId } = qs.parse(search.slice(1))
+  const { id, source, userId, openId, taskId, shopId } = qs.parse(search.slice(1))
   //是否是限购商品
   const [isPurchase, setisPurchase] = useState(false)
   //是否开启增加限购按钮
@@ -421,16 +422,17 @@ const SubmitOrderPage: FC = () => {
         originPrice: personMarkPrice * adultNum + childMarkPrice * childNum,
         payAmount: priceNum,
         payType: payType,
-        source: source && source != 'undefined' && source != 'null' ? source : 1,
-        taskId: taskId && taskId != 'undefined' && taskId != 'null' ? taskId : '',
-        openId: openId && openId != 'undefined' && openId != 'null' ? openId : '',
+        source: fieldAccurate(source) ? source : 1,
+        taskId: fieldAccurate(taskId) ? taskId : '',
+        openId: fieldAccurate(openId) ? openId : '',
         state: 1,
         travelId: goodsPriceId,
         discountAmount: preferPrice,
         tokenAmount: intNum,
         travelStartDate: startDate,
         travelEndDate: endDate,
-        referrerUserId: userId && userId != 'undefined' && userId != 'null' ? userId : '',
+        referrerUserId: fieldAccurate(userId) ? userId : '',
+        shopId: fieldAccurate(shopId) ? shopId : '',
       },
     }
     if (isPurchase) {
