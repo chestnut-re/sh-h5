@@ -119,17 +119,21 @@ const ToDoListCard: FC<ToDoListType> = ({ goodsName, goodsId, rebateId, onToview
                       </div>
                       <div className="tbcu-li-content-bottom">
                         <div className="progress-container">
-                          <span
-                            className="progress__portion"
-                            style={{ width: `${sumProgress(unLockBean, totalBean)}%` }}
-                          ></span>
-                          <span
-                            className="progress__header"
-                            style={{
-                              left: `${sumProgress(unLockBean, totalBean)}%`,
-                              transform: `translate(-${sumProgress(unLockBean, totalBean)}%, -50%)`,
-                            }}
-                          ></span>
+                          {unLockBean > 0 ? (
+                            <>
+                              <span
+                                className="progress__portion"
+                                style={{ width: `${sumProgress(unLockBean, totalBean)}%` }}
+                              ></span>
+                              <span
+                                className="progress__header"
+                                style={{
+                                  left: `${sumProgress(unLockBean, totalBean)}%`,
+                                  transform: `translate(-${sumProgress(unLockBean, totalBean)}%, -50%)`,
+                                }}
+                              ></span>
+                            </>
+                          ) : null}
                         </div>
                         <div className="progress-text">
                           {RMB_CON(unLockBean)}/{RMB_CON(totalBean)}
@@ -138,7 +142,7 @@ const ToDoListCard: FC<ToDoListType> = ({ goodsName, goodsId, rebateId, onToview
 
                       {/* <div className="countdown-box">
                         <ConfigProvider themeVars={themeVars}>
-                        <CountDown time={30 * 60 * 60 * 1000} format="HH:mm:ss后可再次解锁" />
+                          <CountDown time={30 * 60 * 60 * 1000} format="HH:mm:ss后可再次解锁" />
                         </ConfigProvider>
                       </div> */}
                     </div>
