@@ -12,13 +12,7 @@ import './index.less'
 interface PayType {
   changePayType: (val) => void
 }
-// 1 微信小程序支付、2 微信APP支付、3 支付宝APP支付
-const PayTypeList = [
-  { name: '微信支付', payIcon: wechatPayicon, value: 2, alias: '微信', showTerm: isApp() },
-  { name: '支付宝支付', payIcon: aliPayicon, value: 3, alias: '支付宝', showTerm: isApp() },
-  { name: '其他支付方式', payIcon: otherPayicon, value: 4, alias: '其他支付方式', showTerm: isApp() },
-  { name: '微信小程序', payIcon: wechatPayicon, value: 1, alias: '小程序支付', showTerm: false },
-]
+
 const themeVars = {
   '--rv-cell-vertical-padding': '16px',
   '--rv-cell-font-size': '16',
@@ -26,22 +20,37 @@ const themeVars = {
   '--rv-cell-text-color': '#666666',
   '--rv-padding-base': '2.6vw',
 }
-const PayTypeCard: FC<PayType> = (props) => {
+const PayTypeCard: FC<PayType> = ({ changePayType }) => {
+  const [PayTypeList, setPayTypeList] = useState([
+    { name: '微信支付', payIcon: wechatPayicon, value: 2, alias: '微信' },
+    { name: '支付宝支付', payIcon: aliPayicon, value: 3, alias: '支付宝' },
+    { name: '其他支付方式', payIcon: otherPayicon, value: 4, alias: '其他支付方式' },
+  ])
   const [showPaytype, setVisible] = useState(false)
   const [radiovSelectObj, setSelectObj] = useState(PayTypeList[0])
 
   useEffect(() => {
+    const apppaylist = [
+      { name: '微信支付', payIcon: wechatPayicon, value: 2, alias: '微信' },
+      { name: '支付宝支付', payIcon: aliPayicon, value: 3, alias: '支付宝' },
+      { name: '其他支付方式', payIcon: otherPayicon, value: 4, alias: '其他支付方式' },
+    ]
+    const miniPayList = [{ name: '微信小程序', payIcon: wechatPayicon, value: 1, alias: '小程序支付' }]
+    if (isApp()) {
+      setPayTypeList(apppaylist)
+      setSelectObj(apppaylist[0])
+    }
     isMini().then((res) => {
       console.log(res)
       if (res) {
-        PayTypeList[3].showTerm = true
-        setSelectObj(PayTypeList[3])
+        setPayTypeList(miniPayList)
+        setSelectObj(miniPayList[0])
       }
     })
   }, [])
 
   useEffect(() => {
-    props.changePayType(radiovSelectObj)
+    changePayType(radiovSelectObj)
   }, [radiovSelectObj])
 
   return (
@@ -66,7 +75,7 @@ const PayTypeCard: FC<PayType> = (props) => {
             <Radio.Group value={radiovSelectObj.value}>
               <Cell.Group>
                 {PayTypeList.map((item) => {
-                  return item.showTerm ? (
+                  return (
                     <Cell
                       title={item.name}
                       key={item.value}
@@ -77,7 +86,7 @@ const PayTypeCard: FC<PayType> = (props) => {
                       icon={item.payIcon}
                       rightIcon={<Radio name={item.value} checkedColor="#4DCFC5" />}
                     />
-                  ) : null
+                  )
                 })}
               </Cell.Group>
             </Radio.Group>

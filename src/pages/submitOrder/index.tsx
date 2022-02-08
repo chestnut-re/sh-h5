@@ -11,6 +11,8 @@ import BackCard from '@/components/orderDetail/backthatCard'
 import FooterCard from '@/components/orderDetail/footerCard'
 import ProtocolCard from '@/components/orderDetail/protocolCard'
 import KnownCalendarCard from '@/components/orderDetail/knownCalendarCard'
+import close_Icon from '@/assets/img/close_icon64@3x.png'
+
 import Privilege from './privilege'
 import { SHBridge } from '@/jsbridge'
 import { getCookie } from '@/utils/cookie'
@@ -607,7 +609,8 @@ const SubmitOrderPage: FC = () => {
           closeable
           round
           safeAreaInsetBottom={true}
-          closeIcon="close"
+          closeIcon={close_Icon}
+          className="popup-yh"
           onClose={() => setShowPrivilege(false)}
         >
           {popvermode === 2 && purchaseConfigInfo ? (
