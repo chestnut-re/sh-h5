@@ -146,6 +146,7 @@ const MyTokenPage: React.FC = () => {
     }
     // oncloseModal()
     if (SHBridge.isLogin()) {
+      console.log('taskIdid', id)
       const litterUrl = `${window.location.origin}/goods-detail?id=${goodsId}&userId=${userId}&source=2&taskId=${id}&rebateType=${rebateType}&share_ip=${shareIp}`
       console.log('litterUrl :>> ', litterUrl)
       SHBridge.shareDetail({
