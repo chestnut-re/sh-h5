@@ -408,7 +408,7 @@ const SubmitOrderPage: FC = () => {
         childNum: childNum,
         originPrice: personMarkPrice * adultNum + childMarkPrice * childNum,
         payAmount: priceNum,
-        payType: payType,
+        payType: priceNum > 0 ? payType : '', //是否全部代币抵扣价格为0传空
         source: fieldAccurate(source) ? source : 1,
         taskId: fieldAccurate(taskId) ? taskId : '',
         openId: fieldAccurate(openId) ? openId : '',
