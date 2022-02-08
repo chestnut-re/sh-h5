@@ -144,7 +144,7 @@ const StepperCard: FC<StepType> = ({
       </div>
 
       {isDeduction ? (
-        <div className="info-integral rv-hairline--bottom">
+        <div className="info-integral">
           <div className="integral-instruction">
             此订单最多可用{`${maxInteNum > 0 ? maxInteNum + '.00' : 0}`}乐豆 抵
             <span>¥{`${maxInteNum > 0 ? maxInteNum + '.00' : 0}`}</span>
@@ -153,7 +153,7 @@ const StepperCard: FC<StepType> = ({
       ) : null}
 
       {priceSet?.preferPrice > 0 ? (
-        <div className="info-discounts">
+        <div className="info-discounts rv-hairline--top">
           <div
             className="discounts-title hairline--icon"
             onClick={() => {
