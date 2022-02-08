@@ -16,21 +16,18 @@ const infos = {
   validity: '',
   certificateType: '1',
 }
-const actions = [
+const certificateTypeActions = [
   { text: '身份证', disabled: false },
   { text: '护照', disabled: false },
 ]
 
 const rulesInfo = {
   certificateErrorMsg: '',
-  // validityErrorMsg: '',
   type: 0,
 }
 
 const OptionalInfo = (props, ref) => {
-  const [showPicker, setShowPicker] = useState(false)
-  const [showPickerId, setShowPickerId] = useState()
-
+  const [actions, setActions] = useState(certificateTypeActions)
   const [infolist, setInfolist] = useState([] as any[])
   const [errorInfoList, setErrorInfoList] = useState([] as any[])
   const [newKey, setNewKey] = useState(0)
@@ -58,14 +55,15 @@ const OptionalInfo = (props, ref) => {
     }
   }, [certificate])
 
+  /**
+   * 添加出行人其他证件信息
+   */
   const addOptionalInfo = () => {
     setNewKey(newKey + 1)
     const activeKey = `new${newKey}`
     const pushInfoObj = {} as any
     pushInfoObj.type = activeKey
     pushInfoObj.certificateNo = ''
-    // pushInfoObj.validity = ''
-    pushInfoObj.certificateType = 1
     if (infolist[0].certificateType == 1) {
       pushInfoObj.certificateType = 2
     } else {
@@ -78,12 +76,22 @@ const OptionalInfo = (props, ref) => {
     infolist.push(pushInfoObj)
     errorInfoList.push({
       certificateErrorMsg: '',
-      // validityErrorMsg: '',
       type: activeKey,
     })
+    if (infolist.length == 2) {
+      const newActions = [...actions]
+      newActions[0].disabled = true
+      newActions[1].disabled = true
+      setActions(newActions)
+    }
     setInfolist(infolist)
     setErrorInfoList(errorInfoList)
   }
+
+  /**
+   * 删除其他出行证件信息
+   * @param i
+   */
   const deleteHandelOptional = (i) => {
     const newInfolist = infolist.filter((item, index) => {
       return index != i
@@ -92,6 +100,13 @@ const OptionalInfo = (props, ref) => {
     const newErrorInfoList = errorInfoList.filter((item, index) => {
       return index != i
     })
+
+    if (newInfolist.length == 1) {
+      const newActions = [...actions]
+      newActions[0].disabled = false
+      newActions[1].disabled = false
+      setActions(newActions)
+    }
 
     setInfolist([...newInfolist])
     setErrorInfoList([...newErrorInfoList])
@@ -113,33 +128,8 @@ const OptionalInfo = (props, ref) => {
     setInfolist(newInfolist)
   }
 
-  // const onTimeChange = (val) => {
-  //   const d = new Date(val)
-  //   const datetime =
-  //     d.getFullYear() +
-  //     '-' +
-  //     (d.getMonth() + 1) +
-  //     '-' +
-  //     d.getDate() +
-  //     ' ' +
-  //     d.getHours() +
-  //     ':' +
-  //     d.getMinutes() +
-  //     ':' +
-  //     d.getSeconds()
-  //   const newInfolist = [...infolist]
-
-  //   newInfolist.map((item, i) => {
-  //     if (item['type'] === showPickerId) {
-  //       item['validity'] = datetime
-  //     }
-  //   })
-  //   setInfolist(newInfolist)
-  // }
-
   const onSelect = (value, type) => {
     const newInfolist = [...infolist]
-
     newInfolist.map((item, i) => {
       if (item['type'] === type) {
         item['certificateType'] = value.text == '身份证' ? 1 : 2
@@ -156,18 +146,25 @@ const OptionalInfo = (props, ref) => {
         } else {
           errorInfoList[index].certificateErrorMsg = ''
         }
-
-        // if (!item.validity || isStrNull(item.validity)) {
-        //   errorInfoList[index].validityErrorMsg = '请输入证件号有效期'
-        // } else {
-        //   errorInfoList[index].validityErrorMsg = ''
-        // }
       } else {
         errorInfoList[index].certificateErrorMsg = ''
-        // errorInfoList[index].validityErrorMsg = ''
       }
     })
     return judgeListComplete(errorInfoList)
+  }
+
+  const travelerRules = (index) => {
+    if (props.type != 1) {
+      errorInfoList[index].certificateErrorMsg = ''
+      setErrorInfoList([...errorInfoList])
+      return
+    }
+    if (!infolist[index].certificateNo || isStrNull(infolist[index].certificateNo)) {
+      errorInfoList[index].certificateErrorMsg = '请输入证件号'
+    } else {
+      errorInfoList[index].certificateErrorMsg = ''
+    }
+    setErrorInfoList([...errorInfoList])
   }
 
   const judgeObjectComplete = (ObjectValue) => {
@@ -218,27 +215,15 @@ const OptionalInfo = (props, ref) => {
                   value={item['certificateNo']}
                   placeholder="请填写正确的证件号码"
                   maxlength={18}
-                  onBlur={props.onBlur}
+                  onBlur={() => {
+                    travelerRules(index)
+                    props.onBlur && props.onBlur()
+                  }}
                   errorMessage={errorInfoList[index].certificateErrorMsg}
                 />
               </div>
             </div>
-            {/* <div className="oic-item rv-hairline--bottom">
-              <div className="oic-item-label oic-label-c">有效期至</div>
-              <div className="oic-item-content">
-                <Field
-                  isLink
-                  readonly
-                  value={item['validity']}
-                  onClick={() => {
-                    setShowPicker(true)
-                    setShowPickerId(item['type'])
-                  }}
-                  errorMessage={errorInfoList[index].validityErrorMsg}
-                  placeholder="请选择"
-                />
-              </div>
-            </div> */}
+
             {infolist.length > 1 && (
               <div
                 className="optional-info-del"
@@ -267,19 +252,6 @@ const OptionalInfo = (props, ref) => {
           <div className="oic-line"></div>
         </div>
       )}
-
-      {/* <Popup visible={showPicker} round position="bottom" onClose={() => setShowPicker(false)}>
-        <DatetimePicker
-          onConfirm={(value) => {
-            onTimeChange(value)
-            setShowPicker(false)
-          }}
-          type="date"
-          minDate={new Date(2021, 11, 21)}
-          maxDate={new Date(2221, 1, 1)}
-          value={new Date()}
-        />
-      </Popup> */}
     </div>
   )
 }
