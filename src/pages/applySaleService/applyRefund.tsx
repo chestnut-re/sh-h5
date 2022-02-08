@@ -73,6 +73,7 @@ const RefundFailure: FC<IndexRefundType> = ({
   }, [discountAmount])
 
   useEffect(() => {
+    SHBridge.setTitle(`申请退款`)
     if (refundId) {
       //根据退款单Id获取退款人员信息
       RefundApis.detail(refundId)

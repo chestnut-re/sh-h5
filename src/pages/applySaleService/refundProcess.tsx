@@ -153,6 +153,7 @@ const RefundFailure: FC<IndexRefundType> = ({ orderInfo }) => {
   }
 
   useEffect(() => {
+    SHBridge.setTitle(`申请退款`)
     if (id) {
       getRefundApis()
     }

@@ -33,6 +33,7 @@ const IndexRefund: FC<IndexRefundType> = ({ orderInfo }) => {
     goodsId,
   } = orderInfo
   useEffect(() => {
+    SHBridge.setTitle(`申请售后`)
     // const {goodsName} = orderInfo
     console.log('objectpropspropspropsprops :>> ', orderInfo)
   }, [])

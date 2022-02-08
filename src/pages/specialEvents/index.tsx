@@ -49,7 +49,7 @@ const SpecialEventsPage: React.FC = () => {
           })
           setspecialGoodsList(goodsList)
         } else {
-          Toast('本活动旅行路线已售罄，请期待更多优惠！')
+          Toast(msg ? msg : '接口异常')
         }
       })
       .catch((err) => {
