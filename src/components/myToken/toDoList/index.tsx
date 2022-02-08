@@ -99,66 +99,70 @@ const ToDoListCard: FC<ToDoListType> = ({ goodsName, goodsId, rebateId, onToview
         {isMore && (
           <div className="todo-box-content">
             <ul className="todo-box-content-ul">
-              {rebateList.map(({ id, totalBean, unLockBean, updateTime, state, shareTime, isDestroy }, index) => {
-                return (
-                  <li className="tbcu-li" key={id}>
-                    <div className="tbcu-li-name">
-                      <div className="tbcu-li-name-t">
-                        <p>任</p>
-                        <p>务</p>
-                        <p>{NumberMap[index]}</p>
-                      </div>
-                    </div>
-                    <div className="tbcu-li-content">
-                      <div className="tbcu-li-content-top">
-                        <div className="tlct-left">
-                          <span className="tlct-left-name">已解锁</span>
-                          <span className="tlct-left-num">{RMB_CON(unLockBean)}</span>
-                        </div>
-                        {isDestroy != 1 && <div className="tlct-right">核销订单后可用</div>}
-                      </div>
-                      <div className="tbcu-li-content-bottom">
-                        <div className="progress-container">
-                          {unLockBean > 0 ? (
-                            <>
-                              <span
-                                className="progress__portion"
-                                style={{ width: `${sumProgress(unLockBean, totalBean)}%` }}
-                              ></span>
-                              <span
-                                className="progress__header"
-                                style={{
-                                  left: `${sumProgress(unLockBean, totalBean)}%`,
-                                  transform: `translate(-${sumProgress(unLockBean, totalBean)}%, -50%)`,
-                                }}
-                              ></span>
-                            </>
-                          ) : null}
-                        </div>
-                        <div className="progress-text">
-                          {RMB_CON(unLockBean)}/{RMB_CON(totalBean)}
+              {rebateList.map(
+                ({ id, totalBean, unLockBean, updateTime, state, shareTime, isDestroy, countDownTime }, index) => {
+                  return (
+                    <li className="tbcu-li" key={id}>
+                      <div className="tbcu-li-name">
+                        <div className="tbcu-li-name-t">
+                          <p>任</p>
+                          <p>务</p>
+                          <p>{NumberMap[index]}</p>
                         </div>
                       </div>
+                      <div className="tbcu-li-content">
+                        <div className="tbcu-li-content-top">
+                          <div className="tlct-left">
+                            <span className="tlct-left-name">已解锁</span>
+                            <span className="tlct-left-num">{RMB_CON(unLockBean)}</span>
+                          </div>
+                          {isDestroy != 1 && <div className="tlct-right">核销订单后可用</div>}
+                        </div>
+                        <div className="tbcu-li-content-bottom">
+                          <div className="progress-container">
+                            {unLockBean > 0 ? (
+                              <>
+                                <span
+                                  className="progress__portion"
+                                  style={{ width: `${sumProgress(unLockBean, totalBean)}%` }}
+                                ></span>
+                                <span
+                                  className="progress__header"
+                                  style={{
+                                    left: `${sumProgress(unLockBean, totalBean)}%`,
+                                    transform: `translate(-${sumProgress(unLockBean, totalBean)}%, -50%)`,
+                                  }}
+                                ></span>
+                              </>
+                            ) : null}
+                          </div>
+                          <div className="progress-text">
+                            {RMB_CON(unLockBean)}/{RMB_CON(totalBean)}
+                          </div>
+                        </div>
 
-                      {/* <div className="countdown-box">
-                        <ConfigProvider themeVars={themeVars}>
-                          <CountDown time={30 * 60 * 60 * 1000} format="HH:mm:ss后可再次解锁" />
-                        </ConfigProvider>
-                      </div> */}
-                    </div>
-                    <div className="tbcu-li-share">
-                      <div
-                        className="tbcu-li-share-btn"
-                        onClick={() => {
-                          shareTaskHandle({ id, isDestroy, updateTime, shareTime, state })
-                        }}
-                      >
-                        立即分享
+                        {countDownTime && countDownTime > 0 ? (
+                          <div className="countdown-box">
+                            <ConfigProvider themeVars={themeVars}>
+                              <CountDown time={countDownTime} format="HH:mm:ss后可再次解锁" />
+                            </ConfigProvider>
+                          </div>
+                        ) : null}
                       </div>
-                    </div>
-                  </li>
-                )
-              })}
+                      <div className="tbcu-li-share">
+                        <div
+                          className="tbcu-li-share-btn"
+                          onClick={() => {
+                            shareTaskHandle({ id, isDestroy, updateTime, shareTime, state })
+                          }}
+                        >
+                          立即分享
+                        </div>
+                      </div>
+                    </li>
+                  )
+                }
+              )}
             </ul>
           </div>
         )}
