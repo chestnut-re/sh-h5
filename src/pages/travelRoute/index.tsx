@@ -146,7 +146,7 @@ const TravelRoutePage: React.FC = () => {
                   <div className="itemPoint" key={index}>
                     <div className="itemTime">{it.travelTime}</div>
                     <span className="point"></span>
-                    {it.travelTitle}
+                    <div className="item-title">{it.travelTitle}</div>
                   </div>
                 )
               })}
